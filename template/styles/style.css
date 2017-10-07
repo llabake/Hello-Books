@@ -1,0 +1,71 @@
+.nav-wrapper {
+    background-color: #6c3c3c;
+}
+
+.adjust {
+    margin-left: 40px;
+}
+
+#banner{    
+	background:url(./../images/book1.jpg) ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center, center;
+	padding: 150px 0;
+	text-align: center;
+    color: white;
+}
+
+.form-style {
+    background:  #7c4561;
+    padding: 30px;
+    max-width: 100%;
+    width: 34em;
+    margin: 30px auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+    margin-top: -8em;
+}
+
+h5 {
+    text-align: center;
+    color: #a96464;
+    font-weight: 300;
+    margin: 0 0 40px;
+    letter-spacing: 2px;
+    margin-bottom: -4em;
+}
+
+.signup div.row {
+  vertical-align: top;
+  height: 8px;
+
+}
+
+.signup .input-field {
+    margin-bottom: -1.2em;
+}
+.btn {
+    width: 100%;
+    height: 2.5em;
+    background: #7c4545;
+    
+}
+
+.signup .btn {
+    margin-top: 1.0em;
+    margin-left: 0.8em;
+    width: 93%;
+}
+
+.btn:hover {
+  background-color: #7c6145;
+}
+
+.form-style .terms {
+    margin-top: -5em;
+}
+
+.page-footer {
+    background-color: #8c4e4e!important;
+  }
