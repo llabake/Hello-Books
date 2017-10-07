@@ -72,9 +72,15 @@ h5 {
 .btn:hover {
   background-color: #7c6145;
 }
-
+.file-field .input-field .btn {
+    width: 20%;
+}
 .form-style .terms {
     margin-top: -5em;
+}
+
+.card-action {
+    font-size: 14px;
 }
 
 .page-footer {
