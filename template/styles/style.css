@@ -189,7 +189,7 @@ h5 {
     font-family: 'New Baskerville',Baskerville,serif;
 }
 
-#review h3 {
+#review {
     display: inline-block;
     vertical-align: top;
     margin: 0 10px 0 0;
@@ -200,4 +200,30 @@ h5 {
     letter-spacing: .4px;
     line-height: 24px;
     font-family: 'New Baskerville',Baskerville,serif;
+}
+
+#review a {
+    display: inline-block;
+    margin-right: 20px;
+    margin-top: 4px;
+    text-decoration: underline;
+    color: inherit;
+    outline: 0!important;
+}
+
+.write-review {
+    padding-left: 17px;
+}
+
+.pencil {
+    background-position: 0 -15px;
+}
+
+.rev-title {
+    font-style: italic;
+    letter-spacing: .03em;
+    font-size: 20px;
+    font-family: 'New Baskerville',Baskerville,serif;
+    font-weight: 500;
+    color: #000;
 }
