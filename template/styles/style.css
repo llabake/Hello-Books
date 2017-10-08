@@ -49,6 +49,46 @@ body {
     margin-right: auto;
 }
 
+.card-content span {
+    /* display: block;
+    line-height: 32px;
+    margin-bottom: 8px; */
+    color: #6c3c3c;
+}
+.card-content p {
+    color: #7f7f7f !important;
+}
+.card-action {
+    /* flex: 1; */
+    display: flex;
+    padding: .5rem 1rem;
+    
+} 
+/* .card-action ul li a i {
+    display: inline-block;
+    justify-content: space-between;
+    padding-left: 0;
+    list-style-type: none;
+    
+} */
+.card-action ul li a i {
+    font-size: 1.5rem;
+ 
+}
+
+.card-action ul li i.fav-icon {
+    color: #FEAA26;
+}
+.card-action ul li  i.up-icon {
+    color: #00A900;;
+}
+.card-action ul li  i.down-icon {
+    color: red;
+}
+.card-action ul li  i.comment-icon {
+    color: #5B96C4;
+}
+
 
 h5 {
     text-align: center;
@@ -74,6 +114,14 @@ h5 {
     background: #7c4545;
     
 }
+
+/* .btn-floating {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    background-color: #8c4e4e;
+    
+} */
 
 .signup .btn {
     margin-top: 1.0em;
