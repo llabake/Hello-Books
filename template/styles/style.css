@@ -64,13 +64,13 @@ body {
     padding: .5rem 1rem;
     
 } 
-/* .card-action ul li a i {
+.card-action ul li a i {
     display: inline-block;
     justify-content: space-between;
     padding-left: 0;
     list-style-type: none;
     
-} */
+}
 .card-action ul li a i {
     font-size: 1.5rem;
  
@@ -115,13 +115,13 @@ h5 {
     
 }
 
-/* .btn-floating {
+.btn-floating {
     width: 35px;
     height: 35px;
     line-height: 35px;
     background-color: #8c4e4e;
     
-} */
+}
 
 .signup .btn {
     margin-top: 1.0em;
