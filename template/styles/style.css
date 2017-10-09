@@ -267,5 +267,7 @@ h5 {
     color: #7c4561;
 }
 
-
+.card-action ul {
+    display: inline-flex;
+}
 
