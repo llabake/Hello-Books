@@ -202,17 +202,16 @@ h5 {
     font-family: 'New Baskerville',Baskerville,serif;
 }
 
-#review a {
+
+.write-review {
+    padding-left: 17px;
     display: inline-block;
     margin-right: 20px;
     margin-top: 4px;
     text-decoration: underline;
     color: inherit;
     outline: 0!important;
-}
-
-.write-review {
-    padding-left: 17px;
+    font-weight: 200;
 }
 
 .pencil {
@@ -260,9 +259,13 @@ h5 {
 .tab h5 {
     margin-top: 0.5em;
     margin-bottom: -0.2em;
+    color: #6c3c3c;
 }
 
 
+.tab .tab a {
+    color: #7c4561;
+}
 
 
 
