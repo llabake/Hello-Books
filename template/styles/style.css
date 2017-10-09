@@ -227,3 +227,42 @@ h5 {
     font-weight: 500;
     color: #000;
 }
+
+#form {
+    display: block;
+    margin-top: 0em;
+    background-color: #3d6db5;
+    text-transform: uppercase;
+}
+  
+#form .add {
+    padding: 0 3.2rem;
+}
+
+.quantity label {
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+
+.quantity input {
+    width: 50px;
+    text-align: center;
+}
+
+#title {
+    margin-top: 1.1em;
+}
+
+.tab {
+    margin-top: 1em;
+}
+
+.tab h5 {
+    margin-top: 0.5em;
+    margin-bottom: -0.2em;
+}
+
+
+
+
+
