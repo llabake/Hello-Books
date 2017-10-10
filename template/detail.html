@@ -20,9 +20,8 @@
             <nav>
                 <div class="nav-wrapper">
                     <a href="index.html" class="brand-logo left adjust">HelloBooks</a>
-                    <!-- <a href="detail.html" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a> -->
-                    <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <!-- <i class="material-icons prefix">notifications</i> -->
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
                         <li>
                             <form>
                                 <div class="input-field col s6 s12 ">
@@ -34,6 +33,25 @@
                         </li>
                         
                         <li><a class="dropdown-button" href="detail.html" data-activates="dropdown1">Sardaunan<i class="material-icons right">arrow_drop_down</i></a>
+                            <ul id="dropdown1" class="dropdown-content">
+                                <li><a href="addfavorite.html"><i class="material-icons ">library_add</i>Add Favorites</a></li>
+                                <li><a href="detail.html!">Terms and Condition</a></li>
+                                <li class="divider"></li>
+                                <li><a href="detail.html!"><i class="material-icons ">lock</i>Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="side-nav" id="mobile-demo">
+                        <li>
+                            <form>
+                                <div class="input-field col s6 s12 ">
+                                    <input id="search" type="search"  placeholder="Title, author, or ISBN" required>
+                                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                                    <i class="material-icons">close</i>
+                                </div>
+                            </form>
+                        </li>
+                           <li><a class="dropdown-button" href="detail.html" data-activates="dropdown1">Sardaunan<i class="material-icons right">arrow_drop_down</i></a>
                             <!-- Dropdown Structure -->
                             <ul id="dropdown1" class="dropdown-content">
                                     <li><a href="addfavorite.html"><i class="material-icons ">library_add</i>Add Favorites</a></li>
@@ -62,38 +80,34 @@
             <div class="book">
                 <div class="book-container">
                     <div class="row ">
-                        <div class="col s5 show-border">                            
+                        <div class="col l5 show-border">                            
                             <img class="materialboxed" width="250" src="images/nobel prize.jpg">
                         </div>
-                        <div class="col s7">
-                            <!-- <div class="divider"></div> -->
+                        <div class="col  l7">
                             <div class="section">
-                                <div>   <a class="btn-floating" href="favorite.html" ><i class=" material-icons">favorite</i>Add to Favorite</a>
+                                <div class="section1">
+                                    <div> 
+                                        <a class=" write-review " href="favorite.html" ><i class=" material-icons pencil medium">favorite</i>Add to Favorite</a>
+                                    </div>
+                                        <form id="form-lend" >
+                                            <a class="waves-effect waves-light btn " href="lend.html">Borrow</a>
+                                        </form>
                                 </div>
-                                    <form >
-                                            <a class="waves-effect waves-light btn  id="form" add" href="favorite.html">Add to Favorite</a>
-                                        </form>
-                                        <form id="form">
-                                            <a class="waves-effect waves-light btn" href="lend.html">LEND</a>
-                                        </form>
-                               
-                   
                             </div>
                             <div class="divider"></div>
                             <div class="section">
-                                    <form>
-                                            <div class="input-field col s12  quantity">
-                                                <!-- <label for="quantity">Quantity In Stock</label>   -->
-                                                    <!-- <a class="waves-effect waves-light btn  ">5</a> -->
-                                                    <span> Quantity In Stock </span>
-                                                <input id="icon-prefix quantity q-weight" value="5" type="button" >
-                                            </div>
-                                        </form>
+                                <div class="section2">
+                                    <span> Quantity In Stock: </span> <span>5</span>
+                                    <span> Status: </span> <span>Available</span>
+                                </div>
                             </div>
                             <div class="divider"></div>
                             <div class="section">
-                                    <a class="waves-effect waves-light btn" href="lend.html">Available</a>
-                                    
+                                <div class="section3">
+                                    <span>You have borrowed this book</span> <span >3</span> times <a  class="write-review" href="review.html"><i class=" material-icons tiny pencil ">create</i>Review?</a>
+                                    <br>
+                                    <span>Last Borrowed 25/05/2016</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -223,10 +237,10 @@
 </footer>
 </html>
 <script>
-      $(document).ready(function(){
-      $('.carousel').carousel();
+    $(document).ready(function(){
+    $('.carousel').carousel();
     //   $('.carousel').carousel('next', 3);
-
+    $(".button-collapse").sideNav();
     });
         
 </script>

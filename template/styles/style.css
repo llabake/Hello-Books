@@ -267,5 +267,36 @@ h5 {
     color: #7c4561;
 }
 
+.card-action ul {
+    display: inline-flex;
+}
 
+.section1 {
+    display: inline-flex;
+}
 
+#form-lend {
+    display: block;
+    margin-top: 2.2em;
+}
+
+#form-lend a {
+    background: #7c4561;
+}
+
+.section2 {
+    display: inline-grid;
+    font-weight: 800;
+    /* font-size: medium; */
+    padding: 1em 1.2em 1em 1.2em;
+    font-style: oblique;
+}
+
+.section3 {
+                                    
+    display: inline-grid;
+    font-weight: 800;
+    /* font-size: medium; */
+    padding: 0.2em 1.5em 1em 1.5em;
+    font-style: italic;
+}
