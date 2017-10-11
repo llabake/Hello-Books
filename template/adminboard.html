@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello Books:a ​simple​ ​application​ ​that​ ​helps​ ​manage​ ​a​ ​library​ ​and​ ​its​ ​processes​ ​like​ ​stocking, tracking​ ​and​ ​renting​ ​book </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">  
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="index.html" class="brand-logo left adjust">HelloBooks</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="favorites.html">Favorite Books</a></li>
+                        <!-- <i class="material-icons prefix">notifications</i> -->
+                        <li><a href="notifications.html">Notifications<span class="new badge red">4</span></a></li>
+                        <li><a class="dropdown-button" href="#" data-activates="dropdown1">Sardaunan<i class="material-icons right">arrow_drop_down</i></a>
+                            <!-- Dropdown Structure -->
+                            <ul id="dropdown1" class="dropdown-content">
+                                <li><a href="editprofile.html"><i class="material-icons ">settings</i>Profile Setting</a></li>
+                                <li><a href="#!">Terms and Condition</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#!"><i class="material-icons ">lock</i>Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="row ">
+        <div class="col s12 m9">
+            <div class="card-panel">
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="tabs">
+                        <li class="tab col s3"><a class="active" href="#allbooks">Book List</a></li>
+                        <li class="tab col s3"><a href="#accept">Borrow Request</a></li>
+                        <li class="tab col s3"><a href="#return">Return Request</a></li>
+                        <li class="tab col s3"><a href="#edit">Edit Book</a></li>
+                        </ul>
+                    </div>
+                    <div id="allbooks" class="col s12">
+                        <div class="card-panel responsive-table">
+                            <table class="bordered centered highlight ">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Book ID</th>
+                                        <th>Title</th>
+                                        <th>Author </th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    <td>1.</td>
+                                    <td>0001</td>
+                                    <td>Lean Start Up</td>
+                                    <td>Eric Reis</td>
+                                    <td><a href="editbook.html"><i class="material-icons">edit</i></a></td>
+                                    <td><a class="  modal-trigger .modal-close " data-target="delete-popup" ><i class="material-icons">delete</i></a></td>
+                                    </tr>
+                                    <tr>
+                                    <td>2.</td>
+                                    <td>0001</td>
+                                    <td>Extreme Programming</td>
+                                    <td>Kent Beck</td>
+                                    <td><a href="editbook.html"><i class="material-icons">edit</i></a></td>
+                                    <td><a class=" modal-trigger .modal-close " data-target="delete-popup" ><i class="material-icons">delete</i></a></td>
+                                    
+                                    </tr>
+                                    <tr>
+                                    <td>3.</td>
+                                    <td>0001</td>
+                                    <td>Never Let Me Go</td>
+                                    <td>Kazuro Ishiguro</td>
+                                    <td><a href="editbook.html"><i class="material-icons">edit</i></a></td>
+                                    <td><a class="  modal-trigger .modal-close " data-target="delete-popup" ><i class="material-icons">delete</i></a></td>
+                                    
+                                    </tr>
+                                    <tr>
+                                    <td>4.</td>
+                                    <td>0001</td>
+                                    <td>Half of a Yellow Sun</td>
+                                    <td>Chimamanda Adichie</td>
+                                    <td> <a href="editbook.html"><i class="material-icons">edit</i></a></td>
+                                    <td><a class="  modal-trigger .modal-close " data-target="delete-popup" ><i class="material-icons">delete</i></a></td>
+                                    
+                                    </tr>
+                                    <tr>
+                                    <td>5.</td>
+                                    <td>0001</td>
+                                    <td>So Long a Letter</td>
+                                    <td>Mariam Ba</td>
+                                     
+                                    <td> <a href="returnbook.html"><i class="material-icons">edit</i></a></td>
+                                    <td><a class="  modal-trigger .modal-close " data-target="delete-popup" ><i class="material-icons">delete</i></a></td>
+                                    
+                                    </tr>
+                                    <tr>
+                                    <td>6.</td>
+                                    <td>0001</td>
+                                    <td>There was a Country</td>
+                                    <td>Chinua Achebe</td>
+                                    <td> <a href="returnbook.html"><i class="material-icons">edit</i></a></td>
+                                    <td><a class="  modal-trigger .modal-close " data-target="delete-popup" ><i class="material-icons">delete</i></a></td>
+                                    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ul class="pagination  center-align">
+                            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                            <li class="active"><a href="#!">1</a></li>
+                            <li class="waves-effect"><a href="#!">2</a></li>
+                            <li class="waves-effect"><a href="#!">3</a></li>
+                            <li class="waves-effect"><a href="#!">4</a></li>
+                            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                        </ul>
+                            <!-- Modal Structure -->
+                        <div id="delete-popup" class="modal">
+                            <div class="modal-content">
+                                <h4>Are you sure you want to delete this book?</h4>
+                    
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat danger-btn">YES</a>
+                                <a href="#view-recipes" class="modal-action modal-close waves-effect waves-green btn-flat default-btn">NO</a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div id="accept" class="col s12">
+                        <div class="card-panel responsive-table">
+                            <table class="bordered centered highlight ">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Title</th>
+                                        <th>Author </th>
+                                        <th>Date Borrowed</th>
+                                        <th>Expected Return Date</th>
+                                        <th>Accept Borrow</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1.</td>
+                                        <td>Lean Start Up</td>
+                                        <td>Eric Reis</td>
+                                        <td>25/10/2017</td>
+                                        <td>25/10/2017</td>
+                                        <td><a href="returnbook.html"><i class="material-icons">call_made</i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2.</td>
+                                        <td>Extreme Programming</td>
+                                        <td>Kent Beck</td>
+                                        <td>25/10/2017</td>
+                                        <td>25/10/2017</td>
+                                        <td><a href="returnbook.html"><i class="material-icons">call_made</i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3.</td>
+                                        <td>Never Let Me Go</td>
+                                        <td>Kazuro Ishiguro</td>
+                                        <td>25/10/2017</td>
+                                        <td>25/10/2017</td>
+                                        <td><a href="returnbook.html"><i class="material-icons">call_made</i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4.</td>
+                                        <td>Half of a Yellow Sun</td>
+                                        <td>Chimamanda Adichie</td>
+                                        <td>25/10/2017</td>
+                                        <td>25/10/2017</td>
+                                        <td> <a href="returnbook.html"><i class="material-icons">call_made</i></ad>
+                                    </tr>
+                                    <tr>
+                                        <td>5.</td>
+                                        <td>So Long a Letter</td>
+                                        <td>Mariam Ba</td>
+                                        <td>25/10/2017</td>
+                                        <td>25/10/2017</td>
+                                        <td> <a href="returnbook.html"><i class="material-icons">call_made</i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>6.</td>
+                                        <td>There was a Country</td>
+                                        <td>chinua Achebe</td>
+                                        <td>25/10/2017</td>
+                                        <td>25/10/2017</td>
+                                        <td> <a href="returnbook.html"><i class="material-icons">call_made</i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="return" class="col s12">
+                        <div class="card-panel responsive-table">
+                            <table class="bordered centered highlight ">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Title</th>
+                                        <th>Author </th>
+                                        <th>Date Borrowed</th>
+                                        <th>Return</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    <td>1.</td>
+                                    <td>Lean Start Up</td>
+                                    <td>Eric Reis</td>
+                                    <td>25/10/2017</td>
+                                    <td><a href="returnbook.html"><i class="material-icons">assignment_returned</i></a></td>
+                                    </tr>
+                                    <tr>
+                                    <td>2.</td>
+                                    <td>Extreme Programming</td>
+                                    <td>Kent Beck</td>
+                                    <td>25/10/2017</td>
+                                    <td><a href="returnbook.html"><i class="material-icons">assignment_returned</i></a></td>
+                                    </tr>
+                                    <tr>
+                                    <td>3.</td>
+                                    <td>Never Let Me Go</td>
+                                    <td>Kazuro Ishiguro</td>
+                                    <td>25/10/2017</td>
+                                    <td><a href="returnbook.html"><i class="material-icons">assignment_returned</i></a></td>
+                                    </tr>
+                                    <tr>
+                                    <td>4.</td>
+                                    <td>Half of a Yellow Sun</td>
+                                    <td>Chimamanda Adichie</td>
+                                    <td>25/10/2017</td>
+                                    <td> <a href="returnbook.html"><i class="material-icons">assignment_returned</i></a></td>
+                                    </tr>
+                                    <tr>
+                                    <td>5.</td>
+                                    <td>So Long a Letter</td>
+                                    <td>Mariam Ba</td>
+                                    <td>25/10/2017</td>
+                                    <td> <a href="returnbook.html"><i class="material-icons">assignment_returned</i></a></td>
+                                    </tr>
+                                    <tr>
+                                    <td>6.</td>
+                                    <td>There was a Country</td>
+                                    <td>chinua Achebe</td>
+                                    <td>25/10/2017</td>
+                                    <td> <a href="returnbook.html"><i class="material-icons">assignment_returned</i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="edit" class="col s12">
+                        <!-- <div class="card-panel"> -->
+                            <div class="col s12 ">
+                                <div class="row ">
+                                    <form class="col s12 signup" >      
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">title</i>   
+                                            <input list="titles" id="icon-prefix" placeholder="Title" required id="title" type="text" class="validate " >
+                                            <datalist id="titles">
+                                                    <option value="Lean Startup"></option>
+                                                    <option value="So long a letter"></option>
+                                                    <option value="Fine Boys"></option>
+                                                    <option value="Extreme Programming"></option>
+                                            </datalist>
+                                        </div>
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            <input list="authors" id="icon-prefix" placeholder="Author" required id="author" type="text" class="validate " >
+                                            <datalist id="authors">
+                                                <option value="Teju Cole"></option>
+                                                <option value="Simon Sinek"></option>
+                                                <option value="Mariam Ba"></option>
+                                                <option value="Eric Reis"></option>
+                                            </datalist>
+                                        </div>
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">confirmation_number</i>
+                                            <input  list="isbn" id="icon-prefix" id="isbn" type="text" placeholder="ISBN" class="validate">
+                                            <datalist id="isbn">
+                                                <option value="1875615"></option>
+                                                <option value="1456715"></option>
+                                                <option value="8795624"></option>
+                                                <option value="5875624"></option>
+                                            </datalist>
+                                        </div>
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">label</i>
+                                            <input list="categories" id="icon-prefix" id="category" type="text" class="validate" placeholder="Category">
+                                            <datalist id="categories">
+                                                    <option value="Bestsellers"></option>
+                                                    <option value="Computing"></option>
+                                                    <option value="Business"></option>
+                                                    <option value="Engineering"></option>
+                                            </datalist>
+                                        </div>
+                                            <a class="waves-effect waves-light btn" href="favorite.html">Favorite</a>
+                                    </form>
+                                </div>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m3  profile-bio ">
+            <div class="card-panel responsive-table">
+                <table class="bordered centered highlight ">
+                    <thead>
+                        <tr>
+                            <th >Categories</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td><a href="notifications.html">Finance<span class="new badge red">4</span></a></td>
+                        </tr>
+                        <tr>
+                        <td><a href="notifications.html">Engineering<span class="new badge red">4</span></a></td>
+                        </tr>
+                        <tr>
+                        <td><a href="notifications.html">Afrincan Literature<span class="new badge red">4</span></a></td>
+                        </tr>
+                        <tr>
+                        <td><a href="notifications.html">Children<span class="new badge red">4</span></a></td>
+                        </tr>
+                        <tr>
+                        <td><a href="notifications.html">Law<span class="new badge red">4</span></a></td>
+                        </tr>
+                        <tr>
+                        <td><a href="notifications.html">Business<span class="new badge red">4</span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+    </div>
+</body>
+<footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Stay Connected</h5>
+                    <p class="grey-text text-lighten-4">Join our over 5 million users today.
+                    </p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <!--
+                  <h5 class="white-text">Sign Up</h5>
+                   <h5 class="white-text">Sign In</h5>
+    -->
+                    <ul style="display: inline-flex;">
+                        
+                        <li>
+                            <a href="http://facebook.com/morecipesapp"> <i class="fa fa-facebook"></i></a>
+                        </li>
+                        &emsp;&emsp;
+                        <li>
+                          <a href="http://twitter.com/morecipesapp"> <i class="fa fa-twitter"></i></a>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2017 Happy Girl World
+                <!--            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>-->
+            </div>
+        </div>
+</footer>
+</html>
+<script>
+      $(document).ready(function(){
+    $('ul.tabs').tabs();
+  });
+       
+  $(document).ready(function(){
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+</script>
