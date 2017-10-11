@@ -305,17 +305,22 @@ h5 {
     min-height: 4.75em;
     line-height: 1em;
     padding: 0 .75em;
-}
+} */
 
 .book-title {
     font-family: Lato,sans-serif;
     font-weight: 400;
     font-style: normal;
+    color: #347d56;
+    display: inline;
+    /* font-family: Lato,sans-serif;
+    font-weight: 400;
+    font-style: normal;
     color: inherit;
     padding-top: .5625rem;
-    margin-bottom: 4px;
+    margin-bottom: 4px; */
 }
-
+/* 
 .book-author {
     display: block;
     line-height: 1.1;
@@ -324,3 +329,11 @@ h5 {
     text-overflow: ellipsis;
     white-space: nowrap;
 } */
+
+.book-rating {
+    color: gold;
+}
+
+#book-author {
+    text-decoration: underline;
+}
