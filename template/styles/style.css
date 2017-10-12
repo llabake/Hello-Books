@@ -294,7 +294,7 @@ h5 {
 
 .section3 {
                                     
-    display: inline-grid;
+    display: table;
     font-weight: 800;
     /* font-size: medium; */
     padding: 0.2em 1.5em 1em 1.5em;
@@ -337,3 +337,13 @@ h5 {
 #book-author {
     text-decoration: underline;
 }
+
+.upvote {
+    padding-left: 17px;
+    display: inline-block;
+    margin-right: 20px;
+    margin-top: 4px;
+    color: #000;
+    outline: 0!important;
+    font-weight: 200;
+    }
