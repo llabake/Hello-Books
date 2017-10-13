@@ -294,12 +294,56 @@ h5 {
 
 .section3 {
                                     
-    display: inline-grid;
+    display: table;
     font-weight: 800;
     /* font-size: medium; */
     padding: 0.2em 1.5em 1em 1.5em;
     font-style: italic;
 }
 
+/* .book-info {
+    min-height: 4.75em;
+    line-height: 1em;
+    padding: 0 .75em;
+} */
 
+.book-title {
+    font-family: Lato,sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #347d56;
+    display: inline;
+    /* font-family: Lato,sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: inherit;
+    padding-top: .5625rem;
+    margin-bottom: 4px; */
+}
+/* 
+.book-author {
+    display: block;
+    line-height: 1.1;
+    overflow: hidden;
+    position: static;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+} */
 
+.book-rating {
+    color: gold;
+}
+
+#book-author {
+    text-decoration: underline;
+}
+
+.upvote {
+    padding-left: 17px;
+    display: inline-block;
+    margin-right: 20px;
+    margin-top: 4px;
+    color: #000;
+    outline: 0!important;
+    font-weight: 200;
+    }
