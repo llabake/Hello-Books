@@ -347,3 +347,11 @@ h5 {
     outline: 0!important;
     font-weight: 200;
     }
+
+.home-page-slider {
+    height: 550px;
+}
+
+.home-page-slider .slider li {
+    height: 500px
+}
