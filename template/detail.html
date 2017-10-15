@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello Books:a ​simple​ ​application​ ​that​ ​helps​ ​manage​ ​a​ ​library​ ​and​ ​its​ ​processes​ ​like​ ​stocking, tracking​ ​and​ ​renting​ ​book </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.7.0/css/font-awesome.css">  
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="index.html" class="brand-logo left adjust">HelloBooks</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li>
+                            <form>
+                                <div class="input-field col s6 s12 ">
+                                    <input id="search" type="search"  placeholder="Title, author, or ISBN" required>
+                                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                                    <i class="material-icons">close</i>
+                                </div>
+                            </form>
+                        </li>
+                        
+                        <li><a class="dropdown-button" href="detail.html" data-activates="dropdown1">Sardaunan<i class="material-icons right">arrow_drop_down</i></a>
+                            <ul id="dropdown1" class="dropdown-content">
+                                <li><a href="addfavorite.html"><i class="material-icons ">library_add</i>Add Favorites</a></li>
+                                <li><a href="detail.html!">Terms and Condition</a></li>
+                                <li class="divider"></li>
+                                <li><a href="signin.html!"><i class="material-icons ">lock</i>Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="side-nav" id="mobile-demo">
+                        <li>
+                            <form>
+                                <div class="input-field col s6 s12 ">
+                                    <input id="search" type="search"  placeholder="Title, author, or ISBN" required>
+                                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                                    <i class="material-icons">close</i>
+                                </div>
+                            </form>
+                        </li>
+                           <li><a class="dropdown-button" href="detail.html" data-activates="dropdown1">Sardaunan<i class="material-icons right">arrow_drop_down</i></a>
+                            <!-- Dropdown Structure -->
+                            <ul id="dropdown1" class="dropdown-content">
+                                    <li><a href="addfavorite.html"><i class="material-icons ">library_add</i>Add Favorites</a></li>
+                                    <li><a href="detail.html!">Terms and Condition</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="signin.html!"><i class="material-icons ">lock</i>Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="divider"></div>
+        <div class="book-detail center-align">
+            <h1 id="title">Never Let Me Go</h1>
+            <div>
+                <span class="detail" id="author-top">
+                    by <span class="author-name">Kazuo Ishiguro</span> 
+                </span>
+            </div>
+            <div class="divider"></div>
+        </div>
+        <div class="section ">
+            <div class="book">
+                <div class="book-container">
+                    <div class="row ">
+                        <div class="col l5 show-border">                            
+                            <img class="materialboxed" width="250" src="images/nobel prize.jpg">
+                        </div>
+                        <div class="col  l7">
+                            <div class="section">
+                                <div class="section1">
+                                    <div> 
+                                        <a class=" write-review " href="favorite.html" ><i class=" material-icons pencil medium">favorite</i>Add to Favorite</a>
+                                    </div>
+                                    <form id="form-lend" >
+                                            <!-- <a class="btn" onclick="Materialize.toast('I am a toast', 4000, 'rounded')">Toast!</a> -->
+                                        <a class="waves-effect waves-light btn "  href="profile.html">Borrow</a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="section">
+                                <div class="section2">
+                                    <span> Quantity In Stock: </span> <span>5</span>
+                                    <span> Status: </span> <span>Available</span>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="section">
+                                <div class="section3">
+                                    <span>You have borrowed this book</span> <span >3</span> times <span><a  class="write-review" href="review.html"><i class=" material-icons tiny pencil ">create</i>Review?</a></span>
+                                    <br>
+                                    <span>Last Borrowed 25/05/2016</span>
+                                    <div> 
+                                        <a class=" upvote " href="#" ><i class=" material-icons pencil small">thumb_up</i>10</a>
+                                        <a class=" upvote " href="#" ><i class=" material-icons pencil small">thumb_down</i>10</a>
+                                        <a class=" upvote " href="#" ><i class=" material-icons pencil small">comment</i>10</a>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section tab"> 
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs .tabs-fixed-width" id="tab">
+                    <li class="tab col s6"><a href="#about">About the author</a></li>
+                    <li class="tab col s6"><a class="active" href="#overview">Overview</a></li>
+                    </ul>
+                </div>
+                <div id="about" class="col s12">
+                    <div class="row ">
+                        <div>
+                            <h5 class="center-align"> About the Author </h5>
+                        </div>
+                    </div>
+                    <span>
+                    Kazuo Ishiguro (カズオ・イシグロ or 石黒 一雄) is a British novelist of Japanese origin and Nobel Laureate in Literature (2017). His family moved to England in 1960. Ishiguro obtained his Bachelor's degree from the University of Kent in 1978 and his Master's from the University of East Anglia's creative writing course in 1980. He became a British citizen in 1982. He now lives in London.<br><br>
+                    His first novel, A Pale View of Hills, won the 1982 Winifred Holtby Memorial Prize. His second novel, An Artist of the Floating World, won the 1986 Whitbread Prize. Ishiguro received the 1989 Man Booker prize for his third novel The Remains of the Day. His fourth novel, The Unconsoled, won the 1995 Cheltenham Prize. His latest novel is The Buried Giant, a New York Times bestseller. He was awarded the Nobel Prize in Literature 2017.<br><br>
+                    His novels An Artist of the Floating World (1986), When We Were Orphans (2000), and <i>Never Let Me Go (2005)</i> were all shortlisted for the Man Booker Prize.<br><br>
+                    In 2008, The Times ranked Ishiguro 32nd on their list of "The 50 Greatest British Writers Since 1945". In 2017, the Swedish Academy awarded him the Nobel Prize in Literature, describing him in its citation as a writer "who, in novels of great emotional force, has uncovered the abyss beneath our illusory sense of connection with the world".
+                    </span>
+                </div>
+                <div id="overview" class="col s12">
+                <div class="row">
+                    <div>
+                        <h5 class="center-align"> Overview </h5>
+                    </div>
+                    </div>
+                    <span>
+                            A tale of deceptive simplicity that slowly reveals an extraordinary emotional depth and resonance – and takes its place among Kazuo Ishiguro's finest work.<br><br>
+                            
+                            From the acclaimed author of The Remains of the Day and When We Were Orphans, a moving new novel that subtly re-imagines our world and time in a haunting story of friendship and love.<br><br>
+                            
+                            As a child, Kathy–now thirty-one years old–lived at Hailsham, a private school in the scenic English countryside where the children were sheltered from the outside world, brought up to believe that they were special and that their well-being was crucial not only for themselves but for the society they would eventually enter. Kathy had long ago put this idyllic past behind her, but when two of her Hailsham friends come back into her life, she stops resisting the pull of memory. 
+                            
+                            And so, as her friendship with Ruth is rekindled, and as the feelings that long ago fueled her adolescent crush on Tommy begin to deepen into love, Kathy recalls their years at Hailsham. She describes happy scenes of boys and girls growing up together, unperturbed–even comforted–by their isolation. But she describes other scenes as well: of discord and misunderstanding that hint at a dark secret behind Hailsham's nurturing facade. With the dawning clarity of hindsight, the three friends are compelled to face the truth about their childhood–and about their lives now. 
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section similar">
+            <h3>
+                You may also be interested in...
+            </h3>
+            <div class="carousel">
+                <a class="carousel-item" href="detail.html"><img src="images/lean start.jpg"></a>
+                <a class="carousel-item" href="detail.html"><img src="images/kent.jpg"></a>
+                <a class="carousel-item" href="detail.html"><img src="images/mariam ba.jpg"></a>
+                <a class="carousel-item" href="detail.html"><img src="images/manda.jpg"></a>
+                <a class="carousel-item" href="detail.html"><img src="images/lean start.jpg"></a>
+                <a class="carousel-item" href="detail.html"><img src="images/ken.jpg"></a>
+                <a class="carousel-item" href="detail.html"><img src="images/mariam ba.jpg"></a>
+                <a class="carousel-item" href="detail.html"><img src="images/manda.jpg"></a>
+              </div>
+
+        </div>
+        <h3 id="review"> Reviews </h3>
+        <a class="write-review" href="detail.html">View all</a>
+        <a  class="write-review" href="detail.html"><i class=" material-icons tiny pencil">create</i>Write your review</a>
+
+        <div class="divider"></div>
+        <div class="section ">
+            <div class="row">
+                <div class="col s4">
+                <h4 class="rev-title">“Beautifully written”</h4>
+                
+                    In her story, Fiona Mozley almost equals the beauty of nature with the violence and bleakness of family drama.
+                    Most of these reviewers commented before the book got published in September.Brilliant insight stated.
+
+                </div>
+                <div class="col s4">
+                <h4 class="rev-title">“Pastoral prose and heartbreaking family drama....”</h4>
+                This mesmerising beautifully lyrical novel captures you and never lets you go. I would definitely urge you to give this accomplished debut a chance. You won't be disappointed.
+                In her story, Fiona Mozley almost equals the beauty of nature with the violence and bleakness of family drama.
+                    Most of these reviewers commented before the book got published in September.Brilliant insight stated.
+
+                </div>
+                <div class="col s4">
+                        <h4 class="rev-title">Engaging prose”</h4>
+                    A really lyrical novel about family that shines with intelligence - a compelling read.
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Stay Connected</h5>
+                <p class="grey-text text-lighten-3">Join our over 5 million users today.
+                </p>
+            </div>
+            <div class="col l3 offset-l2 s12">
+                <!--
+                <h5 class="white-text">Sign Up</h5>
+                <h5 class="white-text">Sign In</h5>
+-->
+                <ul style="display: inline-flex;">
+                    
+                    <li>
+                        <a href="http://facebook.com/morecipesapp"> <i class="fa fa-facebook"></i></a>
+                    </li>
+                    &emsp;&emsp;
+                    <li>
+                        <a href="http://twitter.com/morecipesapp"> <i class="fa fa-twitter"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2017 Happy Girl World
+            <!--            <a class="grey-text text-lighten-3 right" href="detail.html!">More Links</a>-->
+        </div>
+    </div>
+</footer>
+</html>
+<script>
+    $(document).ready(function(){
+    $('.carousel').carousel();
+    //   $('.carousel').carousel('next', 3);
+    $(".button-collapse").sideNav();
+    });
+
+        
+</script>
