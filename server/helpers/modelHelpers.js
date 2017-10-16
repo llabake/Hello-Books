@@ -1,7 +1,22 @@
 export const dummyData = {
-    books: {
-    
-      
+    books: { 1: {
+            "title": "so long a letter",
+            "author": "mariam ba",
+            "isbn": 65486565,
+            "quantity": 56,
+            "publishedYear": 2009,
+            "deleted": "false",
+            "id": 1
+        },
+        2: {
+            "title": "fine boys",
+            "author": "ehabsuen",
+            "isbn": 65487565,
+            "quantity": 6,
+            "publishedYear": 2015,
+            "deleted": "false",
+            "id": 2
+        }
     }
 };
   
@@ -12,5 +27,3 @@ export const getObjectId = (objectType) => {
       return id;
     } else throw new Error (`dummyData type: ${objectType} not yet created`);
 }
-
- 
