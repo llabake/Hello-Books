@@ -12,7 +12,7 @@ export default class Book {
         errors.push({ path: field, message: `${field} is required` });
       } else if (typeof(args[field]) !== dataType[field]) {
         errors.push({ path: field, message: `${field} must be a ${dataType[field]}` });
-      } 
+      };
     });
     
     for (let key in args) {
@@ -20,43 +20,23 @@ export default class Book {
         errors.push({ message: `invalid field: ${key} found in args` });
       } else {
         this[key] = args[key];        
-      }
-    }
+      };
+    };
 
-    if (errors.length > 0) {
-      // throw new Error (JSON.stringify(errors,null,4));
+    if (errors.length) {
       throw errors;
-    }
+    };
     this.deleted = 'false';
     this.id = getObjectId('books');
-  }
+  };
     
   create () {
-    // console.log(`saving ${JSON.stringify(this)}`);
-      dummyData.books[this.id] = this;
-  }
+    dummyData.books[this.id] = this;
+  };
+};
 
-  static getAll () {
-    const returnedBooks = [];
-    const allBooks = dummyData.books;
-    for (let id in allBooks) {
-      const book = allBooks[id];
-      delete book.deleted;
-      returnedBooks.push(book);
-    }
-    return returnedBooks;
-  }
-  
-  static getById (id) {
-    const book = dummyData.books[id];
-    if (book) {
-      delete book.deleted;
-      return book;
-    } else {
-      throw `Book with id: ${id} not found`;
-    }
-  }
-}
+
+
 
 
   
