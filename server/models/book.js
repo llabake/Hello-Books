@@ -33,10 +33,26 @@ export default class Book {
   create () {
     dummyData.books[this.id] = this;
   };
+ 
+  static getById (id) {
+    const book = dummyData.books[id];
+    if (book) {
+      delete book.deleted;
+      return book;
+    } else {
+      throw `Book with id: ${id} not found`;
+    }
+  };
+
+  static updateById(id, updateArgs) {
+    const book = this.getById(id);
+    const updateFields = [ 'title', 'author', 'isbn', 'publishedYear', 'quantity' ];    
+    updateFields.forEach(field => {
+        book[field] = updateArgs[field] || book[field];
+    });
+    return book
+  }
 };
-
-
-
 
 
   
