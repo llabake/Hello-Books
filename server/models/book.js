@@ -1,5 +1,15 @@
 import { getObjectId, dummyData } from '../helpers/modelHelpers';
 
+const addReviewToBook = (book) => {
+  book.reviews = [];
+  const allReviews = dummyData.reviews;
+  for (let reviewId in allReviews) {
+    if (allReviews[reviewId].bookId === book.id) {
+      book.reviews.push(allReviews[reviewId]);
+    }
+  }
+};
+
 export default class Book {
   constructor(args) {
     const fields = ['title', 'isbn', 'author', 'quantity', 'publishedYear'];
@@ -68,15 +78,6 @@ export default class Book {
   }
 }
 
-const addReviewToBook = (book) => {
-  book.reviews = [];
-  const allReviews = dummyData.reviews;
-  for (let reviewId in allReviews) {
-    if (allReviews[reviewId].bookId === book.id) {
-      book.reviews.push(allReviews[reviewId]);
-    }
-  }
-};
 
 
   
