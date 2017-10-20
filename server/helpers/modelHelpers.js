@@ -39,11 +39,31 @@ export const dummyData = {
             "id": 3
         },
 
+    },
+    users: {
+        1: {
+            "username": "labakelagos",
+            "email": "lagoslabake@gmail.com",
+            "password": "mesmerising",
+            "id": 1
+        },
+        2: {
+            "username": "simbad",
+            "email": "badsim@rocketmail.com",
+            "password": "pandenomium",
+            "id": 2
+        },
+        3: {
+            "username": "keinzy",
+            "email": "ayinla1",
+            "password": "love4eva",
+            "id": 3
+        }
     }
 };
   
 export const getObjectId = (objectType) => {
-    const dummyDataTypes = ['books'];
+    const dummyDataTypes = ['books', 'reviews'];
     if (dummyDataTypes.indexOf(objectType) !== -1 ){
       let id =  Object.keys(dummyData[objectType]).length + 1;
       return id;
