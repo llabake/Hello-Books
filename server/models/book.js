@@ -65,14 +65,14 @@ export default class Book {
       returnedBooks.push(book);
     }
     return returnedBooks;
-  };
-};
+  }
+}
 
 const addReviewToBook = (book) => {
   book.reviews = [];
   const allReviews = dummyData.reviews;
   for (let reviewId in allReviews) {
-    if (allReviews[reviewId].bookId == book.id) {
+    if (allReviews[reviewId].bookId === book.id) {
       book.reviews.push(allReviews[reviewId]);
     }
   }
