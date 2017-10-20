@@ -47,7 +47,7 @@ export default class Book {
   static getById (id) {
     const book = dummyData.books[id];
     if (book) {
-      addReviewToBook (book);      
+      addReviewToBook(book);      
       delete book.deleted;
       return book;
     } else {
@@ -70,7 +70,7 @@ export default class Book {
     const allBooks = dummyData.books;
     for (let id in allBooks) {
       const book = allBooks[id];
-      addReviewToBook (book);
+      addReviewToBook(book);
       delete book.deleted;
       returnedBooks.push(book);
     }
