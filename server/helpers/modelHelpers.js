@@ -1,5 +1,6 @@
 export const dummyData = {
-    books: { 1: {
+    books: { 
+        1: {
             "title": "so long a letter",
             "author": "mariam ba",
             "isbn": 65486565,
