@@ -40,19 +40,21 @@ export default class Book {
       delete book.deleted;
       return book;
     } else {
-      throw `Book with id: ${id} not found`;
+      throw `Book with id: ${id} not found`
     }
   };
 
   static updateById(id, updateArgs) {
     const book = this.getById(id);
-    const updateFields = [ 'title', 'author', 'isbn', 'publishedYear', 'quantity' ];    
+    const updateFields = ['title', 'author', 'isbn', 
+    'publishedYear', 'quantity'];    
     updateFields.forEach(field => {
-        book[field] = updateArgs[field] || book[field];
+      book[field] = updateArgs[field] || book[field];
     });
     return book
   }
-};
+}
+
 
 
   
