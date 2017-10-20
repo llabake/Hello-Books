@@ -60,15 +60,6 @@ export default class Review {
     updateFields.forEach(field => {
         this[field] = args [field] || this[field];
     });
-  };
-};
-
-const addReviewToreview = (review) => {
-  review.reviews = [];
-  const allReviews = dummyData.reviews;
-  for (let reviewId in allReviews) {
-    if (allReviews[reviewId].reviewId == review.id) {
-      review.reviews.push(allReviews[reviewId]);
-    }
   }
-};
+}
+

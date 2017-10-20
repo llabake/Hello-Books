@@ -11,7 +11,7 @@ const bookRoute = (app) => {
   app.put('/api/v1/books/:bookId(\\d+)', bookExists, bookController.modifyBook);
   app.get('/api/v1/books', bookController.getAllBooks);
   app.post('/api/v1/users/:userId(\\d+)/review/:bookId(\\d+)',
-  userExists, bookExists, reviewController.addReview);  
+  userExists, bookExists, reviewController.addReview);
 };
 
 export default bookRoute;
