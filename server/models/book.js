@@ -37,6 +37,7 @@ export default class Book {
   static getById (id) {
     const book = dummyData.books[id];
     if (book) {
+      addReviewToBook (book);      
       delete book.deleted;
       return book;
     } else {
@@ -53,8 +54,29 @@ export default class Book {
     });
     return book
   }
-}
 
+  static getAll () {
+    const returnedBooks = [];
+    const allBooks = dummyData.books;
+    for (let id in allBooks) {
+      const book = allBooks[id];
+      addReviewToBook (book);
+      delete book.deleted;
+      returnedBooks.push(book);
+    }
+    return returnedBooks;
+  };
+};
+
+const addReviewToBook = (book) => {
+  book.reviews = [];
+  const allReviews = dummyData.reviews;
+  for (let reviewId in allReviews) {
+    if (allReviews[reviewId].bookId == book.id) {
+      book.reviews.push(allReviews[reviewId]);
+    }
+  }
+};
 
 
   

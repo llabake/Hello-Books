@@ -18,6 +18,27 @@ export const dummyData = {
             "deleted": "false",
             "id": 2
         }
+    },
+    reviews: {
+        1: {
+            "bookId": 1,
+            "userId": 2,
+            "text": "mesmerising",
+            "id": 1
+        },
+        2: {
+            "bookId": 2,
+            "userId": 2,
+            "text": "suspense",
+            "id": 2
+        },
+        3: {
+            "bookId": 1,
+            "userId": 1,
+            "text": "intrigue",
+            "id": 3
+        },
+
     }
 };
   

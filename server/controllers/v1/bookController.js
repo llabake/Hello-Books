@@ -30,3 +30,8 @@ export const modifyBook = (req, res) => {
         return res.status(400).json({error});
     }
 };
+
+export const getAllBooks = (req, res) => {
+    const books = Book.getAll();
+    return res.status(200).json({books});
+};
