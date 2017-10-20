@@ -6,6 +6,7 @@ const bookRoute = (app) => {
   app.get('/api/v1/books/:bookId(\\d+)', bookExists,
   bookController.getSingleBook);
   app.put('/api/v1/books/:bookId(\\d+)', bookExists, bookController.modifyBook);
+  app.get('/api/v1/books', bookController.getAllBooks);
 };
 
 export default bookRoute;

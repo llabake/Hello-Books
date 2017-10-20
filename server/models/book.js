@@ -1,5 +1,15 @@
 import { getObjectId, dummyData } from '../helpers/modelHelpers';
 
+const addReviewToBook = (book) => {
+  book.reviews = [];
+  const allReviews = dummyData.reviews;
+  for (let reviewId in allReviews) {
+    if (allReviews[reviewId].bookId === book.id) {
+      book.reviews.push(allReviews[reviewId]);
+    }
+  }
+};
+
 export default class Book {
   constructor(args) {
     const fields = ['title', 'isbn', 'author', 'quantity', 'publishedYear'];
@@ -37,6 +47,7 @@ export default class Book {
   static getById (id) {
     const book = dummyData.books[id];
     if (book) {
+      addReviewToBook(book);      
       delete book.deleted;
       return book;
     } else {
@@ -52,6 +63,18 @@ export default class Book {
       book[field] = updateArgs[field] || book[field];
     });
     return book
+  }
+
+  static getAll () {
+    const returnedBooks = [];
+    const allBooks = dummyData.books;
+    for (let id in allBooks) {
+      const book = allBooks[id];
+      addReviewToBook(book);
+      delete book.deleted;
+      returnedBooks.push(book);
+    }
+    return returnedBooks;
   }
 }
 
