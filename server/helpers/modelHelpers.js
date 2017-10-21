@@ -59,11 +59,18 @@ export const dummyData = {
             "password": "love4eva",
             "id": 3
         }
+    },
+    favorites: {
+        1: {
+            "bookId": 1,
+            "userId": 1,
+            "id": 1
+        }
     }
 };
   
 export const getObjectId = (objectType) => {
-    const dummyDataTypes = ['books', 'reviews'];
+    const dummyDataTypes = ['books', 'reviews', 'favorites'];
     if (dummyDataTypes.indexOf(objectType) !== -1 ){
       let id =  Object.keys(dummyData[objectType]).length + 1;
       return id;
