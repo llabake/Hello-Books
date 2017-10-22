@@ -15,6 +15,8 @@ const bookRoute = (app) => {
   userExists, bookExists, reviewController.addReview);
   app.post('/api/v1/users/:userId(\\d+)/fav/:bookId(\\d+)',
   userExists, bookExists, favoriteController.markBookAsFavorite);
+  app.get('/api/v1/users/:userId(\\d+)/favbooks',
+  favoriteController.retrieveUserFavorite);
 };
 
 export default bookRoute;

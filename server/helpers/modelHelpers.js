@@ -65,6 +65,16 @@ export const dummyData = {
             "bookId": 1,
             "userId": 1,
             "id": 1
+        },
+        2: {
+            "bookId": 1,
+            "userId": 2,
+            "id": 1
+        },
+        3: {
+            "bookId": 2,
+            "userId": 2,
+            "id": 1
         }
     }
 };
