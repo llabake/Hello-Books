@@ -1,5 +1,15 @@
 import { getObjectId, dummyData } from '../helpers/modelHelpers';
 
+// const retrieveUserFavorite = (favorites) => {
+//   myFavorite = [];
+//   const allFavorites = dummyData.favorites;
+//   for (let favId in allFavorites) {
+//     if (allFavorites[favId].userId === req.params.userId) {
+//       myFavorite.push(allFavorites[favId]);
+//     }
+//   }
+// };
+
 export default class Favorite {
   constructor(args) {
     const fields = ['bookId', 'userId'];
@@ -53,6 +63,11 @@ export default class Favorite {
     } else {
       throw `favorite with id: ${id} not found`;
     }
+  };
+
+  static getAllByUserId (userId) {
+    const favorites = this.getAll();
+    return favorites.filter(favorite => favorite.userId === userId);
   };
 }
 
