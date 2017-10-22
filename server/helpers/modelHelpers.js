@@ -113,11 +113,23 @@ export const dummyData = {
             "userId": 2,
             "id": 1
         }
+    },
+    borrowedBooks: {
+        1: {
+            "bookId": 1,
+            "userId": 2,
+            "borrowedStatus": "pending"
+        },
+        2: {
+            "bookId": 2,
+            "userId": 2,
+            "borrowedStatus": "pending"
+        }
     }
 };
   
 export const getObjectId = (objectType) => {
-    const dummyDataTypes = ['books', 'reviews', 'favorites'];
+    const dummyDataTypes = ['books', 'reviews', 'favorites', 'borrowedBooks'];
     if (dummyDataTypes.indexOf(objectType) !== -1 ){
       let id =  Object.keys(dummyData[objectType]).length + 1;
       return id;

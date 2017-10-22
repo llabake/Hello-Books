@@ -12,11 +12,13 @@ const bookRoute = (app) => {
   app.put('/api/v1/books/:bookId(\\d+)', bookExists, bookController.modifyBook);
   app.get('/api/v1/books', bookController.getAllBooks);
   app.post('/api/v1/users/:userId(\\d+)/review/:bookId(\\d+)',
-  userExists, bookExists, reviewController.addReview);
+    userExists, bookExists, reviewController.addReview);
   app.post('/api/v1/users/:userId(\\d+)/fav/:bookId(\\d+)',
-  userExists, bookExists, favoriteController.markBookAsFavorite);
+    userExists, bookExists, favoriteController.markBookAsFavorite);
   app.get('/api/v1/users/:userId(\\d+)/favbooks',
-  favoriteController.retrieveUserFavorite);
+    favoriteController.retrieveUserFavorite);
+  app.post('/api/v1/users/:userId(\\d+)/borrow/:bookId(\\d+)', 
+    bookController.borrowBook);
 };
 
 export default bookRoute;

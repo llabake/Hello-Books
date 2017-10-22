@@ -1,4 +1,6 @@
 import Book from '../../models/book';
+import BorrowedBook from '../../models/borrowedBook';
+
 
 export const addBook = (req, res) => {
     try {
@@ -40,4 +42,24 @@ export const getAllBooks = (req, res) => {
         })
     }
     return res.status(200).json({books});
-};
+}
+
+export const borrowBook = (req, res) => {
+
+    const userId = parseInt(req.params.userId, 10);
+    const bookId = parseInt(req.params.bookId, 10);
+    if (BorrowedBook.existsByUserIdAndBookId(userId, bookId)) {
+        return res.status(409).json({message: "You have made this request earlier, baby!"});
+    } else {
+        const borrowedBook = new BorrowedBook({
+            userId,
+            bookId
+        });
+        borrowedBook.create();
+        return res.status(200).json({
+            message: 'Your request has been made and its being processed',
+            borrowedBook
+        });
+    }
+
+}
