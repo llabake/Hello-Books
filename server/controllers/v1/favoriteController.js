@@ -17,3 +17,8 @@ export const markBookAsFavorite = (req, res) => {
         return res.status(400).json({ error });
     };
 };
+
+export const retrieveUserFavorite = (req, res) => {
+    const userFavorites = Favorite.getAllByUserId(parseInt(req.params.userId, 10));
+    return res.status(200).json({userFavorites});
+};

@@ -54,12 +54,5 @@ export default class Favorite {
       throw `favorite with id: ${id} not found`;
     }
   };
-
-//   update (args) {
-//     const updateFields = [ 'text'];    
-//     updateFields.forEach(field => {
-//         this[field] = args [field] || this[field];
-//     });
-//   }
 }
 
