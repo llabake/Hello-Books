@@ -6,6 +6,8 @@ export const dummyData = {
             "isbn": 65486565,
             "quantity": 56,
             "publishedYear": 2009,
+            "upvotes": 6,
+            "downvotes": 5,
             "deleted": "false",
             "id": 1
         },
@@ -15,8 +17,43 @@ export const dummyData = {
             "isbn": 65487565,
             "quantity": 6,
             "publishedYear": 2015,
+            "upvotes": 23,
+            "downvotes": 2,
             "deleted": "false",
             "id": 2
+        },
+        3: {
+            "title": "There Was A Country",
+            "author": "Chinua Achebe",
+            "isbn": 65486565,
+            "quantity": 56,
+            "publishedYear": 2008,
+            "upvotes": 19,
+            "downvotes": 5,
+            "deleted": "false",
+            "id": 3
+        },
+        4: {
+            "title": "Lean Start Up",
+            "author": "Eric Reis",
+            "isbn": 65487565,
+            "quantity": 6,
+            "publishedYear": 2015,
+            "upvotes": 230,
+            "downvotes": 22,
+            "deleted": "false",
+            "id": 4
+        },
+        5: {
+            "title": "Alapata Apata",
+            "author": "Wole Soyinka",
+            "isbn": 65486565,
+            "quantity": 56,
+            "publishedYear": 2009,
+            "upvotes": 0,
+            "downvotes": 5,
+            "deleted": "false",
+            "id": 5
         }
     },
     reviews: {

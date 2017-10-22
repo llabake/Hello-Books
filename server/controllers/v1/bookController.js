@@ -33,5 +33,11 @@ export const modifyBook = (req, res) => {
 
 export const getAllBooks = (req, res) => {
     const books = Book.getAll();
+    console.log(books)
+    if (req.query.sort === 'upvotes' && req.query.order === 'desc') {
+        books.sort((book1, book2) => {
+           return book2.upvotes - book1.upvotes;
+        })
+    }
     return res.status(200).json({books});
 };
