@@ -60,13 +60,30 @@ export default class BorrowedBook {
     let borrowedBookExist = false;
     const borrowedBooks = dummyData.borrowedBooks;
     for (let id in borrowedBooks) {
-        if (borrowedBooks[id].userid === userId &&
+      if (borrowedBooks[id].userId === userId &&
+          borrowedBooks[id].bookId === bookId) {
+          borrowedBookExist = true;
+          break;    
+      }
+    }
+    return borrowedBookExist;
+  }
+
+  static getByUserIdAndBookId(userId, bookId) {
+    let borrowedBook;
+    const borrowedBooks = dummyData.borrowedBooks;
+    for (let id in borrowedBooks) {
+        if (borrowedBooks[id].userId === userId &&
             borrowedBooks[id].bookId === bookId) {
-            borrowedBookExist = true;
+                borrowedBook = borrowedBooks[id];
             break;    
         }
     }
-    return borrowedBookExist;
+    if (borrowedBook) {
+        return borrowedBook;        
+    } else {
+        throw 'borrowedBook match request not found'
+    }
   }
 
   update (args) {

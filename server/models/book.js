@@ -76,6 +76,11 @@ export default class Book {
     }
     return returnedBooks;
   }
+  
+  static isAvailable (bookId) {
+    const book = this.getById(bookId);
+    return book.quantity > 0;
+  }
 }
 
 

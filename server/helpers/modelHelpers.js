@@ -116,11 +116,15 @@ export const dummyData = {
     },
     borrowedBooks: {
         1: {
+            "id": 1,
+            "deleted": false,
             "bookId": 1,
             "userId": 2,
             "borrowedStatus": "pending"
         },
         2: {
+            "id": 2,
+            "deleted": false,
             "bookId": 2,
             "userId": 2,
             "borrowedStatus": "pending"
