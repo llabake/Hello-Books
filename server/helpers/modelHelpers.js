@@ -1,4 +1,4 @@
-export const dummyData = {
+const developmentDummyData = {
     books: { 
         1: {
             "title": "so long a letter",
@@ -131,7 +131,37 @@ export const dummyData = {
         }
     }
 };
-  
+const productionDummyData = {
+    books: {},
+    reviews: {},
+    favorites:{},
+    borrowedBooks: {},
+    users:{}
+}
+
+const testDummyData = {
+    books: {},
+    reviews: {},
+    favorites:{},
+    borrowedBooks: {},
+    users:{}
+}
+
+
+const getDummyData = (env) => {
+    if(env === 'development') {
+        return developmentDummyData;
+    }
+    if(env === 'test') {
+        return testDummyData;
+    }
+    if ( env === 'production') {
+        return productionDummyData
+    }
+}
+
+export const dummyData = getDummyData(process.env.NODE_ENV || 'development');
+
 export const getObjectId = (objectType) => {
     const dummyDataTypes = ['books', 'reviews', 'favorites', 'borrowedBooks'];
     if (dummyDataTypes.indexOf(objectType) !== -1 ){

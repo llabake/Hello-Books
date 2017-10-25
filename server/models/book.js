@@ -5,6 +5,7 @@ const addReviewToBook = (book) => {
   const allReviews = dummyData.reviews;
   for (let reviewId in allReviews) {
     if (allReviews[reviewId].bookId === book.id) {
+      delete allReviews[reviewId].deleted;
       book.reviews.push(allReviews[reviewId]);
     }
   }
@@ -18,7 +19,7 @@ export default class Book {
     
     // check if required fields are present
     fields.forEach(field => {
-      if (!args[field]) {
+      if (args[field] === undefined || args[field] === '' ) {
         errors.push({ path: field, message: `${field} is required` });
       } else if (typeof(args[field]) !== dataType[field]) {
         errors.push({ path: field, message: `${field} must be a ${dataType[field]}` });
@@ -33,10 +34,17 @@ export default class Book {
       };
     };
 
+    if (this.quantity <= 0) {
+      errors.push({ path: 'quantity',
+        message: 'quantity can not be less than or equal zero' })
+    }
+    
     if (errors.length) {
       throw errors;
     };
     this.deleted = 'false';
+    this.upvotes = 0;
+    this.downvotes = 0;
     this.id = getObjectId('books');
   };
     

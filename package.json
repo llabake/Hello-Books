@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --compilers js:babel-core/register server/tests",
     "start": "./node_modules/.bin/babel-node app.js",
     "start-dev": "babel-watch app.js"
   },
@@ -26,13 +26,17 @@
     "babel-register": "^6.26.0",
     "babel-watch": "^2.0.7",
     "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "expect": "^21.2.1",
     "express": "^4.16.2",
+    "mocha": "^4.0.1",
     "morgan": "^1.9.0"
   },
   "devDependencies": {
     "eslint": "^4.9.0",
     "eslint-config": "^0.3.0",
     "eslint-config-airbnb": "^16.0.0",
-    "eslint-plugin-import": "^2.7.0"
+    "eslint-plugin-import": "^2.7.0",
+    "supertest": "^3.0.0"
   }
 }
