@@ -26,7 +26,7 @@ export default class Review {
     if (errors.length) {
       throw errors;
     };
-    this.deleted = 'false';
+    this.deleted = false;
     this.id = getObjectId('reviews');
   };
     

@@ -26,7 +26,7 @@ export default class BorrowedBook {
     if (errors.length) {
       throw errors;
     };
-    this.deleted = 'false';
+    this.deleted = false;
     this.borrowedStatus = 'pending';
     this.id = getObjectId('borrowedBooks');
   };

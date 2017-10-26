@@ -36,7 +36,7 @@ export default class Favorite {
     if (errors.length) {
       throw errors;
     };
-    this.deleted = 'false';
+    this.deleted = false;
     this.id = getObjectId('favorites');
   };
     

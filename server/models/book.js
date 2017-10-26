@@ -42,7 +42,7 @@ export default class Book {
     if (errors.length) {
       throw errors;
     };
-    this.deleted = 'false';
+    this.deleted = false;
     this.upvotes = 0;
     this.downvotes = 0;
     this.id = getObjectId('books');
@@ -66,7 +66,8 @@ export default class Book {
   static updateById(id, updateArgs) {
     const book = this.getById(id);
     const updateFields = ['title', 'author', 'isbn', 
-    'publishedYear', 'quantity'];    
+    'publishedYear', 'quantity']; 
+    // check the quantity update is not zero   
     updateFields.forEach(field => {
       book[field] = updateArgs[field] || book[field];
     });

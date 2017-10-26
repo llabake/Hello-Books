@@ -4,13 +4,13 @@ import app from "../../app";
 import { dummyData } from '../helpers/modelHelpers'
 import Book from '../models/book';
 import Review from '../models/review';
-import borrowedBook from '../models/borrowedBook'
+import BorrowedBook from '../models/borrowedBook'
 
 global.request = supertest(app);
 const expect = chai.expect;
 
 describe('Index route:', () => {
-   it('it should return welcome message', () => {
+   xit('it should return welcome message', () => {
     request.get('/')
       .expect(200)
       .end((err, res) => {
@@ -22,7 +22,16 @@ describe('Index route:', () => {
 
 describe('Controller Functions', () => {
     describe('Book Controller:', () =>{
-        it('should return specific error message and the path to the error for empty fields',(done) => {
+        beforeEach(() => {
+            // runs before each test in this block
+            dummyData.books = {};
+            dummyData.reviews = {};
+            dummyData.favorites = {};
+            dummyData.borrowedBooks = {};
+            dummyData.users ={};
+          });
+        
+        xit('should return specific error message and the path to the error for empty fields',(done) => {
             const bookData = {};
             const fields = ['title', 'isbn', 'author', 'quantity', 'publishedYear'];
             request.post('/api/v1/books')
@@ -37,7 +46,7 @@ describe('Controller Functions', () => {
                     done(err);
                 });
         });
-        it('should return specific error message and the path to the error for invalid input type',(done) => {
+        xit('should return specific error message and the path to the error for invalid input type',(done) => {
             const bookData = {
                 'title': 78,
                 'author': 5+6,
@@ -59,7 +68,7 @@ describe('Controller Functions', () => {
                     done(err);
                 });
         });
-        it('should return specific error message and the path to the error for invalid input type',(done) => {
+        xit('should return specific error message and the path to the error for invalid input type',(done) => {
             const bookData = {
                 rubbishField: 'justrubbish',
                 title: 'so long a letter',
@@ -83,7 +92,7 @@ describe('Controller Functions', () => {
                     done(err);
                 });
         });
-        it('should send and error when a book with zero or less quantity is sent',(done) => {
+        xit('should send and error when a book with zero or less quantity is sent',(done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -102,7 +111,7 @@ describe('Controller Functions', () => {
                     done(err);
                 });
         });
-        it('should create a new book',(done) => {
+        xit('should create a new book',(done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -127,7 +136,7 @@ describe('Controller Functions', () => {
                     done(err);
                 });
         });
-        it('should get a single book', (done) => {
+        xit('should get a single book', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -154,7 +163,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        it('should get a single book with its review', (done) => {
+        xit('should get a single book with its review', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -193,7 +202,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        it('should modify a book', (done) => {
+        xit('should modify a book', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -208,14 +217,8 @@ describe('Controller Functions', () => {
                 'author': 'mariam',
                 'quantity': 100
             }
-            const id = book.id;
-            const updateArgs = updateData;
-            const updateFields = ['title', 'author', 'isbn', 
-            'publishedYear', 'quantity'];    
-            updateFields.forEach(field => {
-              book[field] = updateArgs[field] || book[field];
-            });
             request.put(`/api/v1/books/${book.id}`)
+                .send(updateData)
                 .set('Accept', 'application/json')
                 .expect(200)
                 .end((err, res) => {
@@ -232,7 +235,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        it('should get a all book', (done) => {
+        xit('should get a all book', (done) => {
             const bookData1 = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -264,7 +267,7 @@ describe('Controller Functions', () => {
                 .set('Accept', 'application/json')
                 .expect(200)
                 .end((err, res) => {
-                    expect(res.body.books).to.have.lengthOf(12);
+                    expect(res.body.books).to.have.lengthOf(3);
                     expect(res.body.books).to.deep.include(book1);
                     expect(res.body.books).to.deep.include(book2);
                     expect(res.body.books).to.deep.include(book3);
@@ -272,7 +275,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        it('should borrow a book', (done) => {
+        xit('should return "You have made this request earlier!" when a borrow request has been made on a book more than once', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -295,24 +298,74 @@ describe('Controller Functions', () => {
                 userId,
                 bookId
             }
-            borrowedBook.create
-            // reviewData.id = review.id;
+            const borrowedBook = new BorrowedBook (borrowedBookData);
+            borrowedBook.create();
             request.post(`/api/v1/users/${userId}/borrow/${book.id}`)
+                .set('Accept', 'application/json')
+                .expect(409)
+                .end((err, res) => {
+                    expect(res.body.message).to.eql("You have made this request earlier!");
+                    done(err)
+                });
+        });
+        xit('should return book currently not available for borrow when a borrow request has been made on a book with zero quantity', (done) => {
+            const bookData = {
+                'title': 'so long a letter',
+                'author': 'mariam ba',
+                'isbn': 65486565,
+                'quantity': 56,
+                'publishedYear': 2009
+            };
+            const book = new Book(bookData);
+            book.create();
+            // override book quantity to zero
+            dummyData.books[book.id].quantity = 0;
+            // send id invalid for book not found
+            const userData = {
+                "username": "keinzy",
+                "email": "ayinla1",
+                "password": "love4eva",
+                "id": 3
+            };
+            request.post(`/api/v1/users/${userData.id}/borrow/${book.id}`)
+                .set('Accept', 'application/json')
+                .expect(400)
+                .end((err, res) => {
+                    expect(res.body.message).to.eql('book currently not available for borrow');
+                    done(err)
+                });
+        });
+        xit('should return "Your request has been made and its being processed" when a borrow request is made', (done) => {
+            const bookData = {
+                'title': 'so long a letter',
+                'author': 'mariam ba',
+                'isbn': 65486565,
+                'quantity': 56,
+                'publishedYear': 2009
+            };
+            // create a new book
+            const book = new Book (bookData);
+            book.create();
+            const userData = {
+                "username": "simbad",
+                "email": "bankudi",
+                "password": "love4eva",
+                "id": 5
+            };
+            const userId = userData.id;
+            const bookId = book.id;
+            const borrowedBook = {
+                "userId": userId,
+                "bookId": bookId,
+                "deleted": false,
+                "borrowedStatus": "pending"
+            };
+            request.post(`/api/v1/users/${userId}/borrow/${bookId}`)
                 .set('Accept', 'application/json')
                 .expect(200)
                 .end((err, res) => {
-                    expect(res.body.book.id).to.eql(book.id);
-                    expect(res.body.book.title).to.eql(book.title);
-                    expect(res.body.book.publishedYear).to.eql(book.publishedYear);
-                    expect(res.body.book.author).to.eql(book.author);
-                    expect(res.body.book.isbn).to.eql(book.isbn);
-                    expect(res.body.book.quantity).to.eql(book.quantity);
-                    expect(res.body.book.upvotes).to.eql(book.upvotes);
-                    expect(res.body.book.downvotes).to.eql(book.downvotes);
-                    expect(res.body.book.hasOwnProperty('deleted')).to.eql(false);
-                    expect(res.body.book.hasOwnProperty('reviews')).to.eql(true);
-                    expect(res.body.book.reviews).to.have.lengthOf(1);
-                    expect(res.body.book.reviews).to.deep.include(reviewData)
+                    expect(res.body.message).to.eql('Your request has been made and its being processed');
+                    expect(Object.prototype.hasOwnProperty.call(res.body.borrowedBook, 'id')).to.eql(true)
                     done(err)
                 });
         });
