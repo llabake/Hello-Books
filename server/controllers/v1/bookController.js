@@ -94,7 +94,7 @@ export const acceptBorrowBook = (req, res) => {
         const book = Book.getById(bookId);
         book.quantity -= 1;
         borrowedBook.borrowedStatus = 'accepted';
-        return res.status(200).json({borrowedBook})    
+        return res.status(200).json({borrowedBook, book})    
     } 
     catch(error) {
         return res.status(400).json({error})
@@ -110,7 +110,7 @@ export const acceptReturnBook = (req, res) => {
         if(borrowedBook.returnStatus === 'pending') {
             borrowedBook.returnStatus = 'accepted';
             book.quantity += 1;
-            return res.status(200).json({borrowedBook});   
+            return res.status(200).json({borrowedBook, book});   
         } else {
             return res.status(400).json({message:'Request to return book has not been made'})    
         }

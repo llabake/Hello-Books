@@ -354,18 +354,122 @@ describe('Controller Functions', () => {
             };
             const userId = userData.id;
             const bookId = book.id;
-            const borrowedBook = {
-                "userId": userId,
-                "bookId": bookId,
-                "deleted": false,
-                "borrowedStatus": "pending"
-            };
             request.post(`/api/v1/users/${userId}/borrow/${bookId}`)
                 .set('Accept', 'application/json')
                 .expect(200)
                 .end((err, res) => {
                     expect(res.body.message).to.eql('Your request has been made and its being processed');
                     expect(Object.prototype.hasOwnProperty.call(res.body.borrowedBook, 'id')).to.eql(true)
+                    done(err)
+                });
+        });
+        // pending accept 
+        xit('should return borrowedbook with status accepted for an accepted request', (done) => {
+            const bookData = {
+                'title': 'so long a letter',
+                'author': 'mariam ba',
+                'isbn': 65486565,
+                'quantity': 56,
+                'publishedYear': 2009
+            };
+            // create a new book
+            const book = new Book (bookData);
+            book.create();
+            const userData = {
+                "username": "simbad",
+                "email": "bankudi",
+                "password": "love4eva",
+                "id": 6
+            };
+            const userId = userData.id;
+            const bookId = book.id;
+            const borrowedBookData = {
+                userId,
+                bookId
+            }
+            // create a broorowed boook 
+            const borrowedBook = new BorrowedBook (borrowedBookData);
+            console.log(dummyData.borrowedBooks)
+            // change the status of the borrowed book
+            dummyData.borrowedBooks[borrowedBook.id].borrowedStatus = 'accepted';
+            request.put(`/api/v1/users/${userId}/borrow/${bookId}`)
+                .set('Accept', 'application/json')
+                .expect(200)
+                .end((err, res) => {
+                    // expect(res.body.borrowedBook.quantity).to.eql({dummyData.books[book.id].quantity - 1});
+                    // expect(res.body.borrowedBook).to.eql({borrowedBook});
+                    expect(Object.prototype.hasOwnProperty.call(res.body, 'borrowedBook')).to.eql(true)
+                    expect(Object.prototype.hasOwnProperty.call(res.body, 'book')).to.eql(true)
+                    done(err)
+                });
+        });
+        xit('should return Request to borrow is still pending when a return request is made for a book with the borrowed status not accepted', (done) => {
+            const bookData = {
+                'title': 'so long a letter',
+                'author': 'mariam ba',
+                'isbn': 65486565,
+                'quantity': 56,
+                'publishedYear': 2009
+            };
+            // create a new book
+            const book = new Book (bookData);
+            book.create();
+            const userData = {
+                "username": "simbad",
+                "email": "bankudi",
+                "password": "love4eva",
+                "id": 5
+            };
+            const userId = userData.id;
+            const bookId = book.id;
+            const borrowedBookData = {
+                userId,
+                bookId
+            }
+            const borrowedBook = new BorrowedBook (borrowedBookData);
+            borrowedBook.create();
+            request.post(`/api/v1/users/${userId}/return/${bookId}`)
+                .set('Accept', 'application/json')
+                .expect(400)
+                .end((err, res) => {
+                    expect(res.body.message).to.eql('Request to borrow is still pending');
+                    done(err)
+                });
+        });
+        // retrun book with acceptded borrrow
+        it('should return borrowed book when a return request is made for a book with the borrowed status accepted', (done) => {
+            const bookData = {
+                'title': 'so long a letter',
+                'author': 'mariam ba',
+                'isbn': 65486565,
+                'quantity': 56,
+                'publishedYear': 2009
+            };
+            // create a new book
+            const book = new Book (bookData);
+            book.create();
+            const userData = {
+                "username": "simbad",
+                "email": "bankudi",
+                "password": "love4eva",
+                "id": 5
+            };
+            const userId = userData.id;
+            const bookId = book.id;
+            const borrowedBookData = {
+                userId,
+                bookId
+            }
+            const borrowedBook = new BorrowedBook (borrowedBookData);
+            borrowedBook.create();
+            // console.log(dummyData.borrowedBooks[borrowedBook.id])
+            console.log(dummyData.borrowedBooks[borrowedBook.id].borrowedStatus)
+            dummyData.borrowedBooks[borrowedBook.id].borrowedStatus = 'accepted';
+            request.post(`/api/v1/users/${userId}/return/${bookId}`)
+                .set('Accept', 'application/json')
+                .expect(200)
+                .end((err, res) => {
+                    expect(res.body.borrowedBook).to.eql(borrowedBook);
                     done(err)
                 });
         });
