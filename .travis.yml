@@ -2,8 +2,7 @@ language: node_js
 node_js:
   - "6"
 script: 
-  - "set NODE_ENV=test&&nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register server/tests",
-
+  - "set NODE_ENV=test&&nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register server/tests"
 
 after_success:
   - npm install codeclimate-test-reporter -g
