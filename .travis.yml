@@ -3,9 +3,6 @@ node_js:
   - "6"
 script: 
   - npm run test
-install: travis_wait npm install
-
-after_script: travis terminate
 
 after_success:
   - npm install codeclimate-test-reporter -g
