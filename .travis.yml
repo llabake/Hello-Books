@@ -1,9 +1,8 @@
-Kafilah [10:04 PM] 
 language: node_js
 node_js:
   - "6"
 script:
-  - "set NODE_ENV=test&&nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register server/tests"
+  - npm run test
 
 after_success:
   - npm install codeclimate-test-reporter -g
