@@ -5,7 +5,7 @@
 
 Andela100 Project
 
-[![Build Status](https://travis-ci.org/llabake/more-books.svg?branch=develop)](https://travis-ci.org/llabake/more-books) [![Coverage Status](https://coveralls.io/repos/github/llabake/more-books/badge.svg?branch=develop)](https://coveralls.io/github/llabake/more-books?branch=develop)
+[![Build Status](https://travis-ci.org/llabake/Hello-Books.svg?branch=ch-test-API-endpoint-152221220)](https://travis-ci.org/llabake/Hello-Books) [![Coverage Status](https://coveralls.io/repos/github/llabake/Hello-Books/badge.svg?branch=develop)](https://coveralls.io/github/llabake/Hello-Books?branch=develop)
 
 # Description
 
