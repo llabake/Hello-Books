@@ -1,9 +1,20 @@
 language: node_js
+sudo: false
 node_js:
-  - "6"
-script: 
-  - "set NODE_ENV=test&&nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register server/tests"
-
+  - "stable"
+install: 
+  - npm install
+script:
+  - npm test
+cache:
+  directories:
+   - "node_modules"
 after_success:
-  - npm install codeclimate-test-reporter -g
   - npm run coverage
+# branches:
+#   only:
+#     - develop
+#     - ch-write-tests-with-ci-152327803
+# notifications:
+#   webhooks:
+#     - https://coveralls.io/webhook
