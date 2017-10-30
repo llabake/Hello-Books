@@ -5,7 +5,7 @@
 
 Andela100 Project
 
-[![Build Status](https://travis-ci.org/llabake/more-recipes.svg?branch=develop)](https://travis-ci.org/llabake/more-recipes) [![Coverage Status](https://coveralls.io/repos/github/llabake/more-recipes/badge.svg?branch=develop)](https://coveralls.io/github/llabake/more-recipes?branch=develop)
+[![Build Status](https://travis-ci.org/llabake/more-books.svg?branch=develop)](https://travis-ci.org/llabake/more-books) [![Coverage Status](https://coveralls.io/repos/github/llabake/more-books/badge.svg?branch=develop)](https://coveralls.io/github/llabake/more-books?branch=develop)
 
 # Description
 
@@ -38,16 +38,20 @@ Request type | Endpoint | Action
 ------------ | -------- | ------
 POST | [/api/v1/users/sigup](#create-user) | Registers a new user
 POST | [/api/v1/users/sigin](#login) | Logs a user in
-POST | [/api/v1/recipe/](#create-recipe) | Create a new recipe
-PUT | [api/v1/recipe/recipeId](#update-a-recipe) | Update a recipe details
-DELETE | [/api/v1/recipeid/recipeId](#delete-a-recipe) | Delete a recipe
-GET | [api/v1/recipes/recipeId](#get-a-recipes) | Get a recipes
-GET | [api/v1/recipe](#get-all-recipes) | Get all recipes
-POST | [api/v1/recipe/recipeId/votes](#vote-a-recipe) | Vote a recipe
-GET | [api/v1/recipes?sort=upvotes&order=ascending](#get-recipe-most-upvote) | Get recipe with the most upvote
-POST | [api/v1/users/userId/recipes/recipeId](#favorite-recipe) | Post a recipe as favorite
-GET | [api/v1/users/userId/recipes/recipeId](#get-favorite-recipes) | Get a user's favorite recipe.
-POST | [api/v1/recipe/recipeId/reviews](#post-reviews) | Post review for a recipe
+POST | [/api/v1/books/](#add-book) | Add a new book
+PUT | [api/v1/book/bookId](#update-a-book) | Update a book details
+DELETE | [/api/v1/bookid/bookId](#delete-a-book) | Delete a book
+GET | [api/v1/books/bookId](#get-a-books) | Get a books
+GET | [api/v1/book](#get-all-books) | Get all books
+POST | [/api/v1/users/userId/borrow/bookId](#borrow-book) | Borrow a book
+POST | [/api/v1/users/userId/return/bookId](#return-book) | Return a book
+PUT | [/api/v1/users/userId/borrow/bookId](#borrow-book) | Accept a borrow request
+PUT | [/api/v1/users/userId/return/bookId](#return-book) | Accept return of book
+POST | [api/v1/book/bookId/votes](#vote-a-book) | Vote a book
+GET | [api/v1/books?sort=upvotes&order=decending](#get-book-most-upvote) | Get book with the most upvote
+POST | [api/v1/users/userId/fav/bookId](#favorite-book) | Post a book as favorite
+GET | [api/v1/users/userId/books/favbooks](#get-favorite-books) | Get a user's favorite book.
+POST | [api/v1/users/userId/review/bookId](#post-reviews) | Post review for a book
  
 
 # Usage
