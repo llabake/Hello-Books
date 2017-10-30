@@ -473,6 +473,9 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
+        after(() => {
+            process.exit(0)
+          });
     });
 });
 
