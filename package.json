@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register server/tests",
+    "test": "set NODE_ENV=test&&mocha &&nyc --reporter=html --reporter=text --compilers js:babel-core/register server/tests",
     "start": "./node_modules/.bin/babel-node app.js",
     "start-dev": "babel-watch app.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
