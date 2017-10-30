@@ -364,7 +364,7 @@ describe('Controller Functions', () => {
                 });
         });
         // pending accept 
-        it('should return borrowedbook with status accepted for an accepted request', (done) => {
+        xit('should return borrowedbook with status accepted for an accepted request', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
