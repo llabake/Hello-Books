@@ -10,7 +10,7 @@ global.request = supertest(app);
 const expect = chai.expect;
 
 describe('Index route:', () => {
-   xit('it should return welcome message', () => {
+   it('it should return welcome message', () => {
     request.get('/')
       .expect(200)
       .end((err, res) => {
@@ -31,7 +31,7 @@ describe('Controller Functions', () => {
             dummyData.users ={};
           });
         
-        xit('should return specific error message and the path to the error for empty fields',(done) => {
+        it('should return specific error message and the path to the error for empty fields',(done) => {
             const bookData = {};
             const fields = ['title', 'isbn', 'author', 'quantity', 'publishedYear'];
             request.post('/api/v1/books')
@@ -46,7 +46,7 @@ describe('Controller Functions', () => {
                     done(err);
                 });
         });
-        xit('should return specific error message and the path to the error for invalid input type',(done) => {
+        it('should return specific error message and the path to the error for invalid input type',(done) => {
             const bookData = {
                 'title': 78,
                 'author': 5+6,
@@ -68,7 +68,7 @@ describe('Controller Functions', () => {
                     done(err);
                 });
         });
-        xit('should return specific error message and the path to the error for invalid input type',(done) => {
+        it('should return specific error message and the path to the error for invalid input type',(done) => {
             const bookData = {
                 rubbishField: 'justrubbish',
                 title: 'so long a letter',
@@ -92,7 +92,7 @@ describe('Controller Functions', () => {
                     done(err);
                 });
         });
-        xit('should send and error when a book with zero or less quantity is sent',(done) => {
+        it('should send and error when a book with zero or less quantity is sent',(done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -111,7 +111,7 @@ describe('Controller Functions', () => {
                     done(err);
                 });
         });
-        xit('should create a new book',(done) => {
+        it('should create a new book',(done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -136,7 +136,7 @@ describe('Controller Functions', () => {
                     done(err);
                 });
         });
-        xit('should get a single book', (done) => {
+        it('should get a single book', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -163,7 +163,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        xit('should get a single book with its review', (done) => {
+        it('should get a single book with its review', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -202,7 +202,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        xit('should modify a book', (done) => {
+        it('should modify a book', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -235,7 +235,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        xit('should get a all book', (done) => {
+        it('should get a all book', (done) => {
             const bookData1 = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -275,7 +275,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        xit('should return "You have made this request earlier!" when a borrow request has been made on a book more than once', (done) => {
+        it('should return "You have made this request earlier!" when a borrow request has been made on a book more than once', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -308,7 +308,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        xit('should return book currently not available for borrow when a borrow request has been made on a book with zero quantity', (done) => {
+        it('should return book currently not available for borrow when a borrow request has been made on a book with zero quantity', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -335,7 +335,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        xit('should return "Your request has been made and its being processed" when a borrow request is made', (done) => {
+        it('should return "Your request has been made and its being processed" when a borrow request is made', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -364,7 +364,7 @@ describe('Controller Functions', () => {
                 });
         });
         // pending accept 
-        xit('should return borrowedbook with status accepted for an accepted request', (done) => {
+        it('should return borrowedbook with status accepted for an accepted request', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
@@ -403,7 +403,7 @@ describe('Controller Functions', () => {
                     done(err)
                 });
         });
-        xit('should return Request to borrow is still pending when a return request is made for a book with the borrowed status not accepted', (done) => {
+        it('should return Request to borrow is still pending when a return request is made for a book with the borrowed status not accepted', (done) => {
             const bookData = {
                 'title': 'so long a letter',
                 'author': 'mariam ba',
