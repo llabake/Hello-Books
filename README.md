@@ -31,7 +31,7 @@ https://myhellobooks.herokuapp.com/
 
 # Published Template
 
-https://llabake.github.io/hello-books/
+https://llabake.github.io/Hello-Books/
 
 # Functionality and Endpoints
 
