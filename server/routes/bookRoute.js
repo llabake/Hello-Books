@@ -1,6 +1,6 @@
 import * as bookController from '../controllers/v1/bookController';
-import * as reviewController from '../controllers/v1/reviewController';
 import * as favoriteController from '../controllers/v1/favoriteController';
+import * as reviewController from '../controllers/v1/reviewController';
 import bookExists from '../middlewares/bookExistsMiddleware';
 import userExists from '../middlewares/userExistsMiddleware';
 import borrowedBookExists from '../middlewares/borrowedBookExistsMiddleware';
