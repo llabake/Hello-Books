@@ -26,7 +26,7 @@ app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to Hello Books.',
 }));
 
-if (process.env.NODE_ENV !== 'test') {
+if (!module.parent) {
   app.listen(port, () => {
     console.log(`Server running on port ${port}`);
   });
