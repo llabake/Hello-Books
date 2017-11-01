@@ -2,7 +2,7 @@ import { dummyData } from '../helpers/modelHelpers';
 
 
 const userExists = (req, res, next) => {
-  const { userId } = req.params.userId;
+  const { userId } = req.params;
   if (Object.prototype.hasOwnProperty.call(dummyData.users, userId)) {
     next();
   } else {
