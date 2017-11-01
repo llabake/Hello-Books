@@ -1,10 +1,10 @@
 {
-  "name": "Hello-Books",
+  "name": "hello-books",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": " set NODE_ENV=test&&nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register server/tests",
+    "test": " set NODE_ENV=test&& nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register server/tests",
     "start": "./node_modules/.bin/babel-node app.js",
     "start-dev": "babel-watch app.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
@@ -31,7 +31,8 @@
     "expect": "^21.2.1",
     "express": "^4.16.2",
     "mocha": "^4.0.1",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "supertest": "^3.0.0"
   },
   "devDependencies": {
     "codeclimate-test-reporter": "^0.5.0",
@@ -40,7 +41,6 @@
     "eslint-config": "^0.3.0",
     "eslint-config-airbnb": "^16.0.0",
     "eslint-plugin-import": "^2.7.0",
-    "nyc": "^11.2.1",
-    "supertest": "^3.0.0"
+    "nyc": "^11.2.1"
   }
 }
