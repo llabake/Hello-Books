@@ -11,17 +11,20 @@ export default class Review {
       if (!args[field]) {
         errors.push({ path: field, message: `${field} is required` });
       } else if (typeof(args[field]) !== dataType[field]) {
-        errors.push({ path: field, message: `${field} must be a ${dataType[field]}` });
+        errors.push({ 
+          path: field, 
+          message: `${field} must be a ${dataType[field]}`
+        });
       };
     });
     
-    for (let key in args) {
-      if (fields.indexOf(key) == -1) {
-        errors.push({ message: `invalid field: ${key} found in args` });
+    Object.keys(args).forEach((field) => {
+      if (fields.indexOf(field) === -1) {
+        errors.push({ message: `invalid field: ${field} found in args` });
       } else {
-        this[key] = args[key];        
-      };
-    };
+        this[field] = args[field];
+      }
+    });
 
     if (errors.length) {
       throw errors;
@@ -35,15 +38,13 @@ export default class Review {
   };
 
   static getAll () {
-    const returnedReviews = [];
-    const allReviews = dummyData.reviews;
-    for (let id in allReviews) {
-      const review = allReviews[id];
-      delete review.deleted;
-      returnedReviews.push(review);
-    }
-    return returnedReviews;
-  };
+    const allReviews = Object.keys(dummyData.reviews)
+   .map(key => dummyData.reviews[key]).map((review) => {
+       delete review.deleted;
+       return review;
+   });  
+   return returnedReviews;
+ };
   
   static getById (id) {
     const review = dummyData.reviews[id];

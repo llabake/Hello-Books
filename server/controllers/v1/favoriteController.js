@@ -8,8 +8,7 @@ export const markBookAsFavorite = (req, res) => {
       userId: parseInt(req.params.userId, 10)
     });
     favorite.create();
-    const id = req.params.bookId;
-    const book = Book.getById(id);
+    const book = Book.getById(req.params.bookId);
     return res.status(201).json({
       message: `The book: ${book.title} has been added to your favorite list`,
       favorite

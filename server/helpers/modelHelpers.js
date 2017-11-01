@@ -8,7 +8,7 @@ const developmentDummyData = {
       publishedYear: 2009,
       upvotes: 6,
       downvotes: 5,
-      deleted: 'false',
+      deleted: false,
       id: 1
     },
     2: {
@@ -19,7 +19,7 @@ const developmentDummyData = {
       publishedYear: 2015,
       upvotes: 23,
       downvotes: 2,
-      deleted: 'false',
+      deleted: false,
       id: 2
     },
     3: {
@@ -30,7 +30,7 @@ const developmentDummyData = {
       publishedYear: 2008,
       upvotes: 19,
       downvotes: 5,
-      deleted: 'false',
+      deleted: false,
       id: 3
     },
     4: {
@@ -41,7 +41,7 @@ const developmentDummyData = {
       publishedYear: 2015,
       upvotes: 230,
       downvotes: 22,
-      deleted: 'false',
+      deleted: false,
       id: 4
     },
     5: {
@@ -52,7 +52,7 @@ const developmentDummyData = {
       publishedYear: 2009,
       upvotes: 0,
       downvotes: 5,
-      deleted: 'false',
+      deleted: false,
       id: 5
     }
   },
@@ -100,18 +100,21 @@ const developmentDummyData = {
   favorites: {
     1: {
       bookId: 1,
+      deleted: false,
       userId: 1,
       id: 1
     },
     2: {
       bookId: 1,
+      deleted: false,
       userId: 2,
-      id: 1
+      id: 2
     },
     3: {
       bookId: 2,
+      deleted: false,
       userId: 2,
-      id: 1
+      id: 3
     }
   },
   borrowedBooks: {
@@ -165,8 +168,7 @@ export const dummyData = getDummyData(process.env.NODE_ENV || 'development');
 export const getObjectId = (objectType) => {
   const dummyDataTypes = ['books', 'reviews', 'favorites', 'borrowedBooks'];
   if (dummyDataTypes.indexOf(objectType) !== -1) {
-    const id = Object.keys(dummyData[objectType]).length + 1;
-    return id;
+    return Object.keys(dummyData[objectType]).length + 1;
   } throw new Error(`dummyData type: ${objectType} not yet created`);
 };
 

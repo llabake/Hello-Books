@@ -1,6 +1,6 @@
 import Review from '../../models/review';
 
-export const addReview = (req, res) => {
+const addReview = (req, res) => {
   try {
     const review = new Review({
       text: req.body.text,
@@ -15,3 +15,5 @@ export const addReview = (req, res) => {
     return res.status(400).json({ error });
   }
 };
+
+export default addReview;
