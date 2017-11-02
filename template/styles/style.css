@@ -1,325 +1,259 @@
 body {
-	background: rgb(240,240,240);
-	color: rgb(20,20,20);
-	font-family: Helvetica;
-	margin: 0
-}
+  background: #f0f0f0;
+  color: #141414;
+  font-family: Helvetica;
+  margin: 0; }
 
-*, *:before, *:after {
-    box-sizing: border-box;
-}
+* {
+  box-sizing: border-box; }
+  *:before, *:after {
+    box-sizing: border-box; }
 
 .nav-wrapper {
-    background-color: #6c3c3c;
-}
+  background-color: #6c3c3c; }
 
 .adjust {
-    margin-left: 40px;
-}
+  margin-left: 40px; }
 
-#banner{    
-	background:url(./../images/book1.jpg) ;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center, center;
-	padding: 150px 0;
-	text-align: center;
-    color: white;
-}
-
+#banner {
+  background: url(./../images/book1.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center, center;
+  padding: 150px 0;
+  text-align: center;
+  color: white; }
 
 .form-style {
-    background:  #7c4561;
-    padding: 30px;
-    max-width: 100%;
-    width: 34em;
-    margin: 30px auto;
-    border-radius: 4px;
-    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
-    margin-top: -8em;
-}
+  background: #7c4561;
+  padding: 30px;
+  max-width: 100%;
+  width: 34em;
+  margin: 30px auto;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+  margin-top: -8em; }
+
 .signin-form {
-    margin-top: 0.2em;
-}
+  margin-top: 0.2em; }
 
 .card-image img {
-    max-width: 80%;
-    max-height: 80%;
-    margin-left: auto;
-    margin-right: auto;
-}
+  max-width: 80%;
+  max-height: 80%;
+  margin-left: auto;
+  margin-right: auto; }
 
 .card-content span {
-    /* display: block;
-    line-height: 32px;
-    margin-bottom: 8px; */
-    color: #6c3c3c;
-}
+  /* display: block;
+  line-height: 32px;
+  margin-bottom: 8px; */
+  color: #6c3c3c; }
 .card-content p {
-    color: #7f7f7f !important;
-}
+  color: #7f7f7f !important; }
+
 .card-action {
-    /* flex: 1; */
-    display: flex;
-    padding: .5rem 1rem;
-    
-} 
-.card-action ul li a i {
+  /* flex: 1; */
+  display: flex;
+  padding: .5rem 1rem; }
+  .card-action ul li a i {
     display: inline-block;
     /* justify-content: space-between; */
     padding-left: 0;
     list-style-type: none;
-    
-}
-.card-action ul li a i {
-    font-size: 1.5rem;
- 
-}
-
-.card-action ul li i.fav-icon {
-    color: #FEAA26;
-}
-.card-action ul li  i.up-icon {
-    color: #00A900;;
-}
-.card-action ul li  i.down-icon {
-    color: red;
-}
-.card-action ul li  i.comment-icon {
-    color: #5B96C4;
-}
-
+    font-size: 1.5rem; }
+  .card-action ul li i.fav-icon {
+    color: #FEAA26; }
+  .card-action ul li i.up-icon {
+    color: #00A900; }
+  .card-action ul li i.down-icon {
+    color: red; }
+  .card-action ul li i.comment-icon {
+    color: #5B96C4; }
 
 h5 {
-    text-align: center;
-    color: #a96464;
-    font-weight: 300;
-    margin: 0 0 40px;
-    letter-spacing: 2px;
-    margin-bottom: -4em;
-}
+  text-align: center;
+  color: #a96464;
+  font-weight: 300;
+  margin: 0 0 40px;
+  letter-spacing: 2px;
+  margin-bottom: -4em; }
 
 .signup div.row {
   vertical-align: top;
-  height: 8px;
-
-}
-
+  height: 8px; }
 .signup .input-field {
-    margin-bottom: -1.2em;
-}
+  margin-bottom: -1.2em; }
+
+.profile-btn {
+  margin-top: 1.2em; }
+
 .btn {
-    width: 100%;
-    height: 2.5em;
-    background: #7c4545;
-    
-}
+  width: 100%;
+  height: 2.5em;
+  background: #7c4545; }
 
 .btn-floating {
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
-    background-color: #8c4e4e;
-    
-}
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  background-color: #8c4e4e; }
 
 .signup .btn {
-    margin-top: 1.0em;
-    margin-left: 0.8em;
-    width: 93%;
-}
+  margin-top: 1.0em;
+  margin-left: 0.8em;
+  width: 93%; }
 
 .btn:hover {
-  background-color: #7c6145;
-}
+  background-color: #7c6145; }
+
 .file-field .input-field .btn {
-    width: 20%;
-}
+  width: 20%; }
+
 .form-style .terms {
-    margin-top: -5em;
-}
+  margin-top: -5em; }
 
 .card-action {
-    font-size: 14px;
-}
+  font-size: 14px; }
 
 .book-detail h1 {
-    font-family: Poynter,Georgia,serif;
-    font-weight: 400;
-    font-style: normal;
-    margin: 0;
-    line-height: 1.25;
-    font-size: 2.5rem;
-}
+  font-family: Poynter,Georgia,serif;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  line-height: 1.25;
+  font-size: 2.5rem; }
 
 .detail {
-    margin: 0 auto;
-    width: 100%;
-}
+  margin: 0 auto;
+  width: 100%; }
+
 .author-name {
-    display: inline-flex;
-}
+  display: inline-flex; }
 
 .book {
-    max-width: 1024px;
-    padding: 2.25rem 5.25rem;
-}
+  max-width: 1024px;
+  padding: 2.25rem 5.25rem; }
 
-.book-container  {
-    margin-left: -.75rem;
-    margin-right: -.75rem;
-    
-}
+.book-container {
+  margin-left: -.75rem;
+  margin-right: -.75rem; }
 
 .show-border {
-    border-right: 1px solid #ccc;
-    
-}
+  border-right: 1px solid #ccc; }
+
 .page-footer {
-    background-color: #8c4e4e!important;
-}
+  background-color: #8c4e4e !important; }
 
 .similar h3 {
-    font-weight: 500;
-    color: #000;
-    font-size: 24px;
-    font-style: italic;
-    letter-spacing: .4px;
-    line-height: 24px;
-    font-family: 'New Baskerville',Baskerville,serif;
-}
+  font-weight: 500;
+  color: #000;
+  font-size: 24px;
+  font-style: italic;
+  letter-spacing: .4px;
+  line-height: 24px;
+  font-family: 'New Baskerville',Baskerville,serif; }
 
 #review {
-    display: inline-block;
-    vertical-align: top;
-    margin: 0 10px 0 0;
-    font-weight: 500;
-    color: #000;
-    font-size: 24px;
-    font-style: italic;
-    letter-spacing: .4px;
-    line-height: 24px;
-    font-family: 'New Baskerville',Baskerville,serif;
-}
-
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 10px 0 0;
+  font-weight: 500;
+  color: #000;
+  font-size: 24px;
+  font-style: italic;
+  letter-spacing: .4px;
+  line-height: 24px;
+  font-family: 'New Baskerville',Baskerville,serif; }
 
 .write-review {
-    padding-left: 17px;
-    display: inline-block;
-    margin-right: 20px;
-    margin-top: 4px;
-    text-decoration: underline;
-    color: inherit;
-    outline: 0!important;
-    font-weight: 200;
-}
+  padding-left: 17px;
+  display: inline-block;
+  margin-right: 20px;
+  margin-top: 4px;
+  text-decoration: underline;
+  color: inherit;
+  outline: 0 !important;
+  font-weight: 200; }
 
 .pencil {
-    background-position: 0 -15px;
-}
+  background-position: 0 -15px; }
 
 .rev-title {
-    font-style: italic;
-    letter-spacing: .03em;
-    font-size: 20px;
-    font-family: 'New Baskerville',Baskerville,serif;
-    font-weight: 500;
-    color: #000;
-}
+  font-style: italic;
+  letter-spacing: .03em;
+  font-size: 20px;
+  font-family: 'New Baskerville',Baskerville,serif;
+  font-weight: 500;
+  color: #000; }
 
 #form {
-    display: block;
-    margin-top: 0em;
-    background-color: #3d6db5;
-    text-transform: uppercase;
-}
-  
-#form .add {
-    padding: 0 3.2rem;
-}
+  display: block;
+  margin-top: 0em;
+  background-color: #3d6db5;
+  text-transform: uppercase; }
+  #form .add {
+    padding: 0 3.2rem; }
 
 .quantity label {
-    display: inline-block;
-    margin: 0 5px 0 0;
-}
-
+  display: inline-block;
+  margin: 0 5px 0 0; }
 .quantity input {
-    width: 50px;
-    text-align: center;
-}
+  width: 50px;
+  text-align: center; }
 
 #title {
-    margin-top: 1.1em;
-}
+  margin-top: 1.1em; }
 
 .tab {
-    margin-top: 1em;
-}
-
-.tab h5 {
+  margin-top: 1em; }
+  .tab h5 {
     margin-top: 0.5em;
     margin-bottom: -0.2em;
-    color: #6c3c3c;
-}
+    color: #6c3c3c; }
+  .tab .tab a {
+    color: #7c4561; }
 
-
-.tab .tab a {
-    color: #7c4561;
-}
-
-.card-action ul {
-    display: inline-flex;
-}
-
-.section1 {
-    display: inline-flex;
-}
+.card-action ul, .section1 {
+  display: inline-flex; }
 
 #form-lend {
-    display: block;
-    margin-top: 2.2em;
-}
-
-#form-lend a {
-    background: #7c4561;
-}
+  display: block;
+  margin-top: 2.2em; }
+  #form-lend a {
+    background: #7c4561; }
 
 .section2 {
-    display: inline-grid;
-    font-weight: 800;
-    /* font-size: medium; */
-    padding: 1em 1.2em 1em 1.2em;
-    font-style: oblique;
-}
+  display: inline-grid;
+  font-weight: 800;
+  /* font-size: medium; */
+  padding: 1em 1.2em 1em 1.2em;
+  font-style: oblique; }
 
 .section3 {
-                                    
-    display: table;
-    font-weight: 800;
-    /* font-size: medium; */
-    padding: 0.2em 1.5em 1em 1.5em;
-    font-style: italic;
-}
+  display: table;
+  font-weight: 800;
+  /* font-size: medium; */
+  padding: 0.2em 1.5em 1em 1.5em;
+  font-style: italic; }
 
 /* .book-info {
     min-height: 4.75em;
     line-height: 1em;
     padding: 0 .75em;
 } */
-
 .book-title {
-    font-family: Lato,sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    color: #347d56;
-    display: inline;
-    /* font-family: Lato,sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    color: inherit;
-    padding-top: .5625rem;
-    margin-bottom: 4px; */
-}
+  font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #347d56;
+  display: inline;
+  /* font-family: Lato,sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: inherit;
+  padding-top: .5625rem;
+  margin-bottom: 4px; */ }
+
 /* 
 .book-author {
     display: block;
@@ -329,29 +263,24 @@ h5 {
     text-overflow: ellipsis;
     white-space: nowrap;
 } */
-
 .book-rating {
-    color: gold;
-}
+  color: gold; }
 
 #book-author {
-    text-decoration: underline;
-}
+  text-decoration: underline; }
 
 .upvote {
-    padding-left: 17px;
-    display: inline-block;
-    margin-right: 20px;
-    margin-top: 4px;
-    color: #000;
-    outline: 0!important;
-    font-weight: 200;
-    }
+  padding-left: 17px;
+  display: inline-block;
+  margin-right: 20px;
+  margin-top: 4px;
+  color: #000;
+  outline: 0 !important;
+  font-weight: 200; }
 
 .home-page-slider {
-    height: 550px;
-}
+  height: 550px; }
+  .home-page-slider .slider li {
+    height: 500px; }
 
-.home-page-slider .slider li {
-    height: 500px
-}
+/*# sourceMappingURL=style.css.map */

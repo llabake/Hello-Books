@@ -17,3 +17,5 @@ coverage
 # nyc test coverage
 .nyc_output
 
+.sass-cache/
+
