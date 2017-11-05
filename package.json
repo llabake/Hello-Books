@@ -13,8 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/llabake/Hello-Books.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [   "books",
+    "library",
+    "borrow"],
+  "author": " Lemboye Omolabake",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/llabake/Hello-Books/issues"
@@ -32,7 +34,8 @@
     "express": "^4.16.2",
     "mocha": "^4.0.1",
     "morgan": "^1.9.0",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "swagger-jsdoc": "^1.3.0"
   },
   "devDependencies": {
     "codeclimate-test-reporter": "^0.5.0",

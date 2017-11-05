@@ -1,10 +1,47 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import swaggerJSDoc from 'swagger-jsdoc';
 import logger from 'morgan';
+import path from 'path';
 import routes from './server/routes';
 
 // Set up the express app
 const app = express();
+
+const hostUrl = process.env.NODE_ENV === 'production' ?
+  'myhellobooks.herokuapp.com' :
+  'localhost:5000';
+
+// swagger definition
+const swaggerDefinition = {
+  info: {
+    title: 'Hello Books API',
+    version: '1.0.0',
+    description: 'An application that helps manage a library and its' +
+    ' processes like stocking, tracking and renting of books.',
+  },
+  host: hostUrl,
+  basePath: '/',
+};
+
+// options for the swagger docs
+const options = {
+  // import swaggerDefinitions
+  swaggerDefinition,
+  // path to the API docs
+  apis: ['./server/routes/*.js'],
+};
+
+// initialize swagger-jsdoc
+const swaggerSpec = swaggerJSDoc(options);
+
+// serve swagger
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
+app.use(express.static(path.join(__dirname, 'server/')));
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -23,7 +60,7 @@ routes(app);
   back a welcome message in JSON format.
 */
 app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to Hello Books.',
+  message: 'Route does not exist, explore at api/v1',
 }));
 
 if (!module.parent) {

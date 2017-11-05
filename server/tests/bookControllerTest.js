@@ -223,8 +223,6 @@ describe('Controller Functions', () => {
             .call(res.body.book, 'reviews')).to.eql(true);
           expect(Object.prototype.hasOwnProperty
             .call(res.body.book, 'deleted')).to.eql(false);
-          //   expect(res.body.book.hasOwnProperty('deleted')).to.eql(false);
-          //   expect(res.body.book.hasOwnProperty('reviews')).to.eql(true);
           expect(res.body.book.reviews).to.have.lengthOf(1);
           expect(res.body.book.reviews).to.deep.include(reviewData);
           done(err);
@@ -262,8 +260,6 @@ describe('Controller Functions', () => {
             .call(res.body.book, 'reviews')).to.eql(true);
           expect(Object.prototype.hasOwnProperty
             .call(res.body.book, 'deleted')).to.eql(false);
-          //   expect(res.body.book.hasOwnProperty('reviews')).to.eql(true);
-          //   expect(res.body.book.hasOwnProperty('deleted')).to.eql(false);
           done(err);
         });
     });
@@ -395,7 +391,7 @@ describe('Controller Functions', () => {
       const bookId = book.id;
       request.post(`/api/v1/users/${userId}/borrow/${bookId}`)
         .set('Accept', 'application/json')
-        .expect(200)
+        .expect(201)
         .end((err, res) => {
           expect(res.body.message)
             .to.eql('Your request has been made and its being processed');
@@ -509,8 +505,6 @@ describe('Controller Functions', () => {
       };
       const borrowedBook = new BorrowedBook(borrowedBookData);
       borrowedBook.create();
-      // console.log(dummyData.borrowedBooks[borrowedBook.id])
-      //   console.log(dummyData.borrowedBooks[borrowedBook.id].borrowedStatus);
       dummyData.borrowedBooks[borrowedBook.id].borrowedStatus = 'accepted';
       request.post(`/api/v1/users/${userId}/return/${bookId}`)
         .set('Accept', 'application/json')
@@ -521,8 +515,5 @@ describe('Controller Functions', () => {
         });
     });
   });
-  // after(() => {
-  //   process.exit(0);
-  // });
 });
 

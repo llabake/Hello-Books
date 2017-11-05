@@ -21,6 +21,7 @@ export default class Book {
  * Creates an instance of Book.
  * @param {any} args
  * @memberof Book
+ * @returns {any} book object
  */
   constructor(args) {
     const fields = ['title', 'isbn', 'author', 'quantity', 'publishedYear'];
@@ -68,11 +69,23 @@ export default class Book {
     this.downvotes = 0;
     this.id = getObjectId('books');
   }
-
+  /**
+ *
+ *
+ * @memberof Book
+ * @returns {any} book
+ */
   create() {
     dummyData.books[this.id] = this;
   }
-
+  /**
+ *
+ *
+ * @static
+ * @param {any} id
+ * @returns {any} a single book
+ * @memberof Book
+ */
   static getById(id) {
     const book = dummyData.books[id];
     if (book) {
@@ -82,7 +95,15 @@ export default class Book {
     }
     throw `Book with id: ${id} not found`;
   }
-
+  /**
+ *
+ *
+ * @static
+ * @param {any} id
+ * @param {any} updateArgs
+ * @returns {any} updated book
+ * @memberof Book
+ */
   static updateById(id, updateArgs) {
     const book = this.getById(id);
     const updateFields = ['title', 'author', 'isbn',
@@ -93,19 +114,31 @@ export default class Book {
     });
     return book;
   }
-
+  /**
+ *
+ *
+ * @static
+ * @returns {any} all books
+ * @memberof Book
+ */
   static getAll() {
     const returnedBooks = [];
-    const allBooks = dummyData.books;
-    for (const id in allBooks) {
-      const book = allBooks[id];
-      addReviewToBook(book);
-      delete book.deleted;
-      returnedBooks.push(book);
-    }
+    Object.keys(dummyData.books)
+      .map(key => dummyData.books[key]).forEach((book) => {
+        addReviewToBook(book);
+        delete book.deleted;
+        returnedBooks.push(book);
+      });
     return returnedBooks;
   }
-
+  /**
+ *
+ *
+ * @static
+ * @param {any} bookId
+ * @returns {any} book status
+ * @memberof Book
+ */
   static isAvailable(bookId) {
     const book = this.getById(bookId);
     return book.quantity > 0;
