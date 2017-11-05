@@ -13,8 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/llabake/Hello-Books.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [   "books",
+    "library",
+    "borrow"],
+  "author": " Lemboye Omolabake",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/llabake/Hello-Books/issues"
