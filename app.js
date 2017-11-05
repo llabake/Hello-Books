@@ -17,7 +17,8 @@ const swaggerDefinition = {
   info: {
     title: 'Hello Books API',
     version: '1.0.0',
-    description: 'An application that helps manage a library and its processes like stocking, tracking and renting of books.',
+    description: 'An application that helps manage a library and its' +
+    ' processes like stocking, tracking and renting of books.',
   },
   host: hostUrl,
   basePath: '/',

@@ -1,5 +1,11 @@
 import Review from '../../models/review';
-
+/**
+ *
+ *
+ * @param {any} req
+ * @param {any} res
+ * @returns {any} response containing a message
+ */
 const addReview = (req, res) => {
   try {
     const review = new Review({
