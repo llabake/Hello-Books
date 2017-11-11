@@ -1,10 +1,10 @@
 import supertest from 'supertest';
 import chai from 'chai';
 import app from '../../app';
-import { dummyData } from '../helpers/modelHelpers';
-import Book from '../models/book';
-import Review from '../models/review';
-import BorrowedBook from '../models/borrowedBook';
+import { dummyData } from '../dummy/helpers/modelHelpers';
+import Book from '../dummy/models/book';
+import Review from '../dummy/models/review';
+import BorrowedBook from '../dummy/models/borrowedBook';
 
 const request = supertest(app);
 const { expect } = chai;
