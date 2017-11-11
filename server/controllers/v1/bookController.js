@@ -1,5 +1,7 @@
-import Book from '../../models/book';
-import BorrowedBook from '../../models/borrowedBook';
+// change it back to models/book
+import Book from '../../dummy/models/book';
+// change it back to models/borrowedBook
+import BorrowedBook from '../../dummy/models/borrowedBook';
 
 /**
  *

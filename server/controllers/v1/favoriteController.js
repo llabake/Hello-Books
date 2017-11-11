@@ -1,5 +1,7 @@
-import Favorite from '../../models/favorite';
-import Book from '../../models/book';
+// change it back to models/favorite
+import Favorite from '../../dummy/models/favorite';
+// change it back to models/book
+import Book from '../../dummy/models/book';
 /**
  *
  *

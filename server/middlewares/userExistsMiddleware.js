@@ -1,4 +1,4 @@
-import { dummyData } from '../helpers/modelHelpers';
+import { dummyData } from '../dummy/helpers/modelHelpers';
 
 
 const userExists = (req, res, next) => {
