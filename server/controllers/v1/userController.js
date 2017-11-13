@@ -1,7 +1,9 @@
-// import User from '../../models/user';
+import bcrypt from 'bcrypt';
+
 import InputValidator from '../../helpers/inputValidator';
-import models from '../../models/index';
-import generateToken from '../../helpers/generateToken';
+import models from '../../models';
+import { generateToken } from '../../helpers/utils';
+
 
 const { User } = models;
 
@@ -33,7 +35,7 @@ export default class UserController {
         lastName: req.body.lastName
       })
         .then((user) => {
-          const token = generateToken.generateToken(user);
+          const token = generateToken(user);
           res.status(201).json({
             message: 'Your Signup was successful',
             user: {
@@ -51,5 +53,55 @@ export default class UserController {
           return res.status(400).send(error);
         });
     }
+  }
+  /**
+ *
+ *
+ * @static
+ * @param {any} req
+ * @param {any} res
+ * @returns {any} user object
+ * @memberof UserController
+ */
+  static signIn(req, res) {
+    User.findOne({
+      where: {
+        username: req.body.username
+      },
+    })
+      .then((user, err) => {
+        if (err) {
+          res.status(500).send(err);
+        } else if (!user) {
+          res.status(400).json({
+            success: false,
+            message: 'Authentication failed. Incorrect credentials.'
+          });
+        } else if (user) {
+          if (bcrypt.compareSync(req.body.password, user.password)) {
+            const token = generateToken(user);
+            res.status(200).json({
+              message: `Welcome ${user.username}, you're logged in`,
+              token
+            });
+          } else {
+            res.status(401).json({
+              message: 'Incorrect credentials, please check username or password'
+            });
+          }
+        }
+      });
+  }
+  /**
+    * logout
+    * Route: POST: /users/logout
+    * @param {Object} req request object
+    * @param {Object} res response object
+    * @returns {void} no returns
+    */
+  static signOut(req, res) {
+    return res.status(200).send({
+      message: 'You have successfully logged out'
+    });
   }
 }
