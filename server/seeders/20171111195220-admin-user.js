@@ -1,4 +1,5 @@
 
+const bcrypt = require('bcrypt');
 
 module.exports = {
   up: (queryInterface, Sequelize) =>
@@ -17,19 +18,19 @@ module.exports = {
       firstName: 'John',
       lastName: 'Doe',
       email: 'demo@demo.com',
-      password: 'password',
+      password: bcrypt.hashSync('password', 10),
       role: 'Admin',
-      createdAt: '2017-11-11 13:10:24.505+00',
-      updatedAt: '2017-11-11 13:10:24.505+00'
+      createdAt: new Date(),
+      updatedAt: new Date()
     }, {
       username: 'mama',
       firstName: 'Anne',
       lastName: 'Oriola',
       email: 'olamideoriola@gmail.com',
-      password: 'yomi',
+      password: bcrypt.hashSync('yomi', 10),
       role: 'Admin',
-      createdAt: '2017-11-11 13:10:24.505+00',
-      updatedAt: '2017-11-11 13:10:24.505+00'
+      createdAt: new Date(),
+      updatedAt: new Date()
     }], {}),
 
   down: (queryInterface, Sequelize) =>
