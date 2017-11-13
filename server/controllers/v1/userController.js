@@ -64,33 +64,38 @@ export default class UserController {
  * @memberof UserController
  */
   static signIn(req, res) {
-    User.findOne({
-      where: {
-        username: req.body.username
-      },
-    })
-      .then((user, err) => {
-        if (err) {
-          res.status(500).send(err);
-        } else if (!user) {
-          res.status(400).json({
-            success: false,
-            message: 'Authentication failed. Incorrect credentials.'
-          });
-        } else if (user) {
-          if (bcrypt.compareSync(req.body.password, user.password)) {
-            const token = generateToken(user);
-            res.status(200).json({
-              message: `Welcome ${user.username}, you're logged in`,
-              token
+    const { errors, isValid } = InputValidator.signIn(req.body);
+    if (!isValid) {
+      res.status(400).json({ errors });
+    } else {
+      User.findOne({
+        where: {
+          username: req.body.username
+        },
+      })
+        .then((user, err) => {
+          if (err) {
+            res.status(500).send(err);
+          } else if (!user) {
+            res.status(400).json({
+              success: false,
+              message: 'Authentication failed. Incorrect credentials.'
             });
-          } else {
-            res.status(401).json({
-              message: 'Incorrect credentials, please check username or password'
-            });
+          } else if (user) {
+            if (bcrypt.compareSync(req.body.password, user.password)) {
+              const token = generateToken(user);
+              res.status(200).json({
+                message: `Welcome ${user.username}, you're logged in`,
+                token
+              });
+            } else {
+              res.status(401).json({
+                message: 'Incorrect credentials, please check username or password'
+              });
+            }
           }
-        }
-      });
+        });
+    }
   }
   /**
     * logout

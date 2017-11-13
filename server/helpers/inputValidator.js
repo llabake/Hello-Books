@@ -62,14 +62,11 @@ export default class InputValidator {
     const errors = [];
     const requiredFields = ['username', 'password'];
     requiredFields.forEach((field) => {
-      if (!req.body[field]) {
+      if (args[field] === undefined || args[field] === '') {
         errors.push({ path: field, message: `${field} is required` });
       }
     });
-    if (errors.length === 0) {
-      next();
-    } else {
-      res.status(400).json({ errors });
-    }
+    const isValid = errors.length === 0;
+    return { errors, isValid };
   }
 }
