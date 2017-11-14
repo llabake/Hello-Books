@@ -28,6 +28,7 @@ export default class Authentication {
       });
     }
     jwt.verify(token, secret, (err, decoded) => {
+      console.log('decoded:', decoded);
       if (err) {
         if (err.message === 'jwt expired') {
           res.status(401).json({
@@ -39,7 +40,8 @@ export default class Authentication {
           });
         }
       }
-      req.user = decoded.data;
+      req.user = decoded;
+      console.log(req.user);
       next();
     });
   }

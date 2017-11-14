@@ -27,6 +27,9 @@ module.exports = {
       type: Sequelize.ENUM,
       values: ['User', 'Admin'],
     },
+    active: {
+      type: Sequelize.BOOLEAN
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
