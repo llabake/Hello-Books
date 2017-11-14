@@ -25,7 +25,8 @@ export const generateToken = (user) => {
         id: user.id,
         role: user.role,
         email: user.email,
-        username: user.username
+        username: user.username,
+        active: user.active
       }
     },
     secret,
