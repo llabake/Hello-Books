@@ -35,6 +35,7 @@ export default class UserController {
         lastName: req.body.lastName
       })
         .then((user) => {
+          user.update({ active: false });
           const token = generateToken(user);
           res.status(201).json({
             message: 'Your Signup was successful',
@@ -43,7 +44,7 @@ export default class UserController {
               username: user.username,
               email: user.email
             },
-            token
+            token,
           });
         })
         .catch((error) => {
@@ -83,10 +84,11 @@ export default class UserController {
             });
           } else if (user) {
             if (bcrypt.compareSync(req.body.password, user.password)) {
+              user.update({ active: true });
               const token = generateToken(user);
               res.status(200).json({
                 message: `Welcome ${user.username}, you're logged in`,
-                token
+                token,
               });
             } else {
               res.status(401).json({
@@ -99,14 +101,22 @@ export default class UserController {
   }
   /**
     * logout
-    * Route: POST: /users/logout
+    * Route: POST: api/v1/users/signout
     * @param {Object} req request object
     * @param {Object} res response object
     * @returns {void} no returns
     */
   static signOut(req, res) {
-    return res.status(200).send({
-      message: 'You have successfully logged out'
-    });
+    // const { id } = req.user;
+    User.findById(req.user.id)
+      .then((user) => {
+        user.update({ active: false })
+          .then(() =>
+            res.status(200)
+              .send({
+                user,
+                message: `You have successfully logged out ${user.username}`
+              }));
+      });
   }
 }

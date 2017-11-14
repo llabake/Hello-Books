@@ -20,6 +20,7 @@ module.exports = {
       email: 'demo@demo.com',
       password: bcrypt.hashSync('password', 10),
       role: 'Admin',
+      active: false,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -29,6 +30,7 @@ module.exports = {
       email: 'olamideoriola@gmail.com',
       password: bcrypt.hashSync('yomi', 10),
       role: 'Admin',
+      active: false,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {}),

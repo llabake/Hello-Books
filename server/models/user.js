@@ -75,6 +75,11 @@ export default (sequelize, DataTypes) => {
       values: ['User', 'Admin'],
       defaultValue: 'User'
     },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,

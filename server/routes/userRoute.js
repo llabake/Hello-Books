@@ -1,4 +1,5 @@
 import UserController from '../controllers/v1/userController';
+import authenticationMiddleware from '../middlewares/authenticationMiddleware';
 
 const userRoute = (app) => {
   /**
@@ -69,7 +70,10 @@ const userRoute = (app) => {
   *       400:
   *         description: Incomplete parameters or type
   */
-  app.post('/api/v1/users/signout', UserController.signOut);
+  app.post(
+    '/api/v1/users/signout',
+    authenticationMiddleware.authMiddleware, UserController.signOut
+  );
 };
 
 export default userRoute;
