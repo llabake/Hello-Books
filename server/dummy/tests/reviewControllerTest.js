@@ -1,10 +1,9 @@
 import supertest from 'supertest';
 import chai from 'chai';
 import app from '../../app';
-import { dummyData } from '../dummy/helpers/modelHelpers';
-// change them back to model
-import Book from '../dummy/models/book';
-import Favorite from '../dummy/models/favorite';
+import { dummyData } from '../helpers/modelHelpers';
+import Book from '../models/book';
+import Favorite from '../models/favorite';
 
 const request = supertest(app);
 const { expect } = chai;

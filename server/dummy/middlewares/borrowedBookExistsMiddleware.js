@@ -1,4 +1,4 @@
-import BorrowedBook from '../dummy/models/borrowedBook';
+import BorrowedBook from '../models/borrowedBook';
 
 
 const borrowedBookExists = (req, res, next) => {

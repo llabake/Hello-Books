@@ -1,4 +1,4 @@
-import { dummyData } from '../dummy/helpers/modelHelpers';
+import { dummyData } from '../helpers/modelHelpers';
 
 
 const bookExists = (req, res, next) => {

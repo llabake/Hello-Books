@@ -1,5 +1,4 @@
-// change it back to models/review
-import Review from '../../dummy/models/review';
+import Review from '../../models/review';
 /**
  *
  *
