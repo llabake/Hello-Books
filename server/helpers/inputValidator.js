@@ -1,4 +1,4 @@
-import { isAlphanumeric, isEmail } from './utils';
+import { isAlphanumeric, isEmail, isNumeric } from './utils';
 /**
  *
  *
@@ -46,7 +46,6 @@ export default class InputValidator {
         message: 'Username can only contain alphabets and numbers'
       });
     }
-
     const isValid = errors.length === 0;
     return { errors, isValid };
   }
@@ -66,6 +65,50 @@ export default class InputValidator {
         errors.push({ path: field, message: `${field} is required` });
       }
     });
+    const isValid = errors.length === 0;
+    return { errors, isValid };
+  }
+  /**
+ *
+ *
+ * @static
+ * @param {any} args
+ * @returns {status} error array
+ * @memberof InputValidator
+ */
+  static bookFields(args) {
+    const errors = [];
+    const requiredFields = [
+      'title',
+      'author',
+      'publishedYear',
+      'ISBN',
+      'quantity',
+      'description'
+    ];
+    requiredFields.forEach((field) => {
+      if (args[field] === undefined || args[field] === '') {
+        errors.push({ path: field, message: `${field} is required` });
+      }
+    });
+    if (!isNumeric(args.publishedYear)) {
+      errors.push({
+        path: 'publishedYear',
+        message: 'PublishedYear can only be a number'
+      });
+    }
+    if (!isNumeric(args.ISBN)) {
+      errors.push({
+        path: 'ISBN',
+        message: 'ISBN can only be a number'
+      });
+    }
+    if (!isNumeric(args.quantity) || args.quanitity <= 0) {
+      errors.push({
+        path: 'quantity',
+        message: 'Quantity can only be a number and must be greater than zero'
+      });
+    }
     const isValid = errors.length === 0;
     return { errors, isValid };
   }
