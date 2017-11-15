@@ -72,8 +72,8 @@ export default (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.ENUM,
-      values: ['User', 'Admin'],
-      defaultValue: 'User'
+      values: ['normal', 'admin'],
+      defaultValue: 'normal'
     },
     active: {
       type: DataTypes.BOOLEAN,
