@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const secret = 'mysecret';
+const secret = 'mySecret';
 
 /**
  * Class Definition for the Authentication Object using JWT
@@ -28,7 +28,6 @@ export default class Authentication {
       });
     }
     jwt.verify(token, secret, (err, decoded) => {
-      console.log('decoded:', decoded);
       if (err) {
         if (err.message === 'jwt expired') {
           res.status(401).json({
@@ -40,8 +39,7 @@ export default class Authentication {
           });
         }
       }
-      req.user = decoded;
-      console.log(req.user);
+      req.user = decoded.user;
       next();
     });
   }

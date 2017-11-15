@@ -38,7 +38,7 @@ export default class UserController {
           user.update({ active: false });
           const token = generateToken(user);
           res.status(201).json({
-            message: 'Your Signup was successful',
+            message: `Your Signup was successful ${user.username}`,
             user: {
               id: user.id,
               username: user.username,
@@ -100,21 +100,17 @@ export default class UserController {
     }
   }
   /**
-    * logout
-    * Route: POST: api/v1/users/signout
     * @param {Object} req request object
     * @param {Object} res response object
     * @returns {void} no returns
     */
   static signOut(req, res) {
-    // const { id } = req.user;
     User.findById(req.user.id)
       .then((user) => {
         user.update({ active: false })
           .then(() =>
             res.status(200)
               .send({
-                user,
                 message: `You have successfully logged out ${user.username}`
               }));
       });
