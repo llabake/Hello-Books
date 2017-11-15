@@ -99,19 +99,19 @@ export default (sequelize, DataTypes) => {
       },
     },
   });
-  // User.associate = (models) => {
-  //   User.hasMany(models.Book, {
-  //     foreignKey: 'userId'
-  //   });
-  //   User.hasMany(models.Review, {
-  //     foreignKey: 'userId'
-  //   });
-  //   User.hasMany(models.Favorite, {
-  //     foreignKey: 'userId'
-  //   });
-  //   User.hasMany(models.Vote, {
-  //     foreignKey: 'userId'
-  //   });
-  // };
+  User.associate = (models) => {
+    User.hasMany(models.Book, {
+      foreignKey: 'userId'
+    });
+    // User.hasMany(models.Review, {
+    //   foreignKey: 'userId'
+    // });
+    // User.hasMany(models.Favorite, {
+    //   foreignKey: 'userId'
+    // });
+    // User.hasMany(models.Vote, {
+    //   foreignKey: 'userId'
+    // });
+  };
   return User;
 };
