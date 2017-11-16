@@ -13,7 +13,7 @@ export const isAlphanumeric = (str) => {
 };
 
 export const isNumeric = (str) => {
-  const re = /^([0-9])$/i;
+  const re = /^([0-9])+$/i;
   return re.test(str);
 };
 
