@@ -100,7 +100,6 @@ class BookController {
           title: req.body.title || book.title,
           author: req.body.author || book.author,
           publishedYear: req.body.publishedYear || book.publishedYear,
-          isbn: book.isbn,
           quantity: req.body.quantity || book.quantity,
           description: req.body.description || book.description,
           image: req.body.image || book.image,
