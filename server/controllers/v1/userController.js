@@ -111,7 +111,7 @@ export default class UserController {
           .then(() =>
             res.status(200)
               .send({
-                message: `You have successfully logged out ${user.username}`
+                message: `You have successfully logged out ${user.username}`,
               }));
       });
   }
