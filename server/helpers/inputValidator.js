@@ -79,12 +79,8 @@ export default class InputValidator {
   static addBook(args) {
     const errors = [];
     const requiredFields = [
-      'title',
-      'author',
-      'publishedYear',
-      'isbn',
-      'quantity',
-      'description'
+      'title', 'author', 'publishedYear',
+      'isbn', 'quantity', 'description'
     ];
     requiredFields.forEach((field) => {
       if (args[field] === undefined || args[field] === '') {
@@ -98,10 +94,7 @@ export default class InputValidator {
       });
     }
     if (!isNumeric(args.isbn)) {
-      errors.push({
-        path: 'isbn',
-        message: 'isbn can only be a number'
-      });
+      errors.push({ path: 'isbn', message: 'isbn can only be a number' });
     }
 
     if (!isNumeric(args.quantity) || args.quantity <= 0) {
