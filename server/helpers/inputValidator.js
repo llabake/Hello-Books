@@ -76,7 +76,7 @@ export default class InputValidator {
  * @returns {status} error array
  * @memberof InputValidator
  */
-  static bookFields(args) {
+  static addBook(args) {
     const errors = [];
     const requiredFields = [
       'title',
