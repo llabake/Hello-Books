@@ -23,7 +23,7 @@ class BookController {
    * @memberof BookController
    */
   static addBook(req, res) {
-    const { errors, isValid } = InputValidator.bookFields(req.body);
+    const { errors, isValid } = InputValidator.addBook(req.body);
     if (!isValid) {
       res.status(400).json({ errors });
     } else {
@@ -74,19 +74,14 @@ class BookController {
           return res.status(404).json({
             message: `No Book exist with id: ${req.params.bookId}`
           });
-        } res.status(200).json({ book });
+        }
+        res.status(200).json({ book });
       })
       .catch(error => res.status(500).json({
         message: 'error sending your request',
         error
       }));
   }
-  // try {
-  //   const book = Book.getById(req.params.bookId);
-  //   return res.status(200).json({ book });
-  // } catch (error) {
-  //   return res.status(400).json({ error });
-  // }
 
   /**
    *
@@ -111,22 +106,14 @@ class BookController {
           image: req.body.image || book.image,
           readingList: req.body.readingList || book.readingList
         })
-          .then((updatedBooks) => {
+          .then((updatedBook) => {
             res.status(200)
               .json({
-                book: updatedBooks,
+                book: updatedBook,
                 message: 'Your book has been updated',
               });
           });
       });
-
-
-    // try {
-    //   const book = Book.updateById(req.params.bookId, req.body);
-    //   return res.status(200).json({ book });
-    // } catch (error) {
-    //   return res.status(400).json({ error });
-    // }
   }
   /**
    *
@@ -154,11 +141,6 @@ class BookController {
       .catch((error) => {
         res.status(500).json({ message: 'error sending your request', error });
       });
-    // const books = Book.getAll();
-    // if (req.query.sort === 'upvotes' && req.query.order === 'desc') {
-    //   books.sort((book1, book2) => book2.upvotes - book1.upvotes);
-    // }
-    // return res.status(200).json({ books });
   }
   /**
    *

@@ -2,11 +2,11 @@
  * Class Definition for checking Admin privileges
  *
  * @export
- * @class AdminRoute
+ * @class AdminMiddleware
  */
-export default class AdminRoute {
+export default class AdminMiddleware {
 /**
- * @description Middleware to verify the supplied token
+ * @description Middleware to verify user's privilege status
  *
  * @static
  * @param {Object} req request object
@@ -14,12 +14,12 @@ export default class AdminRoute {
  * @param {Function} next callback function
  * @returns {Object} response containing the user's privilege status
  *
- * @memberof AdminRoute
+ * @memberof AdminMiddleware
  */
   static isAdmin(req, res, next) {
     if (req.user.role !== 'admin') {
       return res.status(403).json({
-        message: 'Permission denied, only an administrator can access this route'
+        message: 'Permission denied, only an admin can access this route'
       });
     }
     next();

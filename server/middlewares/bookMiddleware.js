@@ -1,19 +1,3 @@
-// import { dummyData } from '../dummy/helpers/modelHelpers';
-
-
-// const bookExists = (req, res, next) => {
-//   const { bookId } = req.params;
-//   if (Object.prototype.hasOwnProperty.call(dummyData.books, bookId)) {
-//     next();
-//   } else {
-//     return res.status(404).json({
-//       message: 'Book not found. Please check the id'
-//     });
-//   }
-// };
-
-// export default bookExists;
-
 import models from '../models';
 
 const { Book } = models;
@@ -21,9 +5,9 @@ const { Book } = models;
  *
  *
  * @export
- * @class BookExist
+ * @class BookMiddleware
  */
-export default class BookExists {
+export default class BookMiddleware {
   /**
    * @description Middleware to verify if book exist
    *
@@ -32,7 +16,7 @@ export default class BookExists {
    * @param {Object} res response Object
    * @param {Function} next callback Function
    * @returns {Object} response containing book existence
-   * @memberof BookExist
+   * @memberof BookMiddleware
    */
   static bookExist(req, res, next) {
     Book.findById(req.params.bookId)
