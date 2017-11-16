@@ -4,6 +4,8 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import logger from 'morgan';
 import path from 'path';
 import routes from './server/routes';
+import db from './server/models/index';
+
 
 // Set up the express app
 const app = express();
@@ -63,9 +65,11 @@ app.get('*', (req, res) => res.status(200).send({
   message: 'Route does not exist, explore at api/v1',
 }));
 
-if (!module.parent) {
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+if (process.env.NODE_ENV !== 'test') {
+  db.sequelize.sync().then(() => {
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
   });
 }
 

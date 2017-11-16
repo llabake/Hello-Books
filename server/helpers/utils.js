@@ -12,6 +12,11 @@ export const isAlphanumeric = (str) => {
   return re.test(str);
 };
 
+export const isNumeric = (str) => {
+  const re = /^([0-9])+$/i;
+  return re.test(str);
+};
+
 /**
    *
    * @description: generate a login token

@@ -1,4 +1,7 @@
 import jwt from 'jsonwebtoken';
+import models from '../models';
+
+const { User } = models;
 
 const secret = 'mySecret';
 
@@ -42,5 +45,26 @@ export default class Authentication {
       req.user = decoded.user;
       next();
     });
+  }
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @param {any} next
+   * @returns {Object} response containing user's access status
+   * @memberof Authentication
+   */
+  static isActive(req, res, next) {
+    User.findById(req.user.id)
+      .then((user) => {
+        if (!user.active) {
+          return res.status(403).send({
+            message: `You are logged out ${user.username}, please log back in`
+          });
+        }
+        next();
+      });
   }
 }
