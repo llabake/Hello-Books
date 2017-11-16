@@ -1,7 +1,9 @@
+import adminRoute from '../middlewares/adminMiddleware';
+import Authentication from '../middlewares/authenticationMiddleware';
 import bookController from '../controllers/v1/bookController';
 import favoriteController from '../controllers/v1/favoriteController';
 import addReview from '../controllers/v1/reviewController';
-import bookExists from '../middlewares/bookExistsMiddleware';
+import BookExists from '../middlewares/bookExistsMiddleware';
 import userExists from '../middlewares/userExistsMiddleware';
 import borrowedBookExists from '../middlewares/borrowedBookExistsMiddleware';
 
@@ -28,7 +30,11 @@ const bookRoute = (app) => {
  *       400:
  *         description: Incomplete parameters or type
  */
-  app.post('/api/v1/books', bookController.addBook);
+  app.post(
+    '/api/v1/books',
+    Authentication.authMiddleware, adminRoute.isAdmin,
+    Authentication.isActive, bookController.addBook
+  );
   /**
  * @swagger
  * /api/v1/books/{bookId}:
@@ -49,7 +55,9 @@ const bookRoute = (app) => {
  *           $ref: '#/definitions/Book'
  */
   app.get(
-    '/api/v1/books/:bookId(\\d+)', bookExists,
+    '/api/v1/books/:bookId(\\d+)',
+    Authentication.authMiddleware,
+    Authentication.isActive,
     bookController.getSingleBook
   );
   /**
@@ -83,7 +91,11 @@ const bookRoute = (app) => {
  *       404:
  *         description: Book not found
  */
-  app.put('/api/v1/books/:bookId(\\d+)', bookExists, bookController.modifyBook);
+  app.put(
+    '/api/v1/books/:bookId(\\d+)', BookExists.bookExist,
+    Authentication.authMiddleware, adminRoute.isAdmin,
+    Authentication.isActive, bookController.modifyBook
+  );
   /**
  * @swagger
  * definition:
@@ -131,7 +143,11 @@ const bookRoute = (app) => {
  *         schema:
  *           $ref: '#/definitions/Book'
  */
-  app.get('/api/v1/books', bookController.getAllBooks);
+  app.get(
+    '/api/v1/books',
+    Authentication.authMiddleware,
+    Authentication.isActive, bookController.getAllBooks
+  );
   /**
  * @swagger
  * /api/v1/users/{userId}/review/{bookId}:
@@ -156,7 +172,7 @@ const bookRoute = (app) => {
  */
   app.post(
     '/api/v1/users/:userId(\\d+)/review/:bookId(\\d+)',
-    userExists, bookExists, addReview
+    userExists, BookExists.bookExist, addReview
   );
   /**
  * @swagger
@@ -182,7 +198,7 @@ const bookRoute = (app) => {
  */
   app.post(
     '/api/v1/users/:userId(\\d+)/fav/:bookId(\\d+)',
-    userExists, bookExists, favoriteController.markBookAsFavorite
+    userExists, BookExists.bookExist, favoriteController.markBookAsFavorite
   );
   /**
  * @swagger
@@ -257,7 +273,7 @@ const bookRoute = (app) => {
  */
   app.post(
     '/api/v1/users/:userId(\\d+)/borrow/:bookId(\\d+)',
-    bookExists, bookController.borrowBook
+    BookExists.bookExist, bookController.borrowBook
   );
   /**
  * @swagger
@@ -306,7 +322,7 @@ const bookRoute = (app) => {
  */
   app.post(
     '/api/v1/users/:userId(\\d+)/return/:bookId(\\d+)',
-    bookExists, borrowedBookExists, bookController.returnBook
+    BookExists.bookExist, borrowedBookExists, bookController.returnBook
   );
   /**
  * @swagger
@@ -355,7 +371,7 @@ const bookRoute = (app) => {
  */
   app.put(
     '/api/v1/users/:userId(\\d+)/borrow/:bookId(\\d+)',
-    bookExists, borrowedBookExists, bookController.acceptBorrowBook
+    BookExists.bookExist, borrowedBookExists, bookController.acceptBorrowBook
   );
   /**
  * @swagger
@@ -404,7 +420,7 @@ const bookRoute = (app) => {
  */
   app.put(
     '/api/v1/users/:userId(\\d+)/return/:bookId(\\d+)',
-    bookExists, borrowedBookExists, bookController.acceptReturnBook
+    BookExists.bookExist, borrowedBookExists, bookController.acceptReturnBook
   );
 };
 
