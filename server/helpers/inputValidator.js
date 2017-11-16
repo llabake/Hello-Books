@@ -82,7 +82,7 @@ export default class InputValidator {
       'title',
       'author',
       'publishedYear',
-      'ISBN',
+      'isbn',
       'quantity',
       'description'
     ];
@@ -97,16 +97,17 @@ export default class InputValidator {
         message: 'PublishedYear can only be a number'
       });
     }
-    if (!isNumeric(args.ISBN)) {
+    if (!isNumeric(args.isbn)) {
       errors.push({
-        path: 'ISBN',
-        message: 'ISBN can only be a number'
+        path: 'isbn',
+        message: 'isbn can only be a number'
       });
     }
-    if (!isNumeric(args.quantity) || args.quanitity <= 0) {
+
+    if (!isNumeric(args.quantity) || args.quantity <= 0) {
       errors.push({
         path: 'quantity',
-        message: 'Quantity can only be a number and must be greater than zero'
+        message: 'Quantity must be a number and greater than zero'
       });
     }
     const isValid = errors.length === 0;
