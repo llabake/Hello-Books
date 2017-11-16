@@ -4,6 +4,8 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import logger from 'morgan';
 import path from 'path';
 import routes from './server/routes';
+import db from './server/models/index';
+
 
 // Set up the express app
 const app = express();
