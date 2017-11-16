@@ -402,7 +402,7 @@ describe('Controller Functions', () => {
         });
     });
     // pending accept
-    xxit('should return borrowedbook with status accepted' +
+    xit('should return borrowedbook with status accepted' +
     ' for an accepted request', (done) => {
       const bookData = {
         title: 'so long a letter',
