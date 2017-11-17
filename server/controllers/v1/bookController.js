@@ -5,7 +5,7 @@ import models from '../../models';
 import BorrowedBook from '../../dummy/models/borrowedBook';
 import InputValidator from '../../helpers/inputValidator';
 
-const { Book } = models;
+const { Book, Review, User } = models;
 
 /**
  *
@@ -68,6 +68,20 @@ class BookController {
       where: {
         id: req.params.bookId
       },
+      attributes: [
+        'id', 'title', 'description',
+        'upVotes', 'downVotes', 'borrowCount'
+      ],
+      include: [{
+        model: Review,
+        as: 'reviews',
+        attributes: ['id', 'content', 'createdAt'],
+        include: [{
+          model: User,
+          as: 'user',
+          attributes: ['username', 'id'],
+        }],
+      }],
     })
       .then((book) => {
         if (!book) {
@@ -111,7 +125,11 @@ class BookController {
                 book: updatedBook,
                 message: 'Your book has been updated',
               });
-          });
+          })
+          .catch(error => res.status(500).json({
+            message: 'error sending your request',
+            error
+          }));
       });
   }
   /**
@@ -125,7 +143,22 @@ class BookController {
    * @memberof BookController
    */
   static getAllBooks(req, res) {
-    Book.findAll()
+    Book.findAll({
+      attributes: [
+        'id', 'title', 'description',
+        'upVotes', 'downVotes', 'borrowCount'
+      ],
+      include: [{
+        model: Review,
+        as: 'reviews',
+        attributes: ['id', 'content', 'createdAt'],
+        include: [{
+          model: User,
+          as: 'user',
+          attributes: ['username', 'id'],
+        }],
+      }],
+    })
       .then((books) => {
         if (books.length === 0) {
           return res.status(200).json({

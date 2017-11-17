@@ -61,15 +61,13 @@ export default(sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 0
     }
-  }, {
-    classMethods: {
-      associate(models) {
-        // associations can be defined here
-      }
-    },
-    instanceMethods: {
-      isAvailable: () => this.quantity >= 1,
-    }
   });
+  Book.associate = (models) => {
+    Book.hasMany(models.Review, {
+      foreignKey: 'bookId',
+      as: 'reviews'
+    });
+  };
+  Book.prototype.isAvailable = () => this.quantity >= 1;
   return Book;
 };
