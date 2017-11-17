@@ -100,7 +100,12 @@ export default (sequelize, DataTypes) => {
     },
   });
   User.associate = (models) => {
-
+    User.hasMany(models.Book, {
+      foreignKey: 'userId'
+    });
+    User.hasMany(models.Review, {
+      foreignKey: 'userId'
+    });
   };
   return User;
 };

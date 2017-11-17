@@ -64,7 +64,12 @@ export default(sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate(models) {
-        // associations can be defined here
+        Book.belongsTo(models.User, {
+          foreignKey: 'userId',
+        });
+        Book.hasMany(models.Review, {
+          foreignKey: 'bookId'
+        });
       }
     },
     instanceMethods: {
