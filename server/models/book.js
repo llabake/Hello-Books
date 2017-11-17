@@ -64,9 +64,6 @@ export default(sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate(models) {
-        Book.belongsTo(models.User, {
-          foreignKey: 'userId',
-        });
         Book.hasMany(models.Review, {
           foreignKey: 'bookId'
         });
