@@ -2,9 +2,9 @@ import AdminMiddleware from '../middlewares/adminMiddleware';
 import Authentication from '../middlewares/authenticationMiddleware';
 import bookController from '../controllers/v1/bookController';
 import favoriteController from '../controllers/v1/favoriteController';
-import addReview from '../controllers/v1/reviewController';
+import reviewController from '../controllers/v1/reviewController';
 import BookMiddleware from '../middlewares/bookMiddleware';
-import userExists from '../middlewares/userExistsMiddleware';
+import UserMiddleware from '../middlewares/userMiddleware';
 import borrowedBookExists from '../middlewares/borrowedBookExistsMiddleware';
 
 const bookRoute = (app) => {
@@ -171,8 +171,10 @@ const bookRoute = (app) => {
  *         description: Incomplete parameters or type
  */
   app.post(
-    '/api/v1/users/:userId(\\d+)/review/:bookId(\\d+)',
-    userExists, BookMiddleware.bookExist, addReview
+    '/api/v1/users/review/:bookId(\\d+)',
+    Authentication.authMiddleware, UserMiddleware.userExist,
+    Authentication.isActive,
+    BookMiddleware.bookExist, reviewController.addReview
   );
   /**
  * @swagger
@@ -198,7 +200,7 @@ const bookRoute = (app) => {
  */
   app.post(
     '/api/v1/users/:userId(\\d+)/fav/:bookId(\\d+)',
-    userExists, BookMiddleware.bookExist, favoriteController.markBookAsFavorite
+    UserMiddleware.userExist, BookMiddleware.bookExist, favoriteController.markBookAsFavorite
   );
   /**
  * @swagger

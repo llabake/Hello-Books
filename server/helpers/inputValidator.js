@@ -106,4 +106,26 @@ export default class InputValidator {
     const isValid = errors.length === 0;
     return { errors, isValid };
   }
+  /**
+ *
+ *
+ * @static
+ * @param {any} args
+ * @returns {status} error array
+ * @memberof InputValidator
+ */
+  static addReview(args) {
+    const errors = [];
+    const requiredFields = ['content'];
+    requiredFields.forEach((field) => {
+      if (args[field] === undefined || args[field] === '') {
+        errors.push({ path: field, message: `${field} is required` });
+      }
+    });
+    if (args.length < 10) {
+      errors.push({ path: 'content', message: 'Review content is too short' });
+    }
+    const isValid = errors.length === 0;
+    return { errors, isValid };
+  }
 }
