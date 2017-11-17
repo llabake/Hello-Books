@@ -424,6 +424,12 @@ const bookRoute = (app) => {
     '/api/v1/users/:userId(\\d+)/return/:bookId(\\d+)',
     BookMiddleware.bookExist, borrowedBookExists, bookController.acceptReturnBook
   );
+  app.delete(
+    '/api/v1/users/review/:bookId(\\d+)',
+    Authentication.authMiddleware, UserMiddleware.userExist,
+    Authentication.isActive,
+    BookMiddleware.bookExist, reviewController.deleteReview
+  );
 };
 
 export default bookRoute;

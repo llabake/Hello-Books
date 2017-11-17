@@ -45,5 +45,37 @@ export default class ReviewController {
         }));
     }
   }
+  /**
+ *
+ *@description Delete a book review
+ * @static
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {Object} Object containing either success message or error message
+ * @memberof ReviewController
+ */
+  static deleteReview(req, res) {
+    Review.find({
+      where: {
+        bookId: req.params.bookId,
+        userId: req.user.id
+      }
+    })
+      .then(review => review
+        .destroy())
+      .then(() => res.status(200).send({
+        message: 'Review deleted successfully'
+      }))
+      .catch((error) => {
+        if (Object.keys(error).length === 0 && error.constructor === Object) {
+          res.status(400).json({
+            message: 'You did not post this Review, hence can not delete it'
+          });
+        }
+        res.status(400).json({
+          message: 'error sending your request'
+        });
+      });
+  }
 }
 
