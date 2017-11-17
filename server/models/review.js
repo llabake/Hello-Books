@@ -34,17 +34,15 @@ module.exports = (sequelize, DataTypes) => {
         as: 'userId',
       }
     }
-  }, {
-    classMethods: {
-      associate(models) {
-        Review.belongsTo(models.Book, {
-          foreignKey: 'bookId',
-        });
-        Review.belongsTo(models.User, {
-          foreignKey: 'userId',
-        });
-      }
-    }
   });
+  Review.associate = (models) => {
+    Review.belongsTo(models.Book, {
+      foreignKey: 'bookId',
+    });
+    Review.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'user'
+    });
+  };
   return Review;
 };
