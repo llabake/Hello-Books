@@ -14,11 +14,11 @@ module.exports = {
       }], {});
     */
     queryInterface.bulkInsert('Users', [{
-      username: 'johndoe',
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'demo@demo.com',
-      password: bcrypt.hashSync('password', 10),
+      username: 'flakky',
+      firstName: 'Folake',
+      lastName: 'Okoya',
+      email: 'flakykitchen@hotmail.com',
+      password: bcrypt.hashSync('tobi', 10),
       role: 'admin',
       active: false,
       createdAt: new Date(),
