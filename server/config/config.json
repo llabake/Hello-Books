@@ -5,7 +5,8 @@
     "database": "Hello-Books",
     "host": "127.0.0.1",
     "port": "5432",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "seederStorage": "sequelize"
   },
   "test": {
     "username": "postgres",
@@ -16,6 +17,7 @@
     "dialect": "postgres"
   },
   "production": {
-    "use_env_variable": "DATABASE_URL" 
+    "use_env_variable": "DATABASE_URL",
+    "seederStorage": "sequelize"
   }
 }
