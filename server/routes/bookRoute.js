@@ -200,7 +200,8 @@ const bookRoute = (app) => {
  */
   app.post(
     '/api/v1/users/:userId(\\d+)/fav/:bookId(\\d+)',
-    UserMiddleware.userExist, BookMiddleware.bookExist, favoriteController.markBookAsFavorite
+    Authentication.authMiddleware, UserMiddleware.userExist,
+    Authentication.isActive, BookMiddleware.bookExist, favoriteController.markBookAsFavorite
   );
   /**
  * @swagger
@@ -226,7 +227,8 @@ const bookRoute = (app) => {
  */
   app.get(
     '/api/v1/users/:userId(\\d+)/favbooks',
-    favoriteController.retrieveUserFavorite
+    Authentication.authMiddleware,
+    Authentication.isActive, favoriteController.retrieveUserFavorite
   );
   /**
  * @swagger
