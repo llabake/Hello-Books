@@ -1,6 +1,6 @@
 import models from '../../models';
 
-const { Book, Favorite, User } = models;
+const { Book, Favorite, } = models;
 /**
  *
  *
@@ -108,7 +108,7 @@ export default class FavoriteController {
       })
       .catch(error => res.status(500).json({
         error,
-        message: 'An error occurred hile removing this book from your favorite list'
+        message: 'An error occurred while removing this book from your favorite list'
       }));
   }
 }
