@@ -1,6 +1,6 @@
 import models from '../../models';
 
-const { Book, Favorite, } = models;
+const { Book, Favorite, User } = models;
 /**
  *
  *
@@ -18,52 +18,27 @@ export default class FavoriteController {
  * @memberof FavoriteController
  */
   static markBookAsFavorite(req, res) {
-    Favorite.create({
+    Favorite.findOrCreate({
       where: {
         bookId: req.params.bookId,
-        userId: req.params.userId
-      }
+        userId: req.user.id
+      },
     })
-      .then(favorite => res.status(201).json({
-        message: 'Added successfully',
-        favorite
-      }))
+      .spread((favorite, created) => {
+        if (created) {
+          return res.status(201).json({
+            message: 'Book has been added to your favorite list',
+            favorite
+          });
+        }
+        return res.status(409).json({
+          message: 'Book already on your favorite list'
+        });
+      })
       .catch(error => res.status(500).json({
-        error
+        error: error.message,
+        message: 'An error occurred while adding to your Favorite list'
       }));
-    // Favorite.findOrCreate({
-    //   where: {
-    //     bookId: req.params.bookId,
-    //     userId: req.params.userId
-    //   },
-    //   // include: [{
-    //   //   model: Book,
-    //   //   attributes: ['title', 'id'],
-    //   // }],
-    // })
-    //   .spread((favorite, created) => {
-    //     if (created) {
-    //       return res.status(201).json({
-    //         success: true,
-    //         msg: `Book with id: ${req.params.bookId} added to favorites!`,
-    //         message: `${Book.title} has been added to your favorite list`,
-    //         favorite
-    //       });
-    //     }
-    //     favorite.destroy();
-    //     return res.status(200).json({
-    //       success: false,
-    //       msg: `Book with id: ${req.params.bookId} already added`,
-    //       message: `${Book.title} has been favorited before +
-    //       and has now been unfavorited`
-    //     });
-    //   })
-    //   .catch(error => res.status(500).json({
-    //     success: false,
-    //     error,
-    //     message: `An error occurred while adding ${Book.title} +
-    //     to your Favorite list`
-    //   }));
   }
   /**
  *
@@ -77,19 +52,21 @@ export default class FavoriteController {
   static retrieveUserFavorite(req, res) {
     Favorite.findAll({
       where: {
-        id: req.params.bookId
+        userId: req.user.id
       },
       attributes: [
-        'createdAt', 'bookId', 'userId',
+        'createdAt',
       ],
       include: [{
         model: Book,
         attributes: ['id', 'title'],
+        as: 'book'
       }],
     })
       .then((favorites) => {
         if (favorites.length === 0) {
           return res.status(200).json({
+            favorites,
             message: 'There are no Books on your Favorite List'
           });
         }
@@ -99,7 +76,40 @@ export default class FavoriteController {
         });
       })
       .catch((error) => {
-        res.status(500).json({ message: 'error sending your request', error });
+        res.status(500).json({ message: 'error sending your request', error: error.message });
       });
   }
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns {Object} succes message
+   * @memberof FavoriteController
+   */
+  static deleteBookFromFavorite(req, res) {
+    Favorite.findOne({
+      where: {
+        userId: req.user.id,
+        bookId: req.params.bookId
+      },
+      include: [{
+        model: Book,
+        attributes: ['id', 'title'],
+        as: 'book'
+      }],
+    })
+      .then((favorite) => {
+        favorite.destroy()
+          .then(() => res.status(200).json({
+            message: `${favorite.book.title} has been removed from your favorite list`
+          }));
+      })
+      .catch(error => res.status(500).json({
+        error,
+        message: 'An error occurred hile removing this book from your favorite list'
+      }));
+  }
 }
+

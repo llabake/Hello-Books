@@ -10,6 +10,7 @@ module.exports = (sequelize) => {
     Favorite.belongsTo(models.Book, {
       foreignKey: 'bookId',
       onDelete: 'CASCADE',
+      as: 'book'
     });
     Favorite.belongsTo(models.User, {
       foreignKey: 'userId',
