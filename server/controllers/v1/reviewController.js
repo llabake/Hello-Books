@@ -55,27 +55,33 @@ export default class ReviewController {
  * @memberof ReviewController
  */
   static deleteReview(req, res) {
-    Review.find({
+    Review.findOne({
       where: {
-        bookId: req.params.bookId,
-        userId: req.user.id
+        id: req.params.reviewId
       }
     })
-      .then(review => review
-        .destroy())
-      .then(() => res.status(200).send({
-        message: 'Review deleted successfully'
-      }))
-      .catch((error) => {
-        if (Object.keys(error).length === 0 && error.constructor === Object) {
-          res.status(400).json({
-            message: 'You did not post this Review, hence can not delete it'
+      .then((review) => {
+        if (review) {
+          if (review.userId !== req.user.id) {
+            res.status(403).json({
+              message: 'You did not post this Review, hence can not delete it'
+            });
+          } else {
+            review.destroy()
+              .then(() => res.status(200).send({
+                message: 'Review deleted successfully'
+              }));
+          }
+        } else {
+          return res.status(404).json({
+            message: 'Review not found'
           });
         }
-        res.status(400).json({
-          message: 'error sending your request'
-        });
-      });
+      })
+      .catch(error => res.status(500).json({
+        error,
+        message: 'error sending your request'
+      }));
   }
 }
 

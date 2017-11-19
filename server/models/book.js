@@ -67,6 +67,9 @@ export default(sequelize, DataTypes) => {
       foreignKey: 'bookId',
       as: 'reviews'
     });
+    Book.hasMany(models.Favorite, {
+      foreignKey: 'bookId',
+    });
   };
   Book.prototype.isAvailable = () => this.quantity >= 1;
   return Book;
