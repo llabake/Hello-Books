@@ -5,6 +5,7 @@ import favoriteController from '../controllers/v1/favoriteController';
 import reviewController from '../controllers/v1/reviewController';
 import BookMiddleware from '../middlewares/bookMiddleware';
 import UserMiddleware from '../middlewares/userMiddleware';
+import FavoriteMiddleware from '../middlewares/favoriteMiddleware';
 import borrowedBookExists from '../middlewares/borrowedBookExistsMiddleware';
 
 const bookRoute = (app) => {
@@ -171,7 +172,7 @@ const bookRoute = (app) => {
  *         description: Incomplete parameters or type
  */
   app.post(
-    '/api/v1/users/review/:bookId(\\d+)',
+    '/api/v1/books/:bookId(\\d+)/review/',
     Authentication.authMiddleware, UserMiddleware.userExist,
     Authentication.isActive,
     BookMiddleware.bookExist, reviewController.addReview
@@ -199,7 +200,7 @@ const bookRoute = (app) => {
  *         description: Incomplete parameters or type
  */
   app.post(
-    '/api/v1/users/:userId(\\d+)/fav/:bookId(\\d+)',
+    '/api/v1/books/fav/:bookId(\\d+)',
     Authentication.authMiddleware, UserMiddleware.userExist,
     Authentication.isActive, BookMiddleware.bookExist, favoriteController.markBookAsFavorite
   );
@@ -229,6 +230,12 @@ const bookRoute = (app) => {
     '/api/v1/users/:userId(\\d+)/favbooks',
     Authentication.authMiddleware,
     Authentication.isActive, favoriteController.retrieveUserFavorite
+  );
+  app.delete(
+    '/api/v1/users/fav/:bookId(\\d+)',
+    Authentication.authMiddleware,
+    Authentication.isActive, FavoriteMiddleware.favoriteExist,
+    favoriteController.deleteBookFromFavorite
   );
   /**
  * @swagger
@@ -427,7 +434,7 @@ const bookRoute = (app) => {
     BookMiddleware.bookExist, borrowedBookExists, bookController.acceptReturnBook
   );
   app.delete(
-    '/api/v1/users/review/:bookId(\\d+)',
+    '/api/v1/books/:bookId(\\d+)/review',
     Authentication.authMiddleware, UserMiddleware.userExist,
     Authentication.isActive,
     BookMiddleware.bookExist, reviewController.deleteReview
