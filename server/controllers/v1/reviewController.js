@@ -58,7 +58,8 @@ export default class ReviewController {
     Review.find({
       where: {
         bookId: req.params.bookId,
-        userId: req.user.id
+        userId: req.user.id,
+        reviewId: req.params.id
       }
     })
       .then(review => review
