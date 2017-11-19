@@ -227,12 +227,12 @@ const bookRoute = (app) => {
  *         description: Incomplete parameters or type
  */
   app.get(
-    '/api/v1/users/:userId(\\d+)/favbooks',
+    '/api/v1/books/:userId(\\d+)/favbooks',
     Authentication.authMiddleware,
     Authentication.isActive, favoriteController.retrieveUserFavorite
   );
   app.delete(
-    '/api/v1/users/fav/:bookId(\\d+)',
+    '/api/v1/books/fav/:bookId(\\d+)',
     Authentication.authMiddleware,
     Authentication.isActive, FavoriteMiddleware.favoriteExist,
     favoriteController.deleteBookFromFavorite
@@ -434,7 +434,7 @@ const bookRoute = (app) => {
     BookMiddleware.bookExist, borrowedBookExists, bookController.acceptReturnBook
   );
   app.delete(
-    '/api/v1/books/:bookId(\\d+)/review',
+    '/api/v1/books/:bookId(\\d+)/review/:reviewId(\\d+)',
     Authentication.authMiddleware, UserMiddleware.userExist,
     Authentication.isActive,
     BookMiddleware.bookExist, reviewController.deleteReview
