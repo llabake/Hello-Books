@@ -99,7 +99,7 @@ class BookController {
    * @static
    * @param {any} req
    * @param {any} res
-   * @returns {any} repsonse containing a modified book detail
+   * @returns {any} response containing a modified book detail
    * @description Modifies a book in the library
    * @memberof BookController
    */
@@ -135,7 +135,7 @@ class BookController {
    * @param {any} req
    * @param {any} res
    * @param {next} next
-   * @returns {any} repsonse containing all the books in the library in an array
+   * @returns {any} response containing all the books in the library in an array
    * @description Gets all books in the library
    * @memberof BookController
    */
@@ -161,7 +161,8 @@ class BookController {
       .then((books) => {
         if (books.length === 0) {
           return res.status(200).json({
-            message: 'Books are unavailable now, do check back later'
+            message: 'Books are unavailable now, do check back later',
+            books
           });
         }
         return res.status(200).json({
@@ -180,16 +181,23 @@ class BookController {
    * @param {Object} req
    * @param {Object} res
    * @param {Object} next
-   * @returns {Object} repsonse containing top 5 books in the library in an array
+   * @returns {Object} response containing top 10 books in the library in an array
    * @memberof BookController
    */
   static getBooksByUpvotes(req, res, next) {
     if (req.query.sort === undefined) return next();
-    if (req.query.order !== 'ascending' && req.query.order !== 'descending') {
-      res.status(400).json({ message: 'order can either be ascending or descending' });
+    if (req.query.order !== 'descending') {
+      res.status(400).json({
+        message: 'order can only be descending'
+      });
+    }
+    if (req.query.sort !== 'upvotes') {
+      res.status(400).json({
+        message: 'sort can only be by upvotes'
+      });
     }
     const options = {};
-    options.order = [['upvotes', 'ASC']];
+    options.order = [['upVotes', 'DESC']];
     options.limit = 10;
     options.attributes = [
       'id', 'title', 'description',
@@ -207,7 +215,10 @@ class BookController {
     }];
     Book.findAll(options)
       .then(books => res.status(200).json(books))
-      .catch(error => res.status(400).json({ message: 'error sending your request', error }));
+      .catch(error => res.status(400).json({
+        message: 'error sending your request',
+        error
+      }));
   }
   /**
  *
@@ -215,7 +226,7 @@ class BookController {
  * @static
  * @param {Object} req
  * @param {Object} res
- * @returns {Object} repsonse containing books that match the search
+ * @returns {Object} response containing books that match the search
  * @memberof BookController
  */
   static getBooksBySearch(req, res) {
@@ -246,127 +257,16 @@ class BookController {
       .then((books) => {
         if (!books.length) {
           res.status(200).json({
-            message: 'No book matches your search. Try some other combinations'
+            message: 'No book matches your search. Try some other combinations',
+            books
           });
         }
         res.status(200).json(books);
       })
-      .catch(error => res.status(400).json({ message: 'error sending your request', error }));
-  }
-
-  /**
-   *
-   *
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns {any} response containing a message
-   * @description Borrow a book
-   * @memberof BookController
-   */
-  static borrowBook(req, res) {
-    const userId = parseInt(req.params.userId, 10);
-    const bookId = parseInt(req.params.bookId, 10);
-    try {
-      if (!Book.isAvailable(bookId)) {
-        return res.status(400).json({
-          message: 'book currently not available for borrow'
-        });
-      }
-      if (BorrowedBook.existsByUserIdAndBookId(userId, bookId)) {
-        return res.status(409).json({
-          message: 'You have made this request earlier!'
-        });
-      }
-      const borrowedBook = new BorrowedBook({
-        userId,
-        bookId
-      });
-      borrowedBook.create();
-      return res.status(201).json({
-        message: 'Your request has been made and its being processed',
-        borrowedBook
-      });
-    } catch (error) {
-      return res.status(400).json({ error });
-    }
-  }
-  /**
-   *
-   *
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns {any} response containing a message
-   * @description Return a book
-   * @memberof BookController
-   */
-  static returnBook(req, res) {
-    const userId = parseInt(req.params.userId, 10);
-    const bookId = parseInt(req.params.bookId, 10);
-    try {
-      const borrowedBook = BorrowedBook.getByUserIdAndBookId(userId, bookId);
-      if (borrowedBook.borrowedStatus === 'accepted') {
-        borrowedBook.returnStatus = 'pending';
-        return res.status(200).json({ borrowedBook });
-      }
-      return res.status(400).json({
-        message: 'Request to borrow is still pending'
-      });
-    } catch (error) {
-      return res.status(400).json({ error });
-    }
-  }
-  /**
-   *
-   *
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns {any} response containing a message
-   * @description Admin accept borrow Book
-   * @memberof BookController
-   */
-  static acceptBorrowBook(req, res) {
-    const userId = parseInt(req.params.userId, 10);
-    const bookId = parseInt(req.params.bookId, 10);
-    try {
-      const borrowedBook = BorrowedBook.getByUserIdAndBookId(userId, bookId);
-      const book = Book.getById(bookId);
-      book.quantity -= 1;
-      borrowedBook.borrowedStatus = 'accepted';
-      return res.status(200).json({ borrowedBook, book });
-    } catch (error) {
-      return res.status(400).json({ error });
-    }
-  }
-  /**
-   *
-   *
-   * @static
-   * @param {any} req
-   * @param {any} res
-   * @returns {any} response containing a message
-   * @description Admin accepts return book
-   * @memberof BookController
-   */
-  static acceptReturnBook(req, res) {
-    const userId = parseInt(req.params.userId, 10);
-    const bookId = parseInt(req.params.bookId, 10);
-    try {
-      const book = Book.getById(bookId);
-      const borrowedBook = BorrowedBook.getByUserIdAndBookId(userId, bookId);
-      if (borrowedBook.returnStatus === 'pending') {
-        borrowedBook.returnStatus = 'accepted';
-        book.quantity += 1;
-        return res.status(200).json({ borrowedBook, book });
-      }
-      return res.status(400).json({
-        message: 'Request to return book has not been made'
-      });
-    } catch (error) {
-      return res.status(400).json({ error });
-    }
+      .catch(error => res.status(400).json({
+        message: 'error sending your request',
+        error
+      }));
   }
 }
 export default BookController;
