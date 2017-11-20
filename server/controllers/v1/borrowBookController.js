@@ -208,7 +208,7 @@ export default class BorrowedBookController {
           res.status(404).json({
             message: 'borrowedBook match not found'
           });
-        } else if (borrowedBook.returnStatus !== 'pending') {
+        } else if (borrowedBook.returnStatus === 'accepted') {
           res.status(200).json({
             message: 'This book return request has been accepted'
           });
