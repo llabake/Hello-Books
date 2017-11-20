@@ -148,7 +148,8 @@ const bookRoute = (app) => {
   app.get(
     '/api/v1/books',
     Authentication.authMiddleware,
-    Authentication.isActive, BookController.getAllBooks
+    Authentication.isActive, BookController.getAllBooks,
+    BookController.getBookByUpvotes
   );
   /**
  * @swagger

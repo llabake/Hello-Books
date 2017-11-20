@@ -134,11 +134,14 @@ class BookController {
    * @static
    * @param {any} req
    * @param {any} res
+   * @param {next} next
    * @returns {any} repsonse containing all the books in the library in an array
    * @description Gets all books in the library
    * @memberof BookController
    */
-  static getAllBooks(req, res) {
+  static getAllBooks(req, res, next) {
+    if (req.query.sort || req.query.search) return next();
+
     Book.findAll({
       attributes: [
         'id', 'title', 'description',
@@ -169,6 +172,201 @@ class BookController {
       .catch((error) => {
         res.status(500).json({ message: 'error sending your request', error });
       });
+  }
+  /**
+   *@description Gets books with the most upvotes
+   *
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} repsonse containing top 5 books in the library in an array
+   * @memberof BookController
+   */
+  static getBooksByUpvotes(req, res, next) {
+    if (req.query.sort === undefined) return next();
+    if (req.query.order !== 'ascending' && req.query.order !== 'descending') {
+      res.status(400).json({ message: 'order can either be ascending or descending' });
+    }
+    const options = {};
+    options.order = [['upvotes', 'ASC']];
+    options.limit = 10;
+    options.attributes = [
+      'id', 'title', 'description',
+      'upVotes', 'downVotes', 'borrowCount'
+    ];
+    options.include = [{
+      model: Review,
+      as: 'reviews',
+      attributes: ['id', 'content', 'createdAt'],
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['username', 'id'],
+      }],
+    }];
+    Book.findAll(options)
+      .then(books => res.status(200).json(books))
+      .catch(error => res.status(400).json({ message: 'error sending your request', error }));
+  }
+  /**
+ *
+ *@description Gets books by search word
+ * @static
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {Object} repsonse containing books that match the search
+ * @memberof BookController
+ */
+  static getBooksBySearch(req, res) {
+    const options = {};
+    options.limit = 10;
+    options.attributes = [
+      'id', 'title', 'description',
+      'upVotes', 'downVotes', 'borrowCount'
+    ];
+    options.include = [{
+      model: Review,
+      as: 'reviews',
+      attributes: ['id', 'content', 'createdAt'],
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['username', 'id'],
+      }],
+    }];
+    options.where = {
+      $or: [
+        { author: req.query.search },
+        { description: req.query.search },
+        { title: req.query.search }
+      ],
+    };
+    Book.findAll(options)
+      .then((books) => {
+        if (!books.length) {
+          res.status(200).json({
+            message: 'No book matches your search. Try some other combinations'
+          });
+        }
+        res.status(200).json(books);
+      })
+      .catch(error => res.status(400).json({ message: 'error sending your request', error }));
+  }
+
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns {any} response containing a message
+   * @description Borrow a book
+   * @memberof BookController
+   */
+  static borrowBook(req, res) {
+    const userId = parseInt(req.params.userId, 10);
+    const bookId = parseInt(req.params.bookId, 10);
+    try {
+      if (!Book.isAvailable(bookId)) {
+        return res.status(400).json({
+          message: 'book currently not available for borrow'
+        });
+      }
+      if (BorrowedBook.existsByUserIdAndBookId(userId, bookId)) {
+        return res.status(409).json({
+          message: 'You have made this request earlier!'
+        });
+      }
+      const borrowedBook = new BorrowedBook({
+        userId,
+        bookId
+      });
+      borrowedBook.create();
+      return res.status(201).json({
+        message: 'Your request has been made and its being processed',
+        borrowedBook
+      });
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  }
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns {any} response containing a message
+   * @description Return a book
+   * @memberof BookController
+   */
+  static returnBook(req, res) {
+    const userId = parseInt(req.params.userId, 10);
+    const bookId = parseInt(req.params.bookId, 10);
+    try {
+      const borrowedBook = BorrowedBook.getByUserIdAndBookId(userId, bookId);
+      if (borrowedBook.borrowedStatus === 'accepted') {
+        borrowedBook.returnStatus = 'pending';
+        return res.status(200).json({ borrowedBook });
+      }
+      return res.status(400).json({
+        message: 'Request to borrow is still pending'
+      });
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  }
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns {any} response containing a message
+   * @description Admin accept borrow Book
+   * @memberof BookController
+   */
+  static acceptBorrowBook(req, res) {
+    const userId = parseInt(req.params.userId, 10);
+    const bookId = parseInt(req.params.bookId, 10);
+    try {
+      const borrowedBook = BorrowedBook.getByUserIdAndBookId(userId, bookId);
+      const book = Book.getById(bookId);
+      book.quantity -= 1;
+      borrowedBook.borrowedStatus = 'accepted';
+      return res.status(200).json({ borrowedBook, book });
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  }
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns {any} response containing a message
+   * @description Admin accepts return book
+   * @memberof BookController
+   */
+  static acceptReturnBook(req, res) {
+    const userId = parseInt(req.params.userId, 10);
+    const bookId = parseInt(req.params.bookId, 10);
+    try {
+      const book = Book.getById(bookId);
+      const borrowedBook = BorrowedBook.getByUserIdAndBookId(userId, bookId);
+      if (borrowedBook.returnStatus === 'pending') {
+        borrowedBook.returnStatus = 'accepted';
+        book.quantity += 1;
+        return res.status(200).json({ borrowedBook, book });
+      }
+      return res.status(400).json({
+        message: 'Request to return book has not been made'
+      });
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
   }
 }
 export default BookController;
