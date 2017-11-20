@@ -231,6 +231,7 @@ class BookController {
  */
   static getBooksBySearch(req, res) {
     const options = {};
+    const searchQuery = req.query.search;
     options.limit = 10;
     options.attributes = [
       'id', 'title', 'description',
@@ -248,9 +249,9 @@ class BookController {
     }];
     options.where = {
       $or: [
-        { author: req.query.search },
-        { description: req.query.search },
-        { title: req.query.search }
+        { author: { $like: `%${searchQuery}%` } },
+        { description: { $like: `%${searchQuery}%` } },
+        { title: { $like: `%${searchQuery}%` } }
       ],
     };
     Book.findAll(options)
