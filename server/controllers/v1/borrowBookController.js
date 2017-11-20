@@ -185,11 +185,11 @@ export default class BorrowedBookController {
                   .then((book) => {
                     book.decrement('quantity');
                     book.increment('borrowCount');
+                    res.status(200).json({
+                      message: 'successfully accepted borrow request',
+                      borrowedBook: reloadedupdatedborrowedBook
+                    });
                   });
-                res.status(200).json({
-                  message: 'successfully accepted borrow request',
-                  borrowedBook: reloadedupdatedborrowedBook
-                });
               });
             });
         }
@@ -235,11 +235,11 @@ export default class BorrowedBookController {
                 })
                   .then((book) => {
                     book.increment('quantity');
+                    res.status(200).json({
+                      message: 'successfully accepted return request',
+                      borrowedBook: reloadedupdatedborrowedBook
+                    });
                   });
-                res.status(200).json({
-                  message: 'successfully accepted return request',
-                  borrowedBook: reloadedupdatedborrowedBook
-                });
               });
             });
         }
