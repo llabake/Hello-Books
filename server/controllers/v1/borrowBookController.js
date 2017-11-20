@@ -113,20 +113,35 @@ export default class BorrowedBookController {
          * @memberof BookController
          */
   static returnBook(req, res) {
-    const userId = parseInt(req.params.userId, 10);
-    const bookId = parseInt(req.params.bookId, 10);
-    try {
-      const borrowedBook = BorrowedBook.getByUserIdAndBookId(userId, bookId);
-      if (borrowedBook.borrowedStatus === 'accepted') {
-        borrowedBook.returnStatus = 'pending';
-        return res.status(200).json({ borrowedBook });
+    BorrowBook.findOne({
+      where: {
+        userId: req.user.id,
+        bookId: req.params.bookId,
       }
-      return res.status(400).json({
-        message: 'Request to borrow is still pending'
+    })
+      .then((borrowedBook) => {
+        if (!borrowedBook) {
+          res.status(404).json({
+            message: 'borrowedBook match not found'
+          });
+        } else if (borrowedBook.borrowStatus !== 'accepted') {
+          res.status(200).json({
+            message: 'This book borrow request has not been accepted'
+          });
+        } else {
+          borrowedBook.update({
+            returnStatus: 'pending'
+          })
+            .then(() => {
+              borrowedBook.reload().then((reloadedupdatedborrowedBook) => {
+                res.status(200).json({
+                  message: 'Book return request is pending approval by Administrator',
+                  borrowedBook: reloadedupdatedborrowedBook
+                });
+              });
+            });
+        }
       });
-    } catch (error) {
-      return res.status(400).json({ error });
-    }
   }
   /**
        *
@@ -152,7 +167,7 @@ export default class BorrowedBookController {
           });
         } else if (borrowedBook.borrowStatus !== 'pending') {
           res.status(200).json({
-            message: 'This book borrowed request as been accepted'
+            message: 'This book borrow request has been accepted'
           });
         } else {
           borrowedBook.update({
@@ -162,15 +177,6 @@ export default class BorrowedBookController {
           })
             .then(() => {
               borrowedBook.reload().then((reloadedupdatedborrowedBook) => {
-                Book.findOne({
-                  where: {
-                    id: req.params.bookId,
-                  }
-                })
-                  .then((book) => {
-                    book.increment('borrowCount');
-                    book.decrement('quantity');
-                  });
                 res.status(200).json({
                   message: 'successfully accepted borrow request',
                   borrowedBook: reloadedupdatedborrowedBook
@@ -191,21 +197,43 @@ export default class BorrowedBookController {
        * @memberof BookController
        */
   static acceptReturnBook(req, res) {
-    const userId = parseInt(req.params.userId, 10);
-    const bookId = parseInt(req.params.bookId, 10);
-    try {
-      const book = Book.getById(bookId);
-      const borrowedBook = BorrowedBook.getByUserIdAndBookId(userId, bookId);
-      if (borrowedBook.returnStatus === 'pending') {
-        borrowedBook.returnStatus = 'accepted';
-        book.quantity += 1;
-        return res.status(200).json({ borrowedBook, book });
+    BorrowBook.findOne({
+      where: {
+        userId: req.params.userId,
+        bookId: req.params.bookId,
       }
-      return res.status(400).json({
-        message: 'Request to return book has not been made'
+    })
+      .then((borrowedBook) => {
+        if (!borrowedBook) {
+          res.status(404).json({
+            message: 'borrowedBook match not found'
+          });
+        } else if (borrowedBook.returnStatus !== 'pending') {
+          res.status(200).json({
+            message: 'This book return request has been accepted'
+          });
+        } else {
+          borrowedBook.update({
+            actualReturnDate: new Date(),
+            returnStatus: 'accepted'
+          })
+            .then(() => {
+              borrowedBook.reload().then((reloadedupdatedborrowedBook) => {
+                Book.findOne({
+                  where: {
+                    id: req.params.bookId,
+                  }
+                })
+                  .then((book) => {
+                    book.increment('quantity');
+                  });
+                res.status(200).json({
+                  message: 'successfully accepted return request',
+                  borrowedBook: reloadedupdatedborrowedBook
+                });
+              });
+            });
+        }
       });
-    } catch (error) {
-      return res.status(400).json({ error });
-    }
   }
 }

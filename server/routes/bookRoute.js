@@ -334,10 +334,11 @@ const bookRoute = (app) => {
  *       409:
  *         description: Request had been made before
  */
-  // app.post(
-  //   '/api/v1/users/return/:bookId(\\d+)',
-  //   BookMiddleware.bookExist, borrowedBookExists, BookController.returnBook
-  // );
+  app.post(
+    '/api/v1/users/return/:bookId(\\d+)',
+    Authentication.authMiddleware, UserMiddleware.userExist,
+    Authentication.isActive, BorrowBookController.returnBook
+  );
   /**
  * @swagger
  * /api/v1/users/{userId}/borrow/{bookId}:
@@ -433,10 +434,11 @@ const bookRoute = (app) => {
  *       409:
  *         description: Request had been made before
  */
-  // app.put(
-  //   '/api/v1/users/:userId(\\d+)/return/:bookId(\\d+)',
-  //   BookMiddleware.bookExist, borrowedBookExists, BookController.acceptReturnBook
-  // );
+  app.put(
+    '/api/v1/users/:userId(\\d+)/return/:bookId(\\d+)',
+    Authentication.authMiddleware, AdminMiddleware.isAdmin,
+    Authentication.isActive, BorrowBookController.acceptReturnBook
+  );
   app.delete(
     '/api/v1/books/review/:reviewId(\\d+)',
     Authentication.authMiddleware, UserMiddleware.userExist,
