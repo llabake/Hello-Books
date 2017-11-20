@@ -70,7 +70,13 @@ export default(sequelize, DataTypes) => {
     Book.hasMany(models.Favorite, {
       foreignKey: 'bookId',
     });
+    Book.hasMany(models.BorrowBook, {
+      foreignKey: 'bookId',
+      as: 'book',
+    });
   };
-  Book.prototype.isAvailable = () => this.quantity >= 1;
+  Book.prototype.isAvailable = function isAvailable() {
+    return this.quantity >= 1;
+  };
   return Book;
 };
