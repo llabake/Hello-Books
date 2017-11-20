@@ -3,7 +3,6 @@ import Authentication from '../middlewares/authenticationMiddleware';
 import BookController from '../controllers/v1/bookController';
 import FavoriteController from '../controllers/v1/favoriteController';
 import ReviewController from '../controllers/v1/reviewController';
-import BorrowBookController from '../controllers/v1/borrowBookController';
 import BookMiddleware from '../middlewares/bookMiddleware';
 import UserMiddleware from '../middlewares/userMiddleware';
 import FavoriteMiddleware from '../middlewares/favoriteMiddleware';
@@ -284,10 +283,8 @@ const bookRoute = (app) => {
  *         description: Request had been made before
  */
   app.post(
-    '/api/v1/users/borrow/:bookId(\\d+)',
-    Authentication.authMiddleware, UserMiddleware.userExist,
-    Authentication.isActive, BookMiddleware.bookExist,
-    BorrowBookController.borrowBook
+    '/api/v1/users/:userId(\\d+)/borrow/:bookId(\\d+)',
+    BookMiddleware.bookExist, BookController.borrowBook
   );
   /**
  * @swagger
@@ -334,10 +331,10 @@ const bookRoute = (app) => {
  *       409:
  *         description: Request had been made before
  */
-  // app.post(
-  //   '/api/v1/users/return/:bookId(\\d+)',
-  //   BookMiddleware.bookExist, borrowedBookExists, BookController.returnBook
-  // );
+  app.post(
+    '/api/v1/users/:userId(\\d+)/return/:bookId(\\d+)',
+    BookMiddleware.bookExist, borrowedBookExists, BookController.returnBook
+  );
   /**
  * @swagger
  * /api/v1/users/{userId}/borrow/{bookId}:
@@ -385,8 +382,7 @@ const bookRoute = (app) => {
  */
   app.put(
     '/api/v1/users/:userId(\\d+)/borrow/:bookId(\\d+)',
-    Authentication.authMiddleware, AdminMiddleware.isAdmin,
-    Authentication.isActive, BorrowBookController.acceptBorrowBook
+    BookMiddleware.bookExist, borrowedBookExists, BookController.acceptBorrowBook
   );
   /**
  * @swagger
@@ -433,10 +429,10 @@ const bookRoute = (app) => {
  *       409:
  *         description: Request had been made before
  */
-  // app.put(
-  //   '/api/v1/users/:userId(\\d+)/return/:bookId(\\d+)',
-  //   BookMiddleware.bookExist, borrowedBookExists, BookController.acceptReturnBook
-  // );
+  app.put(
+    '/api/v1/users/:userId(\\d+)/return/:bookId(\\d+)',
+    BookMiddleware.bookExist, borrowedBookExists, BookController.acceptReturnBook
+  );
   app.delete(
     '/api/v1/books/review/:reviewId(\\d+)',
     Authentication.authMiddleware, UserMiddleware.userExist,
