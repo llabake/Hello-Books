@@ -234,7 +234,7 @@ class BookController {
     const searchQuery = req.query.search;
     options.limit = 10;
     options.attributes = [
-      'id', 'title', 'description',
+      'id', 'title', 'description', 'author',
       'upVotes', 'downVotes', 'borrowCount'
     ];
     options.include = [{
