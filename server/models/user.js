@@ -105,7 +105,11 @@ export default (sequelize, DataTypes) => {
       as: 'user'
     });
     User.hasMany(models.Favorite, {
-      foreignKey: 'bookId',
+      foreignKey: 'userId',
+    });
+    User.hasMany(models.BorrowBook, {
+      foreignKey: 'userId',
+      as: 'users'
     });
   };
   return User;
