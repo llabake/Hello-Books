@@ -59,7 +59,7 @@ export default class VoteController {
             }).then((createdVote) => {
               book.increment(`${req.voteType}s`);
               res.status(201).json({
-                message: `You have successfully ${req.voteType}d this book`,
+                message: `You have successfully ${req.voteType.toLowerCase()}d this book`,
                 vote: createdVote,
                 book
               });
