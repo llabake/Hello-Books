@@ -4,10 +4,11 @@ import BookController from '../controllers/v1/bookController';
 import FavoriteController from '../controllers/v1/favoriteController';
 import ReviewController from '../controllers/v1/reviewController';
 import BorrowBookController from '../controllers/v1/borrowBookController';
+import VoteController from '../controllers/v1/voteController';
 import BookMiddleware from '../middlewares/bookMiddleware';
 import UserMiddleware from '../middlewares/userMiddleware';
 import FavoriteMiddleware from '../middlewares/favoriteMiddleware';
-import borrowedBookExists from '../middlewares/borrowedBookExistsMiddleware';
+import VoteMiddleware from '../middlewares/voteMiddleware';
 
 const bookRoute = (app) => {
   /**
@@ -149,7 +150,7 @@ const bookRoute = (app) => {
     '/api/v1/books',
     Authentication.authMiddleware,
     Authentication.isActive, BookController.getAllBooks,
-    BookController.getBookByUpvotes
+    BookController.getBooksByUpvotes, BookController.getBooksBySearch
   );
   /**
  * @swagger
@@ -445,6 +446,18 @@ const bookRoute = (app) => {
     Authentication.authMiddleware, UserMiddleware.userExist,
     Authentication.isActive,
     ReviewController.deleteReview
+  );
+  app.post(
+    '/api/v1/books/:bookId(\\d+)/upvote',
+    Authentication.authMiddleware, UserMiddleware.userExist,
+    Authentication.isActive, BookMiddleware.bookExist,
+    VoteMiddleware.setUpVote, VoteController.voteBook
+  );
+  app.post(
+    '/api/v1/books/:bookId(\\d+)/downvote',
+    Authentication.authMiddleware, UserMiddleware.userExist,
+    Authentication.isActive, BookMiddleware.bookExist,
+    VoteMiddleware.setDownVote, VoteController.voteBook
   );
 };
 
