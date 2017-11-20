@@ -111,6 +111,9 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'users'
     });
+    User.hasMany(models.Vote, {
+      foreignKey: 'userId',
+    });
   };
   return User;
 };
