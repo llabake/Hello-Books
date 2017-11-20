@@ -177,6 +177,15 @@ export default class BorrowedBookController {
           })
             .then(() => {
               borrowedBook.reload().then((reloadedupdatedborrowedBook) => {
+                Book.findOne({
+                  where: {
+                    id: req.params.bookId,
+                  }
+                })
+                  .then((book) => {
+                    book.decrement('quantity');
+                    book.increment('borrowCount');
+                  });
                 res.status(200).json({
                   message: 'successfully accepted borrow request',
                   borrowedBook: reloadedupdatedborrowedBook
