@@ -74,6 +74,9 @@ export default(sequelize, DataTypes) => {
       foreignKey: 'bookId',
       as: 'book',
     });
+    Book.hasMany(models.Vote, {
+      foreignKey: 'bookId',
+    });
   };
   Book.prototype.isAvailable = function isAvailable() {
     return this.quantity >= 1;
