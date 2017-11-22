@@ -78,7 +78,7 @@ export default class UserController {
           if (err) {
             res.status(500).send(err);
           } else if (!user) {
-            res.status(400).json({
+            res.status(401).json({
               success: false,
               message: 'Authentication failed. Incorrect credentials.'
             });
@@ -92,7 +92,8 @@ export default class UserController {
               });
             } else {
               res.status(401).json({
-                message: 'Incorrect credentials, please check username or password'
+                success: false,
+                message: 'Authentication failed. Incorrect credentials.'
               });
             }
           }
@@ -110,7 +111,7 @@ export default class UserController {
         user.update({ active: false })
           .then(() =>
             res.status(200)
-              .send({
+              .json({
                 message: `You have successfully logged out ${user.username}`,
               }));
       });
