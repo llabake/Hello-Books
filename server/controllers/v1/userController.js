@@ -49,7 +49,7 @@ export default class UserController {
         })
         .catch((error) => {
           if (error.name === 'SequelizeUniqueConstraintError') {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(409).json({ message: 'User already exists' });
           }
           return res.status(400).send(error);
         });
