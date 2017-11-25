@@ -122,7 +122,7 @@ export default class InputValidator {
         errors.push({ path: field, message: `${field} is required` });
       }
     });
-    if (args.length < 10) {
+    if (args.content && args.content.length < 10) {
       errors.push({ path: 'content', message: 'Review content is too short' });
     }
     const isValid = errors.length === 0;
