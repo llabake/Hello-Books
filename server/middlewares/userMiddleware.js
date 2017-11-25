@@ -19,11 +19,12 @@ export default class UserMiddleware {
    * @memberof UserMiddleware
    */
   static userExist(req, res, next) {
-    User.findById(req.params.userId || req.user.id)
+    const userId = req.params.userId || req.user.id;
+    User.findById(userId)
       .then((user) => {
         if (!user) {
           return res.status(404).json({
-            message: `User with id: ${req.user.id} not found`
+            message: `User with id: ${userId} not found`
           });
         }
         next();
