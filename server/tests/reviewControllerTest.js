@@ -67,27 +67,28 @@ describe('Review Endpoint Functionality', () => {
     it('it should return an array of errors to validate empty input', (done) => {
       const user = userDataTest.user1;
       User.create(user).then((createdUser) => {
-        createdUser.update({ active: true });
-        const book = bookDataTest.book1;
-        const review = reviewDataTest.emptyReview;
-        const token = generateToken(createdUser);
-        Book.create(book).then((createdBook) => {
-          request.post(`/api/v1/books/${createdBook.id}/review`)
-            .send(review)
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .end((err, res) => {
-              expect(400);
-              expect(res.body).to.eql({
-                errors: [
-                  {
-                    path: 'content',
-                    message: 'content is required'
-                  }
-                ]
+        createdUser.update({ active: true }).then(()=> {
+          const book = bookDataTest.book1;
+          const review = reviewDataTest.emptyReview;
+          const token = generateToken(createdUser);
+          Book.create(book).then((createdBook) => {
+            request.post(`/api/v1/books/${createdBook.id}/review`)
+              .send(review)
+              .set('Accept', 'application/json')
+              .set('Authorization', token)
+              .end((err, res) => {
+                expect(400);
+                expect(res.body).to.eql({
+                  errors: [
+                    {
+                      path: 'content',
+                      message: 'content is required'
+                    }
+                  ]
+                });
+                done(err);
               });
-              done(err);
-            });
+          });
         });
       });
     });

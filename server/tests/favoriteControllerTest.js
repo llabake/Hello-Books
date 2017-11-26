@@ -69,34 +69,37 @@ describe('Favorite Endpoint Functionality', () => {
     it('it should not add a book that does not exist as favorite', (done) => {
       const user = userDataTest.user1;
       User.create(user).then((createdUser) => {
-        createdUser.update({ active: true });
-        const bookId = 200;
-        const token = generateToken(createdUser);
-        request.post(`/api/v1/books/fav/${bookId}`)
-          .set('Accept', 'application/json')
-          .set('Authorization', token)
-          .end((err, res) => {
-            expect(404);
-            expect(res.body.message).to.eql(`Book with id: ${bookId} not found`);
-            done(err);
-          });
+        createdUser.update({ active: true }).then(() => {
+          const bookId = 200;
+          const token = generateToken(createdUser);
+          request.post(`/api/v1/books/fav/${bookId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .end((err, res) => {
+              expect(404);
+              expect(res.body.message).to.eql(`Book with id: ${bookId} not found`);
+              done(err);
+            });
+        });
       });
     });
     it('it should not allow a user that does not exist add book as favorite', (done) => {
       const user = userDataTest.user1;
       User.create(user).then((createdUser) => {
-        createdUser.update({ active: true });
-        const bookId = 200;
-        const token = generateToken(createdUser);
-        createdUser.destroy();
-        request.post(`/api/v1/books/fav/${bookId}`)
-          .set('Accept', 'application/json')
-          .set('Authorization', token)
-          .end((err, res) => {
-            expect(404);
-            expect(res.body.message).to.eql(`User with id: ${createdUser.id} not found`);
-            done(err);
+        createdUser.update({ active: true }).then(() => {
+          const bookId = 200;
+          const token = generateToken(createdUser);
+          createdUser.destroy().then(() => {
+            request.post(`/api/v1/books/fav/${bookId}`)
+              .set('Accept', 'application/json')
+              .set('Authorization', token)
+              .end((err, res) => {
+                expect(404);
+                expect(res.body.message).to.eql(`User with id: ${createdUser.id} not found`);
+                done(err);
+              });
           });
+        });
       });
     });
     it('it should successfully mark a book as favorite', (done) => {
@@ -188,7 +191,7 @@ describe('Favorite Endpoint Functionality', () => {
             .set('Authorization', token)
             .end((err, res) => {
               expect(404);
-              expect(res.body.message).to.eql(`${bookId} is not on your Favorite List`);
+              expect(res.body.message).to.eql(`Book with id:${bookId} is not on your Favorite List`);
               done(err);
             });
         });

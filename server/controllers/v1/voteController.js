@@ -42,11 +42,13 @@ export default class VoteController {
                   const fieldToDecrement = fieldToIncrement === 'upVotes' ? 'downVotes' : 'upVotes';
                   book.increment(fieldToIncrement);
                   book.decrement(fieldToDecrement);
-                  vote.reload().then(() => {
-                    res.status(200).json({
-                      message: `You have successfully ${req.voteType.toLowerCase()}d this book`,
-                      vote,
-                      book
+                  book.reload().then(() => {
+                    vote.reload().then(() => {
+                      res.status(200).json({
+                        message: `You have successfully ${req.voteType.toLowerCase()}d this book`,
+                        vote,
+                        book
+                      });
                     });
                   });
                 });
