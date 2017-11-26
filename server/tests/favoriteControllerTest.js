@@ -60,7 +60,8 @@ describe('Favorite Endpoint Functionality', () => {
             .set('Authorization', token)
             .end((err, res) => {
               expect(403);
-              expect(res.body.message).to.eql(`You are logged out ${user.username}, please log back in`);
+              expect(res.body.message)
+                .to.eql(`You are logged out ${user.username}, please log back in`);
               done(err);
             });
         });
@@ -77,7 +78,8 @@ describe('Favorite Endpoint Functionality', () => {
             .set('Authorization', token)
             .end((err, res) => {
               expect(404);
-              expect(res.body.message).to.eql(`Book with id: ${bookId} not found`);
+              expect(res.body.message)
+                .to.eql(`Book with id: ${bookId} not found`);
               done(err);
             });
         });
@@ -95,7 +97,8 @@ describe('Favorite Endpoint Functionality', () => {
               .set('Authorization', token)
               .end((err, res) => {
                 expect(404);
-                expect(res.body.message).to.eql(`User with id: ${createdUser.id} not found`);
+                expect(res.body.message)
+                  .to.eql(`User with id: ${createdUser.id} not found`);
                 done(err);
               });
           });
@@ -149,25 +152,30 @@ describe('Favorite Endpoint Functionality', () => {
     it('it should successfully get a list of users favorite books', (done) => {
       const user = userDataTest.user1;
       User.create(user).then((createdUser) => {
-        createdUser.update({ active: true });
-        const userId = createdUser.id;
-        const booka = bookDataTest.book1;
-        const bookb = bookDataTest.book2;
-        const token = generateToken(createdUser);
-        Book.bulkCreate([booka, bookb]).then(() => Book.findAll()).then((books) => {
-          Favorite.bulkCreate([
-            { bookId: books[0].id, userId },
-            { bookId: books[1].id, userId },
-          ]);
-          request.get('/api/v1/books/favbooks/')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .end((err, res) => {
-              expect(201);
-              expect(res.body.message).to.eql('Favorite Book(s) retrieved successfully');
-              expect(Object.prototype.hasOwnProperty
-                .call(res.body, 'favorites')).to.eql(true);
-              done(err);
+        createdUser.update({ active: true }).then(() => {
+          const userId = createdUser.id;
+          const booka = bookDataTest.book1;
+          const bookb = bookDataTest.book2;
+          const token = generateToken(createdUser);
+          Book.bulkCreate([booka, bookb])
+            .then(() => Book.findAll())
+            .then((books) => {
+              Favorite.bulkCreate([
+                { bookId: books[0].id, userId },
+                { bookId: books[1].id, userId },
+              ]).then(() => {
+                request.get('/api/v1/books/favbooks/')
+                  .set('Accept', 'application/json')
+                  .set('Authorization', token)
+                  .end((err, res) => {
+                    expect(201);
+                    expect(res.body.message)
+                      .to.eql('Favorite Book(s) retrieved successfully');
+                    expect(Object.prototype.hasOwnProperty
+                      .call(res.body, 'favorites')).to.eql(true);
+                    done(err);
+                  });
+              });
             });
         });
       });
@@ -200,23 +208,27 @@ describe('Favorite Endpoint Functionality', () => {
     it('it should successfully delete book from a user favorite list', (done) => {
       const user = userDataTest.user1;
       User.create(user).then((createdUser) => {
-        createdUser.update({ active: true });
-        const userId = createdUser.id;
-        const booka = bookDataTest.book1;
-        const bookb = bookDataTest.book2;
-        const token = generateToken(createdUser);
-        Book.bulkCreate([booka, bookb]).then(() => Book.findAll()).then((books) => {
-          Favorite.bulkCreate([
-            { bookId: books[0].id, userId },
-            { bookId: books[1].id, userId },
-          ]);
-          request.delete(`/api/v1/books/fav/${books[0].id}/`)
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .end((err, res) => {
-              expect(200);
-              expect(res.body.message).to.eql(`${booka.title} has been removed from your favorite list`);
-              done(err);
+        createdUser.update({ active: true }).then(() => {
+          const userId = createdUser.id;
+          const booka = bookDataTest.book1;
+          const bookb = bookDataTest.book2;
+          const token = generateToken(createdUser);
+          Book.bulkCreate([booka, bookb])
+            .then(() => Book.findAll())
+            .then((books) => {
+              Favorite.bulkCreate([
+                { bookId: books[0].id, userId },
+                { bookId: books[1].id, userId },
+              ]);
+              request.delete(`/api/v1/books/fav/${books[0].id}/`)
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .end((err, res) => {
+                  expect(200);
+                  expect(res.body.message)
+                    .to.eql(`${booka.title} has been removed from your favorite list`);
+                  done(err);
+                });
             });
         });
       });
