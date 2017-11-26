@@ -67,15 +67,20 @@ app.get('*', (req, res) => res.status(200).send({
   message: 'Route does not exist, explore at api/v1',
 }));
 
-if (process.env.NODE_ENV !== 'test') {
-  db.sequelize.sync().then(() => {
-    if (!module.parent) {
-      app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
-      });
-    }
-  });
-}
+// if (!module.parent) {
+//   app.listen(port, () => {
+//     console.log(`Server running on port ${port}`);
+//   });
+// }
+// if (process.env.NODE_ENV !== 'test') {
+//   db.sequelize.sync().then(() => {
+//     if (!module.parent) {
+//       app.listen(port, () => {
+//         console.log(`Server running on port ${port}`);
+//       });
+//     }
+//   });
+// }
 
 
 export default app;
