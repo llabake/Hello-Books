@@ -230,7 +230,7 @@ const bookRoute = (app) => {
  *         description: Incomplete parameters or type
  */
   app.get(
-    '/api/v1/books/:userId(\\d+)/favbooks',
+    '/api/v1/books/favbooks',
     Authentication.authMiddleware,
     Authentication.isActive, FavoriteController.retrieveUserFavorite
   );

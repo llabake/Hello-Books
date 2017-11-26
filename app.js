@@ -3,9 +3,11 @@ import bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import logger from 'morgan';
 import path from 'path';
+import dotenv from 'dotenv';
 import routes from './server/routes';
 import db from './server/models/index';
 
+dotenv.config();
 
 // Set up the express app
 const app = express();
