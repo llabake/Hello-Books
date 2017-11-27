@@ -1,13 +1,83 @@
 import supertest from 'supertest';
 import chai from 'chai';
 import app from '../../app';
-import { dummyData } from '../dummy/helpers/modelHelpers';
-import Book from '../dummy/models/book';
-import Review from '../dummy/models/review';
-import BorrowedBook from '../dummy/models/borrowedBook';
+import models from '../models';
+import { generateToken } from '../helpers/utils';
 
+const { Book, User } = models;
 const request = supertest(app);
 const { expect } = chai;
+
+const bookDataTest = {
+  validBook1: {
+    title: 'fine boys',
+    author: 'ehabsuen',
+    isbn: 27565,
+    quantity: 6,
+    publishedYear: 2015,
+    description: 'juvenile adventure'
+  },
+  validBook2: {
+    title: 'There Was A Country',
+    author: 'Chinua Achebe',
+    isbn: 65486565,
+    quantity: 56,
+    publishedYear: 2008,
+    description: 'a book on nation building'
+  },
+  validBook3: {
+    title: 'Lean Start Up',
+    author: 'Eric Reis',
+    isbn: 687565,
+    quantity: 6,
+    publishedYear: 2015,
+    description: 'a start up book'
+  },
+  emptyBookDetail: {},
+  zeroQuantity: {
+    title: 'Alapata Apata',
+    author: 'Wole Soyinka',
+    isbn: '8655',
+    quantity: 0,
+    publishedYear: '2009',
+    description: 'a book a family'
+  },
+  stringQuantity: {
+    title: 'Alapata Apata',
+    author: 'Wole Soyinka',
+    isbn: '6565',
+    quantity: '87',
+    publishedYear: '2009',
+    description: 'a book a family'
+  },
+  stringIsbnAndPublishedYear: {
+    title: 'Alapata Apata',
+    author: 'Wole Soyinka',
+    isbn: '865675',
+    quantity: '87',
+    publishedYear: '2009',
+    description: 'a book a family'
+  }
+};
+const userDataTest = {
+  normalUser: {
+    username: 'keinzy',
+    email: 'oyebola.otin@gmail.com',
+    password: 'password',
+    firstName: 'oyebola',
+    lastName: 'ayinla',
+    confirmpassword: 'password'
+  },
+  adminUser: {
+    username: 'flakky',
+    email: 'flakkykitche@gmail.com',
+    password: 'tobi',
+    firstName: 'Folake',
+    lastName: 'Onamusi',
+    confirmpassword: 'tobi',
+    role: 'admin'
+  },
+};
 
 describe('Index route:', () => {
   xit('it should return welcome message', (done) => {
@@ -17,6 +87,190 @@ describe('Index route:', () => {
         expect(res.body).to.eql({ message: 'Welcome to Hello Books' });
         done(err);
       });
+  });
+});
+
+describe('Book Endpoint Functionality', () => {
+  beforeEach((done) => {
+    Book.destroy({ where: {} })
+      .then(() => {
+      }); User.destroy({ where: {} })
+      .then(() => {
+        done();
+      });
+  });
+});
+
+describe('Book addition', () => {
+  it('it should return an array of errors to validate book input', (done) => {
+    User.create(userDataTest.adminUser).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const token = generateToken(createdUser);
+        request.post('/api/v1/books')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .send(bookDataTest.emptyBookDetail)
+          .end((err, res) => {
+            expect(400);
+            expect(res.body).to.eql({
+              errors: [
+                {
+                  path: 'title',
+                  message: 'title is required'
+                },
+                {
+                  path: 'author',
+                  message: 'author is required'
+                },
+                {
+                  path: 'publishedYear',
+                  message: 'publishedYear is required'
+                },
+                {
+                  path: 'isbn',
+                  message: 'isbn is required'
+                },
+                {
+                  path: 'quantity',
+                  message: 'quantity is required'
+                },
+                {
+                  path: 'description',
+                  message: 'description is required'
+                },
+              ]
+            });
+            done(err);
+          });
+      });
+    });
+  });
+  it('it should check PublishedYear and isbn are numbers', (done) => {
+    User.create(userDataTest.adminUser).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const token = generateToken(createdUser);
+        request.post('/api/v1/books')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .send(bookDataTest.stringIsbnAndPublishedYear)
+          .end((err, res) => {
+            expect(400);
+            expect(res.body).to.eql({
+              errors: [
+                {
+                  path: 'publishedYear',
+                  message: 'PublishedYear can only be a number'
+                },
+                {
+                  path: 'isbn',
+                  message: 'isbn can only be a number'
+                }
+              ]
+            });
+            done(err);
+          });
+      });
+    });
+  });
+  it('it should check that quantity is greater than zero', (done) => {
+    User.create(userDataTest.adminUser).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const token = generateToken(createdUser);
+        request.post('/api/v1/books')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .send(bookDataTest.zeroQuantity)
+          .end((err, res) => {
+            expect(400);
+            expect(res.body).to.eql({
+              errors: [
+                {
+                  path: 'quantity',
+                  message: 'Quantity must be a number and greater than zero'
+                }
+              ]
+            });
+            done(err);
+          });
+      });
+    });
+  });
+  it('it should check that quantity is a number', (done) => {
+    User.create(userDataTest.normalUser).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const token = generateToken(createdUser);
+        request.post('/api/v1/books')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .send(bookDataTest.stringQuantity)
+          .end((err, res) => {
+            expect(400);
+            expect(res.body).to.eql({
+              errors: [
+                {
+                  path: 'quantity',
+                  message: 'Quantity must be a number and greater than zero'
+                }
+              ]
+            });
+            done(err);
+          });
+      });
+    });
+  });
+  it('it should not allow a normal user add a book', (done) => {
+    User.create(userDataTest.normalUser).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const token = generateToken(createdUser);
+        request.post('/api/v1/books')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .send(bookDataTest.validBook1)
+          .end((err, res) => {
+            expect(403);
+            expect(res.body.message).to.eql('Permission denied, only an admin can access this route');
+            done(err);
+          });
+      });
+    });
+  });
+  it('it should successfully add a book', (done) => {
+    User.create(userDataTest.adminUser).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const token = generateToken(createdUser);
+        const book = bookDataTest.validBook2;
+        request.post('/api/v1/books')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .send(book)
+          .end((err, res) => {
+            expect(201);
+            expect(res.body.message).to.eql(`Book with title: ${book.title} has been added`);
+            expect(Object.prototype.hasOwnProperty
+              .call(res.body, 'book')).to.eql(true);
+            done(err);
+          });
+      });
+    });
+  });
+  it('it should not add a book twice', (done) => {
+    User.create(userDataTest.adminUser).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const token = generateToken(createdUser);
+        const book = bookDataTest.validBook2;
+        Book.create(book);
+        request.post('/api/v1/books')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .send(book)
+          .end((err, res) => {
+            const field = Object.keys(err.fields)[0];
+            expect(409);
+            expect(res.body.message).to.eql(`Book with ${field}: ${req.body[field]} already exist`);
+            done(err);
+          });
+      });
+    });
   });
 });
 
@@ -516,4 +770,3 @@ describe('Controller Functions', () => {
     });
   });
 });
-

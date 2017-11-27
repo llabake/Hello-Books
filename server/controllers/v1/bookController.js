@@ -33,7 +33,7 @@ class BookController {
         image: req.body.image,
       })
         .then((book) => {
-          res.status(200).json({
+          res.status(201).json({
             message: `Book with title: ${book.title} has been added`,
             book
           });

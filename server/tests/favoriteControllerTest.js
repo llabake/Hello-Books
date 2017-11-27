@@ -7,6 +7,7 @@ import { generateToken } from '../helpers/utils';
 const { Favorite, Book, User } = models;
 const request = supertest(app);
 const { expect } = chai;
+
 const userDataTest = {
   user1: {
     username: 'keinzy',
@@ -27,15 +28,15 @@ const bookDataTest = {
     description: 'a book a family'
   },
   book2: {
-    title: 'so long a letter',
-    author: 'mariam ba',
-    isbn: 65465,
-    quantity: 56,
-    publishedYear: 2009,
-    description: 'a book a family'
+    title: 'zero to hero',
+    author: 'eric reis',
+    isbn: 8752626,
+    quantity: 55,
+    publishedYear: 2012,
+    description: '8752626',
+    image: 'https://images-na.ssl-images-amazon.com/images/I/41mbSg-W6-L._SY344_BO1,204,203,200_.jpg'
   },
 };
-
 describe('Favorite Endpoint Functionality', () => {
   beforeEach((done) => {
     Favorite.destroy({ where: {} })
@@ -125,6 +126,28 @@ describe('Favorite Endpoint Functionality', () => {
         });
       });
     });
+    it('it should not add a book as favorite twice', (done) => {
+      const user = userDataTest.user1;
+      User.create(user).then((createdUser) => {
+        createdUser.update({ active: true });
+        const book = bookDataTest.book1;
+        const token = generateToken(createdUser);
+        Book.create(book).then((createdBook) => {
+          Favorite.create({
+            bookId: createdBook.id,
+            userId: createdUser.id
+          });
+          request.post(`/api/v1/books/fav/${createdBook.id}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .end((err, res) => {
+              expect(409);
+              expect(res.body.message).to.eql('Book already on your favorite list');
+              done(err);
+            });
+        });
+      });
+    });
     it('it should successfully get a single favorite list item', (done) => {
       const user = userDataTest.user1;
       User.create(user).then((createdUser) => {
@@ -142,6 +165,26 @@ describe('Favorite Endpoint Functionality', () => {
             .end((err, res) => {
               expect(201);
               expect(res.body.message).to.eql('Favorite Book(s) retrieved successfully');
+              expect(Object.prototype.hasOwnProperty
+                .call(res.body, 'favorites')).to.eql(true);
+              done(err);
+            });
+        });
+      });
+    });
+    it('it should return an empty array if no books on the favorite list', (done) => {
+      const user = userDataTest.user1;
+      User.create(user).then((createdUser) => {
+        createdUser.update({ active: true });
+        const book = bookDataTest.book1;
+        const token = generateToken(createdUser);
+        Book.create(book).then(() => {
+          request.get('/api/v1/books/favbooks/')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .end((err, res) => {
+              expect(200);
+              expect(res.body.message).to.eql('There are no Books on your Favorite List');
               expect(Object.prototype.hasOwnProperty
                 .call(res.body, 'favorites')).to.eql(true);
               done(err);
