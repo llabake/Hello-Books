@@ -67,6 +67,7 @@ app.get('*', (req, res) => res.status(200).send({
   message: 'Route does not exist, explore at api/v1',
 }));
 
+
 if (process.env.NODE_ENV !== 'test') {
   db.sequelize.sync().then(() => {
     app.listen(port, () => {

@@ -10,12 +10,12 @@ const { expect } = chai;
 
 const userDataTest = {
   validUser1: {
-username: 'keinzy',
-email: 'oyebola.otin@gmail.com',
-password: 'password',
-firstName: 'oyebola',
-lastName: 'ayinla',
-confirmpassword: 'password'
+    username: 'keinzy',
+    email: 'oyebola.otin@gmail.com',
+    password: 'password',
+    firstName: 'oyebola',
+    lastName: 'ayinla',
+    confirmpassword: 'password'
   },
   validUser2: {
     username: 'solape',
@@ -200,7 +200,8 @@ describe('User Endpoint Functionality', () => {
         .set('Accept', 'application/json')
         .end((err, res) => {
           expect(201);
-          expect(res.body.message).to.eql(`Your Signup was successful ${user.username}`);
+          expect(res.body.message)
+            .to.eql(`Your Signup was successful ${user.username}`);
           expect(Object.prototype.hasOwnProperty
             .call(res.body.user, 'id')).to.eql(true);
           expect(res.body.user.id).to.be.an('number');
@@ -254,7 +255,8 @@ describe('User Endpoint Functionality', () => {
         .end((err, res) => {
           expect(401);
           expect(res.body.success).to.eql(false);
-          expect(res.body.message).to.eql('Authentication failed. Incorrect credentials.');
+          expect(res.body.message)
+            .to.eql('Authentication failed. Incorrect credentials.');
           done(err);
         });
     });
@@ -264,7 +266,8 @@ describe('User Endpoint Functionality', () => {
         .send(user)
         .end((err, res) => {
           expect(401);
-          expect(res.body.message).to.eql('Authentication failed. Incorrect credentials.');
+          expect(res.body.message)
+            .to.eql('Authentication failed. Incorrect credentials.');
           expect(res.body.success).to.eql(false);
           done(err);
         });
@@ -276,7 +279,8 @@ describe('User Endpoint Functionality', () => {
           .send({ username: user.username, password: user.password })
           .end((err, res) => {
             expect(200);
-            expect(res.body.message).to.eql(`Welcome ${user.username}, you're logged in`);
+            expect(res.body.message)
+              .to.eql(`Welcome ${user.username}, you're logged in`);
             expect(res.body.token).to.be.a('string');
             done(err);
           });
@@ -294,7 +298,8 @@ describe('User Endpoint Functionality', () => {
           .set('Authorization', token)
           .end((err, res) => {
             expect(200);
-            expect(res.body.message).to.eql(`You have successfully logged out ${user.username}`);
+            expect(res.body.message)
+              .to.eql(`You have successfully logged out ${user.username}`);
             done(err);
           });
       });

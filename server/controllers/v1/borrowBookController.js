@@ -36,7 +36,7 @@ export default class BorrowedBookController {
       .then((borrowedBook) => {
         if (borrowedBook && borrowedBook.borrowedStatus === 'pending') {
           return res.status(409).json({
-            message: `You have made a request earlier on ${borrowedBook.book.title}, its pending approval by Administrator`
+            message: `You have made a request earlier on ${borrowedBook.book.title}, it is pending approval by Administrator`
           });
         }
         BorrowBook.findOne({
@@ -78,7 +78,7 @@ export default class BorrowedBookController {
                   })
                     .then((createdBorrowedBook) => {
                       res.status(201).json({
-                        message: `borrow request has been made on ${book.title} and its being processed`,
+                        message: `borrow request has been made on ${book.title} and it is being processed`,
                         borrowedBook: createdBorrowedBook
                       });
                     });

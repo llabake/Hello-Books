@@ -154,7 +154,7 @@ const bookRoute = (app) => {
   );
   /**
  * @swagger
- * /api/v1/users/{userId}/review/{bookId}:
+ * /api/v1/books/{bookId}/review/:
  *   post:
  *     tags:
  *       - Book Functionality
@@ -182,7 +182,7 @@ const bookRoute = (app) => {
   );
   /**
  * @swagger
- * /api/v1/users/{userId}/fav/{bookId}:
+ * /api/v1/books/fav/{bookId}:
  *   post:
  *     tags:
  *       - Book Functionality
@@ -205,11 +205,12 @@ const bookRoute = (app) => {
   app.post(
     '/api/v1/books/fav/:bookId(\\d+)',
     Authentication.authMiddleware, UserMiddleware.userExist,
-    Authentication.isActive, BookMiddleware.bookExist, FavoriteController.markBookAsFavorite
+    Authentication.isActive, BookMiddleware.bookExist,
+    FavoriteController.markBookAsFavorite
   );
   /**
  * @swagger
- * /api/v1/users/{userId}/favbooks:
+ * /api/v1/books/favbooks:
  *   get:
  *     tags:
  *       - Book Functionality
@@ -234,6 +235,28 @@ const bookRoute = (app) => {
     Authentication.authMiddleware,
     Authentication.isActive, FavoriteController.retrieveUserFavorite
   );
+  /**
+ * @swagger
+ * /api/v1/books/fav/{bookId}:
+ *   delete:
+ *     tags:
+ *       - Book Functionality
+ *     description: Deletes a book from a user's favorite list
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: book
+ *         description: Book object
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Favorite'
+ *     responses:
+ *       200:
+ *         description: Successfully deleted
+ *       400:
+ *         description: Unauthenticated
+ */
   app.delete(
     '/api/v1/books/fav/:bookId(\\d+)',
     Authentication.authMiddleware,
@@ -242,7 +265,7 @@ const bookRoute = (app) => {
   );
   /**
  * @swagger
- * /api/v1/users/{userId}/borrow/{bookId}:
+ * /api/v1/users/borrow/{bookId}:
  *   post:
  *     tags:
  *       - Borrow Functionality
@@ -293,7 +316,7 @@ const bookRoute = (app) => {
   );
   /**
  * @swagger
- * /api/v1/users/{userId}/return/{bookId}:
+ * /api/v1/users/return/{bookId}:
  *   post:
  *     tags:
  *       - Borrow Functionality
@@ -441,18 +464,84 @@ const bookRoute = (app) => {
     Authentication.authMiddleware, AdminMiddleware.isAdmin,
     Authentication.isActive, BorrowBookController.acceptReturnBook
   );
+  /**
+ * @swagger
+ * /api/v1/books/{bookId}/review/:
+ *   delete:
+ *     tags:
+ *       - Book Functionality
+ *     description: Deletes a review from a book
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: book
+ *         description: Book object
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Review'
+ *     responses:
+ *       200:
+ *         description: Successfully deleted
+ *       400:
+ *         description: Unauthenticated
+ */
   app.delete(
     '/api/v1/books/review/:reviewId(\\d+)',
     Authentication.authMiddleware, UserMiddleware.userExist,
     Authentication.isActive,
     ReviewController.deleteReview
   );
+  /**
+ * @swagger
+ * /api/v1/books/{bookId}/upvote:
+ *   post:
+ *     tags:
+ *       - Book Functionality
+ *     description: Downvote a book
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: book
+ *         description: Book object
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Book'
+ *     responses:
+ *       200:
+ *         description: Successfully voted
+ *       400:
+ *         description: Unathenticated
+ */
   app.post(
     '/api/v1/books/:bookId(\\d+)/upvote',
     Authentication.authMiddleware, UserMiddleware.userExist,
     Authentication.isActive, BookMiddleware.bookExist,
     VoteMiddleware.setUpVote, VoteController.voteBook
   );
+  /**
+ * @swagger
+ * /api/v1/books/{bookId}/downvote:
+ *   post:
+ *     tags:
+ *       - Book Functionality
+ *     description: Downvote a book
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: book
+ *         description: Book object
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Book'
+ *     responses:
+ *       200:
+ *         description: Successfully voted
+ *       400:
+ *         description: Unathenticated
+ */
   app.post(
     '/api/v1/books/:bookId(\\d+)/downvote',
     Authentication.authMiddleware, UserMiddleware.userExist,

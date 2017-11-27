@@ -27,7 +27,7 @@ export default class FavoriteMiddleware {
       .then((favorite) => {
         if (!favorite) {
           return res.status(404).json({
-            message: `${req.params.bookId} is not on your Favorite List`
+            message: `Book with id:${req.params.bookId} is not on your Favorite List`
           });
         }
         next();

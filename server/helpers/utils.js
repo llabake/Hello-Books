@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
 
-const secret = 'mySecret';
-
 export const isEmail = (email) => {
   const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   return re.test(email);
@@ -34,7 +32,7 @@ export const generateToken = (user) => {
         active: user.active
       }
     },
-    secret,
+    process.env.JWT_SECRET,
     { expiresIn: '24h' }
   );
   return token;

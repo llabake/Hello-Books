@@ -1,6 +1,14 @@
 language: node_js
 node_js:
   - "6"
+before_install:
+  - npm install -g sequelize-cli@2.8.0
+  - npm install -g mocha
+
+before_script:
+  - npm install
+  - psql -c 'create database "HelloBooksTest";' -U postgres
+
 script:
   - npm run test
 

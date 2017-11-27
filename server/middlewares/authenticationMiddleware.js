@@ -3,8 +3,6 @@ import models from '../models';
 
 const { User } = models;
 
-const secret = 'mySecret';
-
 /**
  * Class Definition for the Authentication Object using JWT
  *
@@ -30,7 +28,7 @@ export default class Authentication {
         error: 'Missing token.Expects token in header with key as Authorization'
       });
     }
-    jwt.verify(token, secret, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         if (err.message === 'jwt expired') {
           res.status(401).json({

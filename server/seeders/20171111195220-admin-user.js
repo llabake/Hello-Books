@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 
 module.exports = {
-  up: (queryInterface, Sequelize) =>
+  up: queryInterface =>
     /*
       Add altering commands here.
       Return a promise to correctly handle asynchronicity.
@@ -35,7 +35,7 @@ module.exports = {
       updatedAt: new Date()
     }], {}),
 
-  down: (queryInterface, Sequelize) =>
+  down: queryInterface =>
     /*
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
