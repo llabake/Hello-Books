@@ -31,6 +31,14 @@ const userDataTest = {
     lastName: 'ayinla',
     confirmpassword: 'password'
   },
+  user2: {
+    username: 'solape',
+    email: 'damywuraola@gmail.com',
+    password: 'damola',
+    confirmpassword: 'damola',
+    firstName: 'adedamola',
+    lastName: 'wuraola'
+  }
 };
 const bookDataTest = {
   book1: {
@@ -133,7 +141,8 @@ describe('Review Endpoint Functionality', () => {
             .set('Authorization', token)
             .end((err, res) => {
               expect(403);
-              expect(res.body.message).to.eql(`You are logged out ${user.username}, please log back in`);
+              expect(res.body.message)
+                .to.eql(`You are logged out ${user.username}, please log back in`);
               done(err);
             });
         });
@@ -152,7 +161,8 @@ describe('Review Endpoint Functionality', () => {
             .set('Authorization', token)
             .end((err, res) => {
               expect(404);
-              expect(res.body.message).to.eql(`Book with id: ${bookId} not found`);
+              expect(res.body.message)
+                .to.eql(`Book with id: ${bookId} not found`);
               done(err);
             });
         });
@@ -172,7 +182,8 @@ describe('Review Endpoint Functionality', () => {
             .set('Authorization', token)
             .end((err, res) => {
               expect(404);
-              expect(res.body.message).to.eql(`User with id: ${createdUser.id} not found`);
+              expect(res.body.message)
+                .to.eql(`User with id: ${createdUser.id} not found`);
               done(err);
             });
         });
@@ -219,7 +230,8 @@ describe('Review Endpoint Functionality', () => {
                 .set('Authorization', token)
                 .end((err, res) => {
                   expect(403);
-                  expect(res.body.message).to.eql('You did not post this Review, hence can not delete it');
+                  expect(res.body.message)
+                    .to.eql('You did not post this Review, hence can not delete it');
                   done(err);
                 });
             });
