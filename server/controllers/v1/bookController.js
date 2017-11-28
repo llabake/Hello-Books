@@ -42,7 +42,7 @@ class BookController {
           if (error.name === 'SequelizeUniqueConstraintError') {
             const field = Object.keys(error.fields)[0];
             return res.status(409).json({
-              messsage: `Book with ${field}: ${req.body[field]} already exist`
+              message: `Book with ${field}: ${req.body[field]} already exist`
             });
           }
           return res.status(400).send(error);
