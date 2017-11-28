@@ -38,18 +38,29 @@ const bookDataTest = {
   },
 };
 describe('Favorite Endpoint Functionality', () => {
-  beforeEach((done) => {
-    Favorite.destroy({ where: {} })
-      .then(() => {
-      }); User.destroy({ where: {} })
-      .then(() => {
-      });
-    Book.destroy({ where: {} })
-      .then(() => {
-        done();
-      });
-  });
+  // beforeEach((done) => {
+  //   Favorite.destroy({ where: {} })
+  //     .then(() => {
+  //     }); User.destroy({ where: {} })
+  //     .then(() => {
+  //     });
+  //   Book.destroy({ where: {} })
+  //     .then(() => {
+  //       done();
+  //     });
+  // });
   describe('User signs in to add a book as a favorite', () => {
+    beforeEach((done) => {
+      Favorite.destroy({ where: {} })
+        .then(() => {
+        }); User.destroy({ where: {} })
+        .then(() => {
+        });
+      Book.destroy({ where: {} })
+        .then(() => {
+          done();
+        });
+    });
     it('it should not allow a logged out user mark book as favorite', (done) => {
       const user = userDataTest.user1;
       User.create(user).then((createdUser) => {

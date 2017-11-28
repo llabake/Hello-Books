@@ -60,18 +60,18 @@ const bookDataTest = {
 };
 
 describe('Review Endpoint Functionality', () => {
-  beforeEach((done) => {
-    Review.destroy({ where: {} })
-      .then(() => {
-      }); Book.destroy({ where: {} })
-      .then(() => {
-      });
-    User.destroy({ where: {} })
-      .then(() => {
-        done();
-      });
-  });
   describe('User signs in to post a review', () => {
+    beforeEach((done) => {
+      Review.destroy({ where: {} })
+        .then(() => {
+        }); Book.destroy({ where: {} })
+        .then(() => {
+        });
+      User.destroy({ where: {} })
+        .then(() => {
+          done();
+        });
+    });
     it('it should return an array of errors to validate empty input', (done) => {
       const user = userDataTest.user1;
       User.create(user).then((createdUser) => {
