@@ -114,26 +114,6 @@ describe('Vote Endpoint Functionality', () => {
         });
       });
     });
-    xit('it should set vote type', (done) => {
-      const user = userDataTest.user1;
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true }).then(() => {
-          const book = bookDataTest.book1;
-          const token = generateToken(createdUser);
-          Book.create(book).then((createdBook) => {
-            Vote.create({ userId: createdUser.id, bookId: createdBook.id, voteType: 'upVote' });
-            request.post(`/api/v1/books/${createdBook.id}/upvote`)
-              .set('Accept', 'application/json')
-              .set('Authorization', token)
-              .end((err, res) => {
-                expect(409);
-                expect(res.body.message).to.eql('You already upvoted this book');
-                done(err);
-              });
-          });
-        });
-      });
-    });
     it('it should return already upvoted book', (done) => {
       const user = userDataTest.user1;
       User.create(user).then((createdUser) => {
