@@ -140,10 +140,12 @@ export default class InputValidator {
     const errors = [];
     const notManipulate = ['upVotes', 'downVotes', 'borrowCount'];
     notManipulate.forEach((field) => {
-      errors.push({
-        path: 'field',
-        message: `${field} field can not be updated`
-      });
+      if (args[field] !== undefined) {
+        errors.push({
+          path: field,
+          message: `${field} field can not be updated`
+        });
+      }
     });
     const isValid = errors.length === 0;
     return { errors, isValid };

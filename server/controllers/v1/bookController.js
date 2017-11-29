@@ -104,29 +104,31 @@ class BookController {
    * @memberof BookController
    */
   static modifyBook(req, res) {
-    Book.findById(req.params.bookId)
-      .then((book) => {
-        book.update({
-          title: req.body.title || book.title,
-          author: req.body.author || book.author,
-          publishedYear: req.body.publishedYear || book.publishedYear,
-          quantity: req.body.quantity || book.quantity,
-          description: req.body.description || book.description,
-          image: req.body.image || book.image,
-          readingList: req.body.readingList || book.readingList
-        })
-          .then((updatedBook) => {
-            res.status(200)
-              .json({
-                book: updatedBook,
-                message: 'Your book has been updated',
-              });
-          })
-          .catch(error => res.status(500).json({
-            message: 'error sending your request',
-            error
-          }));
+    const { errors, isValid } = InputValidator.modifyBook(req.body);
+    if (!isValid) {
+      res.status(400).json({ errors });
+    } else {
+      Book.update(
+        req.body,
+        {
+          where: { id: req.params.bookId },
+          returning: true,
+        }
+      ).then((updatedBook) => {
+        res.status(200).json({
+          book: updatedBook[1][0],
+          message: 'Your book has been updated'
+        });
+      }).catch((error) => {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+          const field = Object.keys(error.fields)[0];
+          return res.status(409).json({
+            message: `Operation disallowed, Book with ${field}: ${req.body[field]} already exist`
+          });
+        }
+        return res.status(500).send(error);
       });
+    }
   }
   /**
    *
