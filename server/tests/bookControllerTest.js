@@ -400,145 +400,146 @@ describe('Book Endpoint Functionality', () => {
     xit('it should not modify a book isbn number', (done) => {
       User.create(userDataTest.adminUser).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
+          const booka = bookDataTest.validBook3;
+          const bookb = bookDataTest.validBook2;
+          const existingIsbnBook =
+          Object.assign(bookDataTest.validBook2, { isbn: bookDataTest.validBook3.isbn });
           const token = generateToken(createdUser);
-          const book = bookDataTest.validBook2;
-          Book.create(book).then((createdBook) => {
-            request.put(`/api/v1/books/${createdBook.id}`)
+          Book.bulkCreate([booka, bookb])
+            .then(() => Book.findAll())
+            .then((createdBook) => {
+              request.put(`/api/v1/books/${createdBook[1].id}`)
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .send(existingIsbnBook)
+                .end((err, res) => {
+                  expect(409);
+                  expect(res.body.message).to.eql(`Operation disallowed, Book with isbn: ${createdBook[0].isbn} already exist`);
+                  done(err);
+                });
+            });
+        });
+      });
+    });
+  });
+  it('it should successfully get all books in the library', (done) => {
+    const user = userDataTest.normalUser;
+    User.create(user).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const booka = bookDataTest.validBook1;
+        const bookb = bookDataTest.validBook2;
+        const token = generateToken(createdUser);
+        Book.bulkCreate([booka, bookb])
+          .then(() => Book.findAll())
+          .then(() => {
+            request.get('/api/v1/books')
               .set('Accept', 'application/json')
               .set('Authorization', token)
-              .send(bookDataTest.bookUpdateIsbn)
               .end((err, res) => {
-                // expect(500);
                 expect(200);
-                // expect(res.body.message).to.eql('error sending your request');
-                expect(res.body.book.title).to.eql(bookDataTest.bookUpdate.title);
-                expect(res.body.book.author).to.eql(bookDataTest.bookUpdate.author);
-                expect(res.body.message).to.eql('Your book has been updated');
+                expect(res.body.message)
+                  .to.eql('Books retrieved successfully');
+                expect(res.body).to.have.own.property('books');
+                expect(res.body.books[0]).to.have.own.property('downVotes');
+                expect(res.body.books[0]).to.have.own.property('upVotes');
+                expect(res.body.books[0]).to.have.own.property('reviews');
+                expect(res.body.books[0]).to.have.own.property('borrowCount');
+                expect(res.body.books).to.be.an('array');
                 done(err);
               });
           });
-        });
       });
     });
-    it('it should successfully get all books in the library', (done) => {
-      const user = userDataTest.normalUser;
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true }).then(() => {
-          const booka = bookDataTest.validBook1;
-          const bookb = bookDataTest.validBook2;
-          const token = generateToken(createdUser);
-          Book.bulkCreate([booka, bookb])
-            .then(() => Book.findAll())
-            .then(() => {
-              request.get('/api/v1/books')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .end((err, res) => {
-                  expect(200);
-                  expect(res.body.message)
-                    .to.eql('Books retrieved successfully');
-                  expect(res.body).to.have.own.property('books');
-                  expect(res.body.books[0]).to.have.own.property('downVotes');
-                  expect(res.body.books[0]).to.have.own.property('upVotes');
-                  expect(res.body.books[0]).to.have.own.property('reviews');
-                  expect(res.body.books[0]).to.have.own.property('borrowCount');
-                  expect(res.body.books).to.be.an('array');
-                  done(err);
-                });
-            });
-        });
+  });
+  it('it should return books unavailable', (done) => {
+    const user = userDataTest.normalUser;
+    User.create(user).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const token = generateToken(createdUser);
+        request.get('/api/v1/books')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .end((err, res) => {
+            expect(200);
+            expect(res.body.message)
+              .to.eql('Books are unavailable now, do check back later');
+            expect(res.body).to.have.own.property('books');
+            expect(res.body.books).to.be.an('array').to.have.lengthOf(0);
+            done(err);
+          });
       });
     });
-    it('it should return books unavailable', (done) => {
-      const user = userDataTest.normalUser;
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true }).then(() => {
-          const token = generateToken(createdUser);
-          request.get('/api/v1/books')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .end((err, res) => {
-              expect(200);
-              expect(res.body.message)
-                .to.eql('Books are unavailable now, do check back later');
-              expect(res.body).to.have.own.property('books');
-              expect(res.body.books).to.be.an('array').to.have.lengthOf(0);
-              done(err);
-            });
-        });
+  });
+  it('it should successfully get all books by upvotes', (done) => {
+    const user = userDataTest.normalUser;
+    User.create(user).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const secondInOrder = Object.assign(bookDataTest.validBook1, { upVotes: 10 });
+        const lastInOrder = Object.assign(bookDataTest.validBook2, { upVotes: 8 });
+        const firstInOrder = Object.assign(bookDataTest.validBook3, { upVotes: 20 });
+        const token = generateToken(createdUser);
+        Book.bulkCreate([secondInOrder, lastInOrder, firstInOrder])
+          .then(() => Book.findAll())
+          .then(() => {
+            request.get('/api/v1/books?sort=upvotes&order=descending')
+              .set('Accept', 'application/json')
+              .set('Authorization', token)
+              .end((err, res) => {
+                expect(200);
+                expect(res.body).to.be.an('array').to.have.lengthOf(3);
+                expect(res.body[0].upVotes).to.eql(firstInOrder.upVotes);
+                expect(res.body[1].upVotes).to.eql(secondInOrder.upVotes);
+                expect(res.body[2].upVotes).to.eql(lastInOrder.upVotes);
+                done(err);
+              });
+          });
       });
     });
-    it('it should successfully get all books by upvotes', (done) => {
-      const user = userDataTest.normalUser;
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true }).then(() => {
-          const secondInOrder = Object.assign(bookDataTest.validBook1, { upVotes: 10 });
-          const lastInOrder = Object.assign(bookDataTest.validBook2, { upVotes: 8 });
-          const firstInOrder = Object.assign(bookDataTest.validBook3, { upVotes: 20 });
-          const token = generateToken(createdUser);
-          Book.bulkCreate([secondInOrder, lastInOrder, firstInOrder])
-            .then(() => Book.findAll())
-            .then(() => {
-              request.get('/api/v1/books?sort=upvotes&order=descending')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .end((err, res) => {
-                  expect(200);
-                  expect(res.body).to.be.an('array').to.have.lengthOf(3);
-                  expect(res.body[0].upVotes).to.eql(firstInOrder.upVotes);
-                  expect(res.body[1].upVotes).to.eql(secondInOrder.upVotes);
-                  expect(res.body[2].upVotes).to.eql(lastInOrder.upVotes);
-                  done(err);
-                });
-            });
-        });
+  });
+  it('it should return no match', (done) => {
+    const user = userDataTest.normalUser;
+    User.create(user).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const booka = bookDataTest.validBook1;
+        const bookb = bookDataTest.validBook2;
+        const token = generateToken(createdUser);
+        Book.bulkCreate([booka, bookb])
+          .then(() => Book.findAll())
+          .then(() => {
+            request.get('/api/v1/books?search=everything')
+              .set('Accept', 'application/json')
+              .set('Authorization', token)
+              .end((err, res) => {
+                expect(200);
+                expect(res.body.message)
+                  .to.eql('No book matches your search. Try some other combinations');
+                expect(res.body.books).to.be.an('array');
+                done(err);
+              });
+          });
       });
     });
-    it('it should return no match', (done) => {
-      const user = userDataTest.normalUser;
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true }).then(() => {
-          const booka = bookDataTest.validBook1;
-          const bookb = bookDataTest.validBook2;
-          const token = generateToken(createdUser);
-          Book.bulkCreate([booka, bookb])
-            .then(() => Book.findAll())
-            .then(() => {
-              request.get('/api/v1/books?search=everything')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .end((err, res) => {
-                  expect(200);
-                  expect(res.body.message)
-                    .to.eql('No book matches your search. Try some other combinations');
-                  expect(res.body.books).to.be.an('array');
-                  done(err);
-                });
-            });
-        });
-      });
-    });
-    it('it should successfully get all books by search term', (done) => {
-      const user = userDataTest.normalUser;
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true }).then(() => {
-          const booka = bookDataTest.validBook1;
-          const bookb = bookDataTest.validBook2;
-          const token = generateToken(createdUser);
-          Book.bulkCreate([booka, bookb])
-            .then(() => Book.findAll())
-            .then((books) => {
-              request.get('/api/v1/books?search=There')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .end((err, res) => {
-                  expect(200);
-                  expect(res.body).to.be.an('array');
-                  expect(res.body[0].title).to.eql(books[1].title);
-                  done(err);
-                });
-            });
-        });
+  });
+  it('it should successfully get all books by search term', (done) => {
+    const user = userDataTest.normalUser;
+    User.create(user).then((createdUser) => {
+      createdUser.update({ active: true }).then(() => {
+        const booka = bookDataTest.validBook1;
+        const bookb = bookDataTest.validBook2;
+        const token = generateToken(createdUser);
+        Book.bulkCreate([booka, bookb])
+          .then(() => Book.findAll())
+          .then((books) => {
+            request.get('/api/v1/books?search=There')
+              .set('Accept', 'application/json')
+              .set('Authorization', token)
+              .end((err, res) => {
+                expect(200);
+                expect(res.body).to.be.an('array');
+                expect(res.body[0].title).to.eql(books[1].title);
+                done(err);
+              });
+          });
       });
     });
   });
