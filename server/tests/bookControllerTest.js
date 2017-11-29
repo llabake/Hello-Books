@@ -485,9 +485,9 @@ describe('Book Endpoint Functionality', () => {
                 .end((err, res) => {
                   expect(200);
                   expect(res.body).to.be.an('array').to.have.lengthOf(3);
-                  expect(res.body[0].upVotes).to.eql(20);
-                  expect(res.body[1].upVotes).to.eql(10);
-                  expect(res.body[2].upVotes).to.eql(8);
+                  expect(res.body[0].upVotes).to.eql(firstInOrder.upVotes);
+                  expect(res.body[1].upVotes).to.eql(secondInOrder.upVotes);
+                  expect(res.body[2].upVotes).to.eql(lastInOrder.upVotes);
                   done(err);
                 });
             });
