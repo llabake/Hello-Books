@@ -52,10 +52,6 @@ export default(sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 0
     },
-    readingList: {
-      type: DataTypes.STRING,
-      defaultValue: ''
-    },
     borrowCount: {
       type: DataTypes.INTEGER,
       allowNull: false,
