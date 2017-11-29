@@ -7,7 +7,6 @@
     "test": " set NODE_ENV=test&& sequelize db:migrate:undo:all && sequelize db:migrate && nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register server/tests --timeout 8000 --exit",
     "start": "sequelize db:migrate && sequelize db:seed:all && babel-node app.js",
     "start-dev": "babel-watch app.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "heroku-postbuild": "npm install sequelize-cli babel-cli -g"
   },
   "repository": {
