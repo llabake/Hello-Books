@@ -34,7 +34,7 @@ export default class BorrowedBookController {
       }],
     })
       .then((borrowedBook) => {
-        if (borrowedBook && borrowedBook.borrowedStatus === 'pending') {
+        if (borrowedBook && borrowedBook.borrowStatus === 'pending') {
           return res.status(409).json({
             message: `You have made a request earlier on ${borrowedBook.book.title}, it is pending approval by Administrator`
           });
