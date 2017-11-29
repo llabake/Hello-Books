@@ -360,7 +360,6 @@ describe('Borrow Book Endpoint Functionality', () => {
                       .set('Accept', 'application/json')
                       .set('Authorization', token)
                       .end((err, res) => {
-                        console.log(res.body);
                         expect(200);
                         expect(res.body).to.have.own.property('borrowedBook');
                         expect(res.body.message).to.eql('Book return request is pending approval by Administrator');
@@ -493,7 +492,6 @@ describe('Borrow Book Endpoint Functionality', () => {
                   .set('Accept', 'application/json')
                   .set('Authorization', token)
                   .end((err, res) => {
-                    console.log('============>', res.body);
                     expect(200);
                     expect(res.body).to.have.own.property('borrowedBook');
                     expect(res.body.message).to.eql('successfully accepted borrow request');
