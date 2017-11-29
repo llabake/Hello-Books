@@ -397,25 +397,25 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    xit('it should not modify a book isbn number', (done) => {
+    it('it should not modify a book isbn number to an existing book isbn number', (done) => {
       User.create(userDataTest.adminUser).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
+          const booka = bookDataTest.validBook3;
+          const bookb = bookDataTest.validBook2;
+          const bookIsbnUpdate = { isbn: booka.isbn };
           const token = generateToken(createdUser);
-          const book = bookDataTest.validBook2;
-          Book.create(book).then((createdBook) => {
-            request.put(`/api/v1/books/${createdBook.id}`)
-              .set('Accept', 'application/json')
-              .set('Authorization', token)
-              .send(bookDataTest.bookUpdateIsbn)
-              .end((err, res) => {
-                // expect(500);
-                expect(200);
-                // expect(res.body.message).to.eql('error sending your request');
-                expect(res.body.book.title).to.eql(bookDataTest.bookUpdate.title);
-                expect(res.body.book.author).to.eql(bookDataTest.bookUpdate.author);
-                expect(res.body.message).to.eql('Your book has been updated');
-                done(err);
-              });
+          Book.create(booka).then(() => {
+            Book.create(bookb).then((createdBook) => {
+              request.put(`/api/v1/books/${createdBook.id}`)
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .send(bookIsbnUpdate)
+                .end((err, res) => {
+                  expect(409);
+                  expect(res.body.message).to.eql(`Operation disallowed, Book with isbn: ${booka.isbn} already exist`);
+                  done(err);
+                });
+            });
           });
         });
       });
@@ -485,9 +485,9 @@ describe('Book Endpoint Functionality', () => {
                 .end((err, res) => {
                   expect(200);
                   expect(res.body).to.be.an('array').to.have.lengthOf(3);
-                  expect(res.body[0].upVotes).to.eql(20);
-                  expect(res.body[1].upVotes).to.eql(10);
-                  expect(res.body[2].upVotes).to.eql(8);
+                  expect(res.body[0].upVotes).to.eql(firstInOrder.upVotes);
+                  expect(res.body[1].upVotes).to.eql(secondInOrder.upVotes);
+                  expect(res.body[2].upVotes).to.eql(lastInOrder.upVotes);
                   done(err);
                 });
             });
