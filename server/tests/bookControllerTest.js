@@ -527,14 +527,14 @@ describe('Book Endpoint Functionality', () => {
           const token = generateToken(createdUser);
           Book.bulkCreate([booka, bookb])
             .then(() => Book.findAll())
-            .then(() => {
+            .then((books) => {
               request.get('/api/v1/books?search=There')
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .end((err, res) => {
                   expect(200);
                   expect(res.body).to.be.an('array');
-                  expect(res.body[0].title).to.eql('There Was A Country');
+                  expect(res.body[0].title).to.eql(books[1].title);
                   done(err);
                 });
             });
