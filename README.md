@@ -64,23 +64,23 @@ POST | [/api/v1/users/signup](#create-user) | Registers a new user
 POST | [/api/v1/users/sigin](#login) | Logs a user in
 POST | [/api/v1/users/signout](#logout) | Logs a user out
 POST | [/api/v1/books/](#add-book) | Add a new book
-PUT | [api/v1/book/bookId](#update-a-book) | Update book details
-DELETE | [/api/v1/bookid/bookId](#delete-a-book) | Delete a book
-GET | [api/v1/books/bookId](#get-a-book) | Get a book
-GET | [api/v1/book](#get-all-books) | Get all books
-POST | [/api/v1/users/borrow/bookId](#borrow-book) | Borrow a book
-POST | [/api/v1/users/return/bookId](#return-book) | Return a book
-PUT | [/api/v1/users/userId/borrow/bookId](#borrow-book) | Accept a borrow request
-PUT | [/api/v1/users/userId/return/bookId](#return-book) | Accept return of book
-POST | [api/v1/book/bookId/upvotes](#upvote-a-book) | Vote a book
-POST | [api/v1/book/bookId/downvotes](#downvote-a-book) | Vote a book
-GET | [api/v1/books?sort=upvotes&order=decending](#get-book-most-upvote) | Get book with the most upvote
-GET | [api/v1/books?search=](#get-book-by-search) | Get book by search
-POST | [api/v1/books/fav/bookId](#favorite-book) | Post a book as favorite
-GET | [api/v1/books/favbooks](#get-favorite-books) | Get a user's favorite book.
-DELETE | [api/v1/books/fav/bookId](#delete-from-favorite-list) | Delete a book from a user's favorite list.
-POST | [api/v1/books/bookId/review/](#post-reviews) | Post review for a book
-DELETE | [api/v1/books/bookId/review/reviewId](#delete-reviews) | Delete review for a book
+PUT | [api/v1/book/:bookId](#update-a-book) | Update book details
+DELETE | [/api/v1/:bookid/bookId](#delete-a-book) | Delete a book
+GET | [/api/v1/books/:bookId](#get-a-book) | Get a book
+GET | [/api/v1/book](#get-all-books) | Get all books
+POST | [/api/v1/users/borrow/:bookId](#borrow-book) | Borrow a book
+POST | [/api/v1/users/return/:bookId](#return-book) | Return a book
+PUT | [/api/v1/users/:userId/borrow/:bookId](#borrow-book) | Accept a borrow request
+PUT | [/api/v1/users/:userId/return/:bookId](#return-book) | Accept return of book
+POST | [/api/v1/book/:bookId/upvotes](#upvote-a-book) | Vote a book
+POST | [/api/v1/book/:bookId/downvotes](#downvote-a-book) | Vote a book
+GET | [/api/v1/books?sort=upvotes&order=decending](#get-book-most-upvote) | Get book with the most upvote
+GET | [/api/v1/books?search=](#get-book-by-search) | Get book by search
+POST | [/api/v1/books/fav/:bookId](#favorite-book) | Post a book as favorite
+GET | [/api/v1/books/favbooks](#get-favorite-books) | Get a user's favorite book.
+DELETE | [/api/v1/books/fav/:bookId](#delete-from-favorite-list) | Delete a book from a user's favorite list.
+POST | [/api/v1/books/:bookId/review/](#post-reviews) | Post review for a book
+DELETE | [/api/v1/books/:bookId/review/:reviewId](#delete-reviews) | Delete review for a book
  
 
 # Usage
