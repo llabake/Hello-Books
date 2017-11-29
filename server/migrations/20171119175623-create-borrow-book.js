@@ -42,10 +42,12 @@ module.exports = {
     borrowStatus: {
       type: Sequelize.ENUM,
       values: ['pending', 'accepted'],
+      defaultValue: 'pending'
     },
     returnStatus: {
       type: Sequelize.ENUM,
       values: ['', 'pending', 'accepted'],
+      defaultValue: ''
     },
     createdAt: {
       allowNull: false,
