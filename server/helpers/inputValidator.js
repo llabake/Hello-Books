@@ -128,4 +128,24 @@ export default class InputValidator {
     const isValid = errors.length === 0;
     return { errors, isValid };
   }
+  /**
+ *
+ *
+ * @static
+ * @param {any} args
+ * @returns {status} error array
+ * @memberof InputValidator
+ */
+  static modifyBook(args) {
+    const errors = [];
+    const notManipulate = ['upVotes', 'downVotes', 'borrowCount'];
+    notManipulate.forEach((field) => {
+      errors.push({
+        path: 'field',
+        message: `${field} field can not be updated`
+      });
+    });
+    const isValid = errors.length === 0;
+    return { errors, isValid };
+  }
 }
