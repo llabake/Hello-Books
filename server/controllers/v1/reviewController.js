@@ -1,9 +1,4 @@
-// change it back to models/review
-// import Review from '../../dummy/models/review';
 import models from '../../models';
-// change it back to models/book
-// import Book from '../../dummy/models/book';
-// change it back to models/borrowedBook
 import InputValidator from '../../helpers/inputValidator';
 
 const { Review } = models;
