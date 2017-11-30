@@ -36,7 +36,7 @@ export default class ReviewController {
         .then((review) => {
           res.status(201).json({
             message: 'Review has been posted',
-            content: review.content
+            review
           });
         })
         .catch(error => res.status(500).json({

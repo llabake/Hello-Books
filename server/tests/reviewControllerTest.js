@@ -204,7 +204,7 @@ describe('Review Endpoint Functionality', () => {
               .end((err, res) => {
                 expect(201);
                 expect(res.body.message).to.eql('Review has been posted');
-                expect(res.body.content).to.eql(review.content);
+                expect(res.body).to.have.own.property('review');
                 done(err);
               });
           });
