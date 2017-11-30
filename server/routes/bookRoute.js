@@ -114,6 +114,20 @@ const bookRoute = (app) => {
  *         type: number
  *       quantity:
  *         type: number
+ *   User:
+ *     properties:
+ *       username:
+ *         type: string
+ *       firstName:
+ *         type: string
+ *       lastName:
+ *         type: string
+ *       password:
+ *         type: string
+ *       confirmpassword:
+ *         type: number
+ *       email:
+ *         type: number
  *   Review:
  *     properties:
  *       text:
@@ -130,6 +144,7 @@ const bookRoute = (app) => {
  *          type: number
  *       userId :
  *          type: number
+ *
  */
   /**
  * @swagger
@@ -319,7 +334,7 @@ const bookRoute = (app) => {
  * /api/v1/users/return/{bookId}:
  *   post:
  *     tags:
- *       - Borrow Functionality
+ *       - Return Functionality
  *     description: Return a specific Book
  *     produces:
  *       - application/json
@@ -369,7 +384,7 @@ const bookRoute = (app) => {
  * /api/v1/users/{userId}/borrow/{bookId}:
  *   put:
  *     tags:
- *       - Return Functionality
+ *       - Borrow Functionality
  *     description: Acccept a borrow for a specific Book
  *     produces:
  *       - application/json
