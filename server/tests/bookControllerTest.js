@@ -345,7 +345,6 @@ describe('Book Endpoint Functionality', () => {
               .set('Accept', 'application/json')
               .set('Authorization', token)
               .end((err, res) => {
-                console.log(res.body)
                 expect(200);
                 expect(res.body).to.have.own.property('book');
                 expect(res.body.book).to.have.own.property('downVotes');
