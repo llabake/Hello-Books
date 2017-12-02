@@ -152,7 +152,6 @@ describe('Vote Endpoint Functionality', () => {
                     expect(200);
                     expect(res.body.message).to.eql('You have successfully upvoted this book');
                     expect(res.body).to.have.own.property('book');
-                    expect(res.body).to.have.own.property('vote');
                     done(err);
                   });
               });
@@ -174,7 +173,6 @@ describe('Vote Endpoint Functionality', () => {
                 expect(200);
                 expect(res.body.message).to.eql('You have successfully upvoted this book');
                 expect(res.body).to.have.own.property('book');
-                expect(res.body).to.have.own.property('vote');
                 done(err);
               });
           });
@@ -219,7 +217,6 @@ describe('Vote Endpoint Functionality', () => {
                     expect(200);
                     expect(res.body.message).to.eql('You have successfully downvoted this book');
                     expect(res.body).to.have.own.property('book');
-                    expect(res.body).to.have.own.property('vote');
                     done(err);
                   });
               });
@@ -241,7 +238,6 @@ describe('Vote Endpoint Functionality', () => {
                 expect(200);
                 expect(res.body.message).to.eql('You have successfully downvoted this book');
                 expect(res.body).to.have.own.property('book');
-                expect(res.body).to.have.own.property('vote');
                 done(err);
               });
           });

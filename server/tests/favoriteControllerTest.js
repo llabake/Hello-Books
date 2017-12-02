@@ -38,17 +38,6 @@ const bookDataTest = {
   },
 };
 describe('Favorite Endpoint Functionality', () => {
-  // beforeEach((done) => {
-  //   Favorite.destroy({ where: {} })
-  //     .then(() => {
-  //     }); User.destroy({ where: {} })
-  //     .then(() => {
-  //     });
-  //   Book.destroy({ where: {} })
-  //     .then(() => {
-  //       done();
-  //     });
-  // });
   describe('User signs in to add a book as a favorite', () => {
     beforeEach((done) => {
       Favorite.destroy({ where: {} })
@@ -129,9 +118,8 @@ describe('Favorite Endpoint Functionality', () => {
             .set('Authorization', token)
             .end((err, res) => {
               expect(201);
-              expect(res.body.message).to.eql('Book has been added to your favorite list');
-              expect(Object.prototype.hasOwnProperty
-                .call(res.body, 'favorite')).to.eql(true);
+              expect(res.body.message).to.eql(`${createdBook.title} has been added to your favorite list`);
+              expect(res.body).to.have.own.property('favorite');
               done(err);
             });
         });
@@ -153,7 +141,7 @@ describe('Favorite Endpoint Functionality', () => {
             .set('Authorization', token)
             .end((err, res) => {
               expect(409);
-              expect(res.body.message).to.eql('Book already on your favorite list');
+              expect(res.body.message).to.eql(`${createdBook.title} already on your favorite list`);
               done(err);
             });
         });
@@ -176,8 +164,7 @@ describe('Favorite Endpoint Functionality', () => {
             .end((err, res) => {
               expect(201);
               expect(res.body.message).to.eql('Favorite Book(s) retrieved successfully');
-              expect(Object.prototype.hasOwnProperty
-                .call(res.body, 'favorites')).to.eql(true);
+              expect(res.body).to.have.own.property('favorites');
               done(err);
             });
         });
@@ -196,8 +183,7 @@ describe('Favorite Endpoint Functionality', () => {
             .end((err, res) => {
               expect(200);
               expect(res.body.message).to.eql('There are no Books on your Favorite List');
-              expect(Object.prototype.hasOwnProperty
-                .call(res.body, 'favorites')).to.eql(true);
+              expect(res.body).to.have.own.property('favorites').to.have.length(0);
               done(err);
             });
         });
@@ -225,8 +211,7 @@ describe('Favorite Endpoint Functionality', () => {
                     expect(201);
                     expect(res.body.message)
                       .to.eql('Favorite Book(s) retrieved successfully');
-                    expect(Object.prototype.hasOwnProperty
-                      .call(res.body, 'favorites')).to.eql(true);
+                    expect(res.body).to.have.own.property('favorites');
                     done(err);
                   });
               });
