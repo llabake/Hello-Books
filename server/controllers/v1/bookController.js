@@ -2,7 +2,7 @@ import models from '../../models';
 import InputValidator from '../../helpers/inputValidator';
 
 const {
-  Book, Review, User, Favorite
+ Book, Review, User, Favorite
 } = models;
 
 /**
@@ -78,32 +78,21 @@ class BookController {
           model: User,
           as: 'user',
           attributes: ['username', 'id'],
-        },
-        {
-          model: Favorite,
-          as: 'favorites',
-          attributes: ['id', 'bookId', 'userId'],
-        }
-        ],
+        }],
+      }, {
+        model: Favorite,
+        as: 'favorited',
+        attributes: ['id', 'createdAt'],
+        include: [{
+          model: User,
+          as: 'user',
+          attributes: ['username', 'id'],
+        }],
       }],
     })
       .then((book) => {
-        Favorite.findAndCount({
-          where: {
-            bookId: {
-              $eq: req.params.bookId
-            }
-          }
-        }).then((foundFavorite) => {
-          if (!book) {
-            return res.status(404).json({
-              message: `No Book exist with id: ${req.params.bookId}`
-            });
-          }
-          res.status(200).json({
-            book,
-            // favorited: foundFavorite.count
-          });
+        res.status(200).json({
+          book,
         });
       })
       .catch(error => res.status(500).json({
@@ -177,6 +166,15 @@ class BookController {
           as: 'user',
           attributes: ['username', 'id'],
         }],
+      }, {
+        model: Favorite,
+        as: 'favorited',
+        attributes: ['id', 'createdAt'],
+        include: [{
+          model: User,
+          as: 'user',
+          attributes: ['username', 'id'],
+        }],
       }],
     })
       .then((books) => {
@@ -233,6 +231,15 @@ class BookController {
         as: 'user',
         attributes: ['username', 'id'],
       }],
+    }, {
+      model: Favorite,
+      as: 'favorited',
+      attributes: ['id', 'createdAt'],
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['username', 'id'],
+      }],
     }];
     Book.findAll(options)
       .then(books => res.status(200).json(books))
@@ -262,6 +269,15 @@ class BookController {
       model: Review,
       as: 'reviews',
       attributes: ['id', 'content', 'createdAt'],
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['username', 'id'],
+      }],
+    }, {
+      model: Favorite,
+      as: 'favorited',
+      attributes: ['id', 'createdAt'],
       include: [{
         model: User,
         as: 'user',
