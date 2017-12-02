@@ -1,7 +1,9 @@
 import models from '../../models';
 import InputValidator from '../../helpers/inputValidator';
 
-const { Book, Review, User } = models;
+const {
+ Book, Review, User, Favorite
+} = models;
 
 /**
  *
@@ -80,12 +82,23 @@ class BookController {
       }],
     })
       .then((book) => {
-        if (!book) {
-          return res.status(404).json({
-            message: `No Book exist with id: ${req.params.bookId}`
+        Favorite.findAndCount({
+          where: {
+            bookId: {
+              $eq: req.params.bookId
+            }
+          }
+        }).then((foundFavorite) => {
+          if (!book) {
+            return res.status(404).json({
+              message: `No Book exist with id: ${req.params.bookId}`
+            });
+          }
+          res.status(200).json({
+            book,
+            Favorited: foundFavorite.count
           });
-        }
-        res.status(200).json({ book });
+        });
       })
       .catch(error => res.status(500).json({
         message: 'error sending your request',
