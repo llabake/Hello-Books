@@ -19,8 +19,8 @@ export default class InputValidator {
       'username',
       'lastName',
       'firstName',
-      'email', 'password',
-      'confirmpassword'
+      'email',
+      'password',
     ];
     const errors = [];
     fields.forEach((field) => {
@@ -28,12 +28,6 @@ export default class InputValidator {
         errors.push({ path: field, message: `${field} is required` });
       }
     });
-    if (args.password !== args.confirmpassword) {
-      errors.push({
-        path: 'password',
-        message: 'Please ensure the passwords match'
-      });
-    }
     if (!isEmail(args.email)) {
       errors.push({
         path: 'email',

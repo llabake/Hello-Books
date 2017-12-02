@@ -25,14 +25,16 @@ export default class FavoriteController {
       },
     })
       .spread((favorite, created) => {
-        if (created) {
-          return res.status(201).json({
-            message: 'Book has been added to your favorite list',
-            favorite
+        Book.findById(req.params.bookId).then((book) => {
+          if (created) {
+            return res.status(201).json({
+              message: `${book.title} has been added to your favorite list`,
+              favorite
+            });
+          }
+          return res.status(409).json({
+            message: `${book.title} already on your favorite list`
           });
-        }
-        return res.status(409).json({
-          message: 'Book already on your favorite list'
         });
       })
       .catch(error => res.status(500).json({

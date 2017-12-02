@@ -5,7 +5,7 @@ const { User } = models;
  *
  *
  * @export
- * @class BookMiddleware
+ * @class UserMiddleware
  */
 export default class UserMiddleware {
   /**

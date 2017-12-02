@@ -65,6 +65,7 @@ export default(sequelize, DataTypes) => {
     });
     Book.hasMany(models.Favorite, {
       foreignKey: 'bookId',
+      as: 'favorited'
     });
     Book.hasMany(models.BorrowBook, {
       foreignKey: 'bookId',

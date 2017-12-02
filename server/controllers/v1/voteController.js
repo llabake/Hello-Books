@@ -46,7 +46,6 @@ export default class VoteController {
                     vote.reload().then(() => {
                       res.status(200).json({
                         message: `You have successfully ${req.voteType.toLowerCase()}d this book`,
-                        vote,
                         book: reloadedBook
                       });
                     });
@@ -58,15 +57,14 @@ export default class VoteController {
               userId: req.user.id,
               bookId: req.params.bookId,
               voteType: req.voteType
-            }).then((createdVote) => {
+            }).then(() => {
               book.increment(`${req.voteType}s`);
               book.reload().then((reloadedBook) => {
                 res.status(201).json({
                   message: `You have successfully ${req.voteType.toLowerCase()}d this book`,
-                  vote: createdVote,
                   book: reloadedBook
                 });
-              })
+              });
             });
           }
         }).catch((error) => {
