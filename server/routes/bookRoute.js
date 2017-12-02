@@ -9,6 +9,7 @@ import BookMiddleware from '../middlewares/bookMiddleware';
 import UserMiddleware from '../middlewares/userMiddleware';
 import FavoriteMiddleware from '../middlewares/favoriteMiddleware';
 import VoteMiddleware from '../middlewares/voteMiddleware';
+import BorrowedBookMiddleware from '../middlewares/borrowedBookMiddleware';
 
 const bookRoute = (app) => {
   /**
@@ -327,6 +328,8 @@ const bookRoute = (app) => {
     '/api/v1/users/borrow/:bookId(\\d+)',
     Authentication.authMiddleware, UserMiddleware.userExist,
     Authentication.isActive, BookMiddleware.bookExist,
+    BorrowedBookMiddleware.bookReturnOverDueExist,
+    BorrowedBookMiddleware.borrowedBookExist,
     BorrowBookController.borrowBook
   );
   /**
@@ -381,7 +384,7 @@ const bookRoute = (app) => {
   );
   /**
  * @swagger
- * /api/v1/users/{userId}/borrow/{bookId}:
+ * /api/v1/admin/user/{userId}/borrow/{bookId}:
  *   put:
  *     tags:
  *       - Borrow Functionality
@@ -425,13 +428,13 @@ const bookRoute = (app) => {
  *         description: Request had been made before
  */
   app.put(
-    '/api/v1/users/:userId(\\d+)/borrow/:bookId(\\d+)',
+    '/api/v1/admin/user/:userId(\\d+)/borrow/:bookId(\\d+)',
     Authentication.authMiddleware, AdminMiddleware.isAdmin,
     Authentication.isActive, BorrowBookController.acceptBorrowBook
   );
   /**
  * @swagger
- * /api/v1/users/{userId}/return/{bookId}:
+ * /api/v1/admin/user/{userId}/return/{bookId}:
  *   put:
  *     tags:
  *       - Return Functionality
@@ -475,7 +478,7 @@ const bookRoute = (app) => {
  *         description: Request had been made before
  */
   app.put(
-    '/api/v1/users/:userId(\\d+)/return/:bookId(\\d+)',
+    '/api/v1/admin/user/:userId(\\d+)/return/:bookId(\\d+)',
     Authentication.authMiddleware, AdminMiddleware.isAdmin,
     Authentication.isActive, BorrowBookController.acceptReturnBook
   );
