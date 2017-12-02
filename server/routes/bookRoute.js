@@ -566,6 +566,28 @@ const bookRoute = (app) => {
     Authentication.isActive, BookMiddleware.bookExist,
     VoteMiddleware.setDownVote, VoteController.voteBook
   );
+  /**
+ * @swagger
+ * /api/v1/borrowedbooks:
+ *   get:
+ *     tags:
+ *       - Borrow Functionality
+ *     description: Returns all borrowed books
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: An array of borrowed books
+ *         schema:
+ *           $ref: '#/definitions/BorrowedBooks'
+ */
+
+  app.get(
+    '/api/v1/borrowedbooks/',
+    Authentication.authMiddleware,
+    Authentication.isActive,
+    BorrowBookController.getAllBorrowedBook
+  );
 };
 
 export default bookRoute;
