@@ -2,7 +2,7 @@ import models from '../../models';
 import InputValidator from '../../helpers/inputValidator';
 
 const {
- Book, Review, User, Favorite
+  Book, Review, User, Favorite
 } = models;
 
 /**
@@ -78,7 +78,13 @@ class BookController {
           model: User,
           as: 'user',
           attributes: ['username', 'id'],
-        }],
+        },
+        {
+          model: Favorite,
+          as: 'favorites',
+          attributes: ['id', 'bookId', 'userId'],
+        }
+        ],
       }],
     })
       .then((book) => {
@@ -96,7 +102,7 @@ class BookController {
           }
           res.status(200).json({
             book,
-            Favorited: foundFavorite.count
+            // favorited: foundFavorite.count
           });
         });
       })

@@ -334,7 +334,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully get a book', (done) => {
+    it.only('it should successfully get a book', (done) => {
       User.create(userDataTest.normalUser).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const token = generateToken(createdUser);
@@ -344,6 +344,7 @@ describe('Book Endpoint Functionality', () => {
               .set('Accept', 'application/json')
               .set('Authorization', token)
               .end((err, res) => {
+                console.log(res.body)
                 expect(200);
                 expect(res.body).to.have.own.property('book');
                 expect(res.body.book).to.have.own.property('downVotes');
