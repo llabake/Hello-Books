@@ -99,17 +99,18 @@ describe('Vote Endpoint Functionality', () => {
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const token = generateToken(createdUser);
-          createdUser.destroy();
-          Book.create(bookDataTest.book1).then((createdBook) => {
-            request.post(`/api/v1/books/${createdBook.id}/upvote`)
-              .set('Accept', 'application/json')
-              .set('Authorization', token)
-              .end((err, res) => {
-                expect(404);
-                expect(res.body.message)
-                  .to.eql(`User with id: ${createdUser.id} not found`);
-                done(err);
-              });
+          createdUser.destroy().then(() =>{
+            Book.create(bookDataTest.book1).then((createdBook) => {
+              request.post(`/api/v1/books/${createdBook.id}/upvote`)
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .end((err, res) => {
+                  expect(404);
+                  expect(res.body.message)
+                    .to.eql(`User with id: ${createdUser.id} not found`);
+                  done(err);
+                });
+            });
           });
         });
       });

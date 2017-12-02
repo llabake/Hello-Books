@@ -135,15 +135,16 @@ describe('Favorite Endpoint Functionality', () => {
           Favorite.create({
             bookId: createdBook.id,
             userId: createdUser.id
+          }).then(() => {
+            request.post(`/api/v1/books/fav/${createdBook.id}`)
+              .set('Accept', 'application/json')
+              .set('Authorization', token)
+              .end((err, res) => {
+                expect(409);
+                expect(res.body.message).to.eql(`${createdBook.title} already on your favorite list`);
+                done(err);
+              });
           });
-          request.post(`/api/v1/books/fav/${createdBook.id}`)
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .end((err, res) => {
-              expect(409);
-              expect(res.body.message).to.eql(`${createdBook.title} already on your favorite list`);
-              done(err);
-            });
         });
       });
     });
@@ -157,16 +158,17 @@ describe('Favorite Endpoint Functionality', () => {
           Favorite.create({
             bookId: createdBook.id,
             userId: createdUser.id
+          }).then(() => {
+            request.get('/api/v1/books/favbooks/')
+              .set('Accept', 'application/json')
+              .set('Authorization', token)
+              .end((err, res) => {
+                expect(201);
+                expect(res.body.message).to.eql('Favorite Book(s) retrieved successfully');
+                expect(res.body).to.have.own.property('favorites');
+                done(err);
+              });
           });
-          request.get('/api/v1/books/favbooks/')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .end((err, res) => {
-              expect(201);
-              expect(res.body.message).to.eql('Favorite Book(s) retrieved successfully');
-              expect(res.body).to.have.own.property('favorites');
-              done(err);
-            });
         });
       });
     });
@@ -227,21 +229,25 @@ describe('Favorite Endpoint Functionality', () => {
         const booka = bookDataTest.book1;
         const bookb = bookDataTest.book2;
         const token = generateToken(createdUser);
-        Book.bulkCreate([booka, bookb]).then(() => Book.findAll()).then((books) => {
-          Favorite.bulkCreate([
-            { bookId: books[0].id, userId },
-            { bookId: books[1].id, userId },
-          ]);
-          const bookId = 500;
-          request.delete(`/api/v1/books/fav/${bookId}/`)
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .end((err, res) => {
-              expect(404);
-              expect(res.body.message).to.eql(`Book with id:${bookId} is not on your Favorite List`);
-              done(err);
-            });
-        });
+        Book.bulkCreate([booka, bookb])
+          .then(() => Book.findAll()).then((books) => {
+            Favorite.bulkCreate([
+              { bookId: books[0].id, userId },
+              { bookId: books[1].id, userId },
+            ])
+              .then(() => Favorite.findAll())
+              .then(() => {
+                const bookId = 500;
+                request.delete(`/api/v1/books/fav/${bookId}/`)
+                  .set('Accept', 'application/json')
+                  .set('Authorization', token)
+                  .end((err, res) => {
+                    expect(404);
+                    expect(res.body.message).to.eql(`Book with id:${bookId} is not on your Favorite List`);
+                    done(err);
+                  });
+              });
+          });
       });
     });
     it('it should successfully delete book from a user favorite list', (done) => {
