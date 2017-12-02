@@ -350,6 +350,7 @@ describe('Book Endpoint Functionality', () => {
                 expect(res.body.book).to.have.own.property('upVotes');
                 expect(res.body.book).to.have.own.property('reviews');
                 expect(res.body.book).to.have.own.property('borrowCount');
+                expect(res.body).to.have.own.property('Favorited');
                 expect(res.body.book.id).to.eql(createdBook.id);
                 expect(res.body.book.title).to.eql(createdBook.title);
                 done(err);
