@@ -145,10 +145,6 @@ describe('User Endpoint Functionality', () => {
                 message: 'password is required'
               },
               {
-                path: 'confirmpassword',
-                message: 'confirmpassword is required'
-              },
-              {
                 path: 'email',
                 message: 'Please enter a valid email'
               },
@@ -157,7 +153,7 @@ describe('User Endpoint Functionality', () => {
           done(err);
         });
     });
-    it('it should return please ensure the Password match', (done) => {
+    xit('it should return please ensure the Password match', (done) => {
       request.post('/api/v1/users/signup')
         .send(userDataTest.misMatchPassword)
         .end((err, res) => {
