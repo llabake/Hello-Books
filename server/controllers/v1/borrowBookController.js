@@ -1,6 +1,7 @@
 import models from '../../models';
 
-const { BorrowBook, Book, } = models;
+const { BorrowBook, Book, User } = models;
+
 /**
  *
  *
@@ -244,5 +245,69 @@ export default class BorrowedBookController {
           message: error.message
         });
       });
+  }
+  /**
+ *
+ *
+ * @static
+ * @param {any} req
+ * @param {any} res
+ * @returns {array} A list of all Borrowed Book
+ * @memberof BorrowedBookController
+ */
+  static getAllBorrowedBook(req, res) {
+    const options = {};
+    const { borrowStatus, returnStatus } = req.query;
+    options.where = {};
+    if (borrowStatus) {
+      if (borrowStatus === 'accepted' || borrowStatus === 'pending') {
+        options.where.borrowStatus = borrowStatus;
+      } else {
+        return res.status(400).json({
+          message: 'borrowStatus can either be accepted or pending'
+        });
+      }
+    }
+
+    if (returnStatus) {
+      if (returnStatus === 'accepted' || returnStatus === 'pending') {
+        options.where.returnStatus = returnStatus;
+      } else {
+        return res.status(400).json({
+          message: 'returnStatus can either be accepted, pending'
+        });
+      }
+    }
+    options.attributes = { exclude: ['createdAt', 'updatedAt'] };
+    options.include = [
+      {
+        model: User,
+        as: 'users',
+        attributes: ['username', 'id'],
+      },
+      {
+        model: Book,
+        as: 'book',
+        attributes: ['id', 'title', 'author'],
+      }
+    ];
+    BorrowBook.findAll(options)
+      .then((borrowedbooks) => {
+        if (!borrowedbooks.length) {
+          let message = 'No borrowed books record found';
+          if (returnStatus || borrowStatus) {
+            message = 'No book matches your search. Try some other combinations';
+          }
+          res.status(200).json({
+            message,
+            borrowedbooks
+          });
+        }
+        res.status(200).json(borrowedbooks);
+      })
+      .catch(error => res.status(400).json({
+        message: 'error sending your request',
+        error
+      }));
   }
 }
