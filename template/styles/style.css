@@ -9,6 +9,9 @@ body {
   *:before, *:after {
     box-sizing: border-box; }
 
+.icon-sit {
+  margin-top: -0.4em; }
+
 .nav-wrapper {
   background-color: #6c3c3c; }
 
