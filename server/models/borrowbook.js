@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     BorrowBook.belongsTo(models.User, {
       foreignKey: 'userId',
       onDelete: 'CASCADE',
-      as: 'users'
+      as: 'user'
     });
   };
   return BorrowBook;
