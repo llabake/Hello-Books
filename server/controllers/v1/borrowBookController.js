@@ -115,6 +115,7 @@ export default class BorrowedBookController {
    * @memberof BookController
    */
   static acceptBorrowBook(req, res) {
+    const BORROW_DURATION = 14 * 24 * 60 * 60 * 1000;
     Book.findOne({
       where: {
         id: req.params.bookId,
@@ -145,7 +146,7 @@ export default class BorrowedBookController {
               });
             } else {
               borrowedBook.update({
-                expectedReturnDate: new Date(Date.now() + (14 * 24 * 60 * 60 * 1000)),
+                expectedReturnDate: new Date(Date.now() + BORROW_DURATION),
                 borrowDate: new Date(),
                 borrowStatus: 'accepted'
               })
@@ -282,13 +283,13 @@ export default class BorrowedBookController {
     options.include = [
       {
         model: User,
-        as: 'users',
+        as: 'user',
         attributes: ['username', 'id'],
       },
       {
         model: Book,
         as: 'book',
-        attributes: ['id', 'title', 'author'],
+        attributes: ['id', 'title', 'author', 'quantity'],
       }
     ];
     BorrowBook.findAll(options)
