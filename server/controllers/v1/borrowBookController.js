@@ -115,7 +115,7 @@ export default class BorrowedBookController {
    * @memberof BookController
    */
   static acceptBorrowBook(req, res) {
-    const BORROW_DURATION = 14 * 24 * 60 * 60 * 1000
+    const BORROW_DURATION = 14 * 24 * 60 * 60 * 1000;
     Book.findOne({
       where: {
         id: req.params.bookId,
