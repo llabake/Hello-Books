@@ -71,7 +71,7 @@ POST | [/api/v1/users/borrow/:bookId](#borrow-book) | Borrow a book
 POST | [/api/v1/users/return/:bookId](#return-book) | Return a book
 PUT | [/api/v1/admin/user/:userId/borrow/:bookId](#borrow-book) | Accept a borrow request
 PUT | [/api/v1/admin/user/:userId/return/:bookId](#return-book) | Accept return of book
-GET | [/api/v1/borrowedBook](#get-all-borrowed-books) | Get all borrowed books
+GET | [/api/v1/borrowedbooks](#get-all-borrowed-books) | Get all borrowed books
 POST | [/api/v1/book/:bookId/upvotes](#upvote-a-book) | Vote a book
 POST | [/api/v1/book/:bookId/downvotes](#downvote-a-book) | Vote a book
 GET | [/api/v1/books?sort=upvotes&order=decending](#get-book-most-upvote) | Get book with the most upvote
