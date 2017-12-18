@@ -7,7 +7,9 @@
     "test": " set NODE_ENV=test&& sequelize db:migrate:undo:all && sequelize db:migrate && nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register server/tests --timeout 8000 --exit",
     "start": "sequelize db:migrate && sequelize db:seed:all && babel-node app.js",
     "start-dev": "babel-watch app.js",
-    "heroku-postbuild": "npm install sequelize-cli babel-cli -g"
+    "heroku-postbuild": "npm install sequelize-cli babel-cli -g",
+    "dev": "webpack-dev-server --colors",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -41,17 +43,32 @@
     "morgan": "^1.9.0",
     "pg": "^6.4.2",
     "pg-hstore": "^2.3.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "sequelize": "^4.22.5",
     "supertest": "^3.0.0",
     "swagger-jsdoc": "^1.3.0"
   },
   "devDependencies": {
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "codeclimate-test-reporter": "^0.5.0",
     "coveralls": "^3.0.0",
+    "css-loader": "^0.28.7",
     "eslint": "^4.9.0",
     "eslint-config": "^0.3.0",
     "eslint-config-airbnb": "^16.0.0",
     "eslint-plugin-import": "^2.7.0",
-    "nyc": "^11.2.1"
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
+    "html-webpack-plugin": "^2.30.1",
+    "node-sass": "^4.7.2",
+    "nyc": "^11.2.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
   }
 }
