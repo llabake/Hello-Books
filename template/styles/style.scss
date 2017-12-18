@@ -197,6 +197,9 @@ body {
   
   .page-footer {
     background-color: $footer-color !important;
+    ul {
+      display: inline-flex;
+    }
   }
   
   .similar h3 {

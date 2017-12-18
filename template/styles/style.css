@@ -146,6 +146,8 @@ h5 {
 
 .page-footer {
   background-color: #8c4e4e !important; }
+  .page-footer ul {
+    display: inline-flex; }
 
 .similar h3 {
   font-weight: 500;
