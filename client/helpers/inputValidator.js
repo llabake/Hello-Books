@@ -58,32 +58,6 @@ export default class InputValidator {
       }
     });
     return { errors, isValid };
-
-    // const errors = {};
-    
-    // fields.forEach((field) => {
-    //   if (data[field] === undefined || data[field] === '') {
-    //     errors[field] = `${field} is required`;
-    //   }
-    // });
-    // if (data.username && data.username.length < 6) {
-    //   errors.username = 'Username too short Must be at least 5 characters'
-    // } else if (data.username && !isAlphanumeric(data.username)) {
-    //   errors.username = 'Username can only contain alphabets and numbers';
-    // }
-    // if (!isEmail(data.email)) {
-    //   errors.email = 'Please enter a valid email';
-    // }
-    // if (data.password && data.password.length < 8) {
-    //   errors.password = 'Password should contain atleast 8 characters';
-    // } else if (!isStrong(data.password)) {
-    //   errors.password = 'Password should contain atleast 1 uppercase, 1 lowercase letter, 1 number and a special character'
-    // }
-    // if (data.password && data.password !== data.confirmPassword) {
-    //   errors.confirmPassword = 'Ensure passwords match';
-    // }
-    // const isValid = Object.keys(errors).length === 0;
-    // return { errors, isValid };
   }
   /**
  *
