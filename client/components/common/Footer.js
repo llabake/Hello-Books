@@ -16,7 +16,6 @@ const Footer = () => {
                     <h5 className="white-text">Sign In</h5>
                         -->*/}
                         <ul>
-                            
                             <li>
                                 <a href="http://facebook.com/morecipesapp"> <i className="fa fa-facebook"></i></a>
                             </li>
@@ -31,7 +30,6 @@ const Footer = () => {
             <div className="footer-copyright">
                 <div className="container">
                     © 2017 Happy Girl World
-                    {/*<!--            <a className="grey-text text-lighten-4 right" href="#!">More Links</a>-->*/}
                 </div>
             </div>
         </footer>
