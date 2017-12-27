@@ -17,7 +17,7 @@ export default class Slider extends Component {
    * @memberof Slider
    * @returns {function} initialises the slider 
    */
-  ComponentDidMount() {
+  componentDidMount() {
     $('.slider').slider();
   }
   
