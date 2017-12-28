@@ -122,7 +122,53 @@ export default class UserController {
             res.status(200)
               .json({
                 message: `You have successfully logged out ${user.username}`,
-              }));
+              })
+            );
       });
+  }
+  
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @returns {object} message containing validation response
+   * @memberof UserController
+   */
+  static checkUserExist(req, res) {
+    const { email, username } = req.query;
+    if (!email && !username) {
+      return res.status(400).json({
+        message: 'email or username expected in query'
+      })
+    }
+    User.findOne({
+      where: {
+        $or: [
+          {
+            username: username
+          }, {
+            email: email
+          }
+        ]
+      }
+    }).then((user) => {
+      if (!user) {
+        let message = username ? 'Username is valid' : 'Email is valid';
+        return res.status(200).json({
+          message
+        })
+      }
+      if (user.username === username || user.email === email) {
+        let message = username ? 'Username already taken' : 'Email already taken';
+        return res.status(400).json({
+          message
+        })
+      }
+    })
+    .catch((error) => {
+      return res.status(400).json({ error })
+    })
   }
 }

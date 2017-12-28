@@ -207,7 +207,7 @@ describe('User Endpoint Functionality', () => {
           done(err);
         });
     });
-    it.only('it should raise validation error for unique username', (done) => {
+    it('it should raise validation error for unique username', (done) => {
       const user = userDataTest.validUser1;
       User.create(user).then(() => {
         request.post('/api/v1/users/signup')
