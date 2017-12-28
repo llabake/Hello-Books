@@ -207,7 +207,7 @@ describe('User Endpoint Functionality', () => {
           done(err);
         });
     });
-    it('it should raise validation error for unique username', (done) => {
+    it.only('it should raise validation error for unique username', (done) => {
       const user = userDataTest.validUser1;
       User.create(user).then(() => {
         request.post('/api/v1/users/signup')
@@ -215,7 +215,18 @@ describe('User Endpoint Functionality', () => {
           .set('Accept', 'application/json')
           .end((err, res) => {
             expect(409);
-            expect(res.body.message).to.eql('User already exists');
+            expect(res.body).to.eql({
+              'errors': [
+                {
+                  'path': 'username',
+                  'message': 'Username already exist'
+                },
+                {
+                  'path': 'email',
+                  'message': 'Email already exist'
+                },
+              ]
+            });
             expect(res.status).to.eql(409);
             done(err);
           });

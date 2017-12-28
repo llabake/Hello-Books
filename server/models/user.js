@@ -11,7 +11,7 @@ export default (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: 'user_email_unique',
+      unique: true,
       validate: {
         notEmpty: {
           args: true,
@@ -58,7 +58,7 @@ export default (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: 'user_email_unique',
+      unique: true,
       validate: {
         notEmpty: {
           args: true,
