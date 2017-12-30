@@ -50,6 +50,12 @@ export default class InputValidator {
     if (data.password && data.confirmPassword && data.password !== data.confirmPassword) {
       errors.confirmPassword.push('Ensure passwords match');
     }
+    if (data.userExist.username) {
+      errors.username.push(data.userExist.username)
+    }
+    if (data.userExist.email) {
+      errors.email.push(data.userExist.email)
+    }
     let isValid = true;
     Object.keys(errors)
     .map(key => errors[key]).forEach((error) => {
