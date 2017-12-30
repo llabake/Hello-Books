@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const TextInput = ({ id, type, icon, placeholder, name, errors, value, onChange }) => {
+const TextInput = ({ id, type, icon, placeholder, name, errors, value, onChange, onBlur }) => {
   let wrapperClass = 'input-field col s12';
 
   return (
@@ -17,6 +17,7 @@ const TextInput = ({ id, type, icon, placeholder, name, errors, value, onChange 
       name={name}
       value={value} 
       onChange={onChange}
+      onBlur={onBlur}
       />
       {errors && errors.length ?
         errors.map((error, i) => { return (
@@ -37,7 +38,9 @@ TextInput.propTypes = {
   icon: PropTypes.string.isRequired,
   value: PropTypes.string,
   errors: PropTypes.array,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default TextInput;
