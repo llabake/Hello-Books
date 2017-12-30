@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import logger from 'morgan';
 import path from 'path';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import routes from './server/routes';
 import db from './server/models/index';
@@ -46,6 +47,9 @@ app.get('/swagger.json', (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, 'server/')));
+
+// Allow cross origin resource sharing
+app.use(cors())
 
 // Log requests to the console.
 app.use(logger('dev'));

@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect, Link } from 'react-router-dom';
+import { connect } from 'react-redux'
 
+
+
+import { checkUserExist, signUpUser } from '../actions/signUpAction';
 import TextInput from '../components/common/TextInput';
 import inputValidator from '../helpers/inputValidator'
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
+import toastMessage from '../helpers/toastMessage';
 
 /**
  * 
@@ -13,7 +19,7 @@ import Footer from '../components/common/Footer';
  * @class SignUpForm
  * @extends {Component}
  */
-export default class SignUpForm extends Component {
+class SignUpForm extends Component {
   /**
    * Creates an instance of SignUpForm.
    * @param {any} props 
@@ -31,16 +37,13 @@ export default class SignUpForm extends Component {
       errors: {}, 
       saving: false,
       isValid: false,
-      // blurred: {
-      //   confirmPassword: false,
-      //   firstName: false,
-      //   lastName: false
-      // }
+      userExist: {},
+      redirect: false
 
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleBlur =this.handleBlur.bind(this);
+    this.handleBlur =this.handleBlur.bind(this);
   }
 
   /**
@@ -69,18 +72,57 @@ export default class SignUpForm extends Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    console.log('submitted')
+    const userData = this.state;
+    if(this.validate()) {
+      this.setState({
+        saving: true,
+        error: {}
+      });
+      this.props.signUpUser(userData)
+      .then((response) => {
+        toastMessage(response.data.message);
+        setTimeout(() => {
+          this.setState({
+            redirect: true,
+          });
+        }, 2000)
+      })
+      .catch((error) => {
+        this.setState({ errors: error.response.data, saving: false })
+        toastMessage('Signup failed. Please try again')
+      });
+    }
+
+
   }
 
-  // handleBlur(fieldName) {
-  //   this.setState(state => ({
-  //       ...state,
-  //       blurred: {
-  //           ...state.blurred,
-  //           [fieldName]: true
-  //       }
-  //   }))
-  // }
+  /**
+   * @returns {obejct} user validation status
+   * 
+   * @param {any} event 
+   * @memberof SignUpForm
+   */
+  handleBlur(event) {
+    const field = event.target.name;
+    const userInput = event.target.value;
+    if(userInput !== '') {
+      this.props.checkUserExist(field, userInput)
+      .then(() => {
+        this.setState({ 
+          userExist: {}
+        }, () => {
+          this.validate()
+        })
+      })
+      .catch((error) => {
+        const errors = this.state.errors;
+        const userExist = this.state.userExist;
+        errors[field].push(error.response.data.message)
+        userExist[field] = error.response.data.message
+        this.setState({ errors, userExist })
+      })
+    }
+  }
 
   /**
    * @returns {Object} object containing validation status and corresponding errors
@@ -89,7 +131,8 @@ export default class SignUpForm extends Component {
    */
   validate() {
     const { errors, isValid } = inputValidator.signUp(this.state);
-    this.setState({ isValid, errors })
+    this.setState({ isValid, errors });
+    return isValid;
   }
 
   /**
@@ -98,9 +141,10 @@ export default class SignUpForm extends Component {
    * @returns {Object} object containing user detail
    * @memberof SignUpForm
    */
-  render () {     
-    const { errors, isValid, blurred } = this.state;
+  render () {  
+    const { errors, isValid, saving, redirect } = this.state;
     return (
+      redirect ? <Redirect to='/' /> :
       <div>
         <Header/>
         <div id="banner">
@@ -115,7 +159,6 @@ export default class SignUpForm extends Component {
                 <div className="row ">
                   <form className="col s12 signup" onSubmit={this.handleSubmit}>      
                     <div className="s12">
-                      {/* <div className=" input-field col s6"> */}
                       <TextInput
                       id = 'first_name'
                       type = 'text'
@@ -126,14 +169,6 @@ export default class SignUpForm extends Component {
                       value = {this.state.firstName}
                       errors = {errors.firstName}
                       />
-                        {/* <i className="material-icons prefix">account_circle</i>   
-                        <input id="icon-prefix" placeholder="First Name" name="firstName"
-                        required id="first_name" type="text" className="validate" 
-                        value={this.state.firstName} onChange={this.handleChange}
-                        onBlur={this.handleBlur} />
-                        {errors && <div>{errors.firstName}</div>} */}
-                      {/* </div> */}
-                      {/* <div className=" input-field col s6"> */}
                       <TextInput
                       id = 'last_name'
                       type = 'text'
@@ -145,14 +180,6 @@ export default class SignUpForm extends Component {
                       value = {this.state.lastName}
                       errors = {errors.lastName}
                       />
-                        {/* <i className="material-icons prefix">account_circle</i>   
-                        <input  placeholder="Last Name" name="lastName"
-                        required id="last_name" type="text" className="validate" 
-                        value={this.state.lastName} onChange={this.handleChange}
-                        onBlur={this.handleBlur}/>
-                        {errors && <div>{errors.lastName}</div>} */}
-                        
-                      {/* </div> */}
                     </div>
                     <TextInput
                     id = 'username'
@@ -161,6 +188,7 @@ export default class SignUpForm extends Component {
                     name = 'username'
                     placeholder = 'Username'
                     onChange = {this.handleChange}
+                    onBlur = {this.handleBlur}
                     value = {this.state.username}
                     errors = {errors.username}
                     />
@@ -171,26 +199,10 @@ export default class SignUpForm extends Component {
                     name = 'email'
                     placeholder = 'Email'
                     onChange = {this.handleChange}
+                    onBlur = {this.handleBlur}
                     value = {this.state.email}
                     errors = {errors.email}
                     />
-                    {/* <div className=" input-field col s12">
-                      <i className="material-icons prefix">account_circle</i>   
-                      <input  placeholder="Username" name="username"
-                      required id="username" type="text" className="validate" 
-                      value={this.state.username} onChange={this.handleChange}
-                      onBlur={this.handleBlur}/>
-                      {errors && <div className="red-text"><i className="material-icons">error_outline</i>{errors.username}</div>}
-                      
-                    </div> */}
-                    {/* <div className="input-field col s12">
-                      <i className="material-icons prefix">email</i>
-                      <input  id="email" type="email" required
-                      className="validate" placeholder="Email" name="email"
-                      value={this.state.email} onChange={this.handleChange}/>
-                      {errors && <div>{errors.email}</div>}
-                      
-                    </div> */}
                     <TextInput
                     id = 'password'
                     type = 'password'
@@ -201,14 +213,6 @@ export default class SignUpForm extends Component {
                     value = {this.state.password}
                     errors = {errors.password}
                     />
-                    {/* <div className="input-field col s12">
-                      <i className="material-icons prefix">lock</i>
-                      <input  id="password" type="password" required
-                      placeholder="Password" className="validate" name="password"
-                      value={this.state.password} onChange={this.handleChange}/>
-                      {errors && <div>{errors.password}</div>}
-                      
-                    </div> */}
                     <TextInput
                     id = 'confirm-password'
                     type = 'password'
@@ -219,24 +223,14 @@ export default class SignUpForm extends Component {
                     value = {this.state.confirmPassword}
                     errors = {errors.confirmPassword}
                     />
-                    {/* <div className="input-field col s12">
-                      <i className="material-icons prefix">lock</i>
-                      <input id="confirm-password" type="password" required
-                      placeholder="Re-enter Password " className="validate" name="confirmPassword"
-                      value={this.state.confirmPassword} onChange={this.handleChange}
-                      // onBlur={this.handleBlur}
-                      />
-                      { errors && <div>{errors.confirmPassword}</div>}
-                      
-                    </div> */}
-                    <button type="submit" className="waves-effect waves-light btn" disabled= {!isValid || !saving}>Register</button>
+                    <button type="submit" className="waves-effect waves-light btn" disabled= {!isValid || saving}>Register</button>
                   </form>
                 </div>
               </div>
             </div>
             <div className="terms">
-              <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-              <p> Already have an account? <a href="signin.html">Login Now</a></p> 
+              <p>By creating an account you agree to our <Link to="#">Terms & Privacy</Link>.</p>
+              <p> Already have an account? <Link to="signin.html">Login Now</Link></p> 
             </div>
           </div> 
         </div>
@@ -247,4 +241,17 @@ export default class SignUpForm extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return { errors: state.errors };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkUserExist: (field, userInput) => dispatch(checkUserExist(field, userInput)),
+    signUpUser: (userData) => dispatch(signUpUser(userData))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);
 
