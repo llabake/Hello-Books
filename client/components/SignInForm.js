@@ -102,13 +102,13 @@ class SignInForm extends Component {
   render () {  
     const { errors, isValid, saving, redirect } = this.state;
     return (
-      redirect ? <Redirect to='/' /> :
+      redirect ? <Redirect to='/allbooks' /> :
       <div>
         <header> 
           <div className="navbar-fixed">
             <nav>
               <div className="nav-wrapper">
-                <a href="index.html" className="brand-logo left adjust">Hello Books</a>
+                <Link to="/" className="brand-logo left adjust">Hello Books</Link>
                 <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                 
                 <ul id="nav-mobile" className="right hide-on-med-and-down">
