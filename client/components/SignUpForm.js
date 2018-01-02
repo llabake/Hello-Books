@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-
-
 import { checkUserExist, signUpUser } from '../actions/signUpAction';
 import TextInput from '../components/common/TextInput';
 import inputValidator from '../helpers/inputValidator'
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
-import toastMessage from '../helpers/toastMessage';
 
 /**
  * 
@@ -56,12 +53,8 @@ class SignUpForm extends Component {
   handleChange (event) {
     this.setState({
       [event.target.name]: event.target.value
-    }, () => {
-       this.validate();
-    });
+    }, () => this.validate());
   }
-
-  
 
   /**
    * 
@@ -75,25 +68,24 @@ class SignUpForm extends Component {
     const userData = this.state;
     if(this.validate()) {
       this.setState({
-        saving: true,
-        error: {}
+        error: {},
+        saving: true
       });
       this.props.signUpUser(userData)
-      .then((response) => {
-        toastMessage(response.data.message);
+      .then(() => {
         setTimeout(() => {
           this.setState({
             redirect: true,
           });
         }, 2000)
       })
-      .catch((error) => {
-        this.setState({ errors: error.response.data, saving: false })
-        toastMessage('Signup failed. Please try again')
-      });
+      .catch(() => {
+        this.setState({
+          redirect: false,
+          saving: false
+        })
+      })
     }
-
-
   }
 
   /**
