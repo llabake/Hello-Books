@@ -74,14 +74,21 @@ export default class InputValidator {
  * @returns {status} error array
  */
   static signIn(data) {
-    const errors = [];
+    const errors = {};
     const requiredFields = ['username', 'password'];
     requiredFields.forEach((field) => {
+      errors[field] = []
       if (data[field] === undefined || data[field] === '') {
-        errors.field({ path: field, message: `${field} is required` });
+        errors[field].push(`${field} is required`); 
       }
     });
-    const isValid = errors.length === 0;
+    let isValid = true;
+    Object.keys(errors)
+    .map(key => errors[key]).forEach((error) => {
+      if (error.length) {
+        isValid = false;
+      }
+    });
     return { errors, isValid };
   }
   /**

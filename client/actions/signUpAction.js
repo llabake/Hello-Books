@@ -1,13 +1,17 @@
 import axios from 'axios';
-import { USER_SIGNUP_REQUEST, CHECK_USER_EXISTS, CREATE_USER_SUCCESS, CREATE_USER_FAILURE, SET_CURRENT_USER, } from './actionTypes';
+import bluebird from 'bluebird';
+import jwt from 'jsonwebtoken';
+import { USER_SIGNUP_REQUEST, CHECK_USER_EXISTS, USER_SIGNUP_SUCCESS, USER_SIGNUP_ERROR, SET_CURRENT_USER, } from './actionTypes';
+import toastMessage from '../helpers/toastMessage';
+import Authorization from '../helpers/authorization';
 
-export function getUrl() {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://myhellobooks.herokuapp.com'
-  } else {
-    return 'http://localhost:5000'
-  }
-}
+
+
+
+const hostUrl = process.env.NODE_ENV === 'production' ?
+  'https://myhellobooks.herokuapp.com' :
+  'http://localhost:5000';
+
 
 const userSignUpRequest = () => {
   return {
@@ -24,6 +28,26 @@ const userExist = (field, error) => {
     }
   }
 }
+const userSignUpSuccess = (response) => {
+  return {
+    type: USER_SIGNUP_SUCCESS,
+    payload: response
+  }
+}
+
+const userSignUpError = (error) => {
+  return {
+    type: USER_SIGNUP_ERROR,
+    payload: error
+  }
+}
+
+const setCurrentUser = (user) => {
+  return {
+    type: SET_CURRENT_USER,
+    user
+  }
+}
 
 
 
@@ -36,13 +60,33 @@ const userExist = (field, error) => {
  * @returns {Object} user response object
  */
 export const checkUserExist = (field, userInput) => (dispatch) => {
-  return axios.get(`${getUrl()}/api/v1/users/signup/?${field}=${userInput}`)
+  return axios.get(`${hostUrl}/api/v1/users/signup/validate?${field}=${userInput}`)
 }
+
+// export const signUpUser = userData => (dispatch) => {
+//   return axios.post(`${hostUrl}/api/v1/users/signup/`, userData)
+// }
 
 export const signUpUser = userData => (dispatch) => {
-  return axios.post(`${getUrl()}/api/v1/users/signup/`, userData)
+  dispatch(userSignUpRequest())
+  return new Promise((resolve, reject) => {
+    return axios.post(`${hostUrl}/api/v1/users/signup/`, userData)
+    .then((response) => {
+      dispatch(userSignUpSuccess(response))
+      const { token } = response.data;
+      localStorage.setItem('token', token)
+      Authorization.setToken(token);
+      dispatch(setCurrentUser(jwt.decode(token)));
+      toastMessage(response.data.message, 'success');
+      resolve(response)
+    })
+    .catch((error) => {
+      dispatch(userSignUpError(error))
+      toastMessage('Signup failed. Please try again', 'failure')
+      reject(error)
+    })
 
+  })
+  
 }
-
-
 
