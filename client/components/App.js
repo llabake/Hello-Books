@@ -3,7 +3,8 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import HomePage from './HomePage';
-import SignUpForm from './SignUpForm'
+import SignUpForm from './SignUpForm';
+import SignInForm from './SignInForm';
 
 import '../styles/style.scss';
 /**
@@ -27,6 +28,7 @@ export default class App extends Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/signup' component={SignUpForm} />
+          <Route exact path='/signin' component={SignInForm} />
         </Switch>
         </div>
       </Router>
