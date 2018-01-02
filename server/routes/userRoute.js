@@ -98,7 +98,7 @@ const userRoute = (app) => {
   *         description: User not found
   */
   app.get(
-    '/api/v1/users/signup', UserController.checkUserExist
+    '/api/v1/users/signup/validate', UserController.checkUserExist
   )
 };
 
