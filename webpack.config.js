@@ -21,11 +21,11 @@ module.exports = {
       template: path.join(paths.SRC, 'index.html'),
     }),
   ],
-  //   devServer: {
-  //     contentBase: paths.SRC,
-  //     compress: true,
-  //       historyApiFallback: true
-  //   },
+    devServer: {
+      contentBase: paths.SRC,
+      compress: true,
+        historyApiFallback: true
+    },
   devtool: 'inline-source-map',
   module: { 
     loaders: [
