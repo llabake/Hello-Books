@@ -67,7 +67,7 @@ class BookController {
         id: req.params.bookId
       },
       attributes: [
-        'id', 'title', 'description', 'image',
+        'id', 'title', 'description', 'image', 'author',
         'upVotes', 'downVotes', 'borrowCount'
       ],
       include: [{
