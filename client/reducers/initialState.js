@@ -4,4 +4,7 @@ export default {
     authenticated: false,
     user: {}
   },
+  books: {
+    books: []
+  }
 }

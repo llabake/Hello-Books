@@ -67,7 +67,7 @@ class BookController {
         id: req.params.bookId
       },
       attributes: [
-        'id', 'title', 'description',
+        'id', 'title', 'description', 'image', 'author',
         'upVotes', 'downVotes', 'borrowCount'
       ],
       include: [{
@@ -151,10 +151,9 @@ class BookController {
    */
   static getAllBooks(req, res, next) {
     if (req.query.sort || req.query.search) return next();
-
     Book.findAll({
       attributes: [
-        'id', 'title', 'description',
+        'id', 'title', 'description', 'image', 'author',
         'upVotes', 'downVotes', 'borrowCount'
       ],
       include: [{
@@ -219,7 +218,7 @@ class BookController {
     options.order = [['upVotes', 'DESC']];
     options.limit = 10;
     options.attributes = [
-      'id', 'title', 'description',
+      'id', 'title', 'description', 'images',
       'upVotes', 'downVotes', 'borrowCount'
     ];
     options.include = [{
@@ -262,7 +261,7 @@ class BookController {
     const searchQuery = req.query.search;
     options.limit = 10;
     options.attributes = [
-      'id', 'title', 'description', 'author',
+      'id', 'title', 'description', 'author', 'image',
       'upVotes', 'downVotes', 'borrowCount'
     ];
     options.include = [{
