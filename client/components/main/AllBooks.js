@@ -7,7 +7,8 @@ import inputValidator from '../../helpers/inputValidator'
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import BookCard from '../common/BookCard'
-import { fetchAllBooksRequest, fetchAllBooks } from '../../actions/bookAction';
+import { fetchAllBooks } from '../../actions/bookAction';
+import { getUser } from '../../helpers/utils';
 
 /**
  * 
@@ -30,8 +31,9 @@ class AllBooks extends Component {
    * 
    * 
    * @memberof AllBooks
+   * @returns {Array} books array
    */
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchAllBooks();
   }
 
@@ -45,7 +47,8 @@ class AllBooks extends Component {
    * @memberof AllBooks
    */
   render () { 
-    const { books } = this.props;
+    const { books, } = this.props;
+    const user = getUser();
     return (
       <div>
         <header>
@@ -56,7 +59,8 @@ class AllBooks extends Component {
                       <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                       
                       <ul id="nav-mobile" className="right hide-on-med-and-down">
-                          <li><a href="adminboard.html">Admin DashBoard</a></li>
+                          { user.role === 'admin' ? <li><a href="adminboard.html">Admin DashBoard</a></li> : null }
+                          <li><Link to="/addbook">Add book</Link></li>
                           {/* <!-- <i className="material-icons prefix">notifications</i> --> */}
                           <li><a className="dropdown-button" href="#" data-activates="dropdown2">Categories<i className="material-icons right">arrow_drop_down</i></a>
                               {/* <!-- Dropdown Structure --> */}
@@ -70,7 +74,7 @@ class AllBooks extends Component {
                                   <li><a href="notifications.html">Business</a></li>
                               </ul>
                           </li>
-                          <li><a className="dropdown-button" href="#" data-activates="dropdown1">Sardaunan<i className="material-icons right">arrow_drop_down</i></a>
+                          <li><a className="dropdown-button" href="#" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
                               {/* <!-- Dropdown Structure --> */}
                               <ul id="dropdown1" className="dropdown-content">
                                   <li><a href="favorite.html">Favorite Books</a></li>
@@ -104,12 +108,13 @@ class AllBooks extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { books: state.bookReducer.books };
+  return {
+    books: state.bookReducer.books,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllBooksRequest: () => dispatch(fetchAllBooksRequest()),
     fetchAllBooks: () => dispatch(fetchAllBooks())
   };
 };

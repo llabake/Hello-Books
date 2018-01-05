@@ -6,10 +6,9 @@ import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS,
         } from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
 import Authorization from '../helpers/authorization';
+import { hostUrl } from '../helpers/utils';
 
-const hostUrl = process.env.NODE_ENV === 'production' ?
-  'https://myhellobooks.herokuapp.com' :
-  'http://localhost:5000';
+
 
 const userSignIn = () => {
   return {
@@ -55,7 +54,9 @@ export const signInUser = userData => (dispatch) => {
         const { token } = response.data;
         localStorage.setItem('token', token)
         Authorization.setToken(token);
-        dispatch(setCurrentUser(jwt.decode(token)));
+        const user = jwt.decode(token).user
+        localStorage.setItem('user', JSON.stringify(user))
+        dispatch(setCurrentUser(user));
         toastMessage(response.data.message, 'success');
         resolve(response)
       })

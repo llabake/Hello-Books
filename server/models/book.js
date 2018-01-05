@@ -56,6 +56,11 @@ export default(sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0
+    },
+    aboutAuthor: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: ''
     }
   });
   Book.associate = (models) => {

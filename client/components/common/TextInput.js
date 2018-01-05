@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 
 
 const TextInput = ({ id, type, icon, placeholder, name, errors, value, onChange, onBlur }) => {
-  let wrapperClass = 'input-field col s12';
-
   return (
-    <div className={wrapperClass}>
+    <div className='input-field col s12'>
       <i className="material-icons prefix">{icon}</i>
       <input 
       id={id} 

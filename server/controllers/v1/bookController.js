@@ -33,6 +33,7 @@ class BookController {
         quantity: parseInt(req.body.quantity, 10),
         description: req.body.description,
         image: req.body.image,
+        aboutAuthor: req.body.aboutAuthor
       })
         .then((book) => {
           res.status(201).json({
@@ -68,7 +69,8 @@ class BookController {
       },
       attributes: [
         'id', 'title', 'description', 'image', 'author',
-        'upVotes', 'downVotes', 'borrowCount'
+        'upVotes', 'downVotes', 'borrowCount',
+        'quantity', 'aboutAuthor'
       ],
       include: [{
         model: Review,
@@ -218,7 +220,7 @@ class BookController {
     options.order = [['upVotes', 'DESC']];
     options.limit = 10;
     options.attributes = [
-      'id', 'title', 'description', 'images',
+      'id', 'title', 'description', 'image',
       'upVotes', 'downVotes', 'borrowCount'
     ];
     options.include = [{
@@ -242,6 +244,8 @@ class BookController {
     }];
     Book.findAll(options)
       .then(books => res.status(200).json(books))
+      // res.json({error})
+      // console.log(error)
       .catch(error => res.status(400).json({
         message: 'error sending your request',
         error
@@ -304,6 +308,43 @@ class BookController {
         message: 'error sending your request',
         error
       }));
+  }
+  
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @returns {Object} response containing validity of book
+   * @memberof BookController
+   */
+  static checkIsbnExist(req, res) {
+    const { isbn, } = req.query;
+    if (!isbn) {
+      return res.status(400).json({
+        message: 'isbn expected in query'
+      })
+    }
+    Book.findOne({
+      where: {
+        isbn: isbn
+      }
+    }).then((book) => {
+      if (!book) {
+        return res.status(200).json({
+          message: 'ISBN is valid'
+        })
+      } else {
+        return res.status(400).json({
+          message: `Book with isbn: ${book.isbn} already exist`
+        })
+      }
+
+    })
+    .catch((error) => {
+      return res.status(400).json({ error })
+    })
   }
 }
 export default BookController;

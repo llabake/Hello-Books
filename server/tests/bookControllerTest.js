@@ -15,6 +15,7 @@ const bookDataTest = {
     isbn: 27565,
     quantity: 6,
     publishedYear: 2015,
+    aboutAuthor: 'about the author',
     description: 'juvenile adventure'
   },
   validBook2: {
@@ -23,6 +24,7 @@ const bookDataTest = {
     isbn: 65486565,
     quantity: 56,
     publishedYear: 2008,
+    aboutAuthor: 'about the author',
     description: 'a book on nation building'
   },
   validBook3: {
@@ -31,6 +33,8 @@ const bookDataTest = {
     isbn: 687565,
     quantity: 6,
     publishedYear: 2015,
+    aboutAuthor: 'about the author',
+   
     description: 'a start up book'
   },
   emptyBookDetail: {},
@@ -40,6 +44,7 @@ const bookDataTest = {
     isbn: '8655',
     quantity: 0,
     publishedYear: '2009',
+    aboutAuthor: 'about the author',
     description: 'a book a family'
   },
   stringQuantity: {
@@ -48,11 +53,13 @@ const bookDataTest = {
     isbn: 6565,
     quantity: 'pj',
     publishedYear: 2009,
+    aboutAuthor: 'about the author',
     description: 'a book a family'
   },
   stringIsbnAndPublishedYear: {
     title: 'Alapata Apata',
     author: 'Wole Soyinka',
+    aboutAuthor: 'about the author',
     isbn: '@=p',
     quantity: 8,
     publishedYear: 'p@}}',
@@ -169,6 +176,10 @@ describe('Book Endpoint Functionality', () => {
                   {
                     path: 'description',
                     message: 'description is required'
+                  },
+                  {
+                    path: 'aboutAuthor',
+                    message: 'aboutAuthor is required'
                   },
                   {
                     path: 'publishedYear',

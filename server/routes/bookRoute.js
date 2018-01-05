@@ -588,6 +588,32 @@ const bookRoute = (app) => {
     Authentication.isActive,
     BorrowBookController.getAllBorrowedBook
   );
+  
+    /**
+  * @swagger
+  * /api/v1/books/add/validate:
+  *   get:
+  *     tags:
+  *       - User Functionality
+  *     description: Checks if book exists
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - name: book
+  *         description: Book object
+  *         in: body
+  *         required: true
+  *         schema:
+  *           $ref: '#/definitions/Book'
+  *     responses:
+  *       200:
+  *         description: Successfully found a book
+  *       404:
+  *         description: Book not found
+  */
+  app.get(
+    '/api/v1/books/add/validate', BookController.checkIsbnExist
+  )
 };
 
 export default bookRoute;

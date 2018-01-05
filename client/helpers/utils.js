@@ -19,3 +19,15 @@ export const isStrong = (str) => {
   return re.test(str);
 }
 
+export  const isYear = (str) => {
+  const re = /^[1-9][0-9]{3}$/i;
+  return re.test(str);
+};
+
+export const hostUrl = process.env.NODE_ENV === 'production' ?
+  'https://myhellobooks.herokuapp.com' :
+  'http://localhost:5000';
+
+export const getUser = () => {
+  return JSON.parse(localStorage.getItem('user')) || {}
+}

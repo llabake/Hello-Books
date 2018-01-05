@@ -74,7 +74,7 @@ export default class InputValidator {
     const errors = [];
     const requiredFields = [
       'title', 'author', 'publishedYear',
-      'isbn', 'quantity', 'description'
+      'isbn', 'quantity', 'description', 'aboutAuthor'
     ];
     requiredFields.forEach((field) => {
       if (args[field] === undefined || args[field] === '') {

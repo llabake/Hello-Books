@@ -1,4 +1,4 @@
-import { isAlphanumeric, isEmail, isNumeric, isStrong } from './utils';
+import { isAlphanumeric, isEmail, isNumeric, isStrong, isYear } from './utils';
 /**
  *
  *
@@ -100,33 +100,42 @@ export default class InputValidator {
  * @memberof InputValidator
  */
   static addBook(data) {
-    const errors = [];
+    const errors = {};
     const requiredFields = [
       'title', 'author', 'publishedYear',
-      'isbn', 'quantity', 'description'
+      'isbn', 'quantity', 'description',
+      'image', 'aboutAuthor'
     ];
+
     requiredFields.forEach((field) => {
+      errors[field] = []
       if (data[field] === undefined || data[field] === '') {
-        errors.field({ path: field, message: `${field} is required` });
+        errors[field].push(`${field} is required`); 
       }
     });
-    if (!isNumeric(data.publishedYear)) {
-      errors.field({
-        path: 'publishedYear',
-        message: 'PublishedYear can only be a number'
-      });
+    if (data.publishedYear && !isNumeric(data.publishedYear)) {
+      errors.publishedYear.push('PublishedYear can only be a number')
     }
-    if (!isNumeric(data.isbn)) {
-      errors.field({ path: 'isbn', message: 'isbn can only be a number' });
+    if (data.publishedYear && !isYear(data.publishedYear)) {
+      errors.publishedYear.push('PublishedYear is not a valid year, expect date in range 1000-9999')
+    }
+    if (data.isbn && !isNumeric(data.isbn)) {
+      errors.isbn.push('isbn can only be a number');
     }
 
-    if (!isNumeric(data.quantity) || data.quantity <= 0) {
-      errors.field({
-        path: 'quantity',
-        message: 'Quantity must be a number and greater than zero'
-      });
+    if (data.quantity && !isNumeric(data.quantity) || data.quantity <= 0) {
+      errors.quantity.push('Quantity must be a number and greater than zero');
     }
-    const isValid = errors.length === 0;
+    if (data.isbnExist) {
+      errors.isbn.push(data.isbnExist)
+    }
+    let isValid = true;
+    Object.keys(errors)
+    .map(key => errors[key]).forEach((error) => {
+      if (error.length) {
+        isValid = false;
+      }
+    });
     return { errors, isValid };
   }
   /**
