@@ -33,7 +33,7 @@ class AllBooks extends Component {
    * @memberof AllBooks
    * @returns {Array} books array
    */
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchAllBooks();
   }
 
