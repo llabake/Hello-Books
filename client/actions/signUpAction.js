@@ -4,13 +4,8 @@ import jwt from 'jsonwebtoken';
 import { USER_SIGNUP_REQUEST, CHECK_USER_EXISTS, USER_SIGNUP_SUCCESS, USER_SIGNUP_ERROR, SET_CURRENT_USER, } from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
 import Authorization from '../helpers/authorization';
+import { hostUrl } from '../helpers/utils';
 
-
-
-
-const hostUrl = process.env.NODE_ENV === 'production' ?
-  'https://myhellobooks.herokuapp.com' :
-  'http://localhost:5000';
 
 
 const userSignUpRequest = () => {
@@ -63,9 +58,6 @@ export const checkUserExist = (field, userInput) => (dispatch) => {
   return axios.get(`${hostUrl}/api/v1/users/signup/validate?${field}=${userInput}`)
 }
 
-// export const signUpUser = userData => (dispatch) => {
-//   return axios.post(`${hostUrl}/api/v1/users/signup/`, userData)
-// }
 
 export const signUpUser = userData => (dispatch) => {
   dispatch(userSignUpRequest())
