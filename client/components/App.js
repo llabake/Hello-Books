@@ -7,6 +7,8 @@ import SignUpForm from './SignUpForm';
 import SignInForm from './SignInForm';
 import AllBooks from './main/AllBooks'
 import AddBook from './main/AddBook';
+import SingleBook from './main/SingleBook';
+
 
 import '../styles/style.scss';
 /**
@@ -33,6 +35,7 @@ export default class App extends Component {
           <Route exact path='/signin' component={SignInForm} />
           <Route exact path='/allbooks' component={AllBooks} />
           <Route exact path='/addbook' component={AddBook} />
+          <Route exact path='/book/:bookId' component={SingleBook} />
         </Switch>
         </div>
       </Router>
