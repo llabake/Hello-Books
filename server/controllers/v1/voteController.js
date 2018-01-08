@@ -33,7 +33,7 @@ export default class VoteController {
           if (vote) {
             if (vote.voteType === req.voteType) {
               res.status(409).json({
-                message: `You already ${req.voteType.toLowerCase()}d this book`
+                message: `You already ${req.voteType.toLowerCase()}d ${book.title}`
               });
             } else {
               vote.update({ voteType: req.voteType })
@@ -45,7 +45,7 @@ export default class VoteController {
                   book.reload().then((reloadedBook) => {
                     vote.reload().then(() => {
                       res.status(200).json({
-                        message: `You have successfully ${req.voteType.toLowerCase()}d this book`,
+                        message: `You have successfully ${req.voteType.toLowerCase()}d ${book.title}`,
                         book: reloadedBook
                       });
                     });
@@ -61,7 +61,7 @@ export default class VoteController {
               book.increment(`${req.voteType}s`);
               book.reload().then((reloadedBook) => {
                 res.status(201).json({
-                  message: `You have successfully ${req.voteType.toLowerCase()}d this book`,
+                  message: `You have successfully ${req.voteType.toLowerCase()}d ${book.title}`,
                   book: reloadedBook
                 });
               });
