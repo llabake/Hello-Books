@@ -5,6 +5,15 @@ export default {
     user: {}
   },
   books: {
-    books: []
-  }
+    books: [],
+    book: {},
+    addfavbook: [],
+    upvotedBook: {},
+    downvotedBook: {},
+    review: {},
+    loadReviewArea: false,
+    loadAllReview: false,
+    borrowedBook: []
+  },
+
 }

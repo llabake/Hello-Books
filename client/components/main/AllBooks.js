@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import inputValidator from '../../helpers/inputValidator'
+// import inputValidator from '../../helpers/inputValidator'
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import BookCard from '../common/BookCard'
