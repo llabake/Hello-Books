@@ -1,7 +1,7 @@
 import models from '../../models';
 import InputValidator from '../../helpers/inputValidator';
 
-const { Review } = models;
+const { Review, Book, User , Favorite } = models;
 /**
  *
  *
@@ -25,19 +25,63 @@ export default class ReviewController {
     } else {
       Review.create({
         content: req.body.content,
+        caption: req.body.caption,
         bookId: req.params.bookId,
         userId: req.user.id
       })
-        .then((review) => {
-          res.status(201).json({
+      .then((review) => {
+        Book.findOne({
+          where: {
+            id: req.params.bookId
+          },
+          // exclude: [{
+          //   attributes: ['createdAt', 'updatedAt']
+          // }],
+          include: [{
+            model: Review,
+            as: 'reviews',
+            attributes: ['id', 'content', 'createdAt', 'updatedAt','caption'],
+            include: [{
+              model: User,
+              as: 'user',
+              attributes: ['username', 'id'],
+            }],
+          },
+          {
+            model: Favorite,
+            as: 'favorited',
+            attributes: ['id', 'createdAt'],
+            include: [{
+              model: User,
+              as: 'user',
+              attributes: ['username', 'id'],
+            }],
+          }],
+          order: [[{model: Review, as: 'reviews'}, 'updatedAt', 'DESC']],
+        })
+        .then((book) => {
+          if (book.reviews.length === 0) {
+            return res.status(200).json({
+              message: 'Be the first to post a review',
+              review
+            })
+          }
+          return res.status(201).json({
             message: 'Review has been posted',
+            book,
             review
           });
         })
-        .catch(error => res.status(500).json({
-          message: 'error sending your request',
-          error
-        }));
+        .catch((error) => {
+          res.status(500).json({
+            message: error.message
+          })
+        })
+      })
+      .catch(error => res.status(500).json({
+        message: 'error sending your request',
+        error
+      }));
     }
   }
   /**
@@ -77,6 +121,47 @@ export default class ReviewController {
         error,
         message: 'error sending your request'
       }));
+  }
+
+  /**
+   * @returns {Array} Array of review on a book
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @memberof ReviewController
+   */
+  static getAllBookReview(req, res) {
+    Review.findAll({
+      where: {
+        bookId: req.params.bookId
+      },
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['username', 'id',],
+      }],
+      order:[['updatedAt', 'DESC']],
+      
+    })
+    .then((reviews) => {
+      if (reviews.length === 0) {
+        return res.status(200).json({
+          reviews,
+          message: 'Be the first to post a review...'
+        })
+      }
+      return res.status(200).json({
+        message: 'Reviews retrieved successfully',
+        reviews
+      })
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: 'error sending your request',
+        error: error.message
+      });
+    })
   }
 }
 

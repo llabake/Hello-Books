@@ -75,7 +75,7 @@ class BookController {
       include: [{
         model: Review,
         as: 'reviews',
-        attributes: ['id', 'content', 'createdAt'],
+        attributes: ['id', 'content', 'createdAt', 'caption','updatedAt'],
         include: [{
           model: User,
           as: 'user',
@@ -244,8 +244,6 @@ class BookController {
     }];
     Book.findAll(options)
       .then(books => res.status(200).json(books))
-      // res.json({error})
-      // console.log(error)
       .catch(error => res.status(400).json({
         message: 'error sending your request',
         error

@@ -33,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
         as: 'userId',
       }
+    },
+    caption: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: ''
     }
   });
   Review.associate = (models) => {

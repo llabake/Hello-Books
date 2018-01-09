@@ -129,7 +129,7 @@ describe('Vote Endpoint Functionality', () => {
                   .set('Authorization', token)
                   .end((err, res) => {
                     expect(409);
-                    expect(res.body.message).to.eql('You already upvoted this book');
+                    expect(res.body.message).to.eql(`You already upvoted ${createdBook.title}`);
                     done(err);
                   });
               });
@@ -151,7 +151,7 @@ describe('Vote Endpoint Functionality', () => {
                   .set('Authorization', token)
                   .end((err, res) => {
                     expect(200);
-                    expect(res.body.message).to.eql('You have successfully upvoted this book');
+                    expect(res.body.message).to.eql(`You have successfully upvoted ${createdBook.title}`);
                     expect(res.body).to.have.own.property('book');
                     done(err);
                   });
@@ -172,7 +172,7 @@ describe('Vote Endpoint Functionality', () => {
               .set('Authorization', token)
               .end((err, res) => {
                 expect(200);
-                expect(res.body.message).to.eql('You have successfully upvoted this book');
+                expect(res.body.message).to.eql(`You have successfully upvoted ${createdBook.title}`);
                 expect(res.body).to.have.own.property('book');
                 done(err);
               });
@@ -194,7 +194,7 @@ describe('Vote Endpoint Functionality', () => {
                   .set('Authorization', token)
                   .end((err, res) => {
                     expect(409);
-                    expect(res.body.message).to.eql('You already downvoted this book');
+                    expect(res.body.message).to.eql(`You already downvoted ${createdBook.title}`);
                     done(err);
                   });
               });
@@ -216,7 +216,7 @@ describe('Vote Endpoint Functionality', () => {
                   .set('Authorization', token)
                   .end((err, res) => {
                     expect(200);
-                    expect(res.body.message).to.eql('You have successfully downvoted this book');
+                    expect(res.body.message).to.eql(`You have successfully downvoted ${createdBook.title}`);
                     expect(res.body).to.have.own.property('book');
                     done(err);
                   });
@@ -237,7 +237,7 @@ describe('Vote Endpoint Functionality', () => {
               .set('Authorization', token)
               .end((err, res) => {
                 expect(200);
-                expect(res.body.message).to.eql('You have successfully downvoted this book');
+                expect(res.body.message).to.eql(`You have successfully downvoted ${createdBook.title}`);
                 expect(res.body).to.have.own.property('book');
                 done(err);
               });

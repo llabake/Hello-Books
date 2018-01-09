@@ -110,7 +110,7 @@ export default class InputValidator {
  */
   static addReview(args) {
     const errors = [];
-    const requiredFields = ['content'];
+    const requiredFields = ['content', 'caption'];
     requiredFields.forEach((field) => {
       if (args[field] === undefined || args[field] === '') {
         errors.push({ path: field, message: `${field} is required` });

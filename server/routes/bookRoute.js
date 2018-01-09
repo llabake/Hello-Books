@@ -589,7 +589,7 @@ const bookRoute = (app) => {
     BorrowBookController.getAllBorrowedBook
   );
   
-    /**
+  /**
   * @swagger
   * /api/v1/books/add/validate:
   *   get:
@@ -614,6 +614,34 @@ const bookRoute = (app) => {
   app.get(
     '/api/v1/books/add/validate', BookController.checkIsbnExist
   )
+  
+  /**
+  * @swagger
+  * /api/v1/books/{bookId}/allreviews:
+  *   get:
+  *     tags:
+  *       - Review Functionality
+  *     description: Gets all reviews on a book
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - name: review
+  *         description: Review object
+  *         in: body
+  *         required: true
+  *         schema:
+  *           $ref: '#/definitions/Review'
+  *     responses:
+  *       200:
+  *         description: Successfully retrieved all reviews on abook
+  *       404:
+  *         description: Book not found
+  */
+  app.get(
+    '/api/v1/books/:bookId(\\d+)/allreviews/',
+    Authentication.authMiddleware,
+    Authentication.isActive, ReviewController.getAllBookReview
+  );
 };
 
 export default bookRoute;
