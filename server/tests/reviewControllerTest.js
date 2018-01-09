@@ -95,6 +95,10 @@ describe('Review Endpoint Functionality', () => {
                     {
                       path: 'content',
                       message: 'content is required'
+                    },
+                    {
+                      path: 'caption',
+                      message: 'caption is required'
                     }
                   ]
                 });
