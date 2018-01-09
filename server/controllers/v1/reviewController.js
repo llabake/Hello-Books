@@ -1,7 +1,7 @@
 import models from '../../models';
 import InputValidator from '../../helpers/inputValidator';
 
-const { Review, Book, User } = models;
+const { Review, Book, User , Favorite } = models;
 /**
  *
  *
@@ -23,63 +23,65 @@ export default class ReviewController {
     if (!isValid) {
       res.status(400).json({ errors });
     } else {
-      Book.findOne({
-        where: {
-          id: req.params.bookId
-        },
-        // exclude: [{
-        //   attributes: ['createdAt', 'updatedAt']
-        // }],
-        include: [{
-          model: Review,
-          as: 'reviews',
-          attributes: ['id', 'content', 'createdAt', 'caption'],
+      Review.create({
+        content: req.body.content,
+        caption: req.body.caption,
+        bookId: req.params.bookId,
+        userId: req.user.id
+      })
+      .then((review) => {
+        Book.findOne({
+          where: {
+            id: req.params.bookId
+          },
+          // exclude: [{
+          //   attributes: ['createdAt', 'updatedAt']
+          // }],
           include: [{
-            model: User,
-            as: 'user',
-            attributes: ['username', 'id'],
+            model: Review,
+            as: 'reviews',
+            attributes: ['id', 'content', 'createdAt', 'updatedAt','caption'],
+            include: [{
+              model: User,
+              as: 'user',
+              attributes: ['username', 'id'],
+            }],
+          },
+          {
+            model: Favorite,
+            as: 'favorited',
+            attributes: ['id', 'createdAt'],
+            include: [{
+              model: User,
+              as: 'user',
+              attributes: ['username', 'id'],
+            }],
           }],
-        }]
-      })
-      .then((book) => {
-        if (book) {
-          Review.create({
-            content: req.body.content,
-            caption: req.body.caption,
-            bookId: req.params.bookId,
-            userId: req.user.id
-          })
-            .then(() => {
-              book.reload()
-              .then((reviewedBook) => {
-                res.status(201).json({
-                  message: 'Review has been posted',
-                  reviewedBook
-                });
-              })
-              .catch((error) => {
-                res.status(500).json({
-                  message: error.message
-                })
-              })
-
+          order: [[{model: Review, as: 'reviews'}, 'updatedAt', 'DESC']],
+        })
+        .then((book) => {
+          if (book.reviews.length === 0) {
+            return res.status(200).json({
+              message: 'Be the first to post a review',
+              review
             })
-            .catch(error => res.status(500).json({
-              message: 'error sending your request',
-              error
-            }));
-        } else {
-          res.status(404).json({
-            message: `Book with id: ${req.params.bookId} not found`,
+          }
+          return res.status(201).json({
+            message: 'Review has been posted',
+            book,
+            review
           });
-        }
-      })
-      .catch((error) => {
-        res.status(500).json({
-          message: error.message
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: error.message
+          })
         })
       })
-
+      .catch(error => res.status(500).json({
+        message: 'error sending your request',
+        error
+      }));
     }
   }
   /**
@@ -139,6 +141,8 @@ export default class ReviewController {
         as: 'user',
         attributes: ['username', 'id',],
       }],
+      order:[['updatedAt', 'DESC']],
+      
     })
     .then((reviews) => {
       if (reviews.length === 0) {
