@@ -75,7 +75,7 @@ class BookController {
       include: [{
         model: Review,
         as: 'reviews',
-        attributes: ['id', 'content', 'createdAt', 'caption'],
+        attributes: ['id', 'content', 'createdAt', 'caption','updatedAt'],
         include: [{
           model: User,
           as: 'user',
