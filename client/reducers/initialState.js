@@ -15,5 +15,10 @@ export default {
     loadAllReview: false,
     borrowedBook: []
   },
+  admin: {
+    allBooks: [],
+    pendingBorrowedBookRequest: [],
+    pendingReturnedBookRequest: [],
+  }
 
 }
