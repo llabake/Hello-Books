@@ -6,9 +6,9 @@ import HomePage from './HomePage';
 import SignUpForm from './SignUpForm';
 import SignInForm from './SignInForm';
 import AllBooks from './main/AllBooks'
-import AddBook from './main/AddBook';
+import AddBook from './adminDashBoard/AddBook';
 import SingleBook from './main/SingleBook';
-
+import AdminDashBoard from './adminDashBoard/AdminDashBoard';
 
 import '../styles/style.scss';
 /**
@@ -35,6 +35,7 @@ export default class App extends Component {
           <Route exact path='/signin' component={SignInForm} />
           <Route exact path='/allbooks' component={AllBooks} />
           <Route exact path='/addbook' component={AddBook} />
+          <Route exact path='/admindashboard' component={AdminDashBoard} />
           <Route exact path='/book/:bookId' component={SingleBook} />
         </Switch>
         </div>
