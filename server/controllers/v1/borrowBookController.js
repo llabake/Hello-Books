@@ -293,18 +293,18 @@ export default class BorrowedBookController {
       }
     ];
     BorrowBook.findAll(options)
-      .then((borrowedbooks) => {
-        if (!borrowedbooks.length) {
+      .then((borrowedBooks) => {
+        if (!borrowedBooks.length) {
           let message = 'No borrowed books record found';
           if (returnStatus || borrowStatus) {
             message = 'No book matches your search. Try some other combinations';
           }
           res.status(200).json({
             message,
-            borrowedbooks
+            borrowedBooks
           });
         }
-        res.status(200).json(borrowedbooks);
+        res.status(200).json(borrowedBooks);
       })
       .catch(error => res.status(400).json({
         message: 'error sending your request',
