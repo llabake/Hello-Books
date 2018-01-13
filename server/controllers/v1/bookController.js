@@ -154,11 +154,7 @@ class BookController {
   static getAllBooks(req, res, next) {
     if (req.query.sort || req.query.search) return next();
     Book.findAll({
-      attributes: [
-        'id', 'title', 'description', 'image', 'author',
-        'upVotes', 'downVotes', 'borrowCount'
-      ],
-      include: [{
+git      include: [{
         model: Review,
         as: 'reviews',
         attributes: ['id', 'content', 'createdAt'],
@@ -357,11 +353,18 @@ class BookController {
   static deleteBook(req, res) {
     Book.findById(req.params.bookId)
       .then((book) => {
-        book.destroy();
-        return res.status(200).json({
-          message: 'Book deleted successfully',
-          book
-        });
+        book.destroy()
+        .then(() => {
+          return res.status(200).json({
+            message: 'Book deleted successfully',
+          });
+        })
+        .catch((error) => {
+          return res.status(400).json({
+            error,
+            message: error.message
+          })
+        })
       })
       .catch((error) => {
         return res.status(500).json({
