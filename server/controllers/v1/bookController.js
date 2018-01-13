@@ -344,5 +344,32 @@ class BookController {
       return res.status(400).json({ error })
     })
   }
+
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @memberof BookController
+   * @returns {Object} response message
+   */
+  static deleteBook(req, res) {
+    Book.findById(req.params.bookId)
+      .then((book) => {
+        book.destroy();
+        return res.status(200).json({
+          message: 'Book deleted successfully',
+          book
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          error,
+          message: 'error sending your request'
+        })
+      })
+  }
+
 }
 export default BookController;
