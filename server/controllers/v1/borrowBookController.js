@@ -289,7 +289,7 @@ export default class BorrowedBookController {
       {
         model: Book,
         as: 'book',
-        attributes: ['id', 'title', 'author', 'quantity'],
+        attributes: ['id', 'title', 'author', 'quantity', 'borrowCount']
       }
     ];
     BorrowBook.findAll(options)

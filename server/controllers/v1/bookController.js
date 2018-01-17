@@ -154,7 +154,7 @@ class BookController {
   static getAllBooks(req, res, next) {
     if (req.query.sort || req.query.search) return next();
     Book.findAll({
-git      include: [{
+      include: [{
         model: Review,
         as: 'reviews',
         attributes: ['id', 'content', 'createdAt'],
