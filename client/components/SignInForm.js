@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import { signInUser } from '../actions/signInAction';
+import  signInUser  from '../actions/signInAction';
 import TextInput from '../components/common/TextInput';
 import inputValidator from '../helpers/inputValidator'
 import Header from '../components/common/Header';
@@ -99,7 +99,7 @@ class SignInForm extends Component {
    * @returns {Object} object containing user detail
    * @memberof SignInForm
    */
-  render () {  
+  render () {
     const { errors, isValid, saving, redirect } = this.state;
     return (
       redirect ? <Redirect to='/allbooks' /> :
@@ -165,7 +165,10 @@ class SignInForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { errors: state.errors };
+  return {
+    errors: state.errors,
+    user: state.userReducer.user,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

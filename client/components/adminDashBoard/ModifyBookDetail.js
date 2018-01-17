@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Redirect, Link } from 'react-router-dom';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { Link, } from 'react-router-dom';
 
-import {  checkIsbnExist, saveBook } from '../../actions/bookAction'
-import TextInput from '../common/TextInput';
-import inputValidator from '../../helpers/inputValidator'
-import Header from '../common/Header';
-import Footer from '../common/Footer';
-import TextAreaInput from '../common/TextAreaInput';
-
+import { checkIsbnExist,  } from '../../actions/bookAction';
+import { updateBook } from '../../actions/borrowAction';
+import  TextAreaInput from '../common/TextAreaInput'
+import  TextInput from '../common/TextInput'
+import InputValidator from '../../helpers/inputValidator';
 /**
  * 
  * 
- * @class AddBook
+ * @class ModifyBookDetail
  * @extends {Component}
  */
-class AddBook extends Component {
+class ModifyBookDetail extends Component {
+
   /**
-   * Creates an instance of AddBook.
+   * Creates an instance of ModifyBookDetail.
    * @param {any} props 
-   * @memberof AddBook
+   * @memberof ModifyBookDetail
    */
   constructor(props) {
     super(props);
@@ -34,26 +32,38 @@ class AddBook extends Component {
       aboutAuthor: '',
       image: '',
       errors: {},
-      isbnExist: '',
-      saving: false,
       isValid: false,
-      userExist: {},
-      redirect: false
-
-    };
+    }
     this.handleChange = this.handleChange.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBlur =this.handleBlur.bind(this);
+
   }
 
+  /**
+   * @returns {void}
+   * 
+   * @memberof ModifyBookDetail
+   */
+  componentWillMount() {
+    const { book } = this.props
+    this.setState({
+      title: book.title,
+      author: book.author,
+      publishedYear: book.publishedYear,
+      isbn: book.isbn,
+      quantity: book.quantity,
+      description: book.description,
+      aboutAuthor: book.aboutAuthor,
+      image: book.image
+    })
+  }
 
   /**
-   * 
+   * @returns {void}
    * 
    * @param {any} event 
-   * @memberof AddBook
-   * @returns {object} object containing state
-   * 
+   * @memberof ModifyBookDetail
    */
   handleChange (event) {
     this.setState({
@@ -61,46 +71,23 @@ class AddBook extends Component {
     }, () => this.validate());
   }
 
-
   /**
    * 
    * 
-   * @param {any} event 
-   * @memberof AddBook
-   * @returns {object} response containing added book
+   * @returns {object} imput validation response object
+   * @memberof ModifyBookDetail
    */
-  handleSubmit(event) {
-    event.preventDefault();
-    const bookData = this.state;
-    if(this.validate()) {
-      this.setState({
-        error: {},
-        saving: true
-      });
-      this.props.saveBook(bookData)
-      .then(() => {
-        setTimeout(() => {
-          this.setState({
-            redirect: true,
-          });
-        }, 2000)
-      })
-      .catch(() => {
-        this.setState({
-          redirect: false,
-          saving: false
-        })
-      })
-    }
+  validate() {
+    const { errors, isValid } = InputValidator.modifyBook(this.state);
+    this.setState({ isValid, errors });
+    return isValid;
   }
 
-
   /**
-   * 
+   * @returns {object} isbn validity
    * 
    * @param {any} event 
-   * @memberof AddBook
-   * @returns {Object} object containing isbn validation
+   * @memberof ModifyBookDetail
    */
   handleBlur(event) {
     const field = event.target.name;
@@ -124,60 +111,56 @@ class AddBook extends Component {
   }
 
   /**
+   * @returns {void}
    * 
-   * 
-   * @returns {object} response containing book validation status
-   * @memberof AddBook
+   * @param {any} event 
+   * @memberof ModifyBookDetail
    */
-  validate() {
-    const { errors, isValid } = inputValidator.addBook(this.state);
-    this.setState({ isValid, errors });
-    return isValid;
+  handleSubmit(event) {
+    event.preventDefault();
+    const bookData = this.state;
+    if(this.validate()) {
+      this.setState({
+        error: {},
+      });
+      this.props.updateBook(this.props.book.id, bookData)
+      .then(() => {
+        $('#edit-book-modal').modal('close');
+      })
+    }
   }
+
 
   /**
    * 
    * 
-   * @returns {object} object containing created book detail
-   * @memberof AddBook
+   * @returns  {Object} Edited Book Object
+   * @memberof ModifyBookDetail
    */
-  render () {  
-    const { errors, isValid, saving, redirect } = this.state;
+  render () {
+    
+    const { errors, isValid, saving, } = this.state;
     return (
-      redirect ? <Redirect to='/allbooks' /> : 
       <div>
-        <header> 
-        <div className="navbar-fixed">
-          <nav>
-            <div className="nav-wrapper">
-              <Link to="/" className="brand-logo left adjust">Hello Books</Link>
-              <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
-              
-              <ul id="nav-mobile" className="right hide-on-med-and-down">
-              </ul>
-            </div>
-          </nav>
-        </div> 
-      </header>
         <div id="banner">
           <div className="container form-style">
             <div className="row">
               <div className="row signup-head">  
                 <div className="col s12"> 
-                  <h5 className="center-align"> Add Book </h5> 
+                  <h5 className="center-align"> Edit Book </h5> 
                 </div>
               </div> 
               <div className="col s12 ">
                 <div className="row ">
-                  <form className="col s12 signup" onSubmit={this.handleSubmit}>      
-                  <TextInput
+                  <form className="col s12 signup" onSubmit={this.handleSubmit} method='post'>      
+                    <TextInput
                     id = 'title'
                     type = 'text'
                     icon = 'title'
                     name = 'title'
                     placeholder = 'Title'
                     onChange = {this.handleChange}
-                    value = {this.state.title}
+                    value = {this.state.title }
                     errors = {errors.title}
                     />
                     <TextInput
@@ -187,7 +170,7 @@ class AddBook extends Component {
                     name = 'author'
                     placeholder = 'Author'
                     onChange = {this.handleChange}
-                    value = {this.state.author}
+                    value = {this.state.author }
                     errors = {errors.author}
                     />
                     <TextInput
@@ -197,7 +180,7 @@ class AddBook extends Component {
                     name = 'publishedYear'
                     placeholder = 'Published Year'
                     onChange = {this.handleChange}
-                    value = {this.state.publishedYear}
+                    value = {this.state.publishedYear }
                     errors = {errors.publishedYear}
                     />
                     <TextInput
@@ -208,7 +191,7 @@ class AddBook extends Component {
                     placeholder = 'ISBN'
                     onChange = {this.handleChange}
                     onBlur = {this.handleBlur}                    
-                    value = {this.state.isbn}
+                    value = {this.state.isbn  }
                     errors = {errors.isbn}
                     />
                     <TextInput
@@ -218,7 +201,7 @@ class AddBook extends Component {
                     name = 'quantity'
                     placeholder = 'Quantity'
                     onChange = {this.handleChange}
-                    value = {this.state.quantity}
+                    value = { this.state.quantity }
                     errors = {errors.quantity}
                     />
                     <TextAreaInput
@@ -226,7 +209,7 @@ class AddBook extends Component {
                     icon = 'short_text'
                     name = 'description'
                     placeholder = 'Description'
-                    value = {this.state.description}
+                    value = {this.state.description }
                     onChange = {this.handleChange}
                     errors = {errors.description}
                     />
@@ -235,7 +218,7 @@ class AddBook extends Component {
                     icon = 'short_text'
                     placeholder = 'About the Author'
                     name = 'aboutAuthor'
-                    value = {this.state.aboutAuthor}
+                    value = {this.state.aboutAuthor }
                     onChange = {this.handleChange}
                     errors = {errors.aboutAuthor}
                     />
@@ -249,31 +232,31 @@ class AddBook extends Component {
                     value = {this.state.image}
                     errors = {errors.image}
                     />
-                    <button type="submit" className="waves-effect waves-light btn" disabled= {!isValid || saving}>Add Book</button>
+                    <button type="submit" className="waves-effect waves-light btn" disabled= {!isValid || saving}>Update Book</button>
                   </form>
                 </div>
               </div>
             </div>
            </div> 
         </div>
-        <Footer/>
       </div>
+    )
+  } 
+}
 
 
-    );
+const mapStateToProps = (state) => {
+  return {
+    errors: state.errors,
   }
 }
 
-const mapStateToProps = (state) => {
-  return { errors: state.errors };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
+    updateBook: (bookId, bookData) => dispatch(updateBook(bookId, bookData)),
     checkIsbnExist: (field, userInput) => dispatch(checkIsbnExist(field, userInput)),
-    saveBook: (bookData) => dispatch(saveBook(bookData)),
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBook);
+  }
+}
 
+export default connect(mapStateToProps, mapDispatchToProps) (ModifyBookDetail);

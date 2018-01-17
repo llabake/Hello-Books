@@ -176,17 +176,6 @@ export default class InputValidator {
  * @memberof InputValidator
  */
   static modifyBook(data) {
-    const errors = [];
-    const notManipulate = ['upVotes', 'downVotes', 'borrowCount'];
-    notManipulate.forEach((field) => {
-      if (data[field] !== undefined) {
-        errors.field({
-          path: field,
-          message: `${field} field can not be updated`
-        });
-      }
-    });
-    const isValid = errors.length === 0;
-    return { errors, isValid };
+    return this.addBook(data)
   }
 }

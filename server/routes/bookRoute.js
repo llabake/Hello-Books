@@ -642,6 +642,33 @@ const bookRoute = (app) => {
     Authentication.authMiddleware,
     Authentication.isActive, ReviewController.getAllBookReview
   );
+  /**
+   * @swagger
+   * /api/v1/books/{bookId}:
+   *   delete:
+   *     tags:
+   *       - Book Functionality
+   *     description: Returns a message 
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: A book object
+   *       400:
+   *         description: Error occurred
+   *       404:
+   *         description: Book not found
+   *         schema:
+   *           $ref: '#/definitions/Book'
+   */
+  app.delete(
+    '/api/v1/books/:bookId(\\d+)',
+    Authentication.authMiddleware,
+    Authentication.isActive,
+    AdminMiddleware.isAdmin,
+    BookMiddleware.bookExist,
+    BookController.deleteBook
+  );
 };
 
 export default bookRoute;

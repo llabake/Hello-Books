@@ -59,8 +59,8 @@ class AllBooks extends Component {
                       <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                       
                       <ul id="nav-mobile" className="right hide-on-med-and-down">
-                          { user.role === 'admin' ? <li><a href="adminboard.html">Admin DashBoard</a></li> : null }
-                          <li><Link to="/addbook">Add book</Link></li>
+                          { user.role === 'admin' ? <li><Link to="/admindashboard">Admin DashBoard</Link></li> : null }
+                          { user.role === 'admin' ? <li><Link to="/addbook">Add book</Link></li> : null }
                           {/* <!-- <i className="material-icons prefix">notifications</i> --> */}
                           <li><a className="dropdown-button" href="#" data-activates="dropdown2">Categories<i className="material-icons right">arrow_drop_down</i></a>
                               {/* <!-- Dropdown Structure --> */}

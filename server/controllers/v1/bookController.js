@@ -154,10 +154,6 @@ class BookController {
   static getAllBooks(req, res, next) {
     if (req.query.sort || req.query.search) return next();
     Book.findAll({
-      attributes: [
-        'id', 'title', 'description', 'image', 'author',
-        'upVotes', 'downVotes', 'borrowCount'
-      ],
       include: [{
         model: Review,
         as: 'reviews',
@@ -344,5 +340,39 @@ class BookController {
       return res.status(400).json({ error })
     })
   }
+
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @memberof BookController
+   * @returns {Object} response message
+   */
+  static deleteBook(req, res) {
+    Book.findById(req.params.bookId)
+      .then((book) => {
+        book.destroy()
+        .then(() => {
+          return res.status(200).json({
+            message: 'Book deleted successfully',
+          });
+        })
+        .catch((error) => {
+          return res.status(400).json({
+            error,
+            message: error.message
+          })
+        })
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          error,
+          message: 'error sending your request'
+        })
+      })
+  }
+
 }
 export default BookController;

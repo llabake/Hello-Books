@@ -5,8 +5,10 @@ import { FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR,
         FAVORITE_BOOK, FAVORITE_BOOK_ERROR, FAVORITE_BOOK_SUCCESS,
         UPVOTE, UPVOTE_SUCCESS, UPVOTE_ERROR, DOWNVOTE,
         DOWNVOTE_SUCCESS, DOWNVOTE_ERROR, REVIEW, 
-        REVIEW_ERROR, REVIEW_SUCCESS, BORROW, BORROW_SUCCESS, BORROW_ERROR,
-        SHOWALLREVIEWS, SHOWREVIEWTEXTAREA, } from './actionTypes'
+        REVIEW_ERROR, REVIEW_SUCCESS, BORROW, 
+        BORROW_SUCCESS, BORROW_ERROR,
+        SHOWALLREVIEWS, SHOWREVIEWTEXTAREA,
+      } from './actionTypes'
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
@@ -279,3 +281,4 @@ export const borrowBook = (bookId) => dispatch => {
     toastMessage(error.response.data.message, 'failure')
   })
 }
+
