@@ -31,6 +31,7 @@ class BookBorrow extends Component {
   componentDidMount() {
     this.props.pendingAcceptBorrowRequest();
   }
+
   /**
    * 
    * 
@@ -50,8 +51,9 @@ class BookBorrow extends Component {
                     <th>S/N</th>
                     <th>Title</th>
                     <th>Author </th>
-                    <th>Date Borrowed</th>
-                    <th>Expected Return Date</th>
+                    <th>Quantity</th>
+                    <th>Borrow Count</th>
+                    <th>User</th>
                     <th>Accept Borrow</th>
                   </tr>
                 </thead>

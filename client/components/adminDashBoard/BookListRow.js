@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
+// import { deleteBookAction } from '../../actions/bookAction';
 import { deleteBookAction } from '../../actions/borrowAction';
 import ModifyBookDetail from './ModifyBookDetail';
+
 /**
  * 
  * 
@@ -102,14 +104,14 @@ class BookListRow extends Component {
           <td>{book.author}</td>
           <td>
             <a onClick={this.handleEdit} 
-              className="modal-trigger .modal-close "
-              data-target="edit-book-modal" >
+              className="modal-trigger .modal-close ">
             <i className="material-icons">
               edit
             </i>
             </a>
             { this.state.editBook ? 
-              <Modal id='edit-book-modal'>
+              <Modal id='edit-book-modal'
+                >
                 <ModifyBookDetail book={bookToEdit} />
               </Modal >: 
               null 
@@ -134,7 +136,7 @@ class BookListRow extends Component {
 const mapStateToProps = (state) => {
   return {
     errors: state.errors,
-    allbooks: state.adminReducer.allbooks
+    allBooks: state.adminReducer.allBooks,
 
   }
 }

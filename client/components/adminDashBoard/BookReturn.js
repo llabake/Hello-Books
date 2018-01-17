@@ -52,12 +52,14 @@ class BookReturn extends Component {
                     <th>Title</th>
                     <th>Author </th>
                     <th>Date Borrowed</th>
+                    <th>User</th>
                     <th>Return</th>
                   </tr>
                 </thead>
                 <tbody>
-                  { borrowedBooks ? borrowedBooks.map((borrowedBook, index) => 
-                    <BookReturnListRow key= {borrowedBook.id} returnedBook={borrowedBook} index={index}/>
+                  { 
+                    borrowedBooks ? borrowedBooks.map((borrowedBook, index) => 
+                      <BookReturnListRow key= {borrowedBook.id} borrowedBook={borrowedBook} index={index}/>
                     ) : 
                     null
                   }

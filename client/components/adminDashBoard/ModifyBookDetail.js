@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link, } from 'react-router-dom';
+
+import { checkIsbnExist,  } from '../../actions/bookAction';
+import { updateBook } from '../../actions/borrowAction';
 import  TextAreaInput from '../common/TextAreaInput'
 import  TextInput from '../common/TextInput'
+import InputValidator from '../../helpers/inputValidator';
 /**
  * 
  * 
@@ -27,8 +32,11 @@ class ModifyBookDetail extends Component {
       aboutAuthor: '',
       image: '',
       errors: {},
+      isValid: false,
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
   }
 
@@ -39,16 +47,16 @@ class ModifyBookDetail extends Component {
    */
   componentWillMount() {
     const { book } = this.props
-    // this.setState({
-    //   title: book.title,
-    //   author: book.author,
-    //   publishedYear: book.publishedYear,
-    //   isbn: book.isbn,
-    //   quantity: book.quantity,
-    //   description: book.description,
-    //   aboutAuthor: book.aboutAuthor,
-    //   image: book.image
-    // })
+    this.setState({
+      title: book.title,
+      author: book.author,
+      publishedYear: book.publishedYear,
+      isbn: book.isbn,
+      quantity: book.quantity,
+      description: book.description,
+      aboutAuthor: book.aboutAuthor,
+      image: book.image
+    })
   }
 
   /**
@@ -63,9 +71,65 @@ class ModifyBookDetail extends Component {
     }, () => this.validate());
   }
 
+  /**
+   * 
+   * 
+   * @returns {object} imput validation response object
+   * @memberof ModifyBookDetail
+   */
   validate() {
-
+    const { errors, isValid } = InputValidator.modifyBook(this.state);
+    this.setState({ isValid, errors });
+    return isValid;
   }
+
+  /**
+   * @returns {object} isbn validity
+   * 
+   * @param {any} event 
+   * @memberof ModifyBookDetail
+   */
+  handleBlur(event) {
+    const field = event.target.name;
+    const userInput = event.target.value;
+    if(userInput !== '') {
+      this.props.checkIsbnExist(field, userInput)
+      .then(() => {
+        this.setState({ 
+          isbnExist: ''
+        }, () => {
+          this.validate()
+        })
+      })
+      .catch((error) => {
+        const errors = this.state.errors;
+        const isbnExist = error.response.data.message;
+        errors[field].push(error.response.data.message)
+        this.setState({ errors, isbnExist })
+      })
+    }
+  }
+
+  /**
+   * @returns {void}
+   * 
+   * @param {any} event 
+   * @memberof ModifyBookDetail
+   */
+  handleSubmit(event) {
+    event.preventDefault();
+    const bookData = this.state;
+    if(this.validate()) {
+      this.setState({
+        error: {},
+      });
+      this.props.updateBook(this.props.book.id, bookData)
+      .then(() => {
+        $('#edit-book-modal').modal('close');
+      })
+    }
+  }
+
 
   /**
    * 
@@ -74,12 +138,9 @@ class ModifyBookDetail extends Component {
    * @memberof ModifyBookDetail
    */
   render () {
-    console.log(this.props)
-    const { book } = this.props
     
     const { errors, isValid, saving, } = this.state;
     return (
-      // redirect ? <Redirect to='/allbooks' /> : 
       <div>
         <div id="banner">
           <div className="container form-style">
@@ -91,15 +152,15 @@ class ModifyBookDetail extends Component {
               </div> 
               <div className="col s12 ">
                 <div className="row ">
-                  <form className="col s12 signup" onSubmit={this.handleSubmit}>      
-                  <TextInput
+                  <form className="col s12 signup" onSubmit={this.handleSubmit} method='post'>      
+                    <TextInput
                     id = 'title'
                     type = 'text'
                     icon = 'title'
                     name = 'title'
                     placeholder = 'Title'
                     onChange = {this.handleChange}
-                    value = {this.state.title || book.title }
+                    value = {this.state.title }
                     errors = {errors.title}
                     />
                     <TextInput
@@ -109,7 +170,7 @@ class ModifyBookDetail extends Component {
                     name = 'author'
                     placeholder = 'Author'
                     onChange = {this.handleChange}
-                    value = {this.state.author || book.author }
+                    value = {this.state.author }
                     errors = {errors.author}
                     />
                     <TextInput
@@ -119,7 +180,7 @@ class ModifyBookDetail extends Component {
                     name = 'publishedYear'
                     placeholder = 'Published Year'
                     onChange = {this.handleChange}
-                    value = {this.state.publishedYear || book.publishedYear}
+                    value = {this.state.publishedYear }
                     errors = {errors.publishedYear}
                     />
                     <TextInput
@@ -130,7 +191,7 @@ class ModifyBookDetail extends Component {
                     placeholder = 'ISBN'
                     onChange = {this.handleChange}
                     onBlur = {this.handleBlur}                    
-                    value = {this.state.isbn || book.isbn }
+                    value = {this.state.isbn  }
                     errors = {errors.isbn}
                     />
                     <TextInput
@@ -140,7 +201,7 @@ class ModifyBookDetail extends Component {
                     name = 'quantity'
                     placeholder = 'Quantity'
                     onChange = {this.handleChange}
-                    value = { this.state.quantity !== '' ? this.state.quantity || book.quantity : null}
+                    value = { this.state.quantity }
                     errors = {errors.quantity}
                     />
                     <TextAreaInput
@@ -148,7 +209,7 @@ class ModifyBookDetail extends Component {
                     icon = 'short_text'
                     name = 'description'
                     placeholder = 'Description'
-                    value = {this.state.description || book.description}
+                    value = {this.state.description }
                     onChange = {this.handleChange}
                     errors = {errors.description}
                     />
@@ -157,7 +218,7 @@ class ModifyBookDetail extends Component {
                     icon = 'short_text'
                     placeholder = 'About the Author'
                     name = 'aboutAuthor'
-                    value = {this.state.aboutAuthor || book.aboutAuthor}
+                    value = {this.state.aboutAuthor }
                     onChange = {this.handleChange}
                     errors = {errors.aboutAuthor}
                     />
@@ -168,10 +229,10 @@ class ModifyBookDetail extends Component {
                     name = 'image'
                     placeholder = 'Image'
                     onChange = {this.handleChange}
-                    value = {this.state.image || book.image}
+                    value = {this.state.image}
                     errors = {errors.image}
                     />
-                    <button type="submit" className="waves-effect waves-light btn" disabled= {!isValid || saving}>Edit Book</button>
+                    <button type="submit" className="waves-effect waves-light btn" disabled= {!isValid || saving}>Update Book</button>
                   </form>
                 </div>
               </div>
@@ -183,4 +244,19 @@ class ModifyBookDetail extends Component {
   } 
 }
 
-export default ModifyBookDetail; 
+
+const mapStateToProps = (state) => {
+  return {
+    errors: state.errors,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateBook: (bookId, bookData) => dispatch(updateBook(bookId, bookData)),
+    checkIsbnExist: (field, userInput) => dispatch(checkIsbnExist(field, userInput)),
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (ModifyBookDetail);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { acceptBookBorrowRequest } from '../../actions/borrowAction';
 
 /**
  * 
@@ -16,7 +17,21 @@ class BookBorrowListRow extends Component {
    */
   constructor(props) {
     super(props);
+
+    this.handleAccept = this.handleAccept.bind(this);
   }
+
+  /**
+   * @returns {Object} Response object
+   * 
+   * @param {any} event 
+   * @memberof BookBorrowListRow
+   */
+  handleAccept(event) {
+    event.preventDefault();
+    this.props.acceptBookBorrowRequest(this.props.borrowedBook.book.id, this.props.borrowedBook.user.id)
+  }
+
 
   /**
    * 
@@ -25,16 +40,17 @@ class BookBorrowListRow extends Component {
    * @memberof BookBorrowListRow
    */
   render () {
-    const { borrowedBook, index } = this.props
+    const { borrowedBook, index } = this.props;
     return (
       <tr>
         <td>{index + 1}</td>
         <td>{borrowedBook.book.title}</td>
         <td>{borrowedBook.book.author}</td>
-        <td>{borrowedBook.borrowDate}</td>
-        <td>2{borrowedBook.expectedReturnDate}</td>
+        <td>{borrowedBook.book.quantity}</td>
+        <td>{borrowedBook.book.borrowCount}</td>
+        <td>{borrowedBook.user.username}</td>
         <td>
-          <a href="#allbooks">
+          <a onClick= {this.handleAccept}>
           <i className="material-icons">
             call_made
           </i>
@@ -48,8 +64,12 @@ class BookBorrowListRow extends Component {
 const mapStateToProps = (state) => {
   return {
     errors: state.errors,
-
   }
 } 
 
-export default connect(mapStateToProps, null)(BookBorrowListRow);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    acceptBookBorrowRequest: (bookId, userId) => dispatch(acceptBookBorrowRequest(bookId, userId)),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(BookBorrowListRow);

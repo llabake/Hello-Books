@@ -7,7 +7,6 @@ import { Redirect } from 'react-router';
 import BookList from '../adminDashBoard/BookList';
 import BookBorrow from '../adminDashBoard/BookBorrow';
 import BookReturn from '../adminDashBoard/BookReturn';
-// import ModifyBookDetail from '../adminDashBoard/ModifyBookDetail';
 import Footer from '../common/Footer';
 import { getUser } from '../../helpers/utils';
 
@@ -49,7 +48,7 @@ class AdminDashBoard extends Component {
    * @memberof AdminDashBoard
    */
   render () {
-  console.log(this.props)
+  // console.log(this.props)
     const { redirect } = this.state;
     const user = getUser();
     return (
@@ -87,16 +86,15 @@ class AdminDashBoard extends Component {
                   <div className="row">
                       <div className="col s12">
                         <ul className="tabs">
-                          <li className="tab col s3"><a className="active" href="#allbooks">Book List</a></li>
-                          <li className="tab col s3"><a href="#accept">Borrow Request</a></li>
-                          <li className="tab col s3"><a href="#return">Return Request</a></li>
-                          <li className="tab col s3"><a href="#edit">Edit Book</a></li>
+                          <li className="tab col s4"><a className="active" href="#allbooks">Book List</a></li>
+                          <li className="tab col s4"><a href="#accept">Borrow Request</a></li>
+                          <li className="tab col s4"><a href="#return">Return Request</a></li>
+                          {/* <li className="tab col s3"><a href="#edit">Edit Book</a></li> */}
                         </ul>
                       </div>
                       <BookList />
                       <BookBorrow />
                       <BookReturn />
-                      {/* <ModifyBookDetail /> */}
                       <ul className="pagination  center-align">
                         <li className="disabled"><a href="#!"><i className="material-icons">chevron_left</i></a></li>
                         <li className="active"><a href="#!">1</a></li>

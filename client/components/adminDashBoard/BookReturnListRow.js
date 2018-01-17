@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { acceptBookReturnRequest } from '../../actions/borrowAction';
 
 
 /**
@@ -17,7 +18,19 @@ class BookReturnListRow extends Component {
   constructor(props) {
     super(props);
 
+    this.handleReturn = this.handleReturn.bind(this)
 
+  }
+
+  /**
+   * @returns {Object} response object
+   * 
+   * @param {any} event 
+   * @memberof BookReturnListRow
+   */
+  handleReturn(event) {
+    event.preventDefault();
+    this.props.acceptBookReturnRequest(this.props.borrowedBook.book.id, this.props.borrowedBook.user.id)
   }
 
   /**
@@ -31,11 +44,12 @@ class BookReturnListRow extends Component {
     return (
       <tr>
         <td>{index + 1}</td>
-        <td>{borrowedBook.title}</td>
-        <td>{borrowedBook.author}</td>
-        <td>{borrowedBook.returnDate}</td>
+        <td>{borrowedBook.book.title}</td>
+        <td>{borrowedBook.book.author}</td>
+        <td>{borrowedBook.borrowDate}</td>
+        <td>{borrowedBook.user.username}</td>
         <td>
-          <a href="#allbooks">
+          <a onClick = {this.handleReturn}>
           <i className="material-icons">
             assignment_returned
           </i>
@@ -51,6 +65,12 @@ const mapStateToProps = (state) => {
     errors: state.errors,
 
   }
-} 
+}
 
-export default connect(mapStateToProps, null)(BookReturnListRow)
+const mapDispatchToProps = dispatch => {
+  return {
+    acceptBookReturnRequest: (bookId, userId) => dispatch(acceptBookReturnRequest(bookId, userId)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookReturnListRow)

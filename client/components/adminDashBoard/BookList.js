@@ -86,10 +86,10 @@ class BookList extends Component {
             </p>
           </div>
         }
-         { this.state.editing ? <Modal id='edit-book-modal'>
+         {/* { this.state.editing ? <Modal id='edit-book-modal'>
              <ModifyBookDetail book={bookToEdit} />
            </Modal >: null 
-         } 
+         }  */}
         
       </div>
       
