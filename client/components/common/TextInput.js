@@ -34,7 +34,10 @@ TextInput.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   errors: PropTypes.array,
   placeholder: PropTypes.string,
   onBlur: PropTypes.func,
