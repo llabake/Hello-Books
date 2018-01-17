@@ -16,6 +16,7 @@ export default {
     borrowedBook: []
   },
   admin: {
+    book: {},
     allBooks: [],
     pendingBorrowedBookRequest: [],
     pendingReturnedBookRequest: [],
