@@ -9,8 +9,9 @@ import Carousel from '../common/Carousel';
 import BookCard from '../common/BookCard'
 import AllBookReviews from '../main/AllBookReviews'
 import ReviewArea from '../main/ReviewArea';
-import { fetchSingleBook, favoriteABook, upVoteBook, downVoteBook,
-         showReviewTextArea, showAllReviews,borrowBook } from '../../actions/bookAction';
+import { fetchSingleBook, favoriteABook, upVoteBook,
+        downVoteBook, showReviewTextArea, showAllReviews,
+        borrowBook } from '../../actions/bookAction';
 import { getUser } from '../../helpers/utils';
 
 
@@ -307,7 +308,6 @@ class SingleBook extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     book: state.bookReducer.book,
     loadTextArea: state.bookReducer.loadTextArea,
