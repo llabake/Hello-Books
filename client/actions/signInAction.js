@@ -5,7 +5,6 @@ import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS,
          USER_SIGNIN_ERROR, SET_CURRENT_USER 
         } from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
-import Authorization from '../helpers/authorization';
 import { hostUrl } from '../helpers/utils';
 
 
@@ -36,16 +35,14 @@ const setCurrentUser = (user) => {
     user
   }
 }
-export const signInUsert = userData => (dispatch) => {
-  return axios.post(`${hostUrl}/api/v1/users/signin/`, userData)
-}
+
 /**
  * 
  * 
  * @param {any} userData 
  * @returns {message} sign in operation message
  */
-export const signInUser = userData => (dispatch) => {
+const signInUser = userData => (dispatch) => {
   dispatch(userSignIn());
   return new Promise((resolve, reject) => {
     return axios.post(`${hostUrl}/api/v1/users/signin/`, userData)
@@ -53,7 +50,6 @@ export const signInUser = userData => (dispatch) => {
         dispatch(userSignInSuccess(response))
         const { token } = response.data;
         localStorage.setItem('token', token)
-        Authorization.setToken(token);
         const user = jwt.decode(token).user
         localStorage.setItem('user', JSON.stringify(user))
         dispatch(setCurrentUser(user));
@@ -70,3 +66,5 @@ export const signInUser = userData => (dispatch) => {
   
 }
 
+
+export default signInUser;

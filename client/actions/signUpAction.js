@@ -3,7 +3,6 @@ import bluebird from 'bluebird';
 import jwt from 'jsonwebtoken';
 import { USER_SIGNUP_REQUEST, CHECK_USER_EXISTS, USER_SIGNUP_SUCCESS, USER_SIGNUP_ERROR, SET_CURRENT_USER, } from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
-import Authorization from '../helpers/authorization';
 import { hostUrl } from '../helpers/utils';
 
 
@@ -55,6 +54,7 @@ const setCurrentUser = (user) => {
  * @returns {Object} user response object
  */
 export const checkUserExist = (field, userInput) => (dispatch) => {
+  dispatch(userExist());
   return axios.get(`${hostUrl}/api/v1/users/signup/validate?${field}=${userInput}`)
 }
 
@@ -67,7 +67,6 @@ export const signUpUser = userData => (dispatch) => {
       dispatch(userSignUpSuccess(response))
       const { token } = response.data;
       localStorage.setItem('token', token)
-      Authorization.setToken(token);
       dispatch(setCurrentUser(jwt.decode(token)));
       toastMessage(response.data.message, 'success');
       resolve(response)
