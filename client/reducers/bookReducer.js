@@ -1,11 +1,12 @@
-import { FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR, FETCH_SINGLE_BOOK_SUCCESS,
-         FETCH_SINGLE_BOOK_ERROR, FAVORITE_BOOK_ERROR, FAVORITE_BOOK_SUCCESS,
-         UPVOTE_SUCCESS, UPVOTE_ERROR, DOWNVOTE_SUCCESS, DOWNVOTE_ERROR,
-         SHOWREVIEWTEXTAREA, REVIEW_SUCCESS, REVIEW_ERROR, BORROW_SUCCESS,
+import { FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR,FETCH_SINGLE_BOOK_SUCCESS,
+         FETCH_SINGLE_BOOK_ERROR, FAVORITE_BOOK_ERROR,
+         FAVORITE_BOOK_SUCCESS,
+         UPVOTE_SUCCESS, UPVOTE_ERROR,
+         DOWNVOTE_SUCCESS, DOWNVOTE_ERROR,
+         SHOWREVIEWTEXTAREA, REVIEW_SUCCESS, 
+         REVIEW_ERROR, BORROW_SUCCESS,
          BORROW_ERROR,
          SHOWALLREVIEWS,
-         
-         
         } from '../actions/actionTypes';
 import initialState from './initialState';
 
@@ -15,7 +16,7 @@ export default (state = initialState.books, action) => {
       return {...state, books: action.books }
 
     case FETCH_BOOK_ERROR:
-      return action.error
+      return { ...state, error: action.error}
     
     case FETCH_SINGLE_BOOK_SUCCESS:
       return {...state, book: action.book, }
@@ -29,25 +30,26 @@ export default (state = initialState.books, action) => {
     case FAVORITE_BOOK_ERROR:
       return {...state, error: action.error}
   
-    case UPVOTE_SUCCESS: 
-    
-    const updatedBook = {...state.book, ...action.upvotedBook}
-      return {
-        ...state,
-        book:updatedBook,
-        upvotedBook: action.upvotedBook
-      }
+    case UPVOTE_SUCCESS: {
+      const updatedBook = { ...state.book, ...action.upvotedBook }
+        return {
+          ...state,
+          book:updatedBook,
+          upvotedBook: action.upvotedBook
+        }
+    }
     
     case UPVOTE_ERROR:
       return { ...state, error: action.error}
 
-    case DOWNVOTE_SUCCESS:
-    const newupdatedBook = {...state.book, ...action.downvotedBook}
-      return {
-        ...state,
-        book: newupdatedBook,
-        downvotedBook: action.downvotedBook
-      }
+    case DOWNVOTE_SUCCESS: {
+      const newupdatedBook = { ...state.book, ...action.downvotedBook }
+        return {
+          ...state,
+          book: newupdatedBook,
+          downvotedBook: action.downvotedBook
+        }
+    }
     
     case DOWNVOTE_ERROR:
       return { ...state, error: action.error}
