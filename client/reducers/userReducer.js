@@ -1,7 +1,9 @@
-import { USER_SIGNUP_REQUEST,  SET_CURRENT_USER } from '../actions/actionTypes';
 import initialState from './initialState';
+import { USER_SIGNUP_REQUEST,  SET_CURRENT_USER,
+  USER_BORROW_LIST_SUCCESS, 
+  USER_BORROW_LIST_ERROR} from '../actions/actionTypes';
 
-export default (state = initialState.signUpUser, action) => {
+export default (state = initialState.user, action) => {
   switch(action.type) {
     case USER_SIGNUP_REQUEST:
       return {
@@ -10,11 +12,20 @@ export default (state = initialState.signUpUser, action) => {
     case SET_CURRENT_USER:
       return {
         ...state,
-        user: action.user,
+        authUser: action.user,
         authenticated: true
       } 
+    case USER_BORROW_LIST_SUCCESS:
+      return {
+        ...state,
+        borrowedBookHistory: action.borrowedBookList
+      }
+
+    case USER_BORROW_LIST_ERROR:
+      return { ...state, error: action.error}
+    
 
     default :
-    return state
+      return state
   }
 }
