@@ -69,7 +69,7 @@ class AdminDashBoard extends Component {
                   <li><a className="dropdown-button" href="#" data-activates="dropdown1">{user.username}<i className="material-icons right">arrow_drop_down</i></a>
                     {/* <!-- Dropdown Structure --> */}
                     <ul id="dropdown1" className="dropdown-content">
-                      <li><a href="profile.html"><i className="material-icons ">account_box</i>Profile</a></li>
+                      <li><Link to="/profile"><i className="material-icons ">account_box</i>Profile</Link></li>
                       <li><a href="#!">Terms and Condition</a></li>
                       <li className="divider"></li>
                       <li><a href="signin.html"><i className="material-icons ">lock</i>Log Out</a></li>
@@ -144,16 +144,3 @@ class AdminDashBoard extends Component {
 }
 
 export default AdminDashBoard;
-// const mapStateToProps = (state) => {
-//   return {
-//     allbooks: state.borrowReducer.allbooks,
-//   };
-// };
-
-// // const mapDispatchToProps = (dispatch) => {
-// //   return {
-// //     fetchAllBooks: () => dispatch(fetchAllBooks())
-// //   };
-// // };
-
-// export default connect(mapStateToProps, null)(AdminDashBoard);
