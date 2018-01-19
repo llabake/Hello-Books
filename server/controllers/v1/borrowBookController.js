@@ -311,4 +311,46 @@ export default class BorrowedBookController {
         error
       }));
   }
+
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @memberof BorrowedBookController
+   * @returns {array} a list of user borrowedBook history
+   */
+  static getUserBorrowedBooks(req, res) {
+    const userId = req.user.id;
+    BorrowBook.findAll({
+      where: {
+        userId,
+        borrowStatus: {
+          $or: ['pending', 'accepted']
+        }
+      },
+      include: [{
+        model: Book,
+        as: 'book',
+        attribute: ['id', 'title', 'author']
+      }],
+      order: [['updatedAt', 'DESC']],
+    })
+    .then((borrowedBooks) => {
+      if (borrowedBooks.length === 0) {
+        return res.status(200).json({
+          message: 'Start borrowing books now'
+        })
+      }
+      return res.status(200).json({
+        message: 'BorrowedBooks history fetched successfully',
+        borrowedBooks
+      })
+    })
+    .catch(error => res.status(400).json({
+      message: 'error sending your request',
+      error
+    }));
+  }
 }

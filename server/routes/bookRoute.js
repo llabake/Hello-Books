@@ -669,6 +669,28 @@ const bookRoute = (app) => {
     BookMiddleware.bookExist,
     BookController.deleteBook
   );
+
+  /**
+   * @swagger
+   * /api/v1/user/borrowed_books:
+   *   get:
+   *     tags:
+   *       - Borrow Functionality
+   *     description: Returns all borrowed books by user
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: An array of borrowed books
+   *         schema:
+   *           $ref: '#/definitions/BorrowedBooks'
+   */
+app.get(
+  '/api/v1/user/borrowed_books/',
+  Authentication.authMiddleware,
+  Authentication.isActive,
+  BorrowBookController.getUserBorrowedBooks
+);
 };
 
 export default bookRoute;
