@@ -77,8 +77,8 @@ class AllBooks extends Component {
                           <li><a className="dropdown-button" href="#" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
                               {/* <!-- Dropdown Structure --> */}
                               <ul id="dropdown1" className="dropdown-content">
-                                  <li><a href="favorite.html">Favorite Books</a></li>
-                                  <li><a href="profile.html"><i className="material-icons ">account_box</i>Profile</a></li>
+                                  <li><Link to="/favorite">Favorite Books</Link></li>
+                                  <li><Link to="/profile"><i className="material-icons ">account_box</i>Profile</Link></li>
                                   <li><a href="#!">Terms and Condition</a></li>
                                   <li className="divider"></li>
                                   <li><a href="#!"><i className="material-icons ">lock</i>Log Out</a></li>
