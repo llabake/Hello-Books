@@ -1,12 +1,35 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import profileImage from '../../media/images.png';
 
-
+/**
+ * 
+ * 
+ * @class UserProfileSidePanel
+ * @extends {Component}
+ */
 class UserProfileSidePanel extends Component {
 
-  render () {
+  /**
+   * Creates an instance of UserProfileSidePanel.
+   * @param {any} props 
+   * @memberof UserProfileSidePanel
+   */
+  constructor(props) {
+    super(props);
+    this.state = {}
 
+  }
+
+
+  /**
+   * 
+   * 
+   * @returns {void}
+   * @memberof UserProfileSidePanel
+   */
+  render () {
   const { user } = this.props
     
     return (
@@ -22,7 +45,7 @@ class UserProfileSidePanel extends Component {
           <p> <b>Name: </b> {user.username} </p>
         </div>
         <div className="card-action">
-          <a href="editprofile.html">Profile Setting</a>
+          <Link to="/editprofile" >Profile Setting</Link>
         </div>
       </div>
       <div className="hide-on-med-and-up"> 
@@ -37,10 +60,10 @@ class UserProfileSidePanel extends Component {
             </div>
             <div className="card-content">
               <span className="card-title">User Bio</span>
-              <p> <b>Name: </b> Sardaunan Koimako </p>
+              <p> <b>Name: </b> {user.username} </p>
             </div>
             <div className="card-action">
-              <a href="editprofile.html">Profile Setting</a>
+              <Link to="/editprofile" >Profile Setting</Link>
             </div>
             </div>.</span></div>
           </li>
