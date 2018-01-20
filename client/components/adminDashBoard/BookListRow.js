@@ -4,7 +4,7 @@ import swal from 'sweetalert';
 import { connect } from 'react-redux';
 import { Modal } from 'react-materialize';
 // import { deleteBookAction } from '../../actions/bookAction';
-import { deleteBookAction } from '../../actions/borrowAction';
+import { deleteBookAction } from '../../actions/adminAction';
 import ModifyBookDetail from './ModifyBookDetail';
 
 /**

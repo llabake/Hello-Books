@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import { pendingAcceptReturnRequest } from '../../actions/borrowAction';
+import { pendingAcceptReturnRequest } from '../../actions/adminAction';
 import BookReturnListRow from '../adminDashBoard/BookReturnListRow';
 
 /**

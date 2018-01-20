@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import { checkUserExist, signUpUser } from '../actions/signUpAction';
+import { checkUserExist, signUpUser } from '../actions/userAction';
 import TextInput from '../components/common/TextInput';
 import inputValidator from '../helpers/inputValidator'
 import Header from '../components/common/Header';

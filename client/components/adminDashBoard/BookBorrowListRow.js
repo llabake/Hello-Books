@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { acceptBookBorrowRequest } from '../../actions/borrowAction';
+import { acceptBookBorrowRequest } from '../../actions/adminAction';
 
 /**
  * 

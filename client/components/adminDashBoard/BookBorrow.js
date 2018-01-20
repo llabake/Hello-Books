@@ -3,7 +3,7 @@ import { Link, } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 
-import { pendingAcceptBorrowRequest } from '../../actions/borrowAction';
+import { pendingAcceptBorrowRequest } from '../../actions/adminAction';
 import BookBorrowListRow from '../adminDashBoard/BookBorrowListRow';
 /**
  * 

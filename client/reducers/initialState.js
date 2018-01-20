@@ -1,8 +1,9 @@
 
 export default {
-  signUpUser: {
+  user: {
     authenticated: false,
-    user: {}
+    authUser: {},
+    borrowedBookHistory: []
   },
   books: {
     books: [],

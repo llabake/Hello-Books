@@ -1,7 +1,7 @@
 import axios from 'axios';
+import bluebird, { Promise } from 'bluebird';
 import toastMessage from '..//helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
-import bluebird, { Promise } from 'bluebird';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
 import { 
   FETCH_BOOK_SUCCESS,

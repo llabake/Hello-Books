@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, } from 'react-router-dom';
 
 import { checkIsbnExist,  } from '../../actions/bookAction';
-import { updateBook } from '../../actions/borrowAction';
+import { updateBook } from '../../actions/adminAction';
 import  TextAreaInput from '../common/TextAreaInput'
 import  TextInput from '../common/TextInput'
 import InputValidator from '../../helpers/inputValidator';

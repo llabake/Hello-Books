@@ -9,6 +9,7 @@ import AllBooks from './main/AllBooks'
 import AddBook from './adminDashBoard/AddBook';
 import SingleBook from './main/SingleBook';
 import AdminDashBoard from './adminDashBoard/AdminDashBoard';
+import UserProfilePage from './userDashBoard/UserProfilePage';
 
 import '../styles/style.scss';
 /**
@@ -37,6 +38,7 @@ export default class App extends Component {
           <Route exact path='/addbook' component={AddBook} />
           <Route exact path='/admindashboard' component={AdminDashBoard} />
           <Route exact path='/book/:bookId' component={SingleBook} />
+          <Route exact path='/profile' component={UserProfilePage} />
         </Switch>
         </div>
       </Router>

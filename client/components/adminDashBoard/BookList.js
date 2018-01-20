@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 import BookListRow from '../adminDashBoard/BookListRow';
@@ -64,20 +63,6 @@ class BookList extends Component {
                 </tbody>
               </table>
             </div>
-
-            {/* <!-- Modal Trigger -->
-                <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a> */}
-
-            {/* <!-- Modal Structure --> */}
-            {/* <div id="edit-book-modal" class="modal modal-fixed-footer">
-              <div class="modal-content">
-                <h4>Edit Book</h4>
-                <p>A bunch of text</p>
-              </div>
-              <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
-              </div>
-            </div> */}
           
           </div> : 
           <div className="card-panel row">
@@ -86,10 +71,6 @@ class BookList extends Component {
             </p>
           </div>
         }
-         {/* { this.state.editing ? <Modal id='edit-book-modal'>
-             <ModifyBookDetail book={bookToEdit} />
-           </Modal >: null 
-         }  */}
         
       </div>
       
