@@ -340,7 +340,8 @@ export default class BorrowedBookController {
     .then((borrowedBooks) => {
       if (borrowedBooks.length === 0) {
         return res.status(200).json({
-          message: 'Start borrowing books now'
+          message: 'Start borrowing books now',
+          borrowedBooks
         })
       }
       return res.status(200).json({
