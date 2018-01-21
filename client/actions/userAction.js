@@ -10,7 +10,10 @@ import { USER_SIGNUP_REQUEST, CHECK_USER_EXISTS,
   USER_BORROW_LIST_ERROR,
   RETURN,
   RETURN_SUCCESS,
-  RETURN_ERROR, } from './actionTypes';
+  RETURN_ERROR,
+  USER_FAVORITE_LIST,
+  USER_FAVORITE_LIST_SUCCESS,
+  USER_FAVORITE_LIST_ERROR, } from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
@@ -205,8 +208,39 @@ export const returnBookAction = bookId => dispatch => {
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {
-    console.log(error.response)
     dispatch(returnBookError(error))
+    toastMessage(error.response.data.message, 'failure')
+  })
+}
+
+const userFavoriteList = () => {
+  return {
+    type: USER_FAVORITE_LIST
+  }
+}
+
+const userFavoriteListSuccess = (favoriteBooks) => {
+  return {
+    type: USER_FAVORITE_LIST_SUCCESS,
+    favoriteBooks
+  }
+}
+
+const userFavoriteListError = (error) => {
+  return {
+    type: USER_FAVORITE_LIST_ERROR,
+    error
+  }
+}
+
+export const fetchUserFavoriteBooks = () => dispatch => {
+  dispatch(userFavoriteList());
+  return axios.get(`${hostUrl}/api/v1/books/favbooks`, axiosDefaultOptions)
+  .then((response) => {
+    dispatch(userFavoriteListSuccess(response.data.favorites))
+  })
+  .catch((error) => {
+    dispatch(userFavoriteListError(error))
     toastMessage(error.response.data.message, 'failure')
   })
 }
