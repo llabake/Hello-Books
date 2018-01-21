@@ -3,7 +3,8 @@ export default {
   user: {
     authenticated: false,
     authUser: {},
-    borrowedBookHistory: []
+    borrowedBookHistory: [],
+    favoriteBooks: []
   },
   books: {
     books: [],
