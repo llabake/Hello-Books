@@ -52,13 +52,13 @@ class Favorite extends Component {
                 </div>
             </div>
             <div className="row">
-            {  favoriteBooks.map((favoriteBook,) => { 
-              return <FavoriteBookCard key={favoriteBook.id} favoriteBook={favoriteBook}/>
+            {  favoriteBooks.map((favoriteBook,index) => { 
+              return <div key={index}><FavoriteBookCard  favoriteBook={favoriteBook}/></div>
               }) 
             }
             </div>
           </div> :
-          <div className="col s12 m6 l4">
+          <div className="container">
             <div className="card">
               <div className="card-content">
               <p>
