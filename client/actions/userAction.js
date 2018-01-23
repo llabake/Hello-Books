@@ -13,7 +13,10 @@ import { USER_SIGNUP_REQUEST, CHECK_USER_EXISTS,
   RETURN_ERROR,
   USER_FAVORITE_LIST,
   USER_FAVORITE_LIST_SUCCESS,
-  USER_FAVORITE_LIST_ERROR, } from './actionTypes';
+  USER_FAVORITE_LIST_ERROR,
+  REMOVE_FROM_FAVORITES,
+  REMOVE_FROM_FAVORITES_SUCCESS,
+  REMOVE_FROM_FAVORITES_ERROR, } from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
@@ -244,3 +247,39 @@ export const fetchUserFavoriteBooks = () => dispatch => {
     toastMessage(error.response.data.message, 'failure')
   })
 }
+
+const unFavorite = () => {
+  return {
+    type: REMOVE_FROM_FAVORITES
+  }
+}
+
+const unFavoriteSuccess = (bookId) => {
+  return {
+    type: REMOVE_FROM_FAVORITES_SUCCESS,
+    bookId
+  }
+}
+
+const unFavoriteError = (error) => {
+  return {
+    type:REMOVE_FROM_FAVORITES_ERROR,
+    error
+  }
+}
+
+export const removeFromFavorite = bookId => dispatch => {
+  dispatch(unFavorite());
+  return axios.delete(`${hostUrl}/api/v1/books/fav/${bookId}`, axiosDefaultOptions)
+  .then((response) => {
+    dispatch(unFavoriteSuccess(bookId));
+    toastMessage(response.data.message, 'success')
+  })
+  .catch((error) => {
+    console.log(error.response)
+    dispatch(unFavoriteError(error));
+    toastMessage(error.response.data.message, 'failure')
+  })
+}
+
+
