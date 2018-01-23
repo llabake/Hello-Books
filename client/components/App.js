@@ -10,6 +10,7 @@ import AddBook from './adminDashBoard/AddBook';
 import SingleBook from './main/SingleBook';
 import AdminDashBoard from './adminDashBoard/AdminDashBoard';
 import UserProfilePage from './userDashBoard/UserProfilePage';
+import Favorite from './userFavorite/Favorite';
 
 import '../styles/style.scss';
 /**
@@ -39,6 +40,7 @@ export default class App extends Component {
           <Route exact path='/admindashboard' component={AdminDashBoard} />
           <Route exact path='/book/:bookId' component={SingleBook} />
           <Route exact path='/profile' component={UserProfilePage} />
+          <Route exact path='/favorite' component={Favorite}/>
         </Switch>
         </div>
       </Router>

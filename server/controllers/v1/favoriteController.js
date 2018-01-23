@@ -1,6 +1,6 @@
 import models from '../../models';
 
-const { Book, Favorite, } = models;
+const { Book, Favorite, Review } = models;
 /**
  *
  *
@@ -61,8 +61,15 @@ export default class FavoriteController {
       ],
       include: [{
         model: Book,
-        attributes: ['id', 'title'],
-        as: 'book'
+        attributes: ['id', 'title', 'description', 'upVotes', 'downVotes', 'image'],
+        as: 'book',
+        include: [{
+          model: Review,
+          as: 'reviews'
+        }, {
+          model: Favorite,
+          as: 'favorited',
+        }]
       }],
     })
       .then((favorites) => {
