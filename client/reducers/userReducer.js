@@ -4,13 +4,48 @@ import { USER_SIGNUP_REQUEST,  SET_CURRENT_USER,
   USER_BORROW_LIST_ERROR,
   USER_FAVORITE_LIST_SUCCESS,
   REMOVE_FROM_FAVORITES_SUCCESS,
-  REMOVE_FROM_FAVORITES_ERROR} from '../actions/actionTypes';
+  REMOVE_FROM_FAVORITES_ERROR,
+  UNSET_CURRENT_USER,
+  USER_SIGNUP_SUCCESS,
+  USER_SIGNUP_ERROR,
+  USER_SIGNIN_REQUEST,
+  USER_SIGNIN_SUCCESS,
+  USER_SIGNIN_ERROR} from '../actions/actionTypes';
 
 export default (state = initialState.user, action) => {
+  console.log(action)
   switch(action.type) {
     case USER_SIGNUP_REQUEST:
       return {
         ...state,
+      }
+    case USER_SIGNUP_SUCCESS: 
+      return {
+        ...state,
+        authUser: action.response,
+        authenticated: true
+      }
+    case USER_SIGNUP_ERROR:
+      return {
+        ...state,
+        error: action.error
+      }
+    case USER_SIGNIN_REQUEST: 
+      return {
+        ...state
+      }
+    case USER_SIGNIN_SUCCESS: {
+      return {
+        ...state,
+        authUser: action.response,
+        authenticated: true
+      }
+    }
+
+    case USER_SIGNIN_ERROR: 
+      return {
+        ...state,
+        error: action.error
       }
     case SET_CURRENT_USER:
       return {
@@ -38,6 +73,13 @@ export default (state = initialState.user, action) => {
     
     case REMOVE_FROM_FAVORITES_ERROR: 
       return { ...state, error: action.error }
+
+    case UNSET_CURRENT_USER:
+      return {
+        ...state,
+        authenticated: false,
+        authUser: action.user
+      };
     default :
       return state
     
