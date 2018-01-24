@@ -16,7 +16,9 @@ import { USER_SIGNUP_REQUEST, CHECK_USER_EXISTS,
   USER_FAVORITE_LIST_ERROR,
   REMOVE_FROM_FAVORITES,
   REMOVE_FROM_FAVORITES_SUCCESS,
-  REMOVE_FROM_FAVORITES_ERROR, } from './actionTypes';
+  REMOVE_FROM_FAVORITES_ERROR,
+  LOGOUT_REQUEST,
+  UNSET_CURRENT_USER,} from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
@@ -41,14 +43,14 @@ const userExist = (field, error) => {
 const userSignUpSuccess = (response) => {
   return {
     type: USER_SIGNUP_SUCCESS,
-    payload: response
+    response
   }
 }
 
 const userSignUpError = (error) => {
   return {
     type: USER_SIGNUP_ERROR,
-    payload: error
+    error
   }
 }
 
@@ -107,14 +109,14 @@ const userSignIn = () => {
 const userSignInSuccess = (response) => {
   return {
     type: USER_SIGNIN_SUCCESS,
-    payload: response
+    response
   }
 }
 
 const userSignInError = (error) => {
   return {
     type: USER_SIGNIN_ERROR,
-    payload: error
+    error
   }
 }
 
@@ -282,4 +284,24 @@ export const removeFromFavorite = bookId => dispatch => {
   })
 }
 
+
+const userLogoutRequest = () => {
+  return {
+    type: LOGOUT_REQUEST
+  }
+}
+
+const unSetCurrentUser = (user) => {
+  return {
+    type: UNSET_CURRENT_USER,
+    user
+  }
+}
+export const logout = () => dispatch => {
+  dispatch(userLogoutRequest());
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+  const user = {};
+  return dispatch(unSetCurrentUser(user));
+}
 
