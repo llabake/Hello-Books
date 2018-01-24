@@ -13,6 +13,7 @@ import { fetchSingleBook, favoriteABook, upVoteBook,
         downVoteBook, showReviewTextArea, showAllReviews,
         borrowBook } from '../../actions/bookAction';
 import { getUser } from '../../helpers/utils';
+import { logout } from '../../actions/userAction';
 
 
 /**
@@ -30,7 +31,7 @@ class SingleBook extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      redirect: false
     }
 
     this.handleAddFavorite = this.handleAddFavorite.bind(this);
@@ -38,7 +39,9 @@ class SingleBook extends Component {
     this.handleDownvote = this.handleDownvote.bind(this);
     this.handleShowReviewTextArea = this.handleShowReviewTextArea.bind(this);
     this.handleShowAllReview = this.handleShowAllReview.bind(this);
-    this.handleBorrow = this.handleBorrow.bind(this)
+    this.handleBorrow = this.handleBorrow.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    
   }
 
   /**
@@ -127,6 +130,19 @@ class SingleBook extends Component {
     this.props.downVoteBook(this.props.match.params.bookId)
   }
 
+
+  /**
+   * @returns {object} redirects to home page
+   * 
+   * @memberof SingleBook
+   */
+  handleLogout() {
+    this.props.logout();
+    this.setState({
+      redirect: true
+    })
+    this.redirect ? <Redirect to='/' /> : null
+  }
   
   /**
    * 
@@ -181,7 +197,7 @@ class SingleBook extends Component {
                       <li><a href="addfavorite.html"><i className="material-icons ">library_add</i>Add Favorites</a></li>
                       <li><a href="detail.html!">Terms and Condition</a></li>
                       <li className="divider"></li>
-                      <li><a href="signin.html!"><i className="material-icons ">lock</i>Log Out</a></li>
+                      <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
                     </ul>
                   </li>
                 </ul>
@@ -324,6 +340,7 @@ const mapDispatchToProps = (dispatch) => {
     showReviewTextArea: () => dispatch(showReviewTextArea()),
     showAllReviews: () => dispatch(showAllReviews()),
     borrowBook: (bookId) => dispatch(borrowBook(bookId)),
+    logout: () => dispatch(logout()),
   };
 };
 

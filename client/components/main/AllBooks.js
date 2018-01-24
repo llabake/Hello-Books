@@ -9,6 +9,7 @@ import Footer from '../common/Footer';
 import BookCard from '../common/BookCard'
 import { fetchAllBooks } from '../../actions/bookAction';
 import { getUser } from '../../helpers/utils';
+import { logout } from '../../actions/userAction';
 
 /**
  * 
@@ -25,6 +26,10 @@ class AllBooks extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      redirect: false
+    }
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   /**
@@ -37,7 +42,18 @@ class AllBooks extends Component {
     this.props.fetchAllBooks();
   }
 
-
+  /**
+   * @returns {object} redirects to home page
+   * 
+   * @memberof AllBooks
+   */
+  handleLogout() {
+    this.props.logout();
+    this.setState({
+      redirect: true
+    })
+    this.redirect ? <Redirect to='/' /> : null
+  }
 
 
   /**
@@ -74,14 +90,14 @@ class AllBooks extends Component {
                                   <li><a href="notifications.html">Business</a></li>
                               </ul>
                           </li>
-                          <li><a className="dropdown-button" href="#" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
+                          <li><a className="dropdown-button" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
                               {/* <!-- Dropdown Structure --> */}
                               <ul id="dropdown1" className="dropdown-content">
                                   <li><Link to="/favorite">Favorite Books</Link></li>
                                   <li><Link to="/profile"><i className="material-icons ">account_box</i>Profile</Link></li>
                                   <li><a href="#!">Terms and Condition</a></li>
                                   <li className="divider"></li>
-                                  <li><a href="#!"><i className="material-icons ">lock</i>Log Out</a></li>
+                                  <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
                               </ul>
                           </li>
                       </ul>
@@ -115,7 +131,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllBooks: () => dispatch(fetchAllBooks())
+    fetchAllBooks: () => dispatch(fetchAllBooks()),
+    logout: () => dispatch(logout())
   };
 };
 
