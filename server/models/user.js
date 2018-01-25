@@ -90,6 +90,11 @@ export default (sequelize, DataTypes) => {
         }
       }
     },
+    image: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: ''
+    },
   }, {
     hooks: {
       beforeCreate: (user) => {

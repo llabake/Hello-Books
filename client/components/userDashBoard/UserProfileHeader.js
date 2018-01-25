@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link, } from 'react-router-dom';
+import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
+import { logout } from '../../actions/userAction';
 
 /**
  * 
@@ -8,6 +11,34 @@ import { Link, } from 'react-router-dom';
  * @extends {Component}
  */
 class UserProfileHeader extends Component {
+  /**
+   * Creates an instance of UserProfileHeader.
+   * @param {any} props 
+   * @memberof UserProfileHeader
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: false
+    }
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+ 
+  /**
+   * 
+   * 
+   * @returns {object} redirects to home page
+   * @memberof UserProfileHeader
+   */
+  handleLogout() {
+    this.props.logout();
+    this.setState({
+      redirect: true
+    })
+    this.redirect ? <Redirect to='/' /> : null
+  }
+
   /**
    * 
    * 
@@ -33,7 +64,7 @@ class UserProfileHeader extends Component {
                 <li><Link to="/editprofile"><i className="material-icons ">settings</i>Profile Setting</Link></li>
                 <li><a href="#!">Terms and Condition</a></li>
                 <li className="divider"></li>
-                <li><a href="#!"><i className="material-icons ">lock</i>Log Out</a></li>
+                <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
               </ul>
             </li>
           </ul>
@@ -43,4 +74,18 @@ class UserProfileHeader extends Component {
     )
   }
 }
-export default UserProfileHeader;
+
+const mapStateToProps = (state) => {
+  return {
+    errors: state.errors,
+    user: state.userReducer.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfileHeader)

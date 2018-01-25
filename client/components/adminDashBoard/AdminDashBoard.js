@@ -9,6 +9,7 @@ import BookBorrow from '../adminDashBoard/BookBorrow';
 import BookReturn from '../adminDashBoard/BookReturn';
 import Footer from '../common/Footer';
 import { getUser } from '../../helpers/utils';
+import { logout } from '../../actions/userAction';
 
 
 /**
@@ -28,6 +29,7 @@ class AdminDashBoard extends Component {
     this.state = {
       redirect: false
     }
+    this.handleLogout = this.handleLogout.bind(this);
 
   }
 
@@ -41,6 +43,19 @@ class AdminDashBoard extends Component {
     const { role }  = user 
     role === 'normal' ? this.setState({ redirect: true })  : null
   }
+  /**
+   * 
+   * @returns {object} redirects to the home page
+   * @memberof AdminDashBoard
+   */
+  handleLogout() {
+    this.props.logout();
+    this.setState({
+      redirect: true
+    })
+    this.redirect ? <Redirect to='/' /> : null
+  }
+
   /**
    * 
    * 
@@ -72,7 +87,7 @@ class AdminDashBoard extends Component {
                       <li><Link to="/profile"><i className="material-icons ">account_box</i>Profile</Link></li>
                       <li><a href="#!">Terms and Condition</a></li>
                       <li className="divider"></li>
-                      <li><a href="signin.html"><i className="material-icons ">lock</i>Log Out</a></li>
+                      <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
                     </ul>
                     </li>
                 </ul>
@@ -143,4 +158,17 @@ class AdminDashBoard extends Component {
   }
 }
 
-export default AdminDashBoard;
+const mapStateToProps = (state) => {
+  return {
+    errors: state.errors,
+    user: state.userReducer.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminDashBoard)

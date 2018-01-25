@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, } from 'react-router-dom';
+import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
+
 import { getUser } from '../../helpers/utils';
+import { logout } from '../../actions/userAction';
 
 
 /**
@@ -10,6 +14,32 @@ import { getUser } from '../../helpers/utils';
  * @extends {Component}
  */
 class FavoritePageHeader extends Component {
+
+  /**
+   * Creates an instance of FavoritePageHeader.
+   * @param {any} props 
+   * @memberof FavoritePageHeader
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: false
+    }
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  /**
+   * @returns {object} redirects to home page
+   * 
+   * @memberof FavoritePageHeader
+   */
+  handleLogout() {
+    this.props.logout();
+    this.setState({
+      redirect: true
+    })
+    this.redirect ? <Redirect to='/' /> : null
+  }
 
   /**
    * 
@@ -37,12 +67,12 @@ class FavoritePageHeader extends Component {
                 </form>
               </li>
               
-              <li><a className="dropdown-button" href="#" data-activates="dropdown1">{user.username}<i className="material-icons right">arrow_drop_down</i></a>
+              <li><a className="dropdown-button" data-activates="dropdown1">{user.username}<i className="material-icons right">arrow_drop_down</i></a>
                 {/* <!-- Dropdown Structure --> */}
                 <ul id="dropdown1" className="dropdown-content">
                   {/* <li><Link to="detail.html!">Terms and Condition</Link></li> */}
                   <li className="divider"></li>
-                  <li><Link to="/signin"><i className="material-icons ">lock</i>Log Out</Link></li>
+                  <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
                 </ul>
               </li>
             </ul>
@@ -53,4 +83,18 @@ class FavoritePageHeader extends Component {
   }
 }
 
-export default FavoritePageHeader;
+
+const mapStateToProps = (state) => {
+  return {
+    errors: state.errors,
+    user: state.userReducer.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FavoritePageHeader)
