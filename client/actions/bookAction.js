@@ -8,6 +8,8 @@ import { FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR,
         REVIEW_ERROR, REVIEW_SUCCESS, BORROW, 
         BORROW_SUCCESS, BORROW_ERROR,
         SHOWALLREVIEWS, SHOWREVIEWTEXTAREA,
+        SEARCH_ALL_BOOKS, SEARCH_ALL_BOOKS_SUCCESS,
+        SEARCH_ALL_BOOKS_ERROR,
       } from './actionTypes'
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
@@ -282,3 +284,75 @@ export const borrowBook = (bookId) => dispatch => {
   })
 }
 
+
+const searchBooks = () => {
+  return {
+    type: SEARCH_ALL_BOOKS
+  }
+}
+
+const searchBooksSuccess = (books) => {
+  return {
+    type: SEARCH_ALL_BOOKS_SUCCESS,
+    books
+  }
+}
+
+const searchBooksError = (error) => {
+  return {
+    type: SEARCH_ALL_BOOKS_ERROR,
+    error
+  }
+}
+
+export const fetchSearchedBooks = (searchTerm) => dispatch => {
+  dispatch(searchBooks());
+  return axios.get(`${hostUrl}/api/v1/books/?search=${searchTerm}`, axiosDefaultOptions)
+  .then((response) => {
+    dispatch(searchBooksSuccess(response.data.books))
+    toastMessage(response.data.message, 'success')
+  })
+  .catch((error) => {
+    dispatch(searchBooksError(error))
+    toastMessage(error.response.data.message, 'failure')
+  })
+}
+
+
+
+const deleteBook = () => {
+  return {
+    type: DELETE_BOOK
+  }
+}
+
+const deleteBookSuccess = (bookId) => {
+  return {
+    type:DELETE_BOOK_SUCCESS,
+    bookId
+  }
+}
+
+const deleteBookError = (error) => {
+  return {
+    type: DELETE_BOOK_ERROR,
+    error
+  }
+}
+
+export const deleteBookAction = (bookId) => dispatch => {
+  dispatch(deleteBook());
+    return axios.delete(`${hostUrl}/api/v1/books/${bookId}`,  axiosDefaultOptions)
+    .then(() => {
+      dispatch(deleteBookSuccess(bookId))
+    })
+    .catch((error) => {
+      dispatch(deleteBookError(error))
+      toastMessage(error.response.data.message, 'failure')
+    })
+
+}
+
+const deleteBookReview = () => {
+
+}

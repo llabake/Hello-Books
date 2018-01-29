@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
+
 
 import FavoritePageHeader from '../userFavorite/FavoritePageHeader';
 import Footer from '../../components/common/Footer';
 import FavoriteBookCard from '../userFavorite/FavoriteBookCard'
 import { fetchUserFavoriteBooks } from '../../actions/userAction';
+import toastMessage from '../../helpers/toastMessage';
+import ProtectRoute from '../ProtectRoute';
+
 
 /**
  * 
@@ -12,7 +17,7 @@ import { fetchUserFavoriteBooks } from '../../actions/userAction';
  * @class Favorite
  * @extends {Component}
  */
-class Favorite extends Component {
+class Favorite extends ProtectRoute {
 
   /**
    * Creates an instance of Favorite.
@@ -29,7 +34,8 @@ class Favorite extends Component {
    * @memberof Favorite
    */
   componentWillMount() {
-    this.props.fetchUserFavoriteBooks();
+    super.componentWillMount()
+    this.props.fetchUserFavoriteBooks()
   }
 
 

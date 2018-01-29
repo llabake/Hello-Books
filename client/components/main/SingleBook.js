@@ -14,7 +14,8 @@ import { fetchSingleBook, favoriteABook, upVoteBook,
         borrowBook } from '../../actions/bookAction';
 import { getUser } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
-
+import SearchBar from '../common/SearchBar';
+import ProtectRoute from '../ProtectRoute';
 
 /**
  * 
@@ -22,7 +23,7 @@ import { logout } from '../../actions/userAction';
  * @class SingleBook
  * @extends {Component}
  */
-class SingleBook extends Component {
+class SingleBook extends ProtectRoute {
   /**
    * Creates an instance of SingleBook.
    * @param {any} props 
@@ -138,10 +139,6 @@ class SingleBook extends Component {
    */
   handleLogout() {
     this.props.logout();
-    this.setState({
-      redirect: true
-    })
-    this.redirect ? <Redirect to='/' /> : null
   }
   
   /**
@@ -163,13 +160,7 @@ class SingleBook extends Component {
                 <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                 <ul className="right hide-on-med-and-down">
                   <li>
-                    <form>
-                      <div className="input-field col s6 s12 ">
-                        <input id="search" type="search"  placeholder="Title, author, or ISBN" required/>
-                        <label className="label-icon icon-sit" htmlFor="search"><i className="material-icons">search</i></label>
-                        <i className="material-icons">close</i>
-                      </div>
-                    </form>
+                    <SearchBar/>
                   </li>
                   
                   <li><a className="dropdown-button" href="detail.html" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
@@ -177,7 +168,7 @@ class SingleBook extends Component {
                       <li><a href="addfavorite.html"><i className="material-icons ">library_add</i>Add Favorites</a></li>
                       <li><a href="detail.html!">Terms and Condition</a></li>
                       <li className="divider"></li>
-                      <li><a href="signin.html!"><i className="material-icons ">lock</i>Log Out</a></li>
+                      <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
                     </ul>
                   </li>
                 </ul>

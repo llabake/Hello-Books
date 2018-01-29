@@ -134,34 +134,34 @@ export default class HomePage extends Component {
   */
   render () {
     const { books } = this.state;
-   return (
-    <div>
-      <Header/>
-      <Slider/>
-      <div >
-        <h4 className="center-align"> <span>Most Popular BOOKS
-          </span>
-        </h4>
-      </div>
-      <div className="divider"></div>
-      <div className="section">
-        <div className="container">
-          <div className="row">
-          {books.map((book, index) => {
-            return <div key={index}><BookCard book={book}/></div>
-          })}
+    return (
+      <div>
+        <Header/>
+        <Slider/>
+        <div >
+          <h4 className="center-align"> <span>Most Popular BOOKS
+            </span>
+          </h4>
+        </div>
+        <div className="divider"></div>
+        <div className="section">
+          <div className="container">
+            <div className="row">
+            {books.map((book, index) => {
+              return <div key={index}><BookCard book={book}/></div>
+            })}
+            </div>
           </div>
         </div>
+        <div className="divider"></div>
+        <div className="section similar">
+          <h3 className="center-align">
+            Based on readers favorites
+          </h3>
+          <Carousel/>
+        </div>
+        <Footer/>
       </div>
-      <div className="divider"></div>
-      <div className="section similar">
-        <h3 className="center-align">
-          Based on readers favorites
-        </h3>
-        <Carousel/>
-      </div>
-      <Footer/>
-    </div>
-   );
+    );
   }
 }

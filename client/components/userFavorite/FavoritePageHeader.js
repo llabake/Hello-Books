@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { getUser } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
+import SearchBar from '../common/SearchBar';
 
 
 /**
@@ -35,10 +36,6 @@ class FavoritePageHeader extends Component {
    */
   handleLogout() {
     this.props.logout();
-    this.setState({
-      redirect: true
-    })
-    this.redirect ? <Redirect to='/' /> : null
   }
 
   /**
@@ -58,13 +55,7 @@ class FavoritePageHeader extends Component {
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               {/* <!-- <i className="material-icons prefix">notifications</i> --> */}
               <li>
-                <form>
-                  <div className="input-field col s6 s12 ">
-                    <input id="search" type="search"  placeholder="Title, author, or ISBN" required/>
-                    <label className="label-icon icon-sit" htmlFor="search"><i className="material-icons">search</i></label>
-                    <i className="material-icons">close</i>
-                  </div>
-                </form>
+                <SearchBar/>
               </li>
               
               <li><a className="dropdown-button" data-activates="dropdown1">{user.username}<i className="material-icons right">arrow_drop_down</i></a>
