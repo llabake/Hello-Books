@@ -532,7 +532,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully get all books by search term', (done) => {
+    it.only('it should successfully get all books by search term', (done) => {
       const user = userDataTest.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -547,8 +547,9 @@ describe('Book Endpoint Functionality', () => {
                 .set('Authorization', token)
                 .end((err, res) => {
                   expect(200);
-                  expect(res.body).to.be.an('array');
-                  expect(res.body[0].title).to.eql(books[1].title);
+                  expect(res.body.books).to.be.an('array');
+                  expect(res.body.books[0].title).to.eql(books[1].title);
+                  expect(res.body).to.have.own.property('books');
                   done(err);
                 });
             });
