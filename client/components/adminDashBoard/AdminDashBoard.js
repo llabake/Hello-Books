@@ -10,6 +10,7 @@ import BookReturn from '../adminDashBoard/BookReturn';
 import Footer from '../common/Footer';
 import { getUser } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
+import ProtectRoute from '../ProtectRoute';
 
 
 /**
@@ -18,7 +19,7 @@ import { logout } from '../../actions/userAction';
  * @class AdminDashBoard
  * @extends {Component}
  */
-class AdminDashBoard extends Component {
+class AdminDashBoard extends ProtectRoute {
   /**
    * Creates an instance of AdminDashBoard.
    * @param {any} props 
@@ -39,6 +40,7 @@ class AdminDashBoard extends Component {
    * @memberof AdminDashBoard
    */
   componentWillMount() {
+    super.componentWillMount()
     const user = getUser();
     const { role }  = user 
     role === 'normal' ? this.setState({ redirect: true })  : null
@@ -50,10 +52,6 @@ class AdminDashBoard extends Component {
    */
   handleLogout() {
     this.props.logout();
-    this.setState({
-      redirect: true
-    })
-    this.redirect ? <Redirect to='/' /> : null
   }
 
   /**

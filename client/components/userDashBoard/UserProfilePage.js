@@ -8,6 +8,7 @@ import UserProfileHeader from '../userDashBoard/UserProfileHeader';
 import UserProfileSidePanel from '../userDashBoard/UserProfileSidePanel';
 import UserBorrowedBookList from '../userDashBoard//UserBorrowedBookList';
 import { getUser } from '../../helpers/utils';
+import ProtectRoute from '../ProtectRoute';
 
 /**
  * 
@@ -15,7 +16,7 @@ import { getUser } from '../../helpers/utils';
  * @class UserProfilePage
  * @extends {Component}
  */
-class UserProfilePage extends Component {
+class UserProfilePage extends ProtectRoute {
   /**
    * Creates an instance of UserProfilePage.
    * @param {any} props 
@@ -23,6 +24,15 @@ class UserProfilePage extends Component {
    */
   constructor(props) {
     super(props)
+  }
+
+  /**
+   * @returns {void}
+   * 
+   * @memberof UserProfilePage
+   */
+  componentWillMount() {
+    super.componentWillMount();
   }
   /**
    * 
