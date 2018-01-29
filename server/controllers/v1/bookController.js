@@ -260,7 +260,7 @@ class BookController {
     options.limit = 10;
     options.attributes = [
       'id', 'title', 'description', 'author', 'image',
-      'upVotes', 'downVotes', 'borrowCount'
+      'upVotes', 'downVotes', 'borrowCount', 'quantity'
     ];
     options.include = [{
       model: Review,
@@ -296,7 +296,10 @@ class BookController {
             books
           });
         }
-        res.status(200).json(books);
+        res.status(200).json({
+          message: 'Books retrieved successfully',
+          books
+        });
       })
       .catch(error => res.status(400).json({
         message: 'error sending your request',
