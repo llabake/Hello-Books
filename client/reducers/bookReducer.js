@@ -7,6 +7,8 @@ import { FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR,FETCH_SINGLE_BOOK_SUCCESS,
          REVIEW_ERROR, BORROW_SUCCESS,
          BORROW_ERROR,
          SHOWALLREVIEWS,
+         SEARCH_ALL_BOOKS_SUCCESS,
+         SEARCH_ALL_BOOKS_ERROR,
         } from '../actions/actionTypes';
 import initialState from './initialState';
 
@@ -71,6 +73,12 @@ export default (state = initialState.books, action) => {
     
     case BORROW_ERROR:
       return { ...state, error: action.error }
+
+    case SEARCH_ALL_BOOKS_SUCCESS: 
+      return { ...state, searchResult: action.books }
+
+    case SEARCH_ALL_BOOKS_ERROR: 
+      return { ...state, error: action.error}
     
     default :
     return state

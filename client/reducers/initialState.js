@@ -15,7 +15,8 @@ export default {
     review: {},
     loadReviewArea: false,
     loadAllReview: false,
-    borrowedBook: []
+    borrowedBook: [],
+    searchResult: [],
   },
   admin: {
     book: {},
