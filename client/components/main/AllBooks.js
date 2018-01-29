@@ -10,6 +10,7 @@ import BookCard from '../common/BookCard'
 import { fetchAllBooks } from '../../actions/bookAction';
 import { getUser } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
+import ProtectRoute from '../ProtectRoute';
 
 /**
  * 
@@ -18,7 +19,7 @@ import { logout } from '../../actions/userAction';
  * @class AllBooks
  * @extends {Component}
  */
-class AllBooks extends Component {
+class AllBooks extends ProtectRoute {
   /**
    * Creates an instance of AllBooks.
    * @param {any} props 
@@ -39,6 +40,7 @@ class AllBooks extends Component {
    * @returns {Array} books array
    */
   componentWillMount() {
+    super.componentWillMount();
     this.props.fetchAllBooks();
   }
 
@@ -49,10 +51,6 @@ class AllBooks extends Component {
    */
   handleLogout() {
     this.props.logout();
-    this.setState({
-      redirect: true
-    })
-    this.redirect ? <Redirect to='/' /> : null
   }
 
 
