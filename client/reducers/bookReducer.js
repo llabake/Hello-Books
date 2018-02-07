@@ -3,12 +3,17 @@ import { FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR,FETCH_SINGLE_BOOK_SUCCESS,
          FAVORITE_BOOK_SUCCESS,
          UPVOTE_SUCCESS, UPVOTE_ERROR,
          DOWNVOTE_SUCCESS, DOWNVOTE_ERROR,
-         SHOWREVIEWTEXTAREA, REVIEW_SUCCESS, 
+         SHOW_REVIEW_TEXT_AREA, REVIEW_SUCCESS, 
          REVIEW_ERROR, BORROW_SUCCESS,
          BORROW_ERROR,
-         SHOWALLREVIEWS,
+         SHOW_ALL_REVIEWS,
          SEARCH_ALL_BOOKS_SUCCESS,
          SEARCH_ALL_BOOKS_ERROR,
+         DELETE_BOOK_REVIEW_SUCCESS,
+         DELETE_BOOK_REVIEW_ERROR,
+         LOAD_REVIEW_FOR_EDIT,
+         MODIFY_REVIEW_SUCCESS,
+         MODIFY_REVIEW_ERROR,
         } from '../actions/actionTypes';
 import initialState from './initialState';
 
@@ -56,10 +61,10 @@ export default (state = initialState.books, action) => {
     case DOWNVOTE_ERROR:
       return { ...state, error: action.error}
     
-    case SHOWREVIEWTEXTAREA: 
+    case SHOW_REVIEW_TEXT_AREA: 
       return { ...state, loadAllReview: false, loadTextArea: true }
     
-    case SHOWALLREVIEWS:
+    case SHOW_ALL_REVIEWS:
       return { ...state, loadAllReview: true, loadTextArea: false,}
 
     case REVIEW_SUCCESS:
@@ -80,6 +85,34 @@ export default (state = initialState.books, action) => {
     case SEARCH_ALL_BOOKS_ERROR: 
       return { ...state, error: action.error}
     
+    case DELETE_BOOK_REVIEW_SUCCESS: {
+      const newBookReviewList = state.book.reviews.filter(review => review.id !== action.reviewId )
+      return { ...state, book: newBookReviewList}
+    }
+
+    case DELETE_BOOK_REVIEW_ERROR: 
+      return { ...state, error: action.error }
+
+    case LOAD_REVIEW_FOR_EDIT:
+      return { ...state, editReview: true, reviewToEdit: action.reviewToEdit  }
+
+    case MODIFY_REVIEW_SUCCESS: {
+      const updatedBookReviews = 
+      state.book.reviews.map((review) => {
+        return review.id == action.editedReview.id ? { ...action.editedReview, user:review.user }: review
+      })
+      const updatedBook = { ...state.book, reviews: updatedBookReviews }
+      return {
+        ...state,
+        book: updatedBook,
+        editReview: false,
+        loadAllReview: true
+      }
+    }
+
+    case MODIFY_REVIEW_ERROR: 
+      return { ...state, error: action.error}
+
     default :
     return state
   }
