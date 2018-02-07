@@ -10,6 +10,7 @@ import UserMiddleware from '../middlewares/userMiddleware';
 import FavoriteMiddleware from '../middlewares/favoriteMiddleware';
 import VoteMiddleware from '../middlewares/voteMiddleware';
 import BorrowedBookMiddleware from '../middlewares/borrowedBookMiddleware';
+import ReviewMiddleware from '../middlewares//reviewMiddleware';
 
 const bookRoute = (app) => {
   /**
@@ -685,12 +686,49 @@ const bookRoute = (app) => {
    *         schema:
    *           $ref: '#/definitions/BorrowedBooks'
    */
-app.get(
-  '/api/v1/user/borrowed_books/',
-  Authentication.authMiddleware,
-  Authentication.isActive,
-  BorrowBookController.getUserBorrowedBooks
-);
+  app.get(
+    '/api/v1/user/borrowed_books/',
+    Authentication.authMiddleware,
+    Authentication.isActive,
+    BorrowBookController.getUserBorrowedBooks
+  );
+
+    /**
+   * @swagger
+   * /api/v1/book/review/{reviewId}:
+   *   put:
+   *     tags:
+   *       - Review Functionality
+   *     description: Modify review for a book
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: reviewId
+   *         description: ID of the review
+   *         in: path
+   *         required: true
+   *         type: integer
+   *       - name: book
+   *         description: review object with updated information
+   *         in: body
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/Review'
+   *     responses:
+   *       200:
+   *         description: Successfully created
+   *         schema:
+   *           $ref: '#/definitions/Review'
+   *       400:
+   *         description: All fields are required
+   *       404:
+   *         description: Book not found
+   */
+  app.put(
+    '/api/v1/book/review/:reviewId(\\d+)', Authentication.authMiddleware, 
+    UserMiddleware.userExist, Authentication.isActive,
+    ReviewMiddleware.reviewExist, ReviewController.editBookReview
+  );
 };
 
 export default bookRoute;

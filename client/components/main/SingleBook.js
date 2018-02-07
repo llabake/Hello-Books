@@ -156,17 +156,17 @@ class SingleBook extends ProtectRoute {
           <div className="navbar-fixed">
             <nav>
               <div className="nav-wrapper">
-                <a href="index.html" className="brand-logo left adjust">HelloBooks</a>
+                <Link to="/" className="brand-logo left adjust">HelloBooks</Link>
                 <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                 <ul className="right hide-on-med-and-down">
                   <li>
                     <SearchBar/>
                   </li>
                   
-                  <li><a className="dropdown-button" href="detail.html" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
+                  <li><a className="dropdown-button" href="#" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
                     <ul id="dropdown1" className="dropdown-content">
-                      <li><a href="addfavorite.html"><i className="material-icons ">library_add</i>Add Favorites</a></li>
-                      <li><a href="detail.html!">Terms and Condition</a></li>
+                      <li><Link to="/favorite"><i className="material-icons ">library_add</i>Add Favorites</Link></li>
+                      <li><a href="#">Terms and Condition</a></li>
                       <li className="divider"></li>
                       <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
                     </ul>

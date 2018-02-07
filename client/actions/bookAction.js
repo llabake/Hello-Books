@@ -7,9 +7,16 @@ import { FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR,
         DOWNVOTE_SUCCESS, DOWNVOTE_ERROR, REVIEW, 
         REVIEW_ERROR, REVIEW_SUCCESS, BORROW, 
         BORROW_SUCCESS, BORROW_ERROR,
-        SHOWALLREVIEWS, SHOWREVIEWTEXTAREA,
+        SHOW_ALL_REVIEWS, SHOW_REVIEW_TEXT_AREA,
         SEARCH_ALL_BOOKS, SEARCH_ALL_BOOKS_SUCCESS,
         SEARCH_ALL_BOOKS_ERROR,
+        DELETE_BOOK_REVIEW,
+        DELETE_BOOK_REVIEW_SUCCESS,
+        DELETE_BOOK_REVIEW_ERROR,
+        MODIFY_REVIEW,
+        MODIFY_REVIEW_SUCCESS,
+        MODIFY_REVIEW_ERROR,
+        LOAD_REVIEW_FOR_EDIT,
       } from './actionTypes'
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
@@ -200,13 +207,13 @@ export const downVoteBook = (bookId) => dispatch => {
 
 const showReviewTextAreaAction = () => {
   return {
-    type: SHOWREVIEWTEXTAREA
+    type: SHOW_REVIEW_TEXT_AREA
   }
 }
 
 const showAllReviewsAction = () => {
   return {
-    type: SHOWALLREVIEWS
+    type: SHOW_ALL_REVIEWS
   }
 }
 
@@ -319,40 +326,80 @@ export const fetchSearchedBooks = (searchTerm) => dispatch => {
 }
 
 
-
-const deleteBook = () => {
+const deleteReview = () => {
   return {
-    type: DELETE_BOOK
+    type: DELETE_BOOK_REVIEW
   }
 }
 
-const deleteBookSuccess = (bookId) => {
+const deleteReviewSuccess = (reviewId) => {
   return {
-    type:DELETE_BOOK_SUCCESS,
-    bookId
+    type: DELETE_BOOK_REVIEW_SUCCESS,
+    reviewId
   }
 }
 
-const deleteBookError = (error) => {
+const deleteReviewError = error => {
   return {
-    type: DELETE_BOOK_ERROR,
+    type: DELETE_BOOK_REVIEW_ERROR,
     error
   }
 }
 
-export const deleteBookAction = (bookId) => dispatch => {
-  dispatch(deleteBook());
-    return axios.delete(`${hostUrl}/api/v1/books/${bookId}`,  axiosDefaultOptions)
-    .then(() => {
-      dispatch(deleteBookSuccess(bookId))
-    })
-    .catch((error) => {
-      dispatch(deleteBookError(error))
-      toastMessage(error.response.data.message, 'failure')
-    })
-
+export const deleteBookReview = reviewId => dispatch => {
+  dispatch(deleteReview());
+  return axios.delete(`${hostUrl}/api/v1/books/review/${reviewId}`, axiosDefaultOptions)
+  .then(() => {
+    dispatch(deleteReviewSuccess(reviewId))
+  })
+  .catch((error) => {
+    dispatch(deleteReviewError(error))
+    toastMessage(error.response.data.message, 'failure')
+  })
 }
 
-const deleteBookReview = () => {
-
+const loadReviewToEdit = (reviewToEdit) => {
+  return {
+    type: LOAD_REVIEW_FOR_EDIT,
+    reviewToEdit
+  }
 }
+
+export const loadReviewToEditAction = (reviewToEdit) => dispatch => {
+  dispatch(loadReviewToEdit(reviewToEdit))
+}
+
+const modifyReview = () => {
+  return {
+    type: MODIFY_REVIEW
+  }
+}
+
+const modifyReviewSuccess = (editedReview) => {
+  return {
+    type: MODIFY_REVIEW_SUCCESS,
+    editedReview
+  }
+}
+
+const modifyReviewError = (error) => {
+  return {
+    type: MODIFY_REVIEW_ERROR,
+    error
+  }
+}
+
+export const modifyReviewAction = (reviewId, reviewData) => dispatch => {
+  dispatch(modifyReview());
+  return axios.put(`${hostUrl}/api/v1/book/review/${reviewId}`, reviewData, axiosDefaultOptions)
+  .then((response) => {
+    dispatch(modifyReviewSuccess(response.data.review))
+    // dispatch(showAllReviewsAction());
+    toastMessage(response.data.message, 'success')
+  })
+  .catch((error) => {
+    dispatch(modifyReviewError(error));
+    toastMessage(error.response.data.message, 'failure')
+  })
+}
+

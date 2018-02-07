@@ -163,5 +163,30 @@ export default class ReviewController {
       });
     })
   }
+
+  /**
+   * @returns {object} updated revie object
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @memberof ReviewController
+   */
+  static editBookReview(req, res) {
+    Review.update(
+      req.body,
+      {
+        where: { id: req.params.reviewId },
+        returning: true,
+      }
+    ).then((editedReview) => {
+      res.status(200).json({
+        review: editedReview[1][0],
+        message: 'Your review has been updated'
+      });
+    }).catch((error) => {
+      return res.status(500).send(error);
+    })
+  }
 }
 
