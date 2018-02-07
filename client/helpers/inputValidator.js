@@ -178,4 +178,16 @@ export default class InputValidator {
   static modifyBook(data) {
     return this.addBook(data)
   }
+
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} data 
+   * @returns {status} error array
+   * @memberof InputValidator
+   */
+  static modifyReview(data) {
+    return this.addReview(data)
+  }
 }
