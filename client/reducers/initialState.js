@@ -17,6 +17,10 @@ export default {
     loadAllReview: false,
     borrowedBook: [],
     searchResult: [],
+    editReview: false,
+    reviewToEdit: {}
+
+
   },
   admin: {
     book: {},
