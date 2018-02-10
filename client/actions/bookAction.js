@@ -17,6 +17,8 @@ import { FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR,
         MODIFY_REVIEW_SUCCESS,
         MODIFY_REVIEW_ERROR,
         LOAD_REVIEW_FOR_EDIT,
+        FETCH_POPULAR_BOOK_SUCCESS,
+        FETCH_POPULAR_BOOK_ERROR
       } from './actionTypes'
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
@@ -28,6 +30,7 @@ const fetchBookSuccess = (books) => {
     books
   }
 }
+
 
 const fetchBookError = (error) => {
   return {
@@ -43,6 +46,31 @@ export const fetchAllBooks = () => dispatch => {
     })
     .catch((error) => {
       dispatch(fetchBookError(error.response.data))
+    })
+}
+
+const fetchPopularBooksSuccess = (popularBooks) => {
+  return {
+    type: FETCH_POPULAR_BOOK_SUCCESS,
+    popularBooks
+  }
+}
+
+const fetchPopularBooksError = (error) => {
+  return {
+    type: FETCH_POPULAR_BOOK_ERROR,
+    error
+  }
+}
+
+
+export const fetchPopularBooks = () => dispatch => {
+  return axios.get(`${hostUrl}/api/v1/popular-books/`, axiosDefaultOptions)
+    .then((response) => {
+      dispatch(fetchPopularBooksSuccess(response.data.books))
+    })
+    .catch((error) => {
+      dispatch(fetchPopularBooksError(error.response.data))
     })
 }
 

@@ -1,20 +1,23 @@
-import { FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR,FETCH_SINGLE_BOOK_SUCCESS,
-         FETCH_SINGLE_BOOK_ERROR, FAVORITE_BOOK_ERROR,
-         FAVORITE_BOOK_SUCCESS,
-         UPVOTE_SUCCESS, UPVOTE_ERROR,
-         DOWNVOTE_SUCCESS, DOWNVOTE_ERROR,
-         SHOW_REVIEW_TEXT_AREA, REVIEW_SUCCESS, 
-         REVIEW_ERROR, BORROW_SUCCESS,
-         BORROW_ERROR,
-         SHOW_ALL_REVIEWS,
-         SEARCH_ALL_BOOKS_SUCCESS,
-         SEARCH_ALL_BOOKS_ERROR,
-         DELETE_BOOK_REVIEW_SUCCESS,
-         DELETE_BOOK_REVIEW_ERROR,
-         LOAD_REVIEW_FOR_EDIT,
-         MODIFY_REVIEW_SUCCESS,
-         MODIFY_REVIEW_ERROR,
-        } from '../actions/actionTypes';
+import {
+  FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR, FETCH_SINGLE_BOOK_SUCCESS,
+  FETCH_SINGLE_BOOK_ERROR, FAVORITE_BOOK_ERROR,
+  FAVORITE_BOOK_SUCCESS,
+  UPVOTE_SUCCESS, UPVOTE_ERROR,
+  DOWNVOTE_SUCCESS, DOWNVOTE_ERROR,
+  SHOW_REVIEW_TEXT_AREA, REVIEW_SUCCESS,
+  REVIEW_ERROR, BORROW_SUCCESS,
+  BORROW_ERROR,
+  SHOW_ALL_REVIEWS,
+  SEARCH_ALL_BOOKS_SUCCESS,
+  SEARCH_ALL_BOOKS_ERROR,
+  DELETE_BOOK_REVIEW_SUCCESS,
+  DELETE_BOOK_REVIEW_ERROR,
+  LOAD_REVIEW_FOR_EDIT,
+  MODIFY_REVIEW_SUCCESS,
+  MODIFY_REVIEW_ERROR,
+  FETCH_POPULAR_BOOK_SUCCESS,
+  FETCH_POPULAR_BOOK_ERROR,
+} from '../actions/actionTypes';
 import initialState from './initialState';
 
 export default (state = initialState.books, action) => {
@@ -111,6 +114,12 @@ export default (state = initialState.books, action) => {
     }
 
     case MODIFY_REVIEW_ERROR: 
+      return { ...state, error: action.error}
+
+    case FETCH_POPULAR_BOOK_SUCCESS:
+      return { ...state, popularBooks: action.popularBooks}
+
+    case FETCH_POPULAR_BOOK_ERROR:
       return { ...state, error: action.error}
 
     default :

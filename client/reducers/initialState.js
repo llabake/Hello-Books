@@ -18,9 +18,8 @@ export default {
     borrowedBook: [],
     searchResult: [],
     editReview: false,
-    reviewToEdit: {}
-
-
+    reviewToEdit: {},
+    popularBooks: []
   },
   admin: {
     book: {},
