@@ -104,7 +104,7 @@ export default class InputValidator {
     const requiredFields = [
       'title', 'author', 'publishedYear',
       'isbn', 'quantity', 'description',
-      'image', 'aboutAuthor'
+      'aboutAuthor'
     ];
 
     requiredFields.forEach((field) => {
@@ -129,6 +129,49 @@ export default class InputValidator {
     if (data.isbnExist) {
       errors.isbn.push(data.isbnExist)
     }
+
+    errors.image = []
+    if (data.uploadedImage) {
+      
+      const reader = new FileReader();
+      //Read the contents of Image File.
+      reader.readAsDataURL(data.uploadedImage);
+      reader.onload = (e) => {
+        //Initiate the JavaScript Image object.
+        const image = new Image();
+
+        //Set the Base64 string return from FileReader as source.
+        image.src = e.target.result;
+        
+        const minimumImageWidth = 50;
+        const minimumImageHeight = 50;
+
+        const maximumImageWidth = 200;
+        const maximumImageHeight = 200;
+
+        //Validate the File Height and Width.
+        image.onload = () => {
+          console.log('inside onload')
+          const imageHeight = this.height;
+          const imageWidth = this.width;
+
+          if (!(minimumImageWidth <= imageWidth && maximumImageWidth >= imageWidth)) {
+            errors.image.push(`Image width must be in range 
+              ${minimumImageWidth}px - ${maximumImageWidth}px`)
+          }
+
+          if (!(minimumImageHeight <= imageHeight && maximumImageHeight >= imageHeight)) {
+            errors.image.push(`Image height must be in range 
+              ${minimumImageHeight}px - ${maximumImageHeight}px`)
+          }
+        }
+      }
+    } else {
+      errors.image.push('Image is required')      
+    }
+
+   
+    
     let isValid = true;
     Object.keys(errors)
     .map(key => errors[key]).forEach((error) => {
@@ -136,6 +179,8 @@ export default class InputValidator {
         isValid = false;
       }
     });
+    console.log('inside afhfshfdhj')
+    
     return { errors, isValid };
   }
   /**
