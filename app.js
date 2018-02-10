@@ -47,6 +47,8 @@ app.get('/swagger.json', (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, 'server/')));
+app.use(express.static(path.join(__dirname, 'dist/')));
+app.use(express.static(path.join(__dirname, 'client/')));
 
 // Allow cross origin resource sharing
 app.use(cors())
@@ -67,13 +69,15 @@ routes(app);
   Setup a default catch-all route that sends
   back a welcome message in JSON format.
 */
-app.get('*', (req, res) => res.status(200).send({
+app.get('/api/*', (req, res) => res.status(200).send({
   message: 'Route does not exist, explore at api/v1',
 }));
 
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client/index.html'))
-// })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/index.html'))
+});
+
 if (process.env.NODE_ENV !== 'test') {
   db.sequelize.sync().then(() => {
     app.listen(port, () => {
