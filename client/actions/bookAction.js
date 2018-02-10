@@ -69,9 +69,31 @@ export const checkIsbnExist = (field, userInput) => (dispatch) => {
   return axios.get(`${hostUrl}/api/v1/books/add/validate?${field}=${userInput}`)
 }
 
+export const uploadImageToCloudinary = (image) => {
+  const Cloudinary_URL = `https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/upload`
+  const formData = new FormData();
+    formData.append("file", image);
+    formData.append("upload_preset", process.env.UPLOAD_PRESET); 
+    formData.append("api_key", process.env.API_KEY);
+    formData.append("timestamp", (Date.now() / 1000) | 0);
+    
+    // Make an AJAX upload request using Axios
+    return new Promise ((resolve, reject) => {
+      return axios.post(Cloudinary_URL, formData, {
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+      }).then(response => {
+        const fileUrl = response.data.secure_url
+        resolve(fileUrl)
+      }).catch(error => reject(error))
+    })
+    
+}
+
 export const saveBook = bookData => dispatch => {
   dispatch(addBook());
-  return axios.post(`${hostUrl}/api/v1/books/`, bookData, axiosDefaultOptions)
+  return uploadImageToCloudinary(bookData.uploadedImage).then((fileUrl) => {
+    bookData.image = fileUrl;
+    return axios.post(`${hostUrl}/api/v1/books/`, bookData, axiosDefaultOptions)
     .then((response) => {
       dispatch(addBookSuccess(response.data.book));
       toastMessage(response.data.message, 'success');
@@ -80,6 +102,10 @@ export const saveBook = bookData => dispatch => {
       dispatch(addBookError(error))
       toastMessage(error.response.data.message, 'failure')
     })
+  }).catch(() => {
+    toastMessage('An error occurred, please try uploading your image again', 'failure')
+  })
+  
 }
 
 const fetchSingleBookSuccess = (book) => {

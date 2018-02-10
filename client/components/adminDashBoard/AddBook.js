@@ -38,12 +38,13 @@ class AddBook extends Component {
       saving: false,
       isValid: false,
       userExist: {},
-      redirect: false
-
+      redirect: false,
+      uploadedImage: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBlur =this.handleBlur.bind(this);
+    this.handleFileChange = this.handleFileChange.bind(this);
   }
 
 
@@ -131,8 +132,18 @@ class AddBook extends Component {
    */
   validate() {
     const { errors, isValid } = inputValidator.addBook(this.state);
+    console.log(errors)
     this.setState({ isValid, errors });
     return isValid;
+  }
+  
+
+  handleFileChange(event) {
+   const uploadedImage = event.target.files[0];
+   console.log(uploadedImage)
+    this.setState({
+      uploadedImage
+    }, () => this.validate())
   }
 
   /**
@@ -239,7 +250,7 @@ class AddBook extends Component {
                     onChange = {this.handleChange}
                     errors = {errors.aboutAuthor}
                     />
-                    <TextInput
+                    {/* <TextInput
                     id = 'image'
                     type = 'text'
                     icon = 'image'
@@ -248,7 +259,24 @@ class AddBook extends Component {
                     onChange = {this.handleChange}
                     value = {this.state.image}
                     errors = {errors.image}
-                    />
+                    /> */}
+                    <div className="file-field input-field" style={{position: 'absolute', marginTop: '30em'}} >
+                      <div className="btn" style={{width: '40%',fontSize: '13px'}}>
+                        <span>Upload Image</span>
+                        <input type="file" accept="image/*"  onChange={this.handleFileChange} />
+                      </div>
+                      <div className="file-path-wrapper">
+                        <input className="file-path validate" type="text"/>
+                      </div>
+                      {errors.image && errors.image.length ?
+                        errors.image.map((error, i) => { return (
+                        <div key={i} className= 'red-text'>
+                          <i className="material-icons">error_outline</i>
+                          {/* <li>{error}</li> */}
+                          {error}
+                        </div>
+                        )}) : null }
+                    </div>
                     <button type="submit" className="waves-effect waves-light btn" disabled= {!isValid || saving}>Add Book</button>
                   </form>
                 </div>
