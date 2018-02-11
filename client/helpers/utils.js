@@ -31,3 +31,5 @@ export const hostUrl = process.env.NODE_ENV === 'production' ?
 export const getUser = () => {
   return JSON.parse(localStorage.getItem('user')) || {}
 }
+
+export const bookDefaultImage = 'http://res.cloudinary.com/sardaunan/image/upload/v1518354032/book-default-image_e8nj1p.png';

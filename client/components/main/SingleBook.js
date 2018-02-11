@@ -12,7 +12,7 @@ import ReviewArea from '../main/ReviewArea';
 import { fetchSingleBook, favoriteABook, upVoteBook,
         downVoteBook, showReviewTextArea, showAllReviews,
         borrowBook } from '../../actions/bookAction';
-import { getUser } from '../../helpers/utils';
+import { getUser, bookDefaultImage } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
 import SearchBar from '../common/SearchBar';
 import ProtectRoute from '../ProtectRoute';
@@ -212,7 +212,7 @@ class SingleBook extends ProtectRoute {
               <div className="book-container">
                 <div className="row ">
                   <div className="col l5 show-border">                            
-                    <img className="materialboxed" width="250" src={book.image}/>
+                    <img className="materialboxed" width="250" src={book.image || bookDefaultImage}/>
                   </div>
                   <div className="col  l7">
                     <div className="section">

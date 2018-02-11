@@ -5,10 +5,10 @@ const Footer = () => {
     <footer className="page-footer">
       <div className="container">
         <div className="row">
-          <div className="col l6 s12">
-            <h5 className="white-text">Stay Connected</h5>
-            <p className="grey-text text-lighten-4">Join our over 5 million users today.
-            </p>
+          <div className="col l12 s12">
+            <h5 className="white-text">Stay Connected. Join our over 5 million users today</h5>
+            {/*<p className="grey-text text-lighten-4">Join our over 5 million users today.*/}
+            {/*</p>*/}
           </div>
           <div className="col l4 offset-l2 s12">
             <ul>
@@ -23,7 +23,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="footer-copyright">
+      <div className="footer-copyright center-align" >
         <div className="container">
           © 2017 Happy Girl World
         </div>

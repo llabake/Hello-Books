@@ -10,6 +10,7 @@ import BookCard from '../components/common/BookCard';
 import { fetchPopularBooks } from '../actions/bookAction';
 
 import leanstart from '../media/lean start.jpg';
+import ajaxLoader from '../media/ajax-loader.gif';
 
 
 /**
@@ -27,96 +28,7 @@ class HomePage extends Component {
    */
   constructor(props) {
     super(props);
-    this.state = {
-      // books: [{
-      //     "id": 1,
-      //     "title": "8752626",
-      //     "description": "a start up book",
-      //     "image": "https://images-na.ssl-images-amazon.com/images/I/41mbSg-W6-L._SY344_BO1,204,203,200_.jpg",
-      //     "author": "8752626",
-      //     "upVotes": 1,
-      //     "downVotes": 0,
-      //     "borrowCount": 2,
-      //     "reviews": [
-      //         {
-      //             "id": 16,
-      //             "content": "great book",
-      //             "createdAt": "2017-11-19T16:40:12.637Z",
-      //             "user": {
-      //                 "username": "mama",
-      //                 "id": 10
-      //             }
-      //         }
-      //     ],
-      //     "favorited": [
-      //         {
-      //             "id": 1,
-      //             "createdAt": "2017-11-19T14:08:05.902Z",
-      //             "user": {
-      //                 "username": "mama",
-      //                 "id": 10
-      //             }
-      //         },
-      //         {
-      //             "id": 8,
-      //             "createdAt": "2017-12-02T05:34:14.850Z",
-      //             "user": {
-      //                 "username": "solape",
-      //                 "id": 4
-      //             }
-      //         }
-      //     ]
-      // },
-      // {
-      //     "id": 6,
-      //     "title": "there Was a Country",
-      //     "description": "a book a Nigeria Civil War",
-      //     "image": "https://images-na.ssl-images-amazon.com/images/I/41mbSg-W6-L._SY344_BO1,204,203,200_.jpg",
-      //     "author": " chinua achebe ",
-      //     "upVotes": 0,
-      //     "downVotes": 0,
-      //     "borrowCount": 5,
-      //     "reviews": [
-      //         {
-      //             "id": 8,
-      //             "content": "great",
-      //             "createdAt": "2017-11-19T15:46:17.279Z",
-      //             "user": {
-      //                 "username": "mama",
-      //                 "id": 10
-      //             }
-      //         },
-      //         {
-      //             "id": 1,
-      //             "content": "granduer",
-      //             "createdAt": "2017-11-17T17:03:17.370Z",
-      //             "user": {
-      //                 "username": "solape",
-      //                 "id": 4
-      //             }
-      //         }
-      //     ],
-      //     "favorited": [
-      //         {
-      //             "id": 4,
-      //             "createdAt": "2017-11-19T14:40:57.648Z",
-      //             "user": {
-      //                 "username": "mama",
-      //                 "id": 10
-      //             }
-      //         },
-      //         {
-      //             "id": 9,
-      //             "createdAt": "2017-12-02T05:40:59.754Z",
-      //             "user": {
-      //                 "username": "solape",
-      //                 "id": 4
-      //             }
-      //         }
-      //     ]
-      // }],
-        popularBooks: [],
-    };
+    this.state = {};
   }
 
 
@@ -143,7 +55,7 @@ class HomePage extends Component {
   * @memberof HomePage
   */
   render () {
-    const { popularBooks } = this.props;
+    const { popularBooks, loadingPopularBooks } = this.props;
     return (
       <div>
         <Header/>
@@ -154,21 +66,28 @@ class HomePage extends Component {
           </h4>
         </div>
         <div className="divider"></div>
+        { loadingPopularBooks ? <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em'}}>
+          <img src={ajaxLoader} alt="Loading..."/>
+        </div> : '' }
         <div className="section">
-          <div className="container">
-            <div className="row">
-            {popularBooks.map((book, index) => {
-              return <div key={index}><BookCard book={book}/></div>
-            })}
+            <div className="container">
+              <div className="row">
+                { !loadingPopularBooks ?  popularBooks.length ?
+                  popularBooks.map((book, index) => {
+                    return <div key={index}><BookCard book={book}/></div>
+                  })
+                  :
+                  <h5 className="center-align"> No books found </h5>
+                : '' }
+                </div>
             </div>
-          </div>
         </div>
         <div className="divider"></div>
         <div className="section similar">
           <h3 className="center-align">
             Based on readers favorites
           </h3>
-          <Carousel/>
+          <div><Carousel/></div>
         </div>
         <Footer/>
       </div>
@@ -179,6 +98,7 @@ class HomePage extends Component {
 const mapStateToProps = (state) => {
   return {
     popularBooks: state.bookReducer.popularBooks,
+    loadingPopularBooks: state.bookReducer.loadingPopularBooks
   };
 };
 

@@ -19,7 +19,10 @@ export default {
     searchResult: [],
     editReview: false,
     reviewToEdit: {},
-    popularBooks: []
+    popularBooks: [],
+    loadingPopularBooks: false,
+    loadingTopFavoritedBooks: false,
+    topFavoriteBooks: []
   },
   admin: {
     book: {},

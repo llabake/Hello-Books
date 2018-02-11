@@ -17,6 +17,7 @@ import {
   MODIFY_REVIEW_ERROR,
   FETCH_POPULAR_BOOK_SUCCESS,
   FETCH_POPULAR_BOOK_ERROR,
+  POPULAR_BOOK, TOP_FAVORITED_BOOKS, FETCH_TOP_FAVORITED_BOOKS_ERROR, FETCH_TOP_FAVORITED_BOOKS_SUCCESS
 } from '../actions/actionTypes';
 import initialState from './initialState';
 
@@ -116,11 +117,23 @@ export default (state = initialState.books, action) => {
     case MODIFY_REVIEW_ERROR: 
       return { ...state, error: action.error}
 
+    case POPULAR_BOOK:
+      return { ...state, loadingPopularBooks: true }
+
     case FETCH_POPULAR_BOOK_SUCCESS:
-      return { ...state, popularBooks: action.popularBooks}
+      return { ...state, popularBooks: action.popularBooks, loadingPopularBooks: false};
 
     case FETCH_POPULAR_BOOK_ERROR:
-      return { ...state, error: action.error}
+      return { ...state, error: action.error, loadingPopularBooks: false};
+
+    case TOP_FAVORITED_BOOKS:
+      return { ...state, loadingTopFavoritedBooks: true }
+
+    case FETCH_TOP_FAVORITED_BOOKS_SUCCESS:
+      return { ...state, topFavoriteBooks: action.topFavoriteBooks, loadingTopFavoritedBooks: false};
+
+    case FETCH_POPULAR_BOOK_ERROR:
+      return { ...state, error: action.error, loadingTopFavoritedBooks: false};
 
     default :
     return state
