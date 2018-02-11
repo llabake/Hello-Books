@@ -1,8 +1,9 @@
 import models from '../../models';
 import InputValidator from '../../helpers/inputValidator';
+import { sortBooksByTopFavorites } from '../../helpers/utils'
 
 const {
- Book, Review, User, Favorite
+ Book, Review, User, Favorite, sequelize, Sequelize
 } = models;
 
 /**
@@ -424,48 +425,33 @@ class BookController {
   }
 
   static getTopFavoritedBooks(req, res) {
-    const options = {};
-    options.limit = 9;
-    options.attributes = [
-      'id', 'title', 'description', 'author', 'image',
-      'upVotes', 'downVotes', 'borrowCount', 'quantity',
-    ];
-    options.include = [{
-      model: Review,
-      as: 'reviews',
-      attributes: ['id', 'content', 'createdAt'],
-      include: [{
-        model: User,
-        as: 'user',
-        attributes: ['username', 'id'],
-      }],
-    }, {
-      model: Favorite,
-      as: 'favorited',
-      attributes: ['id', 'createdAt'],
-      include: [{
-        model: User,
-        as: 'user',
-        attributes: ['username', 'id'],
-      }],
-    }];
-    Book.findAll(options)
-      .then((books) => {
-        if (!books.length) {
-          res.status(200).json({
-            message: 'No books found',
-            books
-          });
-        }
+
+  const options = {};
+  options.limit = 9;
+  options.attributes = [
+    'id', 'title', 'image'];
+  options.include = [{
+    model: Favorite,
+    as: 'favorited',
+    attributes: ['id']
+  }];
+  Book.findAll(options)
+    .then((books) => {
+      if (!books.length) {
         res.status(200).json({
-          message: 'Top favorited books retrieved successfully',
+          message: 'No books found',
           books
         });
-      })
-      // .catch(error => res.status(400).json({
-      //   message: 'error sending your request',
-      //   error
-      // }));
+      }
+      res.status(200).json({
+        message: 'Top favorited books retrieved successfully',
+        books: sortBooksByTopFavorites(books)
+      });
+    })
+    .catch(error => res.status(400).json({
+      message: 'error sending your request',
+      error
+    }));
   }
 
 
