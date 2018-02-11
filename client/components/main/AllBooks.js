@@ -69,7 +69,7 @@ class AllBooks extends ProtectRoute {
           <div className="navbar-fixed">
               <nav>
                   <div className="nav-wrapper">
-                      <a href="index.html" className="brand-logo left adjust">HelloBooks</a>
+                      <a href="/" className="brand-logo left adjust">HelloBooks</a>
                       <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                       
                       <ul id="nav-mobile" className="right hide-on-med-and-down">

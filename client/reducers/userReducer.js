@@ -13,7 +13,6 @@ import { USER_SIGNUP_REQUEST,  SET_CURRENT_USER,
   USER_SIGNIN_ERROR} from '../actions/actionTypes';
 
 export default (state = initialState.user, action) => {
-  console.log(action)
   switch(action.type) {
     case USER_SIGNUP_REQUEST:
       return {
