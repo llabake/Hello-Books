@@ -13,8 +13,11 @@ import ajaxLoader from '../../media/ajax-loader.gif';
  */
 class Carousel extends Component {
 
+  /**
+   * @returns {array} array of top favorite books
+   * @memberof Carousel
+   */
   componentWillMount() {
-    console.log('fetching books')
     this.props.fetchTopFavoriteBooks();
   }
 
@@ -27,10 +30,19 @@ class Carousel extends Component {
    this.initializeCarousel()
   }
 
+  /**
+   * @returns {function} initialises the carousel
+   * @memberof Carousel
+   */
   componentDidUpdate() {
     this.initializeCarousel()
   }
 
+  /**
+   * @returns {function} intialise carousel
+   * 
+   * @memberof Carousel
+   */
   initializeCarousel() {
      $('.carousel').carousel({
       dist: 0,
