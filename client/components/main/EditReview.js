@@ -5,6 +5,19 @@ import TextAreaInput from '../common/TextAreaInput';
 import TextInput from '../common/TextInput';
 import InputValidator from '../../helpers/inputValidator';
 import { modifyReviewAction } from '../../actions/bookAction';
+
+const cancelButton = {
+  width: '20%',
+  background: 'white',
+  color: 'black',
+  marginRight: '2em',
+  marginLeft: '28em'
+}
+
+const saveButton = {
+  width: '20%',
+  background: 'green'
+}
 /**
  * 
  * 
@@ -115,8 +128,12 @@ class EditReview extends Component {
           onChange = {this.handleChange}
           errors = {errors.content}
           />
-          <button type="submit" className="waves-effect waves-light btn" >Cancel</button>
-          <button type="submit" className="waves-effect waves-light btn" >Save Changes</button>
+          <button type="submit" className="waves-effect waves-light btn"  
+            style={cancelButton}>Cancel
+          </button>
+          <button type="submit" className="waves-effect waves-light btn" 
+            style={saveButton}>Save Changes
+          </button>
         </form>
       </div>
     )
