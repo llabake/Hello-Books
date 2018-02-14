@@ -4,7 +4,8 @@ export default {
     authenticated: false,
     authUser: {},
     borrowedBookHistory: [],
-    favoriteBooks: []
+    favoriteBooks: [],
+    loading: false
   },
   books: {
     books: [],
@@ -22,13 +23,15 @@ export default {
     popularBooks: [],
     loadingPopularBooks: false,
     loadingTopFavoritedBooks: false,
-    topFavoriteBooks: []
+    topFavoriteBooks: [],
+    loading: false
   },
   admin: {
     book: {},
     allBooks: [],
     pendingBorrowedBookRequest: [],
     pendingReturnedBookRequest: [],
+    loading: false    
   }
 
 }
