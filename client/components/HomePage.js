@@ -32,6 +32,11 @@ class HomePage extends Component {
   }
 
 
+  /**
+   * @returns {Array} most popular books array
+   * 
+   * @memberof HomePage
+   */
   componentWillMount() {
       this.props.fetchPopularBooks();
   }
