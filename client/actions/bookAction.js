@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {
   FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR,
-  ADD_BOOK_SUCCESS, ADD_BOOK_ERROR, ADD_BOOK,
+  ADD_BOOK_SUCCESS, ADD_BOOK_ERROR, ADD_BOOK, FETCH_SINGLE_BOOK,
   FETCH_SINGLE_BOOK_SUCCESS, FETCH_SINGLE_BOOK_ERROR,
   FAVORITE_BOOK, FAVORITE_BOOK_ERROR, FAVORITE_BOOK_SUCCESS,
   UPVOTE, UPVOTE_SUCCESS, UPVOTE_ERROR, DOWNVOTE,
@@ -21,11 +21,21 @@ import {
   POPULAR_BOOK,
   FETCH_POPULAR_BOOK_SUCCESS,
   FETCH_POPULAR_BOOK_ERROR,
-  TOP_FAVORITED_BOOKS, FETCH_TOP_FAVORITED_BOOKS_SUCCESS, FETCH_TOP_FAVORITED_BOOKS_ERROR
+  TOP_FAVORITED_BOOKS, 
+  FETCH_TOP_FAVORITED_BOOKS_SUCCESS, 
+  FETCH_TOP_FAVORITED_BOOKS_ERROR,
+  FETCH_BOOK
 } from './actionTypes'
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
+
+
+const fetchBook = () => {
+  return {
+    type: FETCH_BOOK
+  }
+}
 
 const fetchBookSuccess = (books) => {
   return {
@@ -43,6 +53,7 @@ const fetchBookError = (error) => {
 }
 
 export const fetchAllBooks = () => dispatch => {
+  dispatch(fetchBook());
   return axios.get(`${hostUrl}/api/v1/books/`, axiosDefaultOptions)
     .then((response) => {
       dispatch(fetchBookSuccess(response.data.books))
@@ -178,6 +189,12 @@ export const saveBook = bookData => dispatch => {
   
 }
 
+
+const singleBook = () => {
+  return {
+    type: FETCH_SINGLE_BOOK
+  }
+}
 const fetchSingleBookSuccess = (book) => {
   return {
     type: FETCH_SINGLE_BOOK_SUCCESS,
@@ -192,6 +209,7 @@ const fetchSingleBookError = (error) => {
   }
 }
 export const fetchSingleBook = (bookId) => dispatch => {
+  dispatch(singleBook());
   return axios.get(`${hostUrl}/api/v1/books/${bookId}`, axiosDefaultOptions)
     .then((response) => {
       dispatch(fetchSingleBookSuccess(response.data.book))
