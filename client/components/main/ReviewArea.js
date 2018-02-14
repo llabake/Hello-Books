@@ -6,6 +6,12 @@ import { reviewBook } from '../../actions/bookAction';
 import TextAreaInput from '../common/TextAreaInput';
 import TextInput from '../common/TextInput';
 import InputValidator from '../../helpers/inputValidator';
+
+const postReviewButton = {
+  width: '25%',
+  marginLeft: '36em'
+}
+
 /**
  * 
  * 
@@ -89,7 +95,6 @@ class ReviewArea extends Component {
    * @memberof ReviewArea
    */
   render () {
-    console.log(this.props)
     const { errors, isValid, saving } = this.state;
     return (
       <div>
@@ -113,7 +118,9 @@ class ReviewArea extends Component {
           onChange = {this.handleChange}
           errors = {errors.content}
           />
-          <button type="submit" className="waves-effect waves-light btn" disabled= {!isValid || saving}>Post Review</button>
+          <button type="submit" className="waves-effect waves-light btn" 
+            disabled= {!isValid || saving} style={postReviewButton}>Post Review
+          </button>
         </form>
       </div>
     )
