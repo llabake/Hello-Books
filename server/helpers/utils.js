@@ -37,3 +37,16 @@ export const generateToken = (user) => {
   );
   return token;
 };
+
+export const sortBooksByTopFavorites = ( books ) => {
+  books.sort((book1, book2) => {
+    if (book1.favorited.length < book2.favorited.length) {
+      return 1
+    } else if (book1.favorited.length > book2.favorited.length) {
+      return -1
+    } else {
+      return 0
+    }
+  });
+  return books;
+}

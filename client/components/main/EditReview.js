@@ -4,7 +4,20 @@ import { connect } from 'react-redux';
 import TextAreaInput from '../common/TextAreaInput';
 import TextInput from '../common/TextInput';
 import InputValidator from '../../helpers/inputValidator';
-import { modifyReviewAction } from '../../actions/bookAction';
+import { modifyReviewAction, handleCancelClick } from '../../actions/bookAction';
+
+const cancelButton = {
+  width: '20%',
+  background: 'white',
+  color: 'black',
+  marginRight: '2em',
+  marginLeft: '28em'
+}
+
+const saveButton = {
+  width: '20%',
+  background: 'green'
+}
 /**
  * 
  * 
@@ -29,6 +42,7 @@ class EditReview extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleModifyReview = this.handleModifyReview.bind(this);
+    this.handleCancelClick = this.handleCancelClick.bind(this);
   }
 
   /**
@@ -85,6 +99,22 @@ class EditReview extends Component {
     }
   }
 
+
+  /**
+  * @returns {void}
+  * 
+  * @param {any} event 
+  * @memberof EditReview
+  */
+  handleCancelClick(event) {
+    event.preventDefault();
+    console.log('clicked')
+    // this.setState({
+    //   saving: false
+    // })
+    this.props.handleCancelClick()
+  }
+
   /**
    * 
    * 
@@ -115,8 +145,12 @@ class EditReview extends Component {
           onChange = {this.handleChange}
           errors = {errors.content}
           />
-          <button type="submit" className="waves-effect waves-light btn" >Cancel</button>
-          <button type="submit" className="waves-effect waves-light btn" >Save Changes</button>
+          <button className="waves-effect waves-light btn"  
+            style={cancelButton} onClick={this.handleCancelClick} >Cancel
+          </button>
+          <button type="submit" className="waves-effect waves-light btn" 
+            style={saveButton}>Save Changes
+          </button>
         </form>
       </div>
     )
@@ -126,6 +160,7 @@ class EditReview extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     modifyReviewAction: (reviewId, reviewData) => dispatch(modifyReviewAction(reviewId, reviewData)),
+    handleCancelClick: () => dispatch(handleCancelClick()),
   }
 }
 

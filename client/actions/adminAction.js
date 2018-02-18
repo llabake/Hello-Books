@@ -108,7 +108,7 @@ export const pendingAcceptReturnRequest = () => dispatch => {
   return axios.get(`${hostUrl}/api/v1/borrowedbooks/?returnStatus=pending`, axiosDefaultOptions)
   .then((response) => {
     dispatch(pendingAcceptReturnSuccess(response.data))
-    toastMessage(response.data.message, 'success')
+    // toastMessage(response.data.message, 'success')
   })
   .catch((error) => {
     dispatch(pendingAcceptReturnError(error))

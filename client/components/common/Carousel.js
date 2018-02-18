@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import leanstart from '../../media/lean start.jpg';
-import paul from '../../media/paul.jpg';
-import lola from '../../media/lola.jpg';
-import manda from '../../media/manda.jpg';
-import huges from '../../media/huges.jpg';
-
+import { bookDefaultImage } from '../../helpers/utils';
+import { fetchTopFavoriteBooks } from '../../actions/bookAction'
+import ajaxLoader from '../../media/ajax-loader.gif';
 /**
  * 
  * 
@@ -13,7 +11,15 @@ import huges from '../../media/huges.jpg';
  * @class Carousel
  * @extends {Component}
  */
-export default class Carousel extends Component {
+class Carousel extends Component {
+
+  /**
+   * @returns {array} array of top favorite books
+   * @memberof Carousel
+   */
+  componentWillMount() {
+    this.props.fetchTopFavoriteBooks();
+  }
 
   /**
   * 
@@ -21,7 +27,24 @@ export default class Carousel extends Component {
   * @memberof Carousel
   */
   componentDidMount() {
-    $('.carousel').carousel({
+   this.initializeCarousel()
+  }
+
+  /**
+   * @returns {function} initialises the carousel
+   * @memberof Carousel
+   */
+  componentDidUpdate() {
+    this.initializeCarousel()
+  }
+
+  /**
+   * @returns {function} intialise carousel
+   * 
+   * @memberof Carousel
+   */
+  initializeCarousel() {
+     $('.carousel').carousel({
       dist: 0,
       shift: 0,
       padding: 50,
@@ -30,7 +53,7 @@ export default class Carousel extends Component {
     autoplay()
     /**
      * @returns {function} materialize carousel autoplay
-     *  
+     *
      */
     function autoplay() {
     $('.carousel').carousel('next');
@@ -44,22 +67,40 @@ export default class Carousel extends Component {
    * @memberof Carousel
    */
   render () {
-
+    this.initializeCarousel()
+    let { topFavoriteBooks, loadingTopFavoritedBooks } = this.props;
 
     return (
-      <div className="carousel">
-      <a className="carousel-item" href="detail.html"><img src={leanstart}/></a>
-      <a className="carousel-item" href="detail.html"><img src={manda}/></a>
-      <a className="carousel-item" href="detail.html"><img src={paul}/></a>
-      
-      <a className="carousel-item" href="detail.html"><img src={lola}/></a>
-      <a className="carousel-item" href="detail.html"><img src={manda}/></a>
-      <a className="carousel-item" href="detail.html"><img src={huges}/></a>
-      
-      <a className="carousel-item" href="detail.html"><img src={leanstart}/></a>
-      <a className="carousel-item" href="detail.html"><img src={paul}/></a>
-      <a className="carousel-item" href="detail.html"><img src={lola}/></a>
-    </div>
+      <div>
+        {
+          loadingTopFavoritedBooks ? <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em'}}>
+            <img src={ajaxLoader} alt="Loading..."/>
+          </div> : ''
+        }
+        { !loadingTopFavoritedBooks ? topFavoriteBooks.length ?
+          <div className="carousel" style={{ marginTop: '-5em'}}> {
+            topFavoriteBooks.map((book, index) => {
+            return <a className='carousel-item pointer' key={index} href={'/book/' + book.id} title={book.title}><img src={book.image || bookDefaultImage } style={{minHeight: '200px', maxHeight: '200px'}}/> </a>
+          })} </div>
+         : null : null
+        }
+      </div>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    topFavoriteBooks: state.bookReducer.topFavoriteBooks,
+    loadingTopFavoritedBooks: state.bookReducer.loadingTopFavoritedBooks
+  };
+};
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchTopFavoriteBooks: () => dispatch(fetchTopFavoriteBooks()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Carousel);

@@ -1,35 +1,50 @@
-import { FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR,FETCH_SINGLE_BOOK_SUCCESS,
-         FETCH_SINGLE_BOOK_ERROR, FAVORITE_BOOK_ERROR,
-         FAVORITE_BOOK_SUCCESS,
-         UPVOTE_SUCCESS, UPVOTE_ERROR,
-         DOWNVOTE_SUCCESS, DOWNVOTE_ERROR,
-         SHOW_REVIEW_TEXT_AREA, REVIEW_SUCCESS, 
-         REVIEW_ERROR, BORROW_SUCCESS,
-         BORROW_ERROR,
-         SHOW_ALL_REVIEWS,
-         SEARCH_ALL_BOOKS_SUCCESS,
-         SEARCH_ALL_BOOKS_ERROR,
-         DELETE_BOOK_REVIEW_SUCCESS,
-         DELETE_BOOK_REVIEW_ERROR,
-         LOAD_REVIEW_FOR_EDIT,
-         MODIFY_REVIEW_SUCCESS,
-         MODIFY_REVIEW_ERROR,
-        } from '../actions/actionTypes';
+import {
+  FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR, FETCH_SINGLE_BOOK_SUCCESS,
+  FETCH_SINGLE_BOOK_ERROR, FAVORITE_BOOK_ERROR,
+  FAVORITE_BOOK_SUCCESS,
+  UPVOTE_SUCCESS, UPVOTE_ERROR,
+  DOWNVOTE_SUCCESS, DOWNVOTE_ERROR,
+  SHOW_REVIEW_TEXT_AREA, REVIEW_SUCCESS,
+  REVIEW_ERROR, BORROW_SUCCESS,
+  BORROW_ERROR,
+  SHOW_ALL_REVIEWS,
+  SEARCH_ALL_BOOKS_SUCCESS,
+  SEARCH_ALL_BOOKS_ERROR,
+  DELETE_BOOK_REVIEW_SUCCESS,
+  DELETE_BOOK_REVIEW_ERROR,
+  LOAD_REVIEW_FOR_EDIT,
+  MODIFY_REVIEW_SUCCESS,
+  MODIFY_REVIEW_ERROR,
+  FETCH_POPULAR_BOOK_SUCCESS,
+  FETCH_POPULAR_BOOK_ERROR,
+  POPULAR_BOOK, TOP_FAVORITED_BOOKS,
+  FETCH_TOP_FAVORITED_BOOKS_ERROR,
+  FETCH_TOP_FAVORITED_BOOKS_SUCCESS,
+  FETCH_BOOK,
+  FETCH_SINGLE_BOOK,
+  HANDLE_CANCEL_CLICK
+} from '../actions/actionTypes';
 import initialState from './initialState';
 
 export default (state = initialState.books, action) => {
   switch(action.type) {
+    case FETCH_BOOK:
+      return { ...state, loading: true }
+
     case FETCH_BOOK_SUCCESS:
-      return {...state, books: action.books }
+      return {...state, books: action.books, loading: false }
 
     case FETCH_BOOK_ERROR:
-      return { ...state, error: action.error}
-    
+      return { ...state, error: action.error, loading: false}
+  
+    case FETCH_SINGLE_BOOK:
+      return { ...state, loading: true }
+
     case FETCH_SINGLE_BOOK_SUCCESS:
-      return {...state, book: action.book, }
+      return {...state, book: action.book, loading: false }
 
     case FETCH_SINGLE_BOOK_ERROR:
-      return { ...state, error: action.error }
+      return { ...state, error: action.error, loading: false }
     
       case FAVORITE_BOOK_SUCCESS:
       return {...state, addfavbook: action.favoritedBook }
@@ -113,6 +128,27 @@ export default (state = initialState.books, action) => {
     case MODIFY_REVIEW_ERROR: 
       return { ...state, error: action.error}
 
+    case POPULAR_BOOK:
+      return { ...state, loadingPopularBooks: true }
+
+    case FETCH_POPULAR_BOOK_SUCCESS:
+      return { ...state, popularBooks: action.popularBooks, loadingPopularBooks: false};
+
+    case FETCH_POPULAR_BOOK_ERROR:
+      return { ...state, error: action.error, loadingPopularBooks: false};
+
+    case TOP_FAVORITED_BOOKS:
+      return { ...state, loadingTopFavoritedBooks: true }
+
+    case FETCH_TOP_FAVORITED_BOOKS_SUCCESS:
+      return { ...state, topFavoriteBooks: action.topFavoriteBooks, loadingTopFavoritedBooks: false};
+
+    case FETCH_TOP_FAVORITED_BOOKS_ERROR:
+      return { ...state, error: action.error, loadingTopFavoritedBooks: false};
+
+    case HANDLE_CANCEL_CLICK:
+      return { ...state, editReview: false, loadAllReview: true,}
+      
     default :
     return state
   }

@@ -12,10 +12,12 @@ import ReviewArea from '../main/ReviewArea';
 import { fetchSingleBook, favoriteABook, upVoteBook,
         downVoteBook, showReviewTextArea, showAllReviews,
         borrowBook } from '../../actions/bookAction';
-import { getUser } from '../../helpers/utils';
+import { getUser, bookDefaultImage } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
 import SearchBar from '../common/SearchBar';
 import ProtectRoute from '../ProtectRoute';
+import ajaxLoader from '../../media/ajax-loader.gif'
+
 
 /**
  * 
@@ -148,7 +150,7 @@ class SingleBook extends ProtectRoute {
    * @memberof SingleBook
    */
   render () { 
-    const { book, loadTextArea, loadAllReview } = this.props;
+    const { book, loadTextArea, loadAllReview, loading } = this.props;
     const user = getUser();
     return (
       <div>
@@ -163,7 +165,7 @@ class SingleBook extends ProtectRoute {
                     <SearchBar/>
                   </li>
                   
-                  <li><a className="dropdown-button" href="#" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
+                  <li><a className="dropdown-button" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
                     <ul id="dropdown1" className="dropdown-content">
                       <li><Link to="/favorite"><i className="material-icons ">library_add</i>Add Favorites</Link></li>
                       <li><a href="#">Terms and Condition</a></li>
@@ -174,15 +176,9 @@ class SingleBook extends ProtectRoute {
                 </ul>
                 <ul className="side-nav" id="mobile-demo">
                   <li>
-                    <form>
-                      <div className="input-field col s6 s12 ">
-                        <input id="search" type="search"  placeholder="Title, author, or ISBN" required/>
-                        <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
-                        <i className="material-icons">close</i>
-                      </div>
-                    </form>
+                    <SearchBar/>
                   </li>
-                  <li><a className="dropdown-button" href="detail.html" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
+                  <li><a className="dropdown-button" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
                     {/* <!-- Dropdown Structure --> */}
                     <ul id="dropdown1" className="dropdown-content">
                       <li><a href="addfavorite.html"><i className="material-icons ">library_add</i>Add Favorites</a></li>
@@ -197,6 +193,12 @@ class SingleBook extends ProtectRoute {
           </div>
         </header>
         <div className="container">
+            { loading ? 
+              <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em'}}>
+                <img src={'/' + ajaxLoader} alt="Loading..."/>
+              </div> : 
+              ''
+            }
           <div className="divider"></div>
           <div className="book-detail center-align">
               <h1 id="title">{book.title}</h1>
@@ -212,7 +214,9 @@ class SingleBook extends ProtectRoute {
               <div className="book-container">
                 <div className="row ">
                   <div className="col l5 show-border">                            
-                    <img className="materialboxed" width="250" src={book.image}/>
+                    { book.image == undefined ? '' : 
+                      <img className="materialboxed" width="250" src={book.image || bookDefaultImage}/>
+                    }                     
                   </div>
                   <div className="col  l7">
                     <div className="section">
@@ -221,7 +225,6 @@ class SingleBook extends ProtectRoute {
                           <a className=" write-review " onClick={this.handleAddFavorite}><i className=" material-icons pencil medium">favorite</i>Add to Favorite</a>
                         </div>
                         <form id="form-lend" >
-                          {/* <!-- <a className="btn" onclick="Materialize.toast('I am a toast', 4000, 'rounded')">Toast!</a> --> */}
                           <a className="waves-effect waves-light btn "  onClick={this.handleBorrow}>Borrow</a>
                         </form>
                       </div>
@@ -238,7 +241,7 @@ class SingleBook extends ProtectRoute {
                       <div className="section3">
                         <span>{book.title} has been borrowed </span> <span >{book.borrowCount}</span> times <span><a  className="write-review" href="review.html"><i className=" material-icons tiny pencil ">create</i>Review?</a></span>
                         <br/>
-                        <span>Last Borrowed 25/05/2016</span>
+                        {/* <span>Last Borrowed 25/05/2016</span> */}
                         <div> 
                           <a className=" upvote" onClick={this.handleUpvote} ><i className=" material-icons pencil small">thumb_up</i>{book.upVotes}</a>
                           <a className=" upvote" onClick={this.handleDownvote} ><i className=" material-icons pencil small">thumb_down</i>{book.downVotes}</a>
@@ -319,6 +322,7 @@ const mapStateToProps = (state) => {
     book: state.bookReducer.book,
     loadTextArea: state.bookReducer.loadTextArea,
     loadAllReview: state.bookReducer.loadAllReview,
+    loading: state.bookReducer.loading
   };
 };
 

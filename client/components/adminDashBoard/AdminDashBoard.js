@@ -28,10 +28,15 @@ class AdminDashBoard extends ProtectRoute {
   constructor(props){
     super(props);
     this.state = {
-      redirect: false
-    }
+      redirect: false,
+      showBookList: true,
+      showBorrowRequestList: false,
+      showReturnRequestList: false
+    };
     this.handleLogout = this.handleLogout.bind(this);
-
+    this.handleShowBookList = this.handleShowBookList.bind(this);
+    this.handleShowReturnRequestList = this.handleShowReturnRequestList.bind(this);
+    this.handleShowBorrowRequestList = this.handleShowBorrowRequestList.bind(this);
   }
 
   /**
@@ -54,6 +59,31 @@ class AdminDashBoard extends ProtectRoute {
     this.props.logout();
   }
 
+
+  handleShowBookList() {
+    this.setState({
+      showBookList: true,
+      showBorrowRequestList: false,
+      showReturnRequestList: false
+    })
+  }
+
+  handleShowBorrowRequestList() {
+    this.setState({
+      showBookList: false,
+      showBorrowRequestList: true,
+      showReturnRequestList: false
+    })
+  }
+
+  handleShowReturnRequestList() {
+    this.setState({
+      showBookList: false,
+      showBorrowRequestList: false,
+      showReturnRequestList: true
+    })
+  }
+
   /**
    * 
    * 
@@ -62,7 +92,7 @@ class AdminDashBoard extends ProtectRoute {
    */
   render () {
   // console.log(this.props)
-    const { redirect } = this.state;
+    const { redirect, showBorrowRequestList, showReturnRequestList, showBookList } = this.state;
     const user = getUser();
     return (
       redirect ? <Redirect to='/allbooks'/> : 
@@ -71,7 +101,7 @@ class AdminDashBoard extends ProtectRoute {
           <div className="navbar-fixed">
             <nav>
               <div className="nav-wrapper">
-                <a href="index.html" className="brand-logo left adjust">HelloBooks</a>
+                <a href="/" className="brand-logo left adjust">HelloBooks</a>
                 <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                 
                 <ul id="nav-mobile" className="right hide-on-med-and-down">
@@ -99,15 +129,15 @@ class AdminDashBoard extends ProtectRoute {
                   <div className="row">
                       <div className="col s12">
                         <ul className="tabs">
-                          <li className="tab col s4"><a className="active" href="#allbooks">Book List</a></li>
-                          <li className="tab col s4"><a href="#accept">Borrow Request</a></li>
-                          <li className="tab col s4"><a href="#return">Return Request</a></li>
-                          {/* <li className="tab col s3"><a href="#edit">Edit Book</a></li> */}
+                          <li className="tab col s4"><a className="active" href="#allbooks" onClick={this.handleShowBookList}>Book List</a></li>
+                          <li className="tab col s4"><a href="#accept" onClick={this.handleShowBorrowRequestList}>Borrow Request</a></li>
+                          <li className="tab col s4"><a href="#return" onClick={this.handleShowReturnRequestList}>Return Request</a></li>
                         </ul>
                       </div>
-                      <BookList />
-                      <BookBorrow />
-                      <BookReturn />
+                    { showBookList ? <BookList /> : '' }
+                    { showBorrowRequestList ?  <BookBorrow /> : ''}
+                    { showReturnRequestList ? <BookReturn /> : ''}
+
                       <ul className="pagination  center-align">
                         <li className="disabled"><a href="#!"><i className="material-icons">chevron_left</i></a></li>
                         <li className="active"><a href="#!">1</a></li>

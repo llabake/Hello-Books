@@ -9,6 +9,7 @@ import FavoriteBookCard from '../userFavorite/FavoriteBookCard'
 import { fetchUserFavoriteBooks } from '../../actions/userAction';
 import toastMessage from '../../helpers/toastMessage';
 import ProtectRoute from '../ProtectRoute';
+import ajaxLoader from '../../media/ajax-loader.gif';
 
 
 /**
@@ -46,10 +47,16 @@ class Favorite extends ProtectRoute {
    * @memberof Favorite
    */
   render () {
-    const { favoriteBooks } = this.props;
+    const { favoriteBooks, loading } = this.props;
     return (
       <div>
         <FavoritePageHeader/>
+        { loading ? 
+            <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em'}}>
+              <img src={ajaxLoader} alt="Loading..."/>
+            </div> : 
+            ''
+        }
         { favoriteBooks.length ? 
           <div className="container">
             <div className="row">
@@ -84,7 +91,8 @@ class Favorite extends ProtectRoute {
 
 const mapStateToProps = state => {
   return {
-    favoriteBooks: state.userReducer.favoriteBooks
+    favoriteBooks: state.userReducer.favoriteBooks,
+    loading: state.userReducer.loading
   }
 }
 

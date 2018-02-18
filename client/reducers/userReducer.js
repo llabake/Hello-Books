@@ -2,7 +2,9 @@ import initialState from './initialState';
 import { USER_SIGNUP_REQUEST,  SET_CURRENT_USER,
   USER_BORROW_LIST_SUCCESS, 
   USER_BORROW_LIST_ERROR,
+  USER_FAVORITE_LIST,
   USER_FAVORITE_LIST_SUCCESS,
+  USER_FAVORITE_LIST_ERROR,
   REMOVE_FROM_FAVORITES_SUCCESS,
   REMOVE_FROM_FAVORITES_ERROR,
   UNSET_CURRENT_USER,
@@ -13,7 +15,6 @@ import { USER_SIGNUP_REQUEST,  SET_CURRENT_USER,
   USER_SIGNIN_ERROR} from '../actions/actionTypes';
 
 export default (state = initialState.user, action) => {
-  console.log(action)
   switch(action.type) {
     case USER_SIGNUP_REQUEST:
       return {
@@ -61,9 +62,15 @@ export default (state = initialState.user, action) => {
 
     case USER_BORROW_LIST_ERROR:
       return { ...state, error: action.error}
+
+    case USER_FAVORITE_LIST: 
+      return { ...state, loading: true }
     
     case USER_FAVORITE_LIST_SUCCESS:
-      return { ...state, favoriteBooks: action.favoriteBooks}
+      return { ...state, favoriteBooks: action.favoriteBooks, loading: false }
+    
+    case USER_FAVORITE_LIST_ERROR:
+      return { ...state, error: action.error, loading: false }
 
     case REMOVE_FROM_FAVORITES_SUCCESS: {
       const newFavoriteBooksList = 

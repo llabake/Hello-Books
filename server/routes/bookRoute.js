@@ -729,6 +729,14 @@ const bookRoute = (app) => {
     UserMiddleware.userExist, Authentication.isActive,
     ReviewMiddleware.reviewExist, ReviewController.editBookReview
   );
-};
+
+  app.get(
+      '/api/v1/popular-books', BookController.getPopularBooks
+  )
+
+  app.get(
+      '/api/v1/top-user-favorite-books', BookController.getTopFavoritedBooks
+  )
+}
 
 export default bookRoute;

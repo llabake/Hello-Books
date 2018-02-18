@@ -73,12 +73,12 @@ class FavoriteBookCard extends Component {
     const { favoriteBook } = this.props
     return (
       <div className="col s12 m6 l4">
-        <div className="card">
+        <div className="card" style={{minHeight: '650px', maxHeight: '650px'}}>
           {/* <i class="close material-icons">close</i> */}
-          <div className="card-image">
-            <img className="materialboxed" width="150" src={favoriteBook.book.image}/>
+          <div className="card-image" style={{maxHeight: '175px', minHeight: '150px', paddingTop: '10px'}}>
+            <img src={favoriteBook.book.image} alt='Book Image'/>
           </div>
-          <div className="card-content">
+          <div className="card-content" style={{paddingTop: '10em'}}>
             <span className="card-title">{favoriteBook.book.title}</span>
             <p>{favoriteBook.book.description.slice(0, 100) + '...'}</p>
             <br/>
@@ -108,15 +108,15 @@ class FavoriteBookCard extends Component {
                 </span>
               </li>
               <li>
-                  <a  ><i className=" small material-icons comment-icon">comment</i></a><span>
-                  &nbsp;&nbsp;<strong>{favoriteBook.book.reviews.length}</strong></span>
+                <a><i className=" small material-icons comment-icon">comment</i></a><span>
+                &nbsp;&nbsp;<strong>{favoriteBook.book.reviews.length}</strong></span>
               </li>
             </ul>
             {/* <br/> */}
           </div>
           <div className="card-content">
             <span> 
-              <a onClick={this.handleDelete}> Remove</a>
+              <a onClick={this.handleDelete}>Remove</a>
             </span>
           </div>
         </div>

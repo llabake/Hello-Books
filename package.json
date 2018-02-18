@@ -9,6 +9,7 @@
     "start-dev": "babel-watch app.js",
     "heroku-postbuild": "npm install sequelize-cli babel-cli -g",
     "dev": "webpack-dev-server --colors",
+    "watch": "webpack --watch && npm run build",
     "build": "webpack"
   },
   "repository": {
