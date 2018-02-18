@@ -24,7 +24,8 @@ import {
   TOP_FAVORITED_BOOKS, 
   FETCH_TOP_FAVORITED_BOOKS_SUCCESS, 
   FETCH_TOP_FAVORITED_BOOKS_ERROR,
-  FETCH_BOOK
+  FETCH_BOOK,
+  HANDLE_CANCEL_CLICK
 } from './actionTypes'
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
@@ -508,7 +509,6 @@ export const modifyReviewAction = (reviewId, reviewData) => dispatch => {
   return axios.put(`${hostUrl}/api/v1/book/review/${reviewId}`, reviewData, axiosDefaultOptions)
   .then((response) => {
     dispatch(modifyReviewSuccess(response.data.review))
-    // dispatch(showAllReviewsAction());
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {
@@ -517,3 +517,13 @@ export const modifyReviewAction = (reviewId, reviewData) => dispatch => {
   })
 }
 
+const handleCancel = () => {
+  return {
+    type: HANDLE_CANCEL_CLICK
+  }
+}
+
+export const handleCancelClick = () => dispatch => {
+  console.log('got here')
+  dispatch(handleCancel())
+}
