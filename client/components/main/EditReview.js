@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TextAreaInput from '../common/TextAreaInput';
 import TextInput from '../common/TextInput';
 import InputValidator from '../../helpers/inputValidator';
-import { modifyReviewAction } from '../../actions/bookAction';
+import { modifyReviewAction, handleCancelClick } from '../../actions/bookAction';
 
 const cancelButton = {
   width: '20%',
@@ -42,6 +42,7 @@ class EditReview extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleModifyReview = this.handleModifyReview.bind(this);
+    this.handleCancelClick = this.handleCancelClick.bind(this);
   }
 
   /**
@@ -98,6 +99,22 @@ class EditReview extends Component {
     }
   }
 
+
+  /**
+  * @returns {void}
+  * 
+  * @param {any} event 
+  * @memberof EditReview
+  */
+  handleCancelClick(event) {
+    event.preventDefault();
+    console.log('clicked')
+    // this.setState({
+    //   saving: false
+    // })
+    this.props.handleCancelClick()
+  }
+
   /**
    * 
    * 
@@ -128,8 +145,8 @@ class EditReview extends Component {
           onChange = {this.handleChange}
           errors = {errors.content}
           />
-          <button type="submit" className="waves-effect waves-light btn"  
-            style={cancelButton}>Cancel
+          <button className="waves-effect waves-light btn"  
+            style={cancelButton} onClick={this.handleCancelClick} >Cancel
           </button>
           <button type="submit" className="waves-effect waves-light btn" 
             style={saveButton}>Save Changes
@@ -143,6 +160,7 @@ class EditReview extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     modifyReviewAction: (reviewId, reviewData) => dispatch(modifyReviewAction(reviewId, reviewData)),
+    handleCancelClick: () => dispatch(handleCancelClick()),
   }
 }
 
