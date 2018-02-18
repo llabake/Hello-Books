@@ -20,7 +20,9 @@ import {
   POPULAR_BOOK, TOP_FAVORITED_BOOKS,
   FETCH_TOP_FAVORITED_BOOKS_ERROR,
   FETCH_TOP_FAVORITED_BOOKS_SUCCESS,
-  FETCH_BOOK, FETCH_SINGLE_BOOK
+  FETCH_BOOK,
+  FETCH_SINGLE_BOOK,
+  HANDLE_CANCEL_CLICK
 } from '../actions/actionTypes';
 import initialState from './initialState';
 
@@ -144,6 +146,9 @@ export default (state = initialState.books, action) => {
     case FETCH_TOP_FAVORITED_BOOKS_ERROR:
       return { ...state, error: action.error, loadingTopFavoritedBooks: false};
 
+    case HANDLE_CANCEL_CLICK:
+      return { ...state, editReview: false, loadAllReview: true,}
+      
     default :
     return state
   }
