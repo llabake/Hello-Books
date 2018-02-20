@@ -12,7 +12,10 @@ import { USER_SIGNUP_REQUEST,  SET_CURRENT_USER,
   USER_SIGNUP_ERROR,
   USER_SIGNIN_REQUEST,
   USER_SIGNIN_SUCCESS,
-  USER_SIGNIN_ERROR} from '../actions/actionTypes';
+  USER_SIGNIN_ERROR,
+  FETCH_USER_PROFILE_SUCCESS,
+  FETCH_USER_PROFILE_ERROR
+} from '../actions/actionTypes';
 
 export default (state = initialState.user, action) => {
   switch(action.type) {
@@ -87,6 +90,12 @@ export default (state = initialState.user, action) => {
         authenticated: false,
         authUser: action.user
       };
+
+    case FETCH_USER_PROFILE_SUCCESS:
+      return { ...state, profile: action.profile };
+
+    case FETCH_USER_PROFILE_ERROR:
+      return { ...state, error: action.error };
     default :
       return state
     
