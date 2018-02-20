@@ -5,7 +5,8 @@ export default {
     authUser: {},
     borrowedBookHistory: [],
     favoriteBooks: [],
-    loading: false
+    loading: false,
+    profile: {},
   },
   books: {
     books: [],

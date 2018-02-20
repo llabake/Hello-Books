@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 import profileImage from '../../media/images.png';
 
@@ -30,14 +31,16 @@ class UserProfileSidePanel extends Component {
    * @memberof UserProfileSidePanel
    */
   render () {
-  const { user } = this.props
-    
+  const { user, profile } = this.props;
+
     return (
       <div className="col s12 m4 profile-bio ">
       <div className="card large hide-on-small-only ">
         <div className="row">
           <div className="card-image ">
-            <img src={profileImage}/>
+            { profile.image == undefined ? '' :
+               <img src={profile.image || profileImage} style={{borderRadius: '50%'}}/>
+              }
           </div>
         </div>
         <div className="card-content">
@@ -55,7 +58,9 @@ class UserProfileSidePanel extends Component {
             <div className="collapsible-body"><span><div className="card large ">
             <div className="row">
             <div className="card-image ">
-              <img src={profileImage}/>
+              { profile.image == undefined ? '' :
+               <img src={profile.image || profileImage} style={{borderRadius: '50%'}}/>
+              }
             </div>
             </div>
             <div className="card-content">
@@ -75,4 +80,10 @@ class UserProfileSidePanel extends Component {
   }
 }
 
-export default UserProfileSidePanel;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.userReducer.profile,
+  }
+};
+
+export default connect(mapStateToProps, null)(UserProfileSidePanel);

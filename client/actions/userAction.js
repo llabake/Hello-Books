@@ -18,10 +18,17 @@ import { USER_SIGNUP_REQUEST, CHECK_USER_EXISTS,
   REMOVE_FROM_FAVORITES_SUCCESS,
   REMOVE_FROM_FAVORITES_ERROR,
   LOGOUT_REQUEST,
-  UNSET_CURRENT_USER,} from './actionTypes';
+  UNSET_CURRENT_USER,
+  FETCH_USER_PROFILE,
+  FETCH_USER_PROFILE_SUCCESS,
+  FETCH_USER_PROFILE_ERROR, 
+  EDIT_USER_PROFILE,
+  EDIT_USER_PROFILE_SUCCESS,
+  EDIT_USER_PROFILE_ERROR} from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
+import { uploadImageToCloudinary } from './bookAction';
 
 
 
@@ -278,7 +285,6 @@ export const removeFromFavorite = bookId => dispatch => {
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {
-    console.log(error.response)
     dispatch(unFavoriteError(error));
     toastMessage(error.response.data.message, 'failure')
   })
@@ -303,5 +309,89 @@ export const logout = () => dispatch => {
   localStorage.removeItem('user')
   const user = {};
   return dispatch(unSetCurrentUser(user));
+}
+
+
+const fetchUserProfile = () => {
+  return {
+    type: FETCH_USER_PROFILE
+  }
+}
+
+const fetchUserProfileSuccess = (profile) => {
+  return {
+    type: FETCH_USER_PROFILE_SUCCESS,
+    profile
+  }
+}
+
+const fetchUserProfileError = (error) => {
+  return {
+    type: FETCH_USER_PROFILE_ERROR,
+    error
+  }
+}
+
+export const getUserProfile = () => dispatch => {
+  dispatch(fetchUserProfile());
+  return new Promise((resolve, reject) => {
+    return axios.get(`${hostUrl}/api/v1/users/profile`, axiosDefaultOptions)
+      .then((response) => {
+        dispatch(fetchUserProfileSuccess(response.data.profile))
+        resolve()
+      })
+      .catch((error) => {
+        dispatch(fetchUserProfileError(error));
+        toastMessage(error.response.data.message, 'failure')
+        reject(error)
+      })
+    })
+  }
+
+const editUserProfile = () => {
+  return {
+    type: EDIT_USER_PROFILE
+  }
+}
+
+const editUserProfileSuccess = (user) => {
+  return {
+    type: EDIT_USER_PROFILE_SUCCESS,
+    user
+  }
+}
+
+const editUserProfileError = (error) => {
+  return {
+    type: EDIT_USER_PROFILE_ERROR,
+    error
+  }
+}
+
+
+export const editProfileData = userData => dispatch => {
+  return axios.put(`${hostUrl}/api/v1/users/profile`, userData, axiosDefaultOptions)
+    .then((response) => {
+      dispatch(editUserProfileSuccess(response.data.profile))
+      toastMessage(response.data.message, 'success')
+
+    })
+    .catch((error) =>  {
+      dispatch(editUserProfileError(error));
+      toastMessage(error.response.data.message, 'failure')
+    })
+}
+export const editProfile = userData => dispatch => {
+  dispatch(editUserProfile());
+  if (userData.uploadedImage) {
+    return uploadImageToCloudinary(userData.uploadedImage).then((fileUrl) => {
+    userData.image = fileUrl;
+    dispatch(editProfileData(userData))
+    }).catch(() => {
+      toastMessage('An error occurred, please try uploading your image again', 'failure')
+    })
+  } else {
+    dispatch(editProfileData(userData))
+  }
 }
 
