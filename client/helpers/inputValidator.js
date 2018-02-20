@@ -235,4 +235,24 @@ export default class InputValidator {
   static modifyReview(data) {
     return this.addReview(data)
   }
+
+  static updateProfile(data) {
+    const errors = {};
+    const requiredFields = ['firstName', 'lastName'];
+    requiredFields.forEach((field) => {
+      errors[field] = [];
+      if (data[field] === undefined || data[field] === '') {
+        errors[field].push(`${field} is required`);
+      }
+    });
+
+    let isValid = true;
+    Object.keys(errors)
+    .map(key => errors[key]).forEach((error) => {
+      if (error.length) {
+        isValid = false;
+      }
+    });
+    return { errors, isValid };
+  }
 }
