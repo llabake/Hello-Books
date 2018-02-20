@@ -9,6 +9,7 @@ import UserProfileSidePanel from '../userDashBoard/UserProfileSidePanel';
 import UserBorrowedBookList from '../userDashBoard//UserBorrowedBookList';
 import { getUser } from '../../helpers/utils';
 import ProtectRoute from '../ProtectRoute';
+import { getUserProfile } from '../../actions/userAction';
 
 /**
  * 
@@ -33,6 +34,7 @@ class UserProfilePage extends ProtectRoute {
    */
   componentWillMount() {
     super.componentWillMount();
+    this.props.getUserProfile()
   }
   /**
    * 
@@ -60,4 +62,12 @@ class UserProfilePage extends ProtectRoute {
   }
 }
 
-export default UserProfilePage;
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserProfile: () => dispatch(getUserProfile()),
+  }
+};
+
+export default connect(null, mapDispatchToProps) (UserProfilePage);
