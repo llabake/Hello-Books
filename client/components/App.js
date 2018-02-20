@@ -12,6 +12,7 @@ import AdminDashBoard from './adminDashBoard/AdminDashBoard';
 import UserProfilePage from './userDashBoard/UserProfilePage';
 import Favorite from './userFavorite/Favorite';
 import SearchResult from './common/SearchResult';
+import EditProfile from './userDashBoard/EditProfile';
 
 import '../styles/style.scss';
 /**
@@ -43,6 +44,7 @@ export default class App extends Component {
           <Route exact path='/profile' component={UserProfilePage} />
           <Route exact path='/favorite' component={Favorite}/>
           <Route exact path='/search/:searchTerm' component={SearchResult}/>
+          <Route exact path='/editprofile' component={EditProfile} />
         </Switch>
         </div>
       </Router>
