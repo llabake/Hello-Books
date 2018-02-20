@@ -171,4 +171,31 @@ export default class UserController {
       return res.status(400).json({ error })
     })
   }
+
+  
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @returns {any} response containing updated user profile
+   * @memberof UserController
+   */
+  static uploadUserImage(req, res) {
+    User.update(
+      req.body,
+      {
+        where: { id: req.params.userId },
+      }
+    ).then((updatedUserProfile) => {
+      res.status(200).json({
+        user: updatedUserProfile[1][0],
+        message: 'Your profile image has been updated'
+      });
+    }).catch((error) => {
+      return res.status(500).json({error})
+    })
+  }
+
 }
