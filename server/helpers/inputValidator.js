@@ -144,4 +144,27 @@ export default class InputValidator {
     const isValid = errors.length === 0;
     return { errors, isValid };
   }
+
+  /**
+   *
+   *
+   * @static
+   * @param {any} args
+   * @returns {status} error array
+   * @memberof InputValidator
+   */
+  static editProfile(args) {
+    const errors = [];
+    const notManipulate = ['role' ];
+    notManipulate.forEach((field) => {
+      if (args[field] !== undefined) {
+        errors.push({
+          path: field,
+          message: `${field} field can not be updated`
+        });
+      }
+    });
+    const isValid = errors.length === 0;
+    return { errors, isValid};
+  }
 }

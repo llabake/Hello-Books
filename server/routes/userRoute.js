@@ -100,6 +100,56 @@ const userRoute = (app) => {
   app.get(
     '/api/v1/users/signup/validate', UserController.checkUserExist
   )
-};
+  
+  /**
+  * @swagger
+  * /api/v1/users/profile:
+  *   put:
+  *     tags:
+  *       - User Functionality
+  *     description: Edits user's profile
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - name: user
+  *         description: User object
+  *         in: body
+  *         required: true
+  *         schema:
+  *           $ref: '#/definitions/User'
+  *     responses:
+  *       200:
+  *         description: Successfully modified user profile
+  *       404:
+  *         description: User not found
+  */
+  app.put(
+    '/api/v1/users/profile',  Authentication.authMiddleware, UserController.editUserProfile
+  )
 
+  /**
+  * @swagger
+  * /api/v1/users/profile:
+  *   get:
+  *     tags:
+  *       - User Functionality
+  *     description: gets user exists
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - name: user
+  *         description: User object
+  *         in: body
+  *         required: true
+  *         schema:
+  *           $ref: '#/definitions/User'
+  *     responses:
+  *       200:
+  *         description: Successfully found user object
+  *       404:
+  *         description: User not found
+  */
+  app.get(
+    '/api/v1/users/profile', Authentication.authMiddleware, UserController.getUserProfile)
+};
 export default userRoute;

@@ -182,19 +182,60 @@ export default class UserController {
    * @returns {any} response containing updated user profile
    * @memberof UserController
    */
-  static uploadUserImage(req, res) {
-    User.update(
-      req.body,
-      {
-        where: { id: req.params.userId },
-      }
-    ).then((updatedUserProfile) => {
+  static editUserProfile(req, res) {
+    const { errors, isValid } = InputValidator.editProfile(req.body)
+    if(!isValid) {
+      res.status(400).json({ errors });
+    } else {
+      User.update(
+        req.body,
+        {
+          where: { id: req.user.id },
+          returning: true,
+        }
+      ).then((updatedUsers) => {
+        const updatedUser = updatedUsers[1][0];
+        res.status(200).json({
+          profile: {
+            userId: updatedUser.id,
+            role: updatedUser.role,
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
+            image: updatedUser.image
+          },
+          message: 'Your profile has been updated'
+        });
+      }).catch((error) => {
+        return res.status(500).json({ 
+          error,
+          message: error.message
+        })
+      })
+    }
+  }
+  
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @returns {any} response containing user profile
+   * @memberof UserController
+   */
+  static getUserProfile(req, res) {
+    User.findOne({
+      where: {id: req.user.id},
+      attributes: ['id', 'image', 'firstName', 'lastName']
+    })
+    .then((user) => {
       res.status(200).json({
-        user: updatedUserProfile[1][0],
-        message: 'Your profile image has been updated'
-      });
-    }).catch((error) => {
-      return res.status(500).json({error})
+        message: 'Profile retrieved successfully',
+        profile : user
+      })
+    })
+    .catch((error) => {
+      res.status(400).json({ error })
     })
   }
 
