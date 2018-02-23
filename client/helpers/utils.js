@@ -24,12 +24,15 @@ export  const isYear = (str) => {
   return re.test(str);
 };
 
-export const hostUrl = process.env.NODE_ENV === 'production' ?
-  'https://myhellobooks.herokuapp.com' :
-  'http://localhost:5000';
+export const hostUrl = 'https://myhellobooks.herokuapp.com' 
+
+
+// export const hostUrl = process.env.NODE_ENV === 'production' ?
+//   'https://myhellobooks.herokuapp.com' :
+//   'http://localhost:5000';
 
 export const getUser = () => {
   return JSON.parse(localStorage.getItem('user')) || {}
 }
 
-export const bookDefaultImage = 'http://res.cloudinary.com/sardaunan/image/upload/v1518354032/book-default-image_e8nj1p.png';
+export const bookDefaultImage = 'https://res.cloudinary.com/sardaunan/image/upload/v1518354032/book-default-image_e8nj1p.png';

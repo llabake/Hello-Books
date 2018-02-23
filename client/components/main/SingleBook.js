@@ -213,10 +213,11 @@ class SingleBook extends ProtectRoute {
             <div className="book">
               <div className="book-container">
                 <div className="row ">
-                  <div className="col l5 show-border">                            
-                    { book.image == undefined ? '' : 
-                      <img className="materialboxed" width="250" src={book.image || bookDefaultImage}/>
-                    }                     
+                  <div className="col l5 show-border"> 
+                  <img className="materialboxed" 
+                    width="250" 
+                    src={book.image === undefined ? '' : book.image|| bookDefaultImage}
+                  />
                   </div>
                   <div className="col  l7">
                     <div className="section">
