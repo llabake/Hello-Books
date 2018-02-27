@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import { Pagination } from 'react-materialize';
 
 import BookListRow from '../adminDashBoard/BookListRow';
 import { fetchAllBooks } from '../../actions/bookAction';
@@ -19,8 +20,18 @@ class BookList extends Component {
    */
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      maxItems: 2,
+      showPagination: false,
+      displayedBooks: [],
+      activePage: 1,
+      maxItemsPerPage: 8,
+    }
+
+    this.handleSelectedPage = this.handleSelectedPage.bind(this)
+
   }
+
 
   /**
    * @returns {Array} response containing all books 
@@ -30,6 +41,38 @@ class BookList extends Component {
   componentDidMount() {
     this.props.fetchAllBooks();
   }
+
+  componentWillReceiveProps(newProps) {
+    if(newProps === this.props) return;
+    const { allBooks } = newProps;
+    const noOfBooks = allBooks.length;
+    const maxItems = Math.ceil(noOfBooks / this.state.maxItemsPerPage);
+    this.setDisplayedBooks(allBooks);
+    if (maxItems > 1) {
+      this.setState({
+        maxItems: maxItems,
+        showPagination: true
+      })
+    };
+  }
+
+  setDisplayedBooks(allBooks) {
+    const displayedBooks = allBooks.slice((this.state.activePage - 1) * this.state.maxItemsPerPage,
+      (this.state.activePage) * this.state.maxItemsPerPage);
+    this.setState({
+      displayedBooks
+    })
+  }
+
+
+
+  handleSelectedPage(activePage) {
+    this.setState({
+      activePage
+    }, () => this.setDisplayedBooks(this.props.allBooks))
+
+  }
+
   /**
    * 
    * 
@@ -37,10 +80,12 @@ class BookList extends Component {
    * @memberof BookList
    */
   render () {
-    const { allBooks, } = this.props;
+    const {  loading } = this.props;
+    const allBooks = []
+    const { showPagination, displayedBooks } = this.state;
     return (
       <div id="allbooks">
-        { allBooks.length ? 
+        { displayedBooks.length ?
           <div  className="col s12">
             <div className="card-panel responsive-table">
               <table className="bordered centered highlight ">
@@ -55,21 +100,30 @@ class BookList extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                { allBooks ? allBooks.map((book, index) => 
+                { displayedBooks ? displayedBooks.map((book, index) =>
                   <BookListRow key={book.id} book={book} index={index} />
                   ) : 
                   null
                 }
                 </tbody>
               </table>
+              { showPagination ?
+                <Pagination
+                  className={'center-align'}
+                  items={this.state.maxItems}
+                  activePage={1} maxButtons={4}
+                  onSelect={this.handleSelectedPage}
+                /> :
+                null }
             </div>
-          
-          </div> : 
-          <div className="card-panel row">
+
+          </div> :
+         !loading && !allBooks.length ?
+          <div className="card-panel row center-align" >
             <p>
               Ooppss!!! You have not added any books to the library at the moment.
             </p>
-          </div>
+          </div> : null
         }
         
       </div>
@@ -81,6 +135,7 @@ class BookList extends Component {
 const mapStateToProps = (state) => {
   return {
     allBooks: state.adminReducer.allBooks,
+    loading: state.adminReducer.loading
   };
 };
 
