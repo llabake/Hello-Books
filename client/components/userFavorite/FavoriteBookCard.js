@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import swal from 'sweetalert';
 import { connect } from 'react-redux';
 import { removeFromFavorite } from '../../actions/userAction';
-
-
+import { bookDefaultImage} from "../../helpers/utils";
 
 /**
  * 
@@ -73,14 +72,14 @@ class FavoriteBookCard extends Component {
     const { favoriteBook } = this.props
     return (
       <div className="col s12 m6 l4">
-        <div className="card" style={{minHeight: '650px', maxHeight: '650px'}}>
+        <div className="card" style={{height: '520px'}}>
           {/* <i class="close material-icons">close</i> */}
           <div className="card-image" style={{maxHeight: '175px', minHeight: '150px', paddingTop: '10px'}}>
-            <img src={favoriteBook.book.image} alt='Book Image'/>
+            <img style={{maxHeight: '250px'}} src={favoriteBook.book.image || bookDefaultImage} alt='Book Image'/>
           </div>
-          <div className="card-content" style={{paddingTop: '10em'}}>
-            <span className="card-title">{favoriteBook.book.title}</span>
-            <p>{favoriteBook.book.description.slice(0, 100) + '...'}</p>
+          <div className="card-content" style={{paddingTop: '7em'}}>
+            <span className="card-title" title={favoriteBook.book.title} style={{whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}>{favoriteBook.book.title}</span>
+            <p title={favoriteBook.book.description} style={{ height: '1em', minHeight: '2em'}}>{favoriteBook.book.description.slice(0, 100) + '...'}</p>
             <br/>
             
             <Link className="read-more right" to={'/book/' + favoriteBook.book.id}>Read More</Link>
@@ -88,33 +87,33 @@ class FavoriteBookCard extends Component {
           <div className="card-action">
             <ul>
               <li>
-                <a>
+                <a style={{marginRight: '0px'}}>
                   <i className=" material-icons fav-icon">favorite</i>
                 </a>
-                <span>&nbsp;&nbsp;
+                <span>&nbsp;
                   <strong>{favoriteBook.book.favorited.length}</strong>
                 </span>
               </li>    
               <li>
-                <a><i className="small material-icons up-icon">thumb_up</i></a>
-                <span>&nbsp;&nbsp;
-                  <strong>{favoriteBook.book.upVotes}</strong>
+                <a style={{marginRight: '0px', marginLeft: '1.5em'}}><i className="small material-icons up-icon">thumb_up</i></a>
+                <span>&nbsp;
+                  <strong >{favoriteBook.book.upVotes}</strong>
                 </span>
               </li>
               <li>
-                <a><i className=" small material-icons down-icon">thumb_down</i></a>
+                <a style={{marginRight: '0px', marginLeft: '1.5em'}}><i className=" small material-icons down-icon">thumb_down</i></a>
                 <span>&nbsp;&nbsp;
                   <strong>{favoriteBook.book.downVotes}</strong>
                 </span>
               </li>
               <li>
-                <a><i className=" small material-icons comment-icon">comment</i></a><span>
+                <a style={{marginRight: '0px', marginLeft: '1.5em'}}><i className=" small material-icons comment-icon">comment</i></a><span>
                 &nbsp;&nbsp;<strong>{favoriteBook.book.reviews.length}</strong></span>
               </li>
             </ul>
             {/* <br/> */}
           </div>
-          <div className="card-content">
+          <div className="card-content" style={{ paddingTop: '0px', cursor: 'pointer'}}>
             <span> 
               <a onClick={this.handleDelete}>Remove</a>
             </span>

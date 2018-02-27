@@ -47,7 +47,7 @@ class Favorite extends ProtectRoute {
    * @memberof Favorite
    */
   render () {
-    const { favoriteBooks, loading } = this.props;
+    const { loading, favoriteBooks } = this.props;
     return (
       <div>
         <FavoritePageHeader/>
@@ -57,29 +57,30 @@ class Favorite extends ProtectRoute {
             </div> : 
             ''
         }
-        { favoriteBooks.length ? 
+        { !loading && favoriteBooks.length ?
           <div className="container">
             <div className="row">
-                <div className="col s12">    
-                  <h3 className="center-align"> My Favorites Books </h3>  
+                <div className="col s12">
+                  <h3 className="center-align"> My Favorites Books </h3>
                 </div>
             </div>
             <div className="row">
-            {  favoriteBooks.map((favoriteBook,index) => { 
+            {  favoriteBooks.map((favoriteBook,index) => {
               return <div key={index}><FavoriteBookCard  favoriteBook={favoriteBook}/></div>
-              }) 
+              })
             }
             </div>
-          </div> :
+          </div> : null }
+        { !loading && !favoriteBooks.length ?
           <div className="container">
-            <div className="card">
-              <div className="card-content">
-              <p>
-                Favorite List is empty
-              </p>
-              </div> 
-            </div>
-          </div>
+              <div className="card">
+                <div className="card-content">
+                <p>
+                  Favorite List is empty
+                </p>
+                </div>
+              </div>
+            </div> : null }
         }
         <Footer/>
       </div>
