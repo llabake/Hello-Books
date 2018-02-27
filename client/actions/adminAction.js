@@ -3,7 +3,8 @@ import bluebird, { Promise } from 'bluebird';
 import toastMessage from '..//helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
-import { 
+import {
+  FETCH_BOOK,
   FETCH_BOOK_SUCCESS,
   FETCH_BOOK_ERROR,
   PENDING_BORROW_REQUEST,
@@ -26,6 +27,13 @@ import {
   ACCEPT_BOOK_RETURN_ERROR,
 } from './actionTypes';
 
+
+
+const fetchBook = () => {
+  return {
+    type: FETCH_BOOK
+  }
+}
 const fetchBookSuccess = (books) => {
   return {
     type: FETCH_BOOK_SUCCESS,
@@ -41,6 +49,7 @@ const fetchBookError = (error) => {
 }
 
 export const fetchAllBooks = () => dispatch => {
+  dispatch(fetchBook());
   return axios.get(`${hostUrl}/api/v1/books/`, axiosDefaultOptions)
     .then((response) => {
       dispatch(fetchBookSuccess(response.data.books))
