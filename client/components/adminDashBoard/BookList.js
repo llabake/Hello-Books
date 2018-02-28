@@ -42,6 +42,12 @@ class BookList extends Component {
     this.props.fetchAllBooks();
   }
 
+  /**
+   * 
+   * @param {any} newProps 
+   * @returns {Array} response containing all books 
+   * @memberof BookList
+   */
   componentWillReceiveProps(newProps) {
     if(newProps === this.props) return;
     const { allBooks } = newProps;
@@ -53,12 +59,19 @@ class BookList extends Component {
         maxItems: maxItems,
         showPagination: true
       })
-    };
+    }
   }
 
+  /**
+   * 
+   * @returns {Array} an array of books to be displayed on each page
+   * @param {any} allBooks 
+   * @memberof BookList
+   */
   setDisplayedBooks(allBooks) {
-    const displayedBooks = allBooks.slice((this.state.activePage - 1) * this.state.maxItemsPerPage,
-      (this.state.activePage) * this.state.maxItemsPerPage);
+    const displayedBooks = allBooks.slice((this.state.activePage - 1) *
+    this.state.maxItemsPerPage,
+    (this.state.activePage) * this.state.maxItemsPerPage);
     this.setState({
       displayedBooks
     })
@@ -66,6 +79,12 @@ class BookList extends Component {
 
 
 
+  /**
+   * @returns {void}
+   * 
+   * @param {any} activePage 
+   * @memberof BookList
+   */
   handleSelectedPage(activePage) {
     this.setState({
       activePage
