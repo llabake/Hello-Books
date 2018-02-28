@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, } from 'react-router-dom';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { Pagination } from 'react-materialize';
 
 
 import { pendingAcceptBorrowRequest } from '../../actions/adminAction';
@@ -20,7 +21,15 @@ class BookBorrow extends Component {
    */
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      maxItems: 2,
+      showPagination: false,
+      displayedBorrowBooks: [],
+      activePage: 1,
+      maxItemsPerPage: 2,
+    }
+
+    this.handleSelectedPage = this.handleSelectedPage.bind(this);
   }
   
   /**
@@ -35,14 +44,65 @@ class BookBorrow extends Component {
   /**
    * 
    * 
+   * @param {any} newProps 
+   * @returns {Array} response containing borrowed books list
+   * @memberof BookBorrow
+   */
+  componentWillReceiveProps(newProps) {
+    if(newProps === this.props) return;
+    const { borrowedBooks } = newProps;
+    const noOfBorrowedBooks = borrowedBooks.length;
+    const maxItems = Math.ceil(noOfBorrowedBooks/ this.state.maxItemsPerPage);
+    this.setDisplayedBorrowBooks(borrowedBooks);
+    if(maxItems > 1) {
+      this.setState({
+        maxItems: maxItems,
+        showPagination: true
+      })
+    }
+  }
+
+  /**
+   * @returns {Array} a list of borrowed books to be displayed on each page
+   * 
+   * @param {any} borrowedBooks 
+   * @memberof BookBorrow
+   */
+  setDisplayedBorrowBooks(borrowedBooks) {
+    const displayedBorrowBooks = borrowedBooks.slice((this.state.activePage - 1) *
+    this.state.maxItemsPerPage,
+    (this.state.activePage) * this.state.maxItemsPerPage);
+    this.setState({
+      displayedBorrowBooks
+    })
+  }
+
+  /**
+   * @returns {void}
+   * 
+   * @param {any} activePage 
+   * @memberof BookBorrow
+   */
+  handleSelectedPage(activePage) {
+    this.setState({
+      activePage
+    }, () => this.setDisplayedBorrowBooks(this.props.borrowedBooks))
+  }
+
+
+  /**
+   * 
+   * 
    * @returns {Object} All borrowed books
    * @memberof BookBorrow
    */
   render () {
-    const { borrowedBooks , } = this.props;
+    const { loading , } = this.props;
+    const borrowedBooks = [];
+    const { showPagination, displayedBorrowBooks } = this.state;
     return (
       <div id="accept">
-        { borrowedBooks.length  ? 
+        { displayedBorrowBooks.length  ? 
           <div className="col s12">
             <div className="card-panel responsive-table">
               <table className="bordered centered highlight ">
@@ -59,20 +119,29 @@ class BookBorrow extends Component {
                 </thead>
                 <tbody>
                   {
-                    borrowedBooks  ? borrowedBooks .map((borrowedBook, i) => 
+                    displayedBorrowBooks  ? displayedBorrowBooks .map((borrowedBook, i) => 
                       <BookBorrowListRow key={borrowedBook.id} borrowedBook={borrowedBook} index={i} />
                     ) :
                     null
                   }
                 </tbody>
               </table>
+              { showPagination ?
+                <Pagination
+                  className={'center-align'}
+                  items={this.state.maxItems}
+                  activePage={1} maxButtons={4}
+                  onSelect={this.handleSelectedPage}
+                /> :
+                null }
             </div>
           </div> :
+          !loading && !displayedBorrowBooks.length ? 
           <div className="card-panel row center-align">
             <p>
               Ooppss!!! No pending borrowed books record found.
             </p>
-          </div>
+          </div> : null
         }
       </div>
 
@@ -83,6 +152,7 @@ class BookBorrow extends Component {
 const mapStateToProps = (state) => {
   return {
     borrowedBooks : state.adminReducer.pendingBorrowedBookRequest,
+    loading: state.adminReducer.loading
   };
 };
 
