@@ -14,7 +14,7 @@ import {
   ACCEPT_BOOK_BORROW_ERROR,
   ACCEPT_BOOK_RETURN_SUCCESS,
   ACCEPT_BOOK_RETURN_ERROR, FETCH_BOOK,
-  PENDING_BORROW_REQUEST,
+  PENDING_BORROW_REQUEST, PENDING_RETURN_REQUEST
 } from '../actions/actionTypes';
 
 export default (state = initialState.admin, action) => {
@@ -38,14 +38,17 @@ export default (state = initialState.admin, action) => {
     case PENDING_BORROW_REQUEST_ERROR:
       return { ...state, error: action.error, loading: false }
     
+    case PENDING_RETURN_REQUEST:
+      return { ...state, loading: true }
     case PENDING_RETURN_REQUEST_SUCCESS:
       return {
         ...state,
+        loading: false,
         pendingReturnedBookRequest: action.pendingAcceptList
       }
   
     case PENDING_RETURN_REQUEST_ERROR:
-      return { ...state, error: action.error }
+      return { ...state, error: action.error, loading: false }
     
     case DELETE_BOOK_SUCCESS: {
       const newBookList = 
