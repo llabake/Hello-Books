@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Link, } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Pagination } from 'react-materialize';
-
 
 import { pendingAcceptBorrowRequest } from '../../actions/adminAction';
 import BookBorrowListRow from '../adminDashBoard/BookBorrowListRow';
@@ -50,7 +48,8 @@ class BookBorrow extends Component {
    */
   componentWillReceiveProps(newProps) {
     if(newProps === this.props) return;
-    const { borrowedBooks } = newProps;
+    const { borrowedBooks } = newProps
+    console.log(borrowedBooks)
     const noOfBorrowedBooks = borrowedBooks.length;
     const maxItems = Math.ceil(noOfBorrowedBooks/ this.state.maxItemsPerPage);
     this.setDisplayedBorrowBooks(borrowedBooks);
@@ -97,12 +96,11 @@ class BookBorrow extends Component {
    * @memberof BookBorrow
    */
   render () {
-    const { loading , } = this.props;
-    const borrowedBooks = [];
+    const { loading, borrowedBooks } = this.props;
     const { showPagination, displayedBorrowBooks } = this.state;
     return (
       <div id="accept">
-        { displayedBorrowBooks.length  ? 
+        { displayedBorrowBooks.length ? 
           <div className="col s12">
             <div className="card-panel responsive-table">
               <table className="bordered centered highlight ">
@@ -136,7 +134,7 @@ class BookBorrow extends Component {
                 null }
             </div>
           </div> :
-          !loading && !displayedBorrowBooks.length ? 
+          !loading && !borrowedBooks.length ? 
           <div className="card-panel row center-align">
             <p>
               Ooppss!!! No pending borrowed books record found.
