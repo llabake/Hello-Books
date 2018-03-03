@@ -47,10 +47,10 @@ const userExist = (field, error) => {
     }
   }
 }
-const userSignUpSuccess = (response) => {
+const userSignUpSuccess = (user) => {
   return {
     type: USER_SIGNUP_SUCCESS,
-    response
+    user
   }
 }
 
