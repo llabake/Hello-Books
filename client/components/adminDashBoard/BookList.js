@@ -99,8 +99,7 @@ class BookList extends Component {
    * @memberof BookList
    */
   render () {
-    const {  loading } = this.props;
-    const allBooks = []
+    const {  loading, allBooks } = this.props;
     const { showPagination, displayedBooks } = this.state;
     return (
       <div id="allbooks">
