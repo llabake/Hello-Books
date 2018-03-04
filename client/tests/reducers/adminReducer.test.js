@@ -100,10 +100,10 @@ describe('Admin reducer', () => {
     };
     expect(reducer({}, pendingBorrowRequestAcceptError)).toEqual({ error })
   });
-  xit('should handle ACCEPT_BOOK_RETURN_SUCCESS', () => {
+  it.only('should handle ACCEPT_BOOK_RETURN_SUCCESS', () => {
     const pendingReturnRequestAcceptSuccess = {
       type: types.ACCEPT_BOOK_RETURN_SUCCESS,
-      borrowedBook: pendingReturnedBookRequestList[0]
+      returnedBook: pendingReturnedBookRequestList[0]
     };
     expect(reducer(
       { pendingReturnedBookRequest: pendingReturnedBookRequestList },
