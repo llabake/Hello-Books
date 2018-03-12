@@ -34,7 +34,11 @@ class SingleBook extends ProtectRoute {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false
+      redirect: false,
+      favorited: false,
+      upvoted: false,
+      downvoted: false,
+      reviewed: false
     }
 
     this.handleAddFavorite = this.handleAddFavorite.bind(this);
@@ -67,6 +71,11 @@ class SingleBook extends ProtectRoute {
   handleAddFavorite (event) {
     event.preventDefault();
     this.props.favoriteABook(this.props.match.params.bookId)
+    .then(() => {
+      this.setState({
+        favorited: true
+      })
+    })
   }
 
   /**
@@ -79,6 +88,12 @@ class SingleBook extends ProtectRoute {
   handleUpvote (event ) {
     event.preventDefault();
     this.props.upVoteBook(this.props.match.params.bookId)
+    .then(() => {
+      this.setState({
+        upvoted: true,
+        downvoted: false
+      })
+    })
   }
 
 
@@ -131,6 +146,12 @@ class SingleBook extends ProtectRoute {
   handleDownvote (event) {
     event.preventDefault();
     this.props.downVoteBook(this.props.match.params.bookId)
+    .then(() => {
+      this.setState({
+        downvoted: true,
+        upvoted: false
+      })
+    })
   }
 
 
@@ -151,6 +172,7 @@ class SingleBook extends ProtectRoute {
    */
   render () { 
     const { book, loadTextArea, loadAllReview, loading } = this.props;
+    const { favorited, downvoted, upvoted, borrowed, reviewed} = this.state
     const user = getUser();
     return (
       <div>
@@ -223,10 +245,15 @@ class SingleBook extends ProtectRoute {
                     <div className="section">
                       <div className="section1">
                         <div> 
-                          <a className=" write-review " onClick={this.handleAddFavorite}><i className=" material-icons pencil medium">favorite</i>Add to Favorite</a>
+                          <a className=" write-review " onClick={this.handleAddFavorite}>
+                          { favorited ? 
+                            <i className=" material-icons pencil medium" style={{color: 'rgb(254, 170, 38)'}} >favorite</i> : 
+                            <i className=" material-icons pencil medium">favorite</i>
+                          }Add to Favorite
+                          </a>
                         </div>
                         <form id="form-lend" >
-                          <a className="waves-effect waves-light btn "  onClick={this.handleBorrow}>Borrow</a>
+                          { borrowed ? <a className="waves-effect waves-light btn "  disabled onClick={this.handleBorrow}>Borrow</a> : <a className="waves-effect waves-light btn "  onClick={this.handleBorrow}>Borrow</a> }
                         </form>
                       </div>
                     </div>
@@ -244,9 +271,15 @@ class SingleBook extends ProtectRoute {
                         <br/>
                         {/* <span>Last Borrowed 25/05/2016</span> */}
                         <div> 
-                          <a className=" upvote" onClick={this.handleUpvote} ><i className=" material-icons pencil small">thumb_up</i>{book.upVotes}</a>
-                          <a className=" upvote" onClick={this.handleDownvote} ><i className=" material-icons pencil small">thumb_down</i>{book.downVotes}</a>
-                          <a className=" upvote" onClick={this.handleAddReview} ><i className=" material-icons pencil small">comment</i>{book.reviews ? book.reviews.length : 0}</a>
+                          <a className=" upvote" onClick={this.handleUpvote} >
+                          { upvoted ? <i className=" material-icons pencil small" style={{color: 'rgb(0, 169, 0)'}}>thumb_up</i> : <i className=" material-icons pencil small">thumb_up</i> }{book.upVotes}
+                          </a>
+                          <a className=" upvote" onClick={this.handleDownvote} >
+                          { downvoted ? <i className=" material-icons pencil small" style={{color: 'red'}}>thumb_down</i> : <i className=" material-icons pencil small">thumb_down</i> }{book.downVotes}
+                          </a>
+                          <a className=" upvote" onClick={this.handleAddReview} >
+                        { reviewed ? <i className=" material-icons pencil small" style={{color: 'rgb(91, 150, 196)'}}>comment</i> : <i className=" material-icons pencil small">comment</i>}{book.reviews ? book.reviews.length : 0}
+                          </a>
                         </div>
                       </div>
                     </div>
