@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
+import moment from 'moment';
 
 import { deleteBookReview, loadReviewToEditAction } from '../../actions/bookAction';
 import { getUser } from '../../helpers/utils';
@@ -92,8 +93,13 @@ class AllBookReviews extends Component {
                     </span>
                     <br/>
                     <span style={contentStyle}>
-                      <small style={{ borderLeft: '5px solid green' }}> 
+                      {/* <small style={{ borderLeft: '5px solid green' }}> 
                         {new Date(review.createdAt).toUTCString()}
+                      </small> */}
+                      <small style={{ borderLeft: '5px solid green' }}> 
+                        {/* {moment(review.createdAt).format()} */}
+                        {/* {moment().startOf(review.createdAt).fromNow()} */}
+                        {moment(review.createdAt, "YYYYMMDD").fromNow()}
                       </small>
                     </span>
                   </div>
