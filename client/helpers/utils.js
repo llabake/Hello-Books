@@ -24,12 +24,12 @@ export  const isYear = (str) => {
   return re.test(str);
 };
 
-export const hostUrl = 'https://myhellobooks.herokuapp.com' 
+// export const hostUrl = 'https://myhellobooks.herokuapp.com' 
 
 
-// export const hostUrl = process.env.NODE_ENV === 'production' ?
-//   'https://myhellobooks.herokuapp.com' :
-//   'http://localhost:5000';
+export const hostUrl = process.env.NODE_ENV === 'production' ?
+  'https://myhellobooks.herokuapp.com' :
+  'http://localhost:5000';
 
 export const getUser = () => {
   return JSON.parse(localStorage.getItem('user')) || {}
