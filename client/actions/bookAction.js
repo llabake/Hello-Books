@@ -173,23 +173,32 @@ export const uploadImageToCloudinary = (image) => {
     
 }
 
+export const saveBookData = bookData => dispatch => {
+  return axios.post(`${hostUrl}/api/v1/books/`, bookData, axiosDefaultOptions)
+  .then((response) => {
+    console.log(response.data.book)
+    dispatch(addBookSuccess(response.data.book));
+    toastMessage(response.data.message, 'success');
+  })
+  .catch((error) => {
+    console.log(error)
+    dispatch(addBookError(error))
+    toastMessage(error.response.data.message, 'failure')
+  })
+}
 export const saveBook = bookData => dispatch => {
   dispatch(addBook());
-  return uploadImageToCloudinary(bookData.uploadedImage).then((fileUrl) => {
-    bookData.image = fileUrl;
-    return axios.post(`${hostUrl}/api/v1/books/`, bookData, axiosDefaultOptions)
-    .then((response) => {
-      dispatch(addBookSuccess(response.data.book));
-      toastMessage(response.data.message, 'success');
-    })
-    .catch((error) => {
-      dispatch(addBookError(error))
-      toastMessage(error.response.data.message, 'failure')
-    })
-  }).catch(() => {
-    toastMessage('An error occurred, please try uploading your image again', 'failure')
-  })
-  
+  if (bookData.uploadedImage) {
+    return uploadImageToCloudinary(bookData.uploadedImage)
+    .then((fileUrl) => {
+      bookData.image = fileUrl;
+      return dispatch(saveBookData(bookData))
+      }).catch(() => {
+        toastMessage('An error occurred, please try uploading your image again', 'failure')
+      })
+  } else {
+    return dispatch(saveBookData(bookData))
+  }
 }
 
 
