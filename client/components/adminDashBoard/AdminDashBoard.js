@@ -3,7 +3,6 @@ import { Link, } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
-
 import BookList from '../adminDashBoard/BookList';
 import BookBorrow from '../adminDashBoard/BookBorrow';
 import BookReturn from '../adminDashBoard/BookReturn';
@@ -137,15 +136,6 @@ class AdminDashBoard extends ProtectRoute {
                     { showBookList ? <BookList /> : '' }
                     { showBorrowRequestList ?  <BookBorrow /> : ''}
                     { showReturnRequestList ? <BookReturn /> : ''}
-
-                      <ul className="pagination  center-align">
-                        <li className="disabled"><a href="#!"><i className="material-icons">chevron_left</i></a></li>
-                        <li className="active"><a href="#!">1</a></li>
-                        <li className="waves-effect"><a href="#!">2</a></li>
-                        <li className="waves-effect"><a href="#!">3</a></li>
-                        <li className="waves-effect"><a href="#!">4</a></li>
-                        <li className="waves-effect"><a href="#!"><i className="material-icons">chevron_right</i></a></li>
-                      </ul>
                   </div>
               </div>
           </div>

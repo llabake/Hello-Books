@@ -1,5 +1,6 @@
 import initialState from './initialState';
-import { FETCH_BOOK_SUCCESS,
+import {
+  FETCH_BOOK_SUCCESS,
   FETCH_BOOK_ERROR,
   PENDING_BORROW_REQUEST_SUCCESS,
   PENDING_BORROW_REQUEST_ERROR,
@@ -12,34 +13,42 @@ import { FETCH_BOOK_SUCCESS,
   ACCEPT_BOOK_BORROW_SUCCESS,
   ACCEPT_BOOK_BORROW_ERROR,
   ACCEPT_BOOK_RETURN_SUCCESS,
-  ACCEPT_BOOK_RETURN_ERROR,
+  ACCEPT_BOOK_RETURN_ERROR, FETCH_BOOK,
+  PENDING_BORROW_REQUEST, PENDING_RETURN_REQUEST
 } from '../actions/actionTypes';
 
 export default (state = initialState.admin, action) => {
   switch(action.type) {
+    case FETCH_BOOK:
+      return { ...state, loading: true };
     case FETCH_BOOK_SUCCESS:
-      return {...state, allBooks: action.books }
+      return {...state, allBooks: action.books, loading: false };
 
     case FETCH_BOOK_ERROR:
-      return { ...state, error: action.error}
-
+      return { ...state, error: action.error, loading: false};
+    case PENDING_BORROW_REQUEST:
+      return { ...state, loading: true }
     case PENDING_BORROW_REQUEST_SUCCESS:
       return {
         ...state,
+        loading: false,
         pendingBorrowedBookRequest: action.pendingBorrowList
       }
 
     case PENDING_BORROW_REQUEST_ERROR:
-      return { ...state, error: action.error}
+      return { ...state, error: action.error, loading: false }
     
+    case PENDING_RETURN_REQUEST:
+      return { ...state, loading: true }
     case PENDING_RETURN_REQUEST_SUCCESS:
       return {
         ...state,
+        loading: false,
         pendingReturnedBookRequest: action.pendingAcceptList
       }
   
     case PENDING_RETURN_REQUEST_ERROR:
-      return { ...state, error: action.error }
+      return { ...state, error: action.error, loading: false }
     
     case DELETE_BOOK_SUCCESS: {
       const newBookList = 

@@ -304,7 +304,7 @@ export default class BorrowedBookController {
             borrowedBooks
           });
         }
-        res.status(200).json(borrowedBooks);
+        res.status(200).json({ message: 'Borrowed books retrieved successfully', borrowedBooks});
       })
       .catch(error => res.status(400).json({
         message: 'error sending your request',
