@@ -47,64 +47,29 @@ export const book3 = {
     }
   ]
 }
-
-export const books = [book1, book2, book3]
-export const error = {}
-export const addfavbook = [book2]
-export const upvotedBook = {}
-export const downvotedBook = {}
-export const book3AfterReviewDeletion = {
-  id: 6,
-  isbn: 365242,
-  title: 'The Secret life of Baba Segi\'s wives',
-  author: 'Lola Shoneyin',
-  description: 'The secret of the lorax features a man selling air',
-  image: 'https://res.cloudinary.com/sardaunan/image/upload/v1518354032/book-default-image_e8nj1p.png',
-  quantity: 23,
-  updatedAt: '2018-02-20T35:20:01.852Z',
-  createdAt: '2018-02-20T35:20:01.852Z',
-  reviews: [
-    {
-      id: 2,
-      content: 'the content',
-      caption: 'the caption then',
-      user: 'anne'
-    }
-  ]
-}
-
-export const reviewToEdit = {}
-export const book3AfterReviewUpdate = {
-  id: 6,
-  isbn: 365242,
-  title: 'The Secret life of Baba Segi\'s wives',
-  author: 'Lola Shoneyin',
-  description: 'The secret of the lorax features a man selling air',
-  image: 'https://res.cloudinary.com/sardaunan/image/upload/v1518354032/book-default-image_e8nj1p.png',
-  quantity: 23,
-  updatedAt: '2018-02-20T35:20:01.852Z',
-  createdAt: '2018-02-20T35:20:01.852Z',
-  reviews: [
-    {
-      id: 2,
-      content: 'the content',
-      caption: 'the caption then',
-      user: 'anne'
-    },
-    {
-      id: 3,
-      content: 'the test content changed',
-      caption: 'the test caption changed',
-      user: 'dami'
-    }
-  ]
-}
-export const editedReview = {
+export const book1Modified = {
   id: 3,
-  content: 'the test content changed',
-  caption: 'the test caption changed',
-  user: 'dami'
+  isbn: 526875,
+  title: 'The Secret life of Baba Segi\'s wives',
+  author: 'Lola Shoneyin and Lola',
+  description: 'The secret of the lorax features a man selling air',
+  image: 'https://res.cloudinary.com/sardaunan/image/upload/v1518354032/book-default-image_e8nj1p.png',
+  quantity: 23,
+  updatedAt: '2018-02-20T35:20:01.852Z',
+  createdAt: '2018-02-20T35:20:01.852Z'
 }
 
-export const popularBooks = [book3, book1]
-export const topFavoriteBooks = [book2, book1]
+ 
+
+export const book = {}
+export const allBooks = [book1, book2, book3]
+export const error = {}
+
+export const pendingBorrowedBookRequest = []
+export const pendingReturnedBookRequest = []
+export const allBooksAfterABookDeletion = [book1, book2,]
+export const allBooksAfterABookModification = [book1Modified, book2, book3]
+export const pendingBorrowedBookRequestList = [ book1, book3]
+export const acceptedPendingBorrowedBookRequestList = [ book3]
+export const pendingReturnedBookRequestList = [ book1, book3]
+export const acceptedPendingReturnedBookRequestList = [ book3]

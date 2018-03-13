@@ -102,7 +102,8 @@ export default (state = initialState.books, action) => {
     
     case DELETE_BOOK_REVIEW_SUCCESS: {
       const newBookReviewList = state.book.reviews.filter(review => review.id !== action.reviewId )
-      return { ...state, book: newBookReviewList}
+      const updatedBook = { ...state.book, reviews: newBookReviewList }
+      return { ...state, book: updatedBook, loadAllReview: true }
     }
 
     case DELETE_BOOK_REVIEW_ERROR: 
