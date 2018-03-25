@@ -15,7 +15,8 @@
   },
   "jest": {
     "setupFiles": [
-      "./client/tests/localStorageMock.js"
+      "./client/tests/localStorageMock.js",
+      "./client/tests/mocks/materializeMock.js"
     ]
   },
   "repository": {
@@ -65,6 +66,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "sequelize": "^4.36.0",
     "sequelize-cli": "^4.0.0",
