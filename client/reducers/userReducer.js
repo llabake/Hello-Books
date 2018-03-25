@@ -23,10 +23,11 @@ export default (state = initialState.user, action) => {
       return {
         ...state,
       }
-    case USER_SIGNUP_SUCCESS: 
+    case USER_SIGNUP_SUCCESS:
+    case USER_SIGNIN_SUCCESS:
       return {
         ...state,
-        authUser: action.response,
+        authUser: action.user,
         authenticated: true
       }
     case USER_SIGNUP_ERROR:
@@ -38,14 +39,6 @@ export default (state = initialState.user, action) => {
       return {
         ...state
       }
-    case USER_SIGNIN_SUCCESS: {
-      return {
-        ...state,
-        authUser: action.response,
-        authenticated: true
-      }
-    }
-
     case USER_SIGNIN_ERROR: 
       return {
         ...state,

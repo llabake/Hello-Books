@@ -1,10 +1,11 @@
 import axios from 'axios';
 import bluebird from 'bluebird';
 import jwt from 'jsonwebtoken';
-import { USER_SIGNUP_REQUEST, CHECK_USER_EXISTS,
-  USER_SIGNUP_SUCCESS, USER_SIGNUP_ERROR, 
+import {
+  USER_SIGNUP_REQUEST, CHECK_USER_EXISTS,
+  USER_SIGNUP_SUCCESS, USER_SIGNUP_ERROR,
   SET_CURRENT_USER, USER_SIGNIN_REQUEST,
-  USER_SIGNIN_SUCCESS, USER_SIGNIN_ERROR, 
+  USER_SIGNIN_SUCCESS, USER_SIGNIN_ERROR,
   USER_BORROW_LIST,
   USER_BORROW_LIST_SUCCESS,
   USER_BORROW_LIST_ERROR,
@@ -21,10 +22,11 @@ import { USER_SIGNUP_REQUEST, CHECK_USER_EXISTS,
   UNSET_CURRENT_USER,
   FETCH_USER_PROFILE,
   FETCH_USER_PROFILE_SUCCESS,
-  FETCH_USER_PROFILE_ERROR, 
+  FETCH_USER_PROFILE_ERROR,
   EDIT_USER_PROFILE,
   EDIT_USER_PROFILE_SUCCESS,
-  EDIT_USER_PROFILE_ERROR} from './actionTypes';
+  EDIT_USER_PROFILE_ERROR
+} from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
@@ -35,18 +37,15 @@ import { uploadImageToCloudinary } from './bookAction';
 const userSignUpRequest = () => {
   return {
     type: USER_SIGNUP_REQUEST,
-        
   }
 }
 
-const userExist = (field, error) => {
+const userExist = () => {
   return {
     type: CHECK_USER_EXISTS,
-    payload: { 
-      [field]: error 
-    }
   }
 }
+
 const userSignUpSuccess = (user) => {
   return {
     type: USER_SIGNUP_SUCCESS,
@@ -88,22 +87,22 @@ export const signUpUser = userData => (dispatch) => {
   dispatch(userSignUpRequest())
   return new Promise((resolve, reject) => {
     return axios.post(`${hostUrl}/api/v1/users/signup/`, userData)
-    .then((response) => {
-      dispatch(userSignUpSuccess(response))
-      const { token } = response.data;
-      localStorage.setItem('token', token)
-      dispatch(setCurrentUser(jwt.decode(token)));
-      toastMessage(response.data.message, 'success');
-      resolve(response)
-    })
-    .catch((error) => {
-      dispatch(userSignUpError(error))
-      toastMessage('Signup failed. Please try again', 'failure')
-      reject(error)
-    })
+      .then((response) => {
+        dispatch(userSignUpSuccess(response.data.user))
+        const { token } = response.data;
+        localStorage.setItem('token', token)
+        dispatch(setCurrentUser(jwt.decode(token)));
+        toastMessage(response.data.message, 'success');
+        resolve(response)
+      })
+      .catch((error) => {
+        dispatch(userSignUpError(error))
+        toastMessage('Signup failed. Please try again', 'failure')
+        reject(error)
+      })
 
   })
-  
+
 }
 
 
@@ -113,10 +112,10 @@ const userSignIn = () => {
   }
 }
 
-const userSignInSuccess = (response) => {
+const userSignInSuccess = (user) => {
   return {
     type: USER_SIGNIN_SUCCESS,
-    response
+    user
   }
 }
 
@@ -137,26 +136,23 @@ const userSignInError = (error) => {
  */
 export const signInUser = userData => (dispatch) => {
   dispatch(userSignIn());
-  return new Promise((resolve, reject) => {
-    return axios.post(`${hostUrl}/api/v1/users/signin/`, userData)
-      .then((response) => {
-        dispatch(userSignInSuccess(response))
-        const { token } = response.data;
-        localStorage.setItem('token', token)
-        const user = jwt.decode(token).user
-        localStorage.setItem('user', JSON.stringify(user))
-        dispatch(setCurrentUser(user));
-        toastMessage(response.data.message, 'success');
-        resolve(response)
-      })
-      .catch((error) => {
-        dispatch(userSignInError(error))
-        toastMessage('Username or Password incorrect', 'failure')
-        reject(error)
-      })
-  
-  })
-  
+  return axios.post(`${hostUrl}/api/v1/users/signin/`, userData)
+    .then((response) => {
+      const { token } = response.data;
+      localStorage.setItem('token', token) 
+      const decodedToken = jwt.decode(token)
+      const authUser = decodedToken.user
+      localStorage.setItem('user', JSON.stringify(authUser))
+      dispatch(userSignInSuccess(authUser))
+      dispatch(setCurrentUser(authUser));
+      toastMessage(response.data.message, 'success');
+    })
+    .catch((error) => {
+      console.log(error)
+      console.log(error.response.data)
+      dispatch(userSignInError(error))
+      toastMessage('Username or Password incorrect', 'failure')
+    })
 }
 
 const userBorrowList = () => {
@@ -182,14 +178,14 @@ const userBorrowListError = (error) => {
 export const fetchUserBorrowedBooks = () => dispatch => {
   dispatch(userBorrowList());
   return axios.get(`${hostUrl}/api/v1/user/borrowed_books/`, axiosDefaultOptions)
-  .then((response) => {
-    dispatch(userBorrowListSuccess(response.data.borrowedBooks));
-    // toastMessage(response.data.message, 'success')
-  })
-  .catch((error) => {
-    dispatch(userBorrowListError(error))
-    toastMessage(error.response.data.message, 'failure')
-  })
+    .then((response) => {
+      dispatch(userBorrowListSuccess(response.data.borrowedBooks));
+      // toastMessage(response.data.message, 'success')
+    })
+    .catch((error) => {
+      dispatch(userBorrowListError(error))
+      toastMessage(error.response.data.message, 'failure')
+    })
 }
 
 const returnBook = () => {
@@ -215,14 +211,14 @@ const returnBookError = (error) => {
 export const returnBookAction = bookId => dispatch => {
   dispatch(returnBook());
   return axios.post(`${hostUrl}/api/v1/users/return/${bookId}`, {}, axiosDefaultOptions)
-  .then((response) => {
-    dispatch(returnBookSuccess(response.data))
-    toastMessage(response.data.message, 'success')
-  })
-  .catch((error) => {
-    dispatch(returnBookError(error))
-    toastMessage(error.response.data.message, 'failure')
-  })
+    .then((response) => {
+      dispatch(returnBookSuccess(response.data.borrowedBook))
+      toastMessage(response.data.message, 'success')
+    })
+    .catch((error) => {
+      dispatch(returnBookError(error))
+      toastMessage(error.response.data.message, 'failure')
+    })
 }
 
 const userFavoriteList = () => {
@@ -248,13 +244,13 @@ const userFavoriteListError = (error) => {
 export const fetchUserFavoriteBooks = () => dispatch => {
   dispatch(userFavoriteList());
   return axios.get(`${hostUrl}/api/v1/books/favbooks`, axiosDefaultOptions)
-  .then((response) => {
-    dispatch(userFavoriteListSuccess(response.data.favorites))
-  })
-  .catch((error) => {
-    dispatch(userFavoriteListError(error))
-    toastMessage(error.response.data.message, 'failure')
-  })
+    .then((response) => {
+      dispatch(userFavoriteListSuccess(response.data.favorites))
+    })
+    .catch((error) => {
+      dispatch(userFavoriteListError(error))
+      toastMessage(error.response.data.message, 'failure')
+    })
 }
 
 const unFavorite = () => {
@@ -272,7 +268,7 @@ const unFavoriteSuccess = (bookId) => {
 
 const unFavoriteError = (error) => {
   return {
-    type:REMOVE_FROM_FAVORITES_ERROR,
+    type: REMOVE_FROM_FAVORITES_ERROR,
     error
   }
 }
@@ -280,14 +276,14 @@ const unFavoriteError = (error) => {
 export const removeFromFavorite = bookId => dispatch => {
   dispatch(unFavorite());
   return axios.delete(`${hostUrl}/api/v1/books/fav/${bookId}`, axiosDefaultOptions)
-  .then((response) => {
-    dispatch(unFavoriteSuccess(bookId));
-    toastMessage(response.data.message, 'success')
-  })
-  .catch((error) => {
-    dispatch(unFavoriteError(error));
-    toastMessage(error.response.data.message, 'failure')
-  })
+    .then((response) => {
+      dispatch(unFavoriteSuccess(bookId));
+      toastMessage(response.data.message, 'success')
+    })
+    .catch((error) => {
+      dispatch(unFavoriteError(error));
+      toastMessage(error.response.data.message, 'failure')
+    })
 }
 
 
@@ -345,8 +341,8 @@ export const getUserProfile = () => dispatch => {
         toastMessage(error.response.data.message, 'failure')
         reject(error)
       })
-    })
-  }
+  })
+}
 
 const editUserProfile = () => {
   return {
@@ -376,7 +372,7 @@ export const editProfileData = userData => dispatch => {
       toastMessage(response.data.message, 'success')
 
     })
-    .catch((error) =>  {
+    .catch((error) => {
       dispatch(editUserProfileError(error));
       toastMessage(error.response.data.message, 'failure')
     })
@@ -385,8 +381,8 @@ export const editProfile = userData => dispatch => {
   dispatch(editUserProfile());
   if (userData.uploadedImage) {
     return uploadImageToCloudinary(userData.uploadedImage).then((fileUrl) => {
-    userData.image = fileUrl;
-    dispatch(editProfileData(userData))
+      userData.image = fileUrl;
+      dispatch(editProfileData(userData))
     }).catch(() => {
       toastMessage('An error occurred, please try uploading your image again', 'failure')
     })
