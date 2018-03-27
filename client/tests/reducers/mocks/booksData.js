@@ -50,7 +50,7 @@ export const book3 = {
 
 export const books = [book1, book2, book3]
 export const error = {}
-export const addfavbook = [book2]
+export const favoritedBook = book2
 export const upvotedBook = {}
 export const downvotedBook = {}
 export const book3AfterReviewDeletion = {

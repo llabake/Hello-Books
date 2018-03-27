@@ -2,7 +2,7 @@ import expect from 'expect';
 import reducer from '../../reducers/bookReducer';
 import * as types from '../../actions/actionTypes';
 import initialState from '../../reducers/initialState'
-import {books, error, book2, book3, addfavbook,
+import {books, error, book2, book3, favoritedBook,
   upvotedBook, downvotedBook, book3AfterReviewDeletion,
   reviewToEdit, book3AfterReviewUpdate, popularBooks,
   topFavoriteBooks, editedReview } from '../reducers/mocks/booksData';
@@ -56,7 +56,7 @@ describe('Book reducer', () => {
       type: types.FAVORITE_BOOK_SUCCESS,
       favoritedBook: book2
     };
-    expect(reducer({}, favoriteBookSuccess)).toEqual({addfavbook:book2})
+    expect(reducer({}, favoriteBookSuccess)).toEqual({favoritedBook:book2})
   });
   it('should handle FAVORITE_BOOK_ERROR', () => {
     const favoriteBookError = {

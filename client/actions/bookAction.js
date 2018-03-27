@@ -176,12 +176,10 @@ export const uploadImageToCloudinary = (image) => {
 export const saveBookData = bookData => dispatch => {
   return axios.post(`${hostUrl}/api/v1/books/`, bookData, axiosDefaultOptions)
   .then((response) => {
-    console.log(response.data.book)
     dispatch(addBookSuccess(response.data.book));
     toastMessage(response.data.message, 'success');
   })
   .catch((error) => {
-    console.log(error)
     dispatch(addBookError(error))
     toastMessage(error.response.data.message, 'failure')
   })
@@ -256,7 +254,7 @@ export const favoriteABook = (bookId) => dispatch => {
   dispatch(favoriteBook());
   return axios.post(`${hostUrl}/api/v1/books/fav/${bookId}`, {}, axiosDefaultOptions)
   .then((response) => {
-    dispatch(favoriteBookSuccess(response.data))
+    dispatch(favoriteBookSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {
@@ -408,7 +406,7 @@ export const borrowBook = (bookId) => dispatch => {
   dispatch(borrow());
   return axios.post(`${hostUrl}/api/v1/users/borrow/${bookId}`, {}, axiosDefaultOptions)
   .then((response) => {
-    dispatch(borrowBookSuccess(response.data))
+    dispatch(borrowBookSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {

@@ -1,6 +1,6 @@
 import models from '../../models';
 
-const { Book, Favorite, Review } = models;
+const { Book, Favorite, Review, User } = models;
 /**
  *
  *
@@ -25,11 +25,40 @@ export default class FavoriteController {
       },
     })
       .spread((favorite, created) => {
-        Book.findById(req.params.bookId).then((book) => {
+        Book.findOne({
+          where: {
+            id: req.params.bookId
+          },
+          attributes: [
+            'id', 'title', 'description', 'image', 'author',
+            'upVotes', 'downVotes', 'borrowCount',
+            'quantity', 'aboutAuthor'
+          ],
+          include: [{
+            model: Review,
+            as: 'reviews',
+            attributes: ['id', 'content', 'createdAt', 'caption','updatedAt'],
+            include: [{
+              model: User,
+              as: 'user',
+              attributes: ['username', 'id'],
+            }],
+          }, {
+            model: Favorite,
+            as: 'favorited',
+            attributes: ['id', 'createdAt'],
+            include: [{
+              model: User,
+              as: 'user',
+              attributes: ['username', 'id'],
+            }],
+          }],
+        }).then((book) => {
           if (created) {
             return res.status(201).json({
               message: `${book.title} has been added to your favorite list`,
-              favorite
+              favorite,
+              book
             });
           }
           return res.status(409).json({
@@ -112,7 +141,8 @@ export default class FavoriteController {
       .then((favorite) => {
         favorite.destroy()
           .then(() => res.status(200).json({
-            message: `${favorite.book.title} has been removed from your favorite list`
+            message: `${favorite.book.title} has been removed from your favorite list`,
+            book: favorite.book
           }));
       })
       .catch(error => res.status(500).json({

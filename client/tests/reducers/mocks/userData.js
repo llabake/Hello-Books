@@ -11,6 +11,9 @@ export const authUser = {
   email: 'labake.labs@gmail.com',
 }
 export const user = {  
+  id: 3,
+  role: 'normal',
+  active: true,
   username: 'labake',
   email: 'labake.labs@gmail.com',
 }

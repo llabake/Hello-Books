@@ -29,11 +29,23 @@ class SignInForm extends Component {
       password: '',
       errors: {}, 
       isValid: false,
-      redirect: false,
       saving: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    if (this.props.user.authenticated) {
+      this.props.history.push('/profile');
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps === this.props) return;
+    if (nextProps.user.authenticated) {
+      this.props.history.push('/allbooks');
+    }
   }
 
   /**
@@ -66,20 +78,7 @@ class SignInForm extends Component {
         error: {},
         saving: true
       });
-      this.props.signInUser(userData)
-      .then(() => {
-        setTimeout(() => {
-          this.setState({
-            redirect: true,
-          });
-        }, 2000)
-      })
-      .catch(() => {
-        this.setState({
-          redirect: false,
-          saving: false
-        })
-      })
+      this.props.signInUser(userData);
     }
   }
   /**
@@ -100,9 +99,8 @@ class SignInForm extends Component {
    * @memberof SignInForm
    */
   render () {
-    const { errors, isValid, saving, redirect } = this.state;
+    const { errors, isValid, saving, } = this.state;
     return (
-      redirect ? <Redirect to='/allbooks' /> :
       <div>
         <header> 
           <div className="navbar-fixed">
@@ -167,7 +165,7 @@ class SignInForm extends Component {
 const mapStateToProps = (state) => {
   return {
     errors: state.errors,
-    user: state.userReducer.user,
+    user: state.userReducer,
   };
 };
 
