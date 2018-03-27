@@ -19,10 +19,10 @@ describe('User reducer', () => {
   it('should handle USER_SIGNUP_SUCCESS', () => {
     const userSignUpActionSuccess = {
       type: types.USER_SIGNUP_SUCCESS,
-      response
+      user
     };
     expect(reducer({}, userSignUpActionSuccess)).toEqual({
-      authUser: authUser, 
+      authUser: user, 
       authenticated: true
     })
   });
@@ -42,10 +42,10 @@ describe('User reducer', () => {
   it('should handle USER_SIGNIN_SUCCESS', () => {
     const userSignInActionSuccess = {
       type: types.USER_SIGNIN_SUCCESS,
-      response
+      user
     };
     expect(reducer({}, userSignInActionSuccess)).toEqual({
-      authUser: authUser, 
+      authUser: user, 
       authenticated: true
     })
   });

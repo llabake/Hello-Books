@@ -121,9 +121,9 @@ class AllBooks extends ProtectRoute {
    * @memberof AllBooks
    */
   render () { 
-    const { books, loading } = this.props;
+    const { books, loading , user} = this.props;
     const { showPagination, displayedBooks } = this.state;
-    const user = getUser();
+    // const user = getUser();
     return (
       <div>
         <header>
@@ -214,6 +214,7 @@ const mapStateToProps = (state) => {
   return {
     books: state.bookReducer.books,
     loading: state.bookReducer.loading,
+    user: state.userReducer.authUser
   };
 };
 

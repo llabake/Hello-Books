@@ -47,7 +47,7 @@ export default (state = initialState.books, action) => {
       return { ...state, error: action.error, loading: false }
     
       case FAVORITE_BOOK_SUCCESS:
-      return {...state, addfavbook: action.favoritedBook }
+      return {...state, favoritedBook: action.favoritedBook }
 
     case FAVORITE_BOOK_ERROR:
       return {...state, error: action.error}
@@ -90,7 +90,7 @@ export default (state = initialState.books, action) => {
 
     case BORROW_SUCCESS:
       return { ...state, borrowedBook: action.borrowedBook }
-    
+    // TODO: add return state in thee book reducer
     case BORROW_ERROR:
       return { ...state, error: action.error }
 

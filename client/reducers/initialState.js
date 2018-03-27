@@ -1,8 +1,12 @@
+import jwt from 'jsonwebtoken';
+
+const token = localStorage.getItem('token');
+const user = token ? jwt.decode(token) : {}
 
 export default {
   user: {
-    authenticated: false,
-    authUser: {},
+    authenticated: Boolean(token),
+    authUser: user,
     borrowedBookHistory: [],
     favoriteBooks: [],
     loading: false,
@@ -11,7 +15,7 @@ export default {
   books: {
     books: [],
     book: {},
-    addfavbook: [],
+    favoritedBook: {},
     upvotedBook: {},
     downvotedBook: {},
     review: {},

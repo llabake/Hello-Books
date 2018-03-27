@@ -173,23 +173,30 @@ export const uploadImageToCloudinary = (image) => {
     
 }
 
+export const saveBookData = bookData => dispatch => {
+  return axios.post(`${hostUrl}/api/v1/books/`, bookData, axiosDefaultOptions)
+  .then((response) => {
+    dispatch(addBookSuccess(response.data.book));
+    toastMessage(response.data.message, 'success');
+  })
+  .catch((error) => {
+    dispatch(addBookError(error))
+    toastMessage(error.response.data.message, 'failure')
+  })
+}
 export const saveBook = bookData => dispatch => {
   dispatch(addBook());
-  return uploadImageToCloudinary(bookData.uploadedImage).then((fileUrl) => {
-    bookData.image = fileUrl;
-    return axios.post(`${hostUrl}/api/v1/books/`, bookData, axiosDefaultOptions)
-    .then((response) => {
-      dispatch(addBookSuccess(response.data.book));
-      toastMessage(response.data.message, 'success');
-    })
-    .catch((error) => {
-      dispatch(addBookError(error))
-      toastMessage(error.response.data.message, 'failure')
-    })
-  }).catch(() => {
-    toastMessage('An error occurred, please try uploading your image again', 'failure')
-  })
-  
+  if (bookData.uploadedImage) {
+    return uploadImageToCloudinary(bookData.uploadedImage)
+    .then((fileUrl) => {
+      bookData.image = fileUrl;
+      return dispatch(saveBookData(bookData))
+      }).catch(() => {
+        toastMessage('An error occurred, please try uploading your image again', 'failure')
+      })
+  } else {
+    return dispatch(saveBookData(bookData))
+  }
 }
 
 
@@ -247,7 +254,7 @@ export const favoriteABook = (bookId) => dispatch => {
   dispatch(favoriteBook());
   return axios.post(`${hostUrl}/api/v1/books/fav/${bookId}`, {}, axiosDefaultOptions)
   .then((response) => {
-    dispatch(favoriteBookSuccess(response.data))
+    dispatch(favoriteBookSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {
@@ -399,7 +406,7 @@ export const borrowBook = (bookId) => dispatch => {
   dispatch(borrow());
   return axios.post(`${hostUrl}/api/v1/users/borrow/${bookId}`, {}, axiosDefaultOptions)
   .then((response) => {
-    dispatch(borrowBookSuccess(response.data))
+    dispatch(borrowBookSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {

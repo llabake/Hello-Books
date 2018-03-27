@@ -25,7 +25,11 @@ export default class BorrowedBookController {
     Book.findOne({
       where: {
         id: bookId,
-      }
+      },
+      include: [{
+        model: BorrowBook,
+        as: 'book',
+      }],
     })
       .then((book) => {
         if (!book.isAvailable()) {
@@ -38,10 +42,13 @@ export default class BorrowedBookController {
           bookId,
         })
           .then((createdBorrowedBook) => {
-            res.status(201).json({
+            book.reload().then((reloadedBook) => {
+              res.status(201).json({
               message: `borrow request has been made on ${book.title} and it is being processed`,
-              borrowedBook: createdBorrowedBook
+              borrowedBook: createdBorrowedBook,
+              book: reloadedBook
             });
+            })
           });
       })
       .catch((error) => {

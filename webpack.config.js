@@ -1,7 +1,10 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const isProduction = Boolean(process.env.npm_lifecycle_event.match(/:production/))
 
 const paths = {
   DIST: path.resolve(__dirname, 'dist'),
@@ -9,7 +12,6 @@ const paths = {
   SRC: path.resolve(__dirname, 'client'),
 };
 
-// Webpack configuration
 module.exports = {
   entry: path.join(paths.ENTRY, 'index.js'),
   output: {
@@ -20,7 +22,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(paths.SRC, 'index.html'),
     }),
-  ],
+    new ExtractTextPlugin('style.css'),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV':  JSON.stringify(isProduction ? 'production' : 'development')
+    })
+],
     devServer: {
       contentBase: paths.SRC,
       compress: true,
