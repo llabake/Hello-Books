@@ -23,6 +23,34 @@ import '../styles/style.scss';
  * @extends {Component}
  */
 export default class App extends Component {
+
+  componentDidMount() {
+    $('.button-collapse').sideNav({
+      menuWidth: 250, // Default is 300
+      edge: 'left', // Choose the horizontal origin
+      draggable: true // Choose whether you can drag to open on touch screens
+    }
+  );
+  // $('.carousel').carousel({
+  //   dist: 0, // Perspective zoom. 
+  //   shift: 0, // Set the spacing of the center item.
+  //   padding: 50, // Set the padding between non center items.
+  //   indicators: true, // Show indicators. Default is false
+  // });
+  // autoplay()
+  // function autoplay() {
+    // $('.carousel').carousel('next');
+    // setTimeout(autoplay, 4500)}
+
+    $('.slider').slider();
+    $('.dropdown-button').dropdown();
+    $('.tooltipped').tooltip({ delay: 50 });
+    $('.tabs').tabs();
+
+    // $('.modal').modal();
+    // $('select').material_select();
+  
+  }
   /**
    * 
    * 

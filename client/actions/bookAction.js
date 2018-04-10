@@ -31,9 +31,6 @@ import toastMessage from '../helpers/toastMessage';
 import { hostUrl } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
 
-console.log(hostUrl)
-console.log(process.env.NODE_ENV)
-
 const fetchBook = () => {
   return {
     type: FETCH_BOOK
@@ -184,6 +181,7 @@ export const saveBookData = bookData => dispatch => {
     toastMessage(error.response.data.message, 'failure')
   })
 }
+
 export const saveBook = bookData => dispatch => {
   dispatch(addBook());
   if (bookData.uploadedImage) {

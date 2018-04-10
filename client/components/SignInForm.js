@@ -35,12 +35,26 @@ class SignInForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  /**
+   * 
+   * 
+   * @memberof SignInForm
+   * 
+   * @returns {void}
+   */
   componentWillMount() {
     if (this.props.user.authenticated) {
       this.props.history.push('/profile');
     }
   }
 
+  /**
+   * 
+   * 
+   * @param {any} nextProps 
+   * @returns {Object} User pbject
+   * @memberof SignInForm
+   */
   componentWillReceiveProps(nextProps) {
     if(nextProps === this.props) return;
     if (nextProps.user.authenticated) {
@@ -107,8 +121,9 @@ class SignInForm extends Component {
             <nav>
               <div className="nav-wrapper">
                 <Link to="/" className="brand-logo left adjust">Hello Books</Link>
-                <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
-                
+                <a href="#" data-activates="mobile-demo" className="button-collapse">
+                  <i className="material-icons">menu</i>
+                </a>
                 <ul id="nav-mobile" className="right hide-on-med-and-down">
                 </ul>
               </div>
@@ -152,7 +167,9 @@ class SignInForm extends Component {
               </div>
             </div>
             <div className="terms">         
-                <p> Don't have an account? <Link to="/signup">Sign Up Now</Link>  | <span><Link to="/recoverpassword">Forgot Password</Link></span></p> 
+                <p> Don't have an account? <Link to="/signup">Sign Up Now</Link>  
+                {/* | <span><Link to="/recoverpassword">Forgot Password</Link></span> */}
+                </p> 
             </div>
           </div> 
         </div>

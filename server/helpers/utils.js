@@ -50,3 +50,12 @@ export const sortBooksByTopFavorites = ( books ) => {
   });
   return books;
 }
+
+export const trimObject = (obj) => {
+  const trimmedObject = {}
+  Object.keys(obj).forEach((key) => {
+    trimmedObject[key] = typeof obj[key] === 'string' ? obj[key].trim() : obj[key]
+  })
+  return trimmedObject;
+}
+

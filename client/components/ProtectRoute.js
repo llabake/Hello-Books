@@ -27,7 +27,7 @@ class ProtectRoute extends Component {
     const token = localStorage.getItem('token');
     if ( !token ) {
       this.props.history.replace('/signin');
-      toastMessage(' You have logged out, Please login again', 'failure')
+      toastMessage(' Please login to access this route', 'failure')
     }
   }
 }

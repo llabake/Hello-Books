@@ -35,7 +35,7 @@ class SignUpForm extends Component {
       saving: false,
       isValid: false,
       userExist: {},
-      redirect: false
+      // redirect: false
 
     };
     this.handleChange = this.handleChange.bind(this);
@@ -72,21 +72,55 @@ class SignUpForm extends Component {
         saving: true
       });
       this.props.signUpUser(userData)
-      .then(() => {
-        setTimeout(() => {
-          this.setState({
-            redirect: true,
-          });
-        }, 2000)
-      })
-      .catch(() => {
-        this.setState({
-          redirect: false,
-          saving: false
-        })
-      })
+      // .then(() => {
+      //   setTimeout(() => {
+      //     this.setState({
+      //       redirect: true,
+      //     });
+      //   }, 2000)
+      // })
+      // .catch(() => {
+      //   this.setState({
+      //     redirect: false,
+      //     saving: false
+      //   })
+      // })
     }
   }
+
+   /**
+   * 
+   * 
+   * @memberof SignUpForm
+   * 
+   * @returns {void}
+   */
+  componentWillMount() {
+    if (this.props.user.authenticated) {
+      this.props.history.push('/profile');
+    }
+  }
+  /**
+   * 
+   * 
+   * @param {any} nextProps 
+   * @memberof SignUpForm
+   * 
+   * @returns {Object} User onbject
+   */
+  componentWillReceiveProps(nextProps) {
+    if(nextProps === this.props) {
+      this.setState({ saving: false })
+    }
+    if(nextProps.user.authenticated) {
+      setTimeout(() => {
+        this.props.history.push('/allbooks')
+      }, 2000)
+    }
+  }
+
+
+
 
   /**
    * @returns {obejct} user validation status
@@ -136,21 +170,21 @@ class SignUpForm extends Component {
   render () {  
     const { errors, isValid, saving, redirect } = this.state;
     return (
-      redirect ? <Redirect to='/' /> :
+      // redirect ? <Redirect to='/' /> :
       <div>
         <header> 
-        <div className="navbar-fixed">
-          <nav>
-            <div className="nav-wrapper">
-              <Link to="/" className="brand-logo left adjust">Hello Books</Link>
-              <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
-              
-              <ul id="nav-mobile" className="right hide-on-med-and-down">
-              </ul>
-            </div>
-          </nav>
-        </div> 
-      </header>
+          <div className="navbar-fixed">
+            <nav>
+              <div className="nav-wrapper">
+                <Link to="/" className="brand-logo left adjust">Hello Books</Link>
+                <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
+                
+                <ul id="nav-mobile" className="right hide-on-med-and-down">
+                </ul>
+              </div>
+            </nav>
+          </div> 
+        </header>
         <div id="banner">
           <div className="container form-style">
             <div className="row">
@@ -233,8 +267,8 @@ class SignUpForm extends Component {
               </div>
             </div>
             <div className="terms">
-              <p>By creating an account you agree to our <Link to="#">Terms & Privacy</Link>.</p>
-              <p> Already have an account? <Link to="signin.html">Login Now</Link></p> 
+              {/* <p>By creating an account you agree to our <Link to="#">Terms & Privacy</Link>.</p> */}
+              <p> Already have an account? <Link to="/signin">Login Now</Link></p> 
             </div>
           </div> 
         </div>
@@ -247,7 +281,10 @@ class SignUpForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { errors: state.errors };
+  return {
+    errors: state.errors,
+    user: state.userReducer
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

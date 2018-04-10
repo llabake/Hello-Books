@@ -25,18 +25,18 @@ export default class Authentication {
     const token = req.headers.authorization;
     if (!(token)) {
       return res.status(401).json({
-        error: 'Missing token.Expects token in header with key as Authorization'
+        message: 'Missing token.Expects token in header with key as Authorization'
       });
     }
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         if (err.message === 'jwt expired') {
           res.status(401).json({
-            error: 'Access token has expired. You are required to login again'
+            message: 'Access token has expired. You are required to login again'
           });
         } else {
           res.status(401).json({
-            error: 'Authentication failed. Invalid access token'
+            message: 'Authentication failed. Invalid access token'
           });
         }
       }

@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 
 import InputValidator from '../../helpers/inputValidator';
 import models from '../../models';
-import { generateToken } from '../../helpers/utils';
+import { generateToken, trimObject } from '../../helpers/utils';
 
 
 const { User } = models;
@@ -23,17 +23,14 @@ export default class UserController {
    * @returns {any} User object
    */
   static signUp(req, res) {
-    const { errors, isValid } = InputValidator.signUp(req.body);
+    const userDetail = trimObject(req.body)    
+    const { errors, isValid, } = InputValidator.signUp(userDetail);
     if (!isValid) {
       res.status(400).json({ errors });
-    } else {
-      User.create({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName
-      })
+    } 
+    else {
+      const { username, email, password, firstName, lastName } = userDetail;
+      User.create({username, email, password, firstName, lastName })
         .then((user) => {
           user.update({ active: false });
           const token = generateToken(user);
@@ -56,11 +53,10 @@ export default class UserController {
                 message: `${uniqueError.path.charAt(0).toUpperCase() 
                   + uniqueError.path.slice(1)} already exist`
               })
-
             })
             return res.status(409).json({ errors: uniqueErrors });
           }
-          return res.status(400).send(error);
+          return res.status(500).json({error});
         });
     }
   }
@@ -74,25 +70,25 @@ export default class UserController {
  * @memberof UserController
  */
   static signIn(req, res) {
-    const { errors, isValid } = InputValidator.signIn(req.body);
+    const signInDetail = trimObject(req.body);
+    const { errors, isValid } = InputValidator.signIn(signInDetail);
     if (!isValid) {
-      res.status(400).json({ errors });
+      return res.status(400).json({ errors });
     } else {
+      const { username, password } = signInDetail;
       User.findOne({
-        where: {
-          username: req.body.username
-        },
+        where: { username },
       })
         .then((user, err) => {
           if (err) {
-            res.status(500).send(err);
+            res.status(500).json({ err });
           } else if (!user) {
             res.status(401).json({
               success: false,
               message: 'Authentication failed. Incorrect credentials.'
             });
           } else if (user) {
-            if (bcrypt.compareSync(req.body.password, user.password)) {
+            if (bcrypt.compareSync(password.toString(), user.password.toString())) {
               user.update({ active: true });
               const token = generateToken(user);
               res.status(200).json({
@@ -140,16 +136,16 @@ export default class UserController {
     const { email, username } = req.query;
     if (!email && !username) {
       return res.status(400).json({
-        message: 'email or username expected in query'
+        message: 'Email or Username expected in query'
       })
     }
     User.findOne({
       where: {
         $or: [
           {
-            username: username
+            username
           }, {
-            email: email
+            email
           }
         ]
       }
@@ -183,12 +179,13 @@ export default class UserController {
    * @memberof UserController
    */
   static editUserProfile(req, res) {
-    const { errors, isValid } = InputValidator.editProfile(req.body)
+    const profileToBeEdited = trimObject(req.body)
+    const { errors, isValid } = InputValidator.editProfile(profileToBeEdited)
     if(!isValid) {
       res.status(400).json({ errors });
     } else {
       User.update(
-        req.body,
+        profileToBeEdited,
         {
           where: { id: req.user.id },
           returning: true,

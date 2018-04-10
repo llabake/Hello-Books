@@ -84,6 +84,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        notEmpty: {
+          args: true,
+          msg: 'password is required'
+        },
         len: {
           args: [[3, 25]],
           msg: 'Minimum of 3 character and Maximum of 25 characters required'
@@ -100,7 +104,7 @@ export default (sequelize, DataTypes) => {
       beforeCreate: (user) => {
         const saltRounds = 10;
         const salt = bcrypt.genSaltSync(saltRounds);
-        user.password = bcrypt.hashSync(user.password, salt);
+        user.password = bcrypt.hashSync(user.password.toString(), salt);
       },
     },
   });
@@ -117,6 +121,9 @@ export default (sequelize, DataTypes) => {
       as: 'users'
     });
     User.hasMany(models.Vote, {
+      foreignKey: 'userId',
+    });
+    User.hasMany(models.RequestBook, {
       foreignKey: 'userId',
     });
   };

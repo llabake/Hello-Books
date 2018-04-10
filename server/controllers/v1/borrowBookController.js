@@ -44,7 +44,7 @@ export default class BorrowedBookController {
           .then((createdBorrowedBook) => {
             book.reload().then((reloadedBook) => {
               res.status(201).json({
-              message: `borrow request has been made on ${book.title} and it is being processed`,
+              message: `Borrow request has been made on ${book.title} and it is being processed`,
               borrowedBook: createdBorrowedBook,
               book: reloadedBook
             });
@@ -162,7 +162,7 @@ export default class BorrowedBookController {
                     book.decrement('quantity');
                     book.increment('borrowCount');
                     res.status(200).json({
-                      message: 'successfully accepted borrow request',
+                      message: 'Successfully accepted borrow request',
                       borrowedBook: reloadedupdatedborrowedBook
                     });
                   });
@@ -267,6 +267,11 @@ export default class BorrowedBookController {
     const options = {};
     const { borrowStatus, returnStatus } = req.query;
     options.where = {};
+    if (!borrowStatus || !returnStatus) {
+      return res.status(400).json({
+        message: 'borrowStatus or returnStatus expected in query'
+      })
+    }
     if (borrowStatus) {
       if (borrowStatus === 'accepted' || borrowStatus === 'pending') {
         options.where.borrowStatus = borrowStatus;
@@ -282,7 +287,7 @@ export default class BorrowedBookController {
         options.where.returnStatus = returnStatus;
       } else {
         return res.status(400).json({
-          message: 'returnStatus can either be accepted, pending'
+          message: 'returnStatus can either be accepted or pending'
         });
       }
     }
