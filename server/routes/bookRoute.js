@@ -11,6 +11,7 @@ import FavoriteMiddleware from '../middlewares/favoriteMiddleware';
 import VoteMiddleware from '../middlewares/voteMiddleware';
 import BorrowedBookMiddleware from '../middlewares/borrowedBookMiddleware';
 import ReviewMiddleware from '../middlewares//reviewMiddleware';
+import RequestBookController from '../controllers/v1/requestBookController';
 
 const bookRoute = (app) => {
   /**
@@ -23,6 +24,10 @@ const bookRoute = (app) => {
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name:  authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *       - name: book
  *         description: Book object
  *         in: body
@@ -49,6 +54,11 @@ const bookRoute = (app) => {
  *     description: Returns a single book
  *     produces:
  *       - application/json
+ *     parameters:
+ *       - name:  authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *     responses:
  *       200:
  *         description: A book object
@@ -84,6 +94,10 @@ const bookRoute = (app) => {
  *         description: Book object with updated information
  *         in: body
  *         required: true
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true 
  *         schema:
  *           $ref: '#/definitions/Book'
  *     responses:
@@ -106,8 +120,6 @@ const bookRoute = (app) => {
  * definition:
  *   Book:
  *     properties:
- *       name:
- *         type: string
  *       title:
  *         type: string
  *       author:
@@ -116,23 +128,20 @@ const bookRoute = (app) => {
  *         type: number
  *       quantity:
  *         type: number
- *   User:
- *     properties:
- *       username:
+ *       description:
  *         type: string
- *       firstName:
+ *       aboutAuthor:
  *         type: string
- *       lastName:
- *         type: string
- *       password:
- *         type: string
- *       confirmpassword:
+ *       isbn:
  *         type: number
- *       email:
- *         type: number
+ *       image:
+ *         type: string
+ *        
  *   Review:
  *     properties:
- *       text:
+ *       content:
+ *         type: string
+ *       caption:
  *         type: string
  *   Favorite:
  *     properties:
@@ -146,6 +155,14 @@ const bookRoute = (app) => {
  *          type: number
  *       userId :
  *          type: number
+ *   Request Object:
+ *     properties:
+ *       title:
+ *          type: string
+ *       author:
+ *          type: author
+ *       userId:
+ *          type: number
  *
  */
   /**
@@ -157,6 +174,11 @@ const bookRoute = (app) => {
  *     description: Returns all books
  *     produces:
  *       - application/json
+ *     parameters:
+ *      - name: authorization
+ *        in: header
+ *        type: string
+ *        required: true
  *     responses:
  *       200:
  *         description: An array of books
@@ -182,6 +204,10 @@ const bookRoute = (app) => {
  *       - name: book
  *         description: Book object
  *         in: body
+ *         required: true
+ *       - name: authorization
+ *         in: header
+ *         type: string
  *         required: true
  *         schema:
  *           $ref: '#/definitions/Review'
@@ -211,6 +237,10 @@ const bookRoute = (app) => {
  *         description: Book object
  *         in: body
  *         required: true
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *         schema:
  *           $ref: '#/definitions/Favorite'
  *     responses:
@@ -239,6 +269,10 @@ const bookRoute = (app) => {
  *         description: Book object
  *         in: body
  *         required: true
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *         schema:
  *           $ref: '#/definitions/Favorite'
  *     responses:
@@ -266,6 +300,10 @@ const bookRoute = (app) => {
  *         description: Book object
  *         in: body
  *         required: true
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *         schema:
  *           $ref: '#/definitions/Favorite'
  *     responses:
@@ -290,6 +328,10 @@ const bookRoute = (app) => {
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *       - name: userId
  *         description: ID of the User making the request
  *         in: path
@@ -343,6 +385,10 @@ const bookRoute = (app) => {
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *       - name: userId
  *         description: ID of the User making the request
  *         in: path
@@ -393,6 +439,10 @@ const bookRoute = (app) => {
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *       - name: userId
  *         description: ID of the User making the request
  *         in: path
@@ -443,6 +493,10 @@ const bookRoute = (app) => {
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *       - name: userId
  *         description: ID of the User making the request
  *         in: path
@@ -493,6 +547,10 @@ const bookRoute = (app) => {
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *       - name: book
  *         description: Book object
  *         in: body
@@ -521,6 +579,10 @@ const bookRoute = (app) => {
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *       - name: book
  *         description: Book object
  *         in: body
@@ -549,6 +611,10 @@ const bookRoute = (app) => {
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *       - name: book
  *         description: Book object
  *         in: body
@@ -576,6 +642,11 @@ const bookRoute = (app) => {
  *     description: Returns all borrowed books
  *     produces:
  *       - application/json
+ *     parameters:
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
  *     responses:
  *       200:
  *         description: An array of borrowed books
@@ -595,11 +666,15 @@ const bookRoute = (app) => {
   * /api/v1/books/add/validate:
   *   get:
   *     tags:
-  *       - User Functionality
+  *       - Book Functionality
   *     description: Checks if book exists
   *     produces:
   *       - application/json
   *     parameters:
+  *       - name: authorization
+  *         in: header
+  *         type: string
+  *         required: true
   *       - name: book
   *         description: Book object
   *         in: body
@@ -652,6 +727,11 @@ const bookRoute = (app) => {
    *     description: Returns a message 
    *     produces:
    *       - application/json
+   *     parameters:
+   *       - name: authorization
+   *         in: header
+   *         type: string
+   *         required: true
    *     responses:
    *       200:
    *         description: A book object
@@ -680,6 +760,11 @@ const bookRoute = (app) => {
    *     description: Returns all borrowed books by user
    *     produces:
    *       - application/json
+   *     parameters:
+   *       - name: authorization
+   *         in: header
+   *         type: string
+   *         required: true
    *     responses:
    *       200:
    *         description: An array of borrowed books
@@ -703,6 +788,10 @@ const bookRoute = (app) => {
    *     produces:
    *       - application/json
    *     parameters:
+   *       - name: authorization
+   *         in: header
+   *         type: string
+   *         required: true
    *       - name: reviewId
    *         description: ID of the review
    *         in: path
@@ -729,14 +818,83 @@ const bookRoute = (app) => {
     UserMiddleware.userExist, Authentication.isActive,
     ReviewMiddleware.reviewExist, ReviewController.editBookReview
   );
-
+    /**
+   * @swagger
+   * /api/v1/popular-books:
+   *   get:
+   *     tags:
+   *       - Book Functionality
+   *     description: Returns a list of popular books
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: authorization
+   *         in: header
+   *         type: string
+   *         required: true
+   *     responses:
+   *       200:
+   *         description: An array of popular books
+   *         schema:
+   *           $ref: '#/definitions/Book'
+   */
   app.get(
       '/api/v1/popular-books', BookController.getPopularBooks
   )
-
+    /**
+   * @swagger
+   * /api/v1/top-user-favorite-books:
+   *   get:
+   *     tags:
+   *       - Book Functionality
+   *     description: Returns a list of top user's favorite books
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: authorization
+   *         in: header
+   *         type: string
+   *         required: true
+   *     responses:
+   *       200:
+   *         description: An array of top favorite books
+   *         schema:
+   *           $ref: '#/definitions/Book'
+   */
   app.get(
       '/api/v1/top-user-favorite-books', BookController.getTopFavoritedBooks
   )
+    /**
+ * @swagger
+ * /api/v1/user/suggest-book:
+ *   post:
+ *     tags:
+ *       - Book Functionality
+ *     description: A user suggests a book to be add to the library
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
+ *       - name: book
+ *         description: Book object
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Request Object'
+ *     responses:
+ *       201:
+ *         description: Successfully suggested a book
+ *       400:
+ *         description: Unathenticated
+ */
+  app.post(
+    '/api/v1/user/suggest-book' , Authentication.authMiddleware,
+    UserMiddleware.userExist, Authentication.isActive,
+    RequestBookController.requestBook
+  );
 }
 
 export default bookRoute;

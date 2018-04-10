@@ -1,6 +1,6 @@
 import models from '../../models';
 import InputValidator from '../../helpers/inputValidator';
-import { sortBooksByTopFavorites } from '../../helpers/utils'
+import { sortBooksByTopFavorites, trimObject } from '../../helpers/utils'
 
 const {
  Book, Review, User, Favorite, sequelize, Sequelize
@@ -22,19 +22,14 @@ class BookController {
    * @memberof BookController
    */
   static addBook(req, res) {
-    const { errors, isValid } = InputValidator.addBook(req.body);
+    const bookDetail = trimObject(req.body);
+    const { errors, isValid } = InputValidator.addBook(bookDetail);
     if (!isValid) {
       res.status(400).json({ errors });
     } else {
-      Book.create({
-        title: req.body.title,
-        author: req.body.author,
-        publishedYear: req.body.publishedYear,
-        isbn: parseInt(req.body.isbn, 10),
-        quantity: parseInt(req.body.quantity, 10),
-        description: req.body.description,
-        image: req.body.image,
-        aboutAuthor: req.body.aboutAuthor
+      const { title, author, publishedYear, isbn, quantity, description, image, aboutAuthor } = bookDetail;
+      Book.create({ title, author, publishedYear, description, image,
+        aboutAuthor, isbn: parseInt(isbn, 10), quantity: parseInt(quantity, 10),
       })
         .then((book) => {
           res.status(201).json({
@@ -115,12 +110,13 @@ class BookController {
    * @memberof BookController
    */
   static modifyBook(req, res) {
-    const { errors, isValid } = InputValidator.modifyBook(req.body);
+    const bookToBeEditedDetail = trimObject(req.body)
+    const { errors, isValid } = InputValidator.modifyBook(bookToBeEditedDetail);
     if (!isValid) {
       res.status(400).json({ errors });
     } else {
       Book.update(
-        req.body,
+        bookToBeEditedDetail,
         {
           where: { id: req.params.bookId },
           returning: true,
@@ -240,6 +236,7 @@ class BookController {
       }],
     }];
     Book.findAll(options)
+    // Fix me: check the next line
       .then(books => res.status(200).json(books))
       .catch(error => res.status(400).json({
         message: 'error sending your request',
@@ -321,7 +318,7 @@ class BookController {
     const { isbn, } = req.query;
     if (!isbn) {
       return res.status(400).json({
-        message: 'isbn expected in query'
+        message: 'ISBN expected in query'
       })
     }
     Book.findOne({
@@ -338,7 +335,6 @@ class BookController {
           message: `Book with isbn: ${book.isbn} already exist`
         })
       }
-
     })
     .catch((error) => {
       return res.status(400).json({ error })
@@ -377,7 +373,15 @@ class BookController {
         })
       })
   }
-
+  /**
+   * 
+   * 
+   * @static
+   * @param {any} req 
+   * @param {any} res 
+   * @returns {Array} A list of popular books
+   * @memberof BookController
+   */
   static getPopularBooks(req, res) {
     const options = {};
     options.limit = 6;
@@ -423,37 +427,42 @@ class BookController {
         error
       }));
   }
-
-  static getTopFavoritedBooks(req, res) {
-
-  const options = {};
-  options.limit = 9;
-  options.attributes = [
-    'id', 'title', 'image'];
-  options.include = [{
-    model: Favorite,
-    as: 'favorited',
-    attributes: ['id']
-  }];
-  Book.findAll(options)
-    .then((books) => {
-      if (!books.length) {
+/**
+ * 
+ * 
+ * @static
+ * @param {any} req 
+ * @param {any} res 
+ * @returns {Array} Top favoritwe books
+ * @memberof BookController
+ */
+static getTopFavoritedBooks(req, res) {
+    const options = {};
+    options.limit = 9;
+    options.attributes = [
+      'id', 'title', 'image'];
+    options.include = [{
+      model: Favorite,
+      as: 'favorited',
+      attributes: ['id']
+    }];
+    Book.findAll(options)
+      .then((books) => {
+        if (!books.length) {
+          res.status(200).json({
+            message: 'No books found',
+            books
+          });
+        }
         res.status(200).json({
-          message: 'No books found',
-          books
+          message: 'Top favorited books retrieved successfully',
+          books: sortBooksByTopFavorites(books)
         });
-      }
-      res.status(200).json({
-        message: 'Top favorited books retrieved successfully',
-        books: sortBooksByTopFavorites(books)
-      });
-    })
-    .catch(error => res.status(400).json({
-      message: 'error sending your request',
-      error
-    }));
+      })
+      .catch(error => res.status(400).json({
+        message: 'error sending your request',
+        error
+      }));
   }
-
-
 }
 export default BookController;

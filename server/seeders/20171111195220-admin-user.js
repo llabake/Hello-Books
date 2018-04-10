@@ -3,32 +3,23 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
   up: queryInterface =>
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkInsert('Person', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
+  // Add default admin users
     queryInterface.bulkInsert('Users', [{
-      username: 'flakky',
-      firstName: 'Folake',
-      lastName: 'Okoya',
-      email: 'flakykitchen@hotmail.com',
-      password: bcrypt.hashSync('tobi', 10),
+      username: process.env.SEED_ADMIN1_USERNAME,
+      firstName: process.env.SEED_ADMIN1_FIRSTNAME,
+      lastName: process.env.SEED_ADMIN1_LASTNAME,
+      email: process.env.SEED_ADMIN1_EMAIL,
+      password: bcrypt.hashSync(process.env.SEED_ADMIN1_PASSWORD, 10),
       role: 'admin',
       active: false,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
-      username: 'mama',
-      firstName: 'Anne',
-      lastName: 'Oriola',
-      email: 'olamideoriola@gmail.com',
-      password: bcrypt.hashSync('yomi', 10),
+      username: process.env.SEED_ADMIN2_USERNAME,
+      firstName: process.env.SEED_ADMIN2_FIRSTNAME,
+      lastName: process.env.SEED_ADMIN2_LASTNAME,
+      email: process.env.SEED_ADMIN2_EMAIL,
+      password: bcrypt.hashSync(process.env.SEED_ADMIN2_PASSWORD, 10),
       role: 'admin',
       active: false,
       createdAt: new Date(),
@@ -36,13 +27,5 @@ module.exports = {
     }], {}),
 
   down: queryInterface =>
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('Person', null, {});
-    */
     queryInterface.bulkDelete('Users', null, {})
-
 };

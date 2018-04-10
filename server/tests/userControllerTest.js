@@ -3,111 +3,12 @@ import chai from 'chai';
 import app from '../../app';
 import models from '../models';
 import { generateToken } from '../helpers/utils';
+import userDataTest from '../tests/mocks/userData';
 
 const { User, } = models;
 const request = supertest(app);
 const { expect } = chai;
 
-const userDataTest = {
-  validUser1: {
-    username: 'keinzy',
-    email: 'oyebola.otin@gmail.com',
-    password: 'password',
-    firstName: 'oyebola',
-    lastName: 'ayinla',
-    confirmpassword: 'password'
-  },
-  validUser2: {
-    username: 'solape',
-    email: 'damywuraola@gmail.com',
-    password: 'damola',
-    confirmpassword: 'damola',
-    firstName: 'adedamola',
-    lastName: 'wuraola'
-  },
-  validUser3: {
-    username: 'flakky',
-    firstName: 'Folake',
-    lastName: 'Okoya',
-    email: 'flakykitchen@hotmail.com',
-    password: 'tobi',
-    confirmpassword: 'tobi',
-    role: 'admin',
-  },
-  validUser4: {
-    username: 'mama',
-    firstName: 'Anne',
-    lastName: 'Oriola',
-    email: 'olamideoriola@gmail.com',
-    password: 'yomi',
-    confirmpassword: 'yomi',
-    role: 'admin',
-  },
-  userWithWrongFieldFormat: {
-    username: 'mama@',
-    firstName: ' ',
-    lastName: 'Oriola',
-    email: 'olamideoriola.com',
-    password: 'yomi',
-    confirmpassword: 'yomi'
-  },
-  userWithNoFields: {
-    username: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-  },
-  misMatchPassword: {
-    username: 'mama',
-    firstName: 'Anne',
-    lastName: 'Oriola',
-    email: 'olamideoriola@gmail.com',
-    password: 'yomi',
-    confirmpassword: 'yoomi',
-    role: 'admin',
-  },
-  validUserSignIn1: {
-    username: 'mama',
-    password: 'yomi'
-  },
-  validUserSignIn2: {
-    username: 'flakky',
-    password: 'tobi'
-  },
-  validUserSignIn3: {
-    username: 'keinzy',
-    password: 'password'
-  },
-  validUserSignIn4: {
-    username: 'solape',
-    password: 'damola'
-  },
-  invalidUserSignIn1: {
-    username: '',
-    password: 'password'
-  },
-  invalidUserSignIn2: {
-    username: 'solape',
-    password: ''
-  },
-  invalidUserSignIn3: {
-    username: 'solape',
-    password: 'incorrect'
-  },
-  userWithBlankUsernameAndPassword: {
-    username: '',
-    password: '',
-  },
-  wrongUserSignInCredentials1: {
-    username: 'desmond',
-    password: 'password'
-  },
-  wrongUserSignInCredentials2: {
-    username: 'keinzy',
-    password: 'tobi'
-  }
-};
 
 describe('User Endpoint Functionality', () => {
   beforeEach((done) => {
@@ -123,68 +24,28 @@ describe('User Endpoint Functionality', () => {
         .end((err, res) => {
           expect(400);
           expect(res.body).to.eql({
-            errors: [
-              {
-                path: 'username',
-                message: 'username is required'
-              },
-              {
-                path: 'lastName',
-                message: 'lastName is required'
-              },
-              {
-                path: 'firstName',
-                message: 'firstName is required'
-              },
-              {
-                path: 'email',
-                message: 'email is required'
-              },
-              {
-                path: 'password',
-                message: 'password is required'
-              },
-              {
-                path: 'email',
-                message: 'Please enter a valid email'
-              },
-            ]
+            errors: {
+              "username": "username is required",
+              "lastName": "lastName is required",
+              "email": "email is required",
+              "password": "password is required",
+              "firstName": "firstName is required"
+            }
           });
           done(err);
         });
     });
-    xit('it should return please ensure the Password match', (done) => {
-      request.post('/api/v1/users/signup')
-        .send(userDataTest.misMatchPassword)
-        .end((err, res) => {
-          expect(400);
-          expect(res.body).to.eql({
-            errors: [
-              {
-                path: 'password',
-                message: 'Please ensure the passwords match'
-              }
-            ]
-          });
-          done(err);
-        });
-    });
-    it('it should return error with the path and message for wrong field input type', (done) => {
+    it('it should return error for wrong field input type', (done) => {
       request.post('/api/v1/users/signup')
         .send(userDataTest.userWithWrongFieldFormat)
         .end((err, res) => {
           expect(400);
           expect(res.body).to.eql({
-            errors: [
-              {
-                path: 'email',
-                message: 'Please enter a valid email'
-              },
-              {
-                path: 'username',
-                message: 'Username can only contain alphabets and numbers'
-              },
-            ]
+            errors: {
+              "username": "Username can only contain alphabets and numbers",
+              "email": "Please enter a valid email",
+              "firstName": "Firstname can not be blank"
+            }
           });
           done(err);
         });
@@ -198,8 +59,7 @@ describe('User Endpoint Functionality', () => {
           expect(201);
           expect(res.body.message)
             .to.eql(`Your Signup was successful ${user.username}`);
-          expect(Object.prototype.hasOwnProperty
-            .call(res.body.user, 'id')).to.eql(true);
+          expect(res.body.user).to.have.own.property('id');
           expect(res.body.user.id).to.be.an('number');
           expect(res.body.user.username).to.eql(user.username);
           expect(res.body.user.email).to.eql(user.email);
@@ -216,11 +76,7 @@ describe('User Endpoint Functionality', () => {
           .end((err, res) => {
             expect(409);
             expect(res.body).to.eql({
-              'errors': [
-                {
-                  'path': 'username',
-                  'message': 'Username already exist'
-                },
+              errors: [
                 {
                   'path': 'email',
                   'message': 'Email already exist'
@@ -241,16 +97,25 @@ describe('User Endpoint Functionality', () => {
         .end((err, res) => {
           expect(400);
           expect(res.body).to.eql({
-            errors: [
-              {
-                path: 'username',
-                message: 'username is required'
-              },
-              {
-                path: 'password',
-                message: 'password is required'
-              },
-            ]
+            errors: {
+              "username": "Username can not be blank",
+              "password": "Password can not be blank"
+            }
+          });
+          done(err);
+        });
+    });
+
+    it('it should return error for wrong field input type', (done) => {
+      request.post('/api/v1/users/signup')
+        .send(userDataTest.userWithWrongSignInFormat)
+        .end((err, res) => {
+          expect(400);
+          expect(res.body).to.eql({
+            errors: {
+              "username": "Username can only contain alphabets and numbers",
+              "password": "Minimum of 3 character and Maximum of 25 characters required"
+            }
           });
           done(err);
         });
@@ -310,6 +175,109 @@ describe('User Endpoint Functionality', () => {
             done(err);
           });
       });
+    });
+  });
+  describe('User Exist Operation', () => {
+    
+    it('it should return email or username expected in query', (done) => {
+        request.get('/api/v1/users/signup/validate')
+        .end((err, res) => {
+          expect(400);
+          expect(res.body).to.eql({
+            message: "Email or Username expected in query"
+          });
+          done(err);
+        });
+    });
+
+    it('it should return username is valid', (done) => {
+      request.get('/api/v1/users/signup/validate?username=andela')
+      .end((err, res) => {
+        expect(200);
+        expect(res.body).to.eql({
+          message: "Username is valid"
+        });
+        done(err);
+      });
+    });
+    it('it should return email is valid', (done) => {
+      request.get('/api/v1/users/signup/validate?email=damolawuraola@gmail.com')
+      .end((err, res) => {
+        expect(200);
+        expect(res.body).to.eql({
+          message: "Email is valid"
+        });
+        done(err);
+      });
+    });
+    it('it should check if a username already exist', (done) => {
+      const user = userDataTest.validUser2;
+      User.create(user).then(() => {
+        request.get('/api/v1/users/signup/validate?username=solape')
+        .end((err, res) => {
+          expect(400);
+          expect(res.body).to.eql({
+            message: "Username already taken"
+          });
+          done(err);
+        });
+      })
+    });
+    it('it should check if an email already exist', (done) => {
+      const user = userDataTest.validUser2;
+      User.create(user).then(() => {
+        request.get('/api/v1/users/signup/validate?email=damywuraola@gmail.com')
+        .end((err, res) => {
+          expect(400);
+          expect(res.body).to.eql({
+            message: "Email already taken"
+          });
+          done(err);
+        });
+      })
+    });
+  });
+
+  describe('User Profile Operation', () => {
+    it('it should  edit user profile successfully', (done) => {
+      const user = userDataTest.validUser1;
+      const editDetail = userDataTest.editDetail
+      User.create(user).then((createdUser) => {
+        const token = generateToken(createdUser);
+        request.put('/api/v1/users/profile')
+          .send(editDetail)
+          .set('Accept', 'application/json')
+          .set("Authorization" , token)
+          .end((err, res) => {
+            expect(200);
+            expect(res.body.message).to.eql("Your profile has been updated");
+            expect(res.body.profile.userId).to.be.a("number");
+            expect(res.body.profile.firstName).to.eql(editDetail.firstName);
+            expect(res.body.profile.lastName).to.eql(editDetail.lastName);
+            expect(res.status).to.eql(200);
+            done(err);
+          });
+      });
+    });
+  });
+
+  it('it should  get user profile successfully', (done) => {
+    const user = userDataTest.validUser1;
+    User.create(user).then((createdUser) => {
+      const token = generateToken(createdUser);
+      request.get('/api/v1/users/profile')
+        .set('Accept', 'application/json')
+        .set("Authorization" , token)
+        .end((err, res) => {
+          expect(200);
+          expect(res.body.message).to.eql("Profile retrieved successfully");
+          expect(res.body.profile).to.have.own.property('id');
+          expect(res.body.profile.id).to.be.a("number");
+          expect(res.body.profile.firstName).to.eql(createdUser.firstName);
+          expect(res.body.profile.lastName).to.eql(createdUser.lastName);
+          expect(res.status).to.eql(200);
+          done(err);
+        });
     });
   });
 });

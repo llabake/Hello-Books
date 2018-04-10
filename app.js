@@ -5,6 +5,7 @@ import logger from 'morgan';
 import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
+
 import routes from './server/routes';
 import db from './server/models/index';
 
@@ -81,10 +82,11 @@ app.get('*', (req, res) => {
 if (process.env.NODE_ENV !== 'test') {
   db.sequelize.sync().then(() => {
     app.listen(port, () => {
+      // eslint-disable-next-line no-console
       console.log(`Server running on port ${port}`);
     });
   });
 }
 
-
+console.log('FFF',process.env.NODE_ENV)
 export default app;

@@ -37,6 +37,12 @@ module.exports = {
       allowNull: false,
       type: Sequelize.DATE
     }
+  }, {
+    uniqueKeys: {
+      userId_bookId_unique: {
+        fields: ['userId', 'bookId']
+      }
+    }
   }),
   down: queryInterface => queryInterface.dropTable('Reviews')
 };

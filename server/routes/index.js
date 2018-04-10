@@ -1,11 +1,11 @@
 import IndexRoute from './indexRoute';
-import bookRoute from './bookRoute';
-import userRoute from './userRoute';
+import BookRoute from './bookRoute';
+import UserRoute from './userRoute';
 
 const routes = (app) => {
   IndexRoute(app);
-  bookRoute(app);
-  userRoute(app);
+  BookRoute(app);
+  UserRoute(app);
 };
 
 export default routes;

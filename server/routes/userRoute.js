@@ -4,6 +4,25 @@ import Authentication from '../middlewares/authenticationMiddleware';
 const userRoute = (app) => {
   /**
  * @swagger
+ * definition:
+ *   User:
+ *     properties:
+ *       username:
+ *         type: string
+ *       firstName:
+ *         type: string
+ *       lastName:
+ *         type: string
+ *       password:
+ *         type: string
+ *       email:
+ *         type: string
+ *   SignInData:
+ *     properties:
+ *       username:
+ *         type: string
+ *       password:
+ *         type: string
  * /api/v1/users/signup:
  *   post:
  *     tags:
@@ -13,16 +32,18 @@ const userRoute = (app) => {
  *       - application/json
  *     parameters:
  *       - name: user
- *         description: User object
+ *         description: User Object
  *         in: body
  *         required: true
  *         schema:
  *           $ref: '#/definitions/User'
  *     responses:
- *       200:
+ *       201:
  *         description: Successfully created
  *       400:
  *         description: Incomplete parameters or type
+ *       409:
+ *         description: User with username or email already exist
  */
   app.post('/api/v1/users/signup', UserController.signUp);
   /**
@@ -31,21 +52,23 @@ const userRoute = (app) => {
   *   post:
   *     tags:
   *       - User Functionality
-  *     description: Adds a new user
+  *     description: Sign in a user
   *     produces:
   *       - application/json
   *     parameters:
   *       - name: user
-  *         description: User object
+  *         description: User Object
   *         in: body
   *         required: true
   *         schema:
-  *           $ref: '#/definitions/User'
+  *           $ref: '#/definitions/SignInData'
   *     responses:
   *       200:
-  *         description: Successfully created
+  *         description: Successfully logged in
   *       400:
   *         description: Incomplete parameters or type
+  *       401:
+  *         description: Invalid authentication credentials
   */
   app.post('/api/v1/users/signin', UserController.signIn);
   /**
@@ -54,21 +77,19 @@ const userRoute = (app) => {
   *   post:
   *     tags:
   *       - User Functionality
-  *     description: Adds a new user
+  *     description: Log out user
   *     produces:
   *       - application/json
   *     parameters:
-  *       - name: user
-  *         description: User object
-  *         in: body
-  *         required: true
-  *         schema:
-  *           $ref: '#/definitions/User'
+  *      - name: authorization
+  *        in: header
+  *        type: string
+  *        required: true
   *     responses:
   *       200:
-  *         description: Successfully created
-  *       400:
-  *         description: Incomplete parameters or type
+  *         description: Successfully log out user
+  *       401:
+  *         description: Authentication failed.
   */
   app.post(
     '/api/v1/users/signout',
@@ -133,7 +154,7 @@ const userRoute = (app) => {
   *   get:
   *     tags:
   *       - User Functionality
-  *     description: gets user exists
+  *     description: Gets user profile
   *     produces:
   *       - application/json
   *     parameters:
