@@ -32,7 +32,7 @@ export default class InputValidator {
       }
     });
 
-    if (data.username && data.username.length < 6) {
+    if (data.username && data.username.length <= 6) {
       errors.username.push('Username too short Must be at least 5 characters');
     }
     if (data.username && !isAlphanumeric(data.username)) {

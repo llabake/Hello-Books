@@ -58,3 +58,4 @@ export const trimObject = (obj) => {
   })
   return trimmedObject;
 }
+

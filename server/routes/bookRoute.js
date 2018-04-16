@@ -12,6 +12,7 @@ import VoteMiddleware from '../middlewares/voteMiddleware';
 import BorrowedBookMiddleware from '../middlewares/borrowedBookMiddleware';
 import ReviewMiddleware from '../middlewares//reviewMiddleware';
 import RequestBookController from '../controllers/v1/requestBookController';
+import validateParamsMiddleware from '../middlewares/validateParamsMiddleware';
 
 const bookRoute = (app) => {
   /**
@@ -70,10 +71,9 @@ const bookRoute = (app) => {
  *           $ref: '#/definitions/Book'
  */
   app.get(
-    '/api/v1/books/:bookId(\\d+)',
-    Authentication.authMiddleware,
-    Authentication.isActive,
-    BookController.getSingleBook
+    '/api/v1/books/:bookId', validateParamsMiddleware,
+    Authentication.authMiddleware, Authentication.isActive,
+    BookMiddleware.bookExist, BookController.getSingleBook
   );
   /**
  * @swagger
@@ -187,9 +187,9 @@ const bookRoute = (app) => {
  */
   app.get(
     '/api/v1/books',
-    Authentication.authMiddleware,
-    Authentication.isActive, BookController.getAllBooks,
-    BookController.getBooksByUpvotes, BookController.getBooksBySearch
+    Authentication.authMiddleware, Authentication.isActive,
+    BookController.getAllBooks, BookController.getBooksByUpvotes,
+    BookController.getBooksBySearch
   );
   /**
  * @swagger
@@ -479,7 +479,7 @@ const bookRoute = (app) => {
  *         description: Request had been made before
  */
   app.put(
-    '/api/v1/admin/user/:userId(\\d+)/borrow/:bookId(\\d+)',
+    '/api/v1/admin/user/:userId/borrow/:bookId', validateParamsMiddleware,
     Authentication.authMiddleware, AdminMiddleware.isAdmin,
     Authentication.isActive, BorrowBookController.acceptBorrowBook
   );
@@ -533,7 +533,7 @@ const bookRoute = (app) => {
  *         description: Request had been made before
  */
   app.put(
-    '/api/v1/admin/user/:userId(\\d+)/return/:bookId(\\d+)',
+    '/api/v1/admin/user/:userId/return/:bookId', validateParamsMiddleware,
     Authentication.authMiddleware, AdminMiddleware.isAdmin,
     Authentication.isActive, BorrowBookController.acceptReturnBook
   );
@@ -715,7 +715,7 @@ const bookRoute = (app) => {
   */
   app.get(
     '/api/v1/books/:bookId(\\d+)/allreviews/',
-    Authentication.authMiddleware,
+    Authentication.authMiddleware, BookMiddleware.bookExist,
     Authentication.isActive, ReviewController.getAllBookReview
   );
   /**
@@ -891,7 +891,7 @@ const bookRoute = (app) => {
  *         description: Unathenticated
  */
   app.post(
-    '/api/v1/user/suggest-book' , Authentication.authMiddleware,
+    '/api/v1/user/suggest-book', Authentication.authMiddleware,
     UserMiddleware.userExist, Authentication.isActive,
     RequestBookController.requestBook
   );

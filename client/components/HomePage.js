@@ -46,9 +46,9 @@ class HomePage extends Component {
   * @returns {function} initialises the side bav
   * @memberof HomePage
   */
-  componentDidMount() {
-    $(".button-collapse").sideNav();
-  }
+  // componentDidMount() {
+  //   $(".button-collapse").sideNav();
+  // }
 
 
 

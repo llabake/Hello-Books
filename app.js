@@ -68,9 +68,9 @@ routes(app);
 
 /*
   Setup a default catch-all route that sends
-  back a welcome message in JSON format.
+  back a response message in JSON format.
 */
-app.get('/api/*', (req, res) => res.status(200).send({
+app.use('/api/*', (req, res) => res.status(404).send({
   message: 'Route does not exist, explore at api/v1',
 }));
 
@@ -88,5 +88,4 @@ if (process.env.NODE_ENV !== 'test') {
   });
 }
 
-console.log('FFF',process.env.NODE_ENV)
 export default app;

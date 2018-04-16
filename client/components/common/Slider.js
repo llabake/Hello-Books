@@ -11,15 +11,15 @@ import sliderimage2 from '../../media/lib (3).jpg';
  */
 export default class Slider extends Component {
   
-  /**
-   * 
-   * 
-   * @memberof Slider
-   * @returns {function} initialises the slider 
-   */
-  componentDidMount() {
-    $('.slider').slider();
-  }
+  // /**
+  //  * 
+  //  * 
+  //  * @memberof Slider
+  //  * @returns {function} initialises the slider 
+  //  */
+  // componentDidMount() {
+  //   // $('.slider').slider();
+  // }
   
   /**
    * 
