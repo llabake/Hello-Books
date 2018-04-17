@@ -1,5 +1,6 @@
 import models from '../../models';
 import InputValidator from '../../helpers/inputValidator';
+import { trimObject } from '../../helpers/utils';
 
 const { Review, Book, User , Favorite } = models;
 /**
@@ -19,13 +20,14 @@ export default class ReviewController {
  * @memberof ReviewController
  */
   static addReview(req, res) {
-    const { errors, isValid } = InputValidator.addReview(req.body);
+    const reviewDetail = trimObject(req.body);
+    const { errors, isValid } = InputValidator.addReview(reviewDetail);
     if (!isValid) {
       res.status(400).json({ errors });
     } else {
       Review.create({
-        content: req.body.content,
-        caption: req.body.caption,
+        content: reviewDetail.content,
+        caption: reviewDetail.caption,
         bookId: req.params.bookId,
         userId: req.user.id
       })
@@ -44,7 +46,7 @@ export default class ReviewController {
             include: [{
               model: User,
               as: 'user',
-              attributes: ['username', 'id'],
+              attributes: ['username', 'id', 'image']
             }],
           },
           {
@@ -60,12 +62,6 @@ export default class ReviewController {
           order: [[{model: Review, as: 'reviews'}, 'updatedAt', 'DESC']],
         })
         .then((book) => {
-          if (book.reviews.length === 0) {
-            return res.status(200).json({
-              message: 'Be the first to post a review',
-              review
-            })
-          }
           return res.status(201).json({
             message: 'Review has been posted',
             book,
@@ -78,10 +74,22 @@ export default class ReviewController {
           })
         })
       })
-      .catch(error => res.status(500).json({
-        message: 'error sending your request',
-        error
-      }));
+      .catch((error) => {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+          // const uniqueErrors = [];
+          // error.errors.forEach((uniqueError) => {
+          //   uniqueErrors.push({
+          //     path: uniqueError.path,
+          //     message: `${uniqueError.path.charAt(0).toUpperCase() 
+          //       + uniqueError.path.slice(1)} already exist`
+          //   })
+          // })
+          return res.status(409).json({
+            message: 'You already posted a review'
+          });
+        }
+        return res.status(500).json({error});
+      });
     }
   }
   /**
@@ -139,7 +147,7 @@ export default class ReviewController {
       include: [{
         model: User,
         as: 'user',
-        attributes: ['username', 'id',],
+        attributes: ['username', 'id', 'image']
       }],
       order:[['updatedAt', 'DESC']],
       

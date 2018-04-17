@@ -3,47 +3,12 @@ import chai from 'chai';
 import app from '../../app';
 import models from '../models';
 import { generateToken } from '../helpers/utils';
+import userData from '../tests/mocks/userData';
+import bookData from '../tests/mocks/bookData';
 
 const { Vote, Book, User } = models;
 const request = supertest(app);
 const { expect } = chai;
-
-const userDataTest = {
-  user1: {
-    username: 'keinzy',
-    email: 'oyebola.otin@gmail.com',
-    password: 'password',
-    firstName: 'oyebola',
-    lastName: 'ayinla',
-    confirmpassword: 'password'
-  },
-  user2: {
-    username: 'solape',
-    email: 'damywuraola@gmail.com',
-    password: 'damola',
-    confirmpassword: 'damola',
-    firstName: 'adedamola',
-    lastName: 'wuraola'
-  }
-};
-const bookDataTest = {
-  book1: {
-    title: 'so long a letter',
-    author: 'mariam ba',
-    isbn: 65486565,
-    quantity: 56,
-    publishedYear: 2009,
-    description: 'a book a family'
-  },
-  book2: {
-    title: 'so long a letter',
-    author: 'mariam ba',
-    isbn: 65486565,
-    quantity: 56,
-    publishedYear: 2009,
-    description: 'a book a family'
-  },
-};
 
 describe('Vote Endpoint Functionality', () => {
   describe('Aunthenticated user can vote a book', () => {
@@ -59,9 +24,9 @@ describe('Vote Endpoint Functionality', () => {
         });
     });
     it('it should not allow a logged out user vote a book', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
-        const book = bookDataTest.book1;
+        const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then((createdBook) => {
           request.post(`/api/v1/books/${createdBook.id}/upvote`)
@@ -77,7 +42,7 @@ describe('Vote Endpoint Functionality', () => {
       });
     });
     it('it should not allow vote action if a book does not exist', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const bookId = 2087050;
@@ -95,12 +60,12 @@ describe('Vote Endpoint Functionality', () => {
       });
     });
     it('it should not allow vote action by a user that does not exist', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const token = generateToken(createdUser);
           createdUser.destroy().then(() =>{
-            Book.create(bookDataTest.book1).then((createdBook) => {
+            Book.create(bookData.book1).then((createdBook) => {
               request.post(`/api/v1/books/${createdBook.id}/upvote`)
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
@@ -116,10 +81,10 @@ describe('Vote Endpoint Functionality', () => {
       });
     });
     it('it should return already upvoted book', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
-          const book = bookDataTest.book1;
+          const book = bookData.book1;
           const token = generateToken(createdUser);
           Book.create(book).then((createdBook) => {
             Vote.create({ userId: createdUser.id, bookId: createdBook.id, voteType: 'upVote' })
@@ -138,10 +103,10 @@ describe('Vote Endpoint Functionality', () => {
       });
     });
     it('it should return successfully downvoted a book', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
-          const book = bookDataTest.book1;
+          const book = bookData.book1;
           const token = generateToken(createdUser);
           Book.create(book).then((createdBook) => {
             Vote.create({ userId: createdUser.id, bookId: createdBook.id, voteType: 'downVote' })
@@ -161,10 +126,10 @@ describe('Vote Endpoint Functionality', () => {
       });
     });
     it('it should successfully upvote a book', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
-          const book = bookDataTest.book1;
+          const book = bookData.book1;
           const token = generateToken(createdUser);
           Book.create(book).then((createdBook) => {
             request.post(`/api/v1/books/${createdBook.id}/upvote`)
@@ -181,10 +146,10 @@ describe('Vote Endpoint Functionality', () => {
       });
     });
     it('it should return already downvoted book', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
-          const book = bookDataTest.book1;
+          const book = bookData.book1;
           const token = generateToken(createdUser);
           Book.create(book).then((createdBook) => {
             Vote.create({ userId: createdUser.id, bookId: createdBook.id, voteType: 'downVote' })
@@ -203,10 +168,10 @@ describe('Vote Endpoint Functionality', () => {
       });
     });
     it('it should return successfully upvoted a book', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
-          const book = bookDataTest.book1;
+          const book = bookData.book1;
           const token = generateToken(createdUser);
           Book.create(book).then((createdBook) => {
             Vote.create({ userId: createdUser.id, bookId: createdBook.id, voteType: 'upVote' })
@@ -226,10 +191,10 @@ describe('Vote Endpoint Functionality', () => {
       });
     });
     it('it should successfully downvote a book', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
-          const book = bookDataTest.book1;
+          const book = bookData.book1;
           const token = generateToken(createdUser);
           Book.create(book).then((createdBook) => {
             request.post(`/api/v1/books/${createdBook.id}/downvote`)

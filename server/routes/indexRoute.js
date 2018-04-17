@@ -5,7 +5,7 @@ const indexRoute = (app) => {
  *   get:
  *     tags:
  *       - Welcome to Hello Books
- *     description: Returns the homepage
+ *     description: Returns a welcome message
  *     responses:
  *       200:
  *         description: Welcome to Hello Books Library

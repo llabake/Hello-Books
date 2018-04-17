@@ -8,6 +8,17 @@ import App from '../components/App';
 import store from '../store';
 
 
+// import { setCurrentUser } from './actions/userActions';
+// import jwtDecode from 'jwt-decode';
+
+
+// const store = configureStore();
+
+// if (localStorage.jwtToken) {
+//   setAuthorizationToken(localStorage.jwtToken);
+//   axios.defaults.headers.common.Authorization = localStorage.jwtToken;
+//   store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)));
+// }
 render(
   <Provider store={store}>
     <App />

@@ -85,7 +85,7 @@ export const checkUserExist = (field, userInput) => (dispatch) => {
 
 export const signUpUser = userData => (dispatch) => {
   dispatch(userSignUpRequest())
-  return new Promise((resolve, reject) => {
+  // return new Promise((resolve, reject) => {
     return axios.post(`${hostUrl}/api/v1/users/signup/`, userData)
       .then((response) => {
         dispatch(userSignUpSuccess(response.data.user))
@@ -93,15 +93,15 @@ export const signUpUser = userData => (dispatch) => {
         localStorage.setItem('token', token)
         dispatch(setCurrentUser(jwt.decode(token)));
         toastMessage(response.data.message, 'success');
-        resolve(response)
+        // resolve(response)
       })
       .catch((error) => {
         dispatch(userSignUpError(error))
         toastMessage('Signup failed. Please try again', 'failure')
-        reject(error)
+        // reject(error)
       })
 
-  })
+  // })
 
 }
 
@@ -142,14 +142,12 @@ export const signInUser = userData => (dispatch) => {
       localStorage.setItem('token', token) 
       const decodedToken = jwt.decode(token)
       const authUser = decodedToken.user
-      localStorage.setItem('user', JSON.stringify(authUser))
+      // localStorage.setItem('user', JSON.stringify(authUser))
       dispatch(userSignInSuccess(authUser))
       dispatch(setCurrentUser(authUser));
       toastMessage(response.data.message, 'success');
     })
     .catch((error) => {
-      console.log(error)
-      console.log(error.response.data)
       dispatch(userSignInError(error))
       toastMessage('Username or Password incorrect', 'failure')
     })

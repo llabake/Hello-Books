@@ -5,6 +5,7 @@ import logger from 'morgan';
 import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
+
 import routes from './server/routes';
 import db from './server/models/index';
 
@@ -67,9 +68,9 @@ routes(app);
 
 /*
   Setup a default catch-all route that sends
-  back a welcome message in JSON format.
+  back a response message in JSON format.
 */
-app.get('/api/*', (req, res) => res.status(200).send({
+app.use('/api/*', (req, res) => res.status(404).send({
   message: 'Route does not exist, explore at api/v1',
 }));
 
@@ -81,10 +82,10 @@ app.get('*', (req, res) => {
 if (process.env.NODE_ENV !== 'test') {
   db.sequelize.sync().then(() => {
     app.listen(port, () => {
+      // eslint-disable-next-line no-console
       console.log(`Server running on port ${port}`);
     });
   });
 }
-
 
 export default app;

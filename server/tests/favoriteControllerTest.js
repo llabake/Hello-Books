@@ -3,40 +3,13 @@ import chai from 'chai';
 import app from '../../app';
 import models from '../models';
 import { generateToken } from '../helpers/utils';
+import userData from '../tests/mocks/userData';
+import bookData from '../tests/mocks/bookData';
 
 const { Favorite, Book, User } = models;
 const request = supertest(app);
 const { expect } = chai;
 
-const userDataTest = {
-  user1: {
-    username: 'keinzy',
-    email: 'oyebola.otin@gmail.com',
-    password: 'password',
-    firstName: 'oyebola',
-    lastName: 'ayinla',
-    confirmpassword: 'password'
-  },
-};
-const bookDataTest = {
-  book1: {
-    title: 'so long a letter',
-    author: 'mariam ba',
-    isbn: 65486565,
-    quantity: 56,
-    publishedYear: 2009,
-    description: 'a book a family'
-  },
-  book2: {
-    title: 'zero to hero',
-    author: 'eric reis',
-    isbn: 8752626,
-    quantity: 55,
-    publishedYear: 2012,
-    description: '8752626',
-    image: 'https://images-na.ssl-images-amazon.com/images/I/41mbSg-W6-L._SY344_BO1,204,203,200_.jpg'
-  },
-};
 describe('Favorite Endpoint Functionality', () => {
   describe('User signs in to add a book as a favorite', () => {
     beforeEach((done) => {
@@ -51,9 +24,9 @@ describe('Favorite Endpoint Functionality', () => {
         });
     });
     it('it should not allow a logged out user mark book as favorite', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
-        const book = bookDataTest.book1;
+        const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then((createdBook) => {
           request.post(`/api/v1/books/fav/${createdBook.id}`)
@@ -69,7 +42,7 @@ describe('Favorite Endpoint Functionality', () => {
       });
     });
     it('it should not add a book that does not exist as favorite', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const bookId = 200;
@@ -87,7 +60,7 @@ describe('Favorite Endpoint Functionality', () => {
       });
     });
     it('it should not allow a user that does not exist add book as favorite', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const bookId = 200;
@@ -107,10 +80,10 @@ describe('Favorite Endpoint Functionality', () => {
       });
     });
     it('it should successfully mark a book as favorite', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
-        const book = bookDataTest.book1;
+        const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then((createdBook) => {
           request.post(`/api/v1/books/fav/${createdBook.id}`)
@@ -120,16 +93,17 @@ describe('Favorite Endpoint Functionality', () => {
               expect(201);
               expect(res.body.message).to.eql(`${createdBook.title} has been added to your favorite list`);
               expect(res.body).to.have.own.property('favorite');
+              expect(res.body).to.have.own.property('book');
               done(err);
             });
         });
       });
     });
     it('it should not add a book as favorite twice', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
-        const book = bookDataTest.book1;
+        const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then((createdBook) => {
           Favorite.create({
@@ -149,10 +123,10 @@ describe('Favorite Endpoint Functionality', () => {
       });
     });
     it('it should successfully get a single favorite list item', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
-        const book = bookDataTest.book1;
+        const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then((createdBook) => {
           Favorite.create({
@@ -173,10 +147,10 @@ describe('Favorite Endpoint Functionality', () => {
       });
     });
     it('it should return an empty array if no books on the favorite list', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
-        const book = bookDataTest.book1;
+        const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then(() => {
           request.get('/api/v1/books/favbooks/')
@@ -192,12 +166,12 @@ describe('Favorite Endpoint Functionality', () => {
       });
     });
     it('it should successfully get a list of users favorite books', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const userId = createdUser.id;
-          const booka = bookDataTest.book1;
-          const bookb = bookDataTest.book2;
+          const booka = bookData.book1;
+          const bookb = bookData.book2;
           const token = generateToken(createdUser);
           Book.bulkCreate([booka, bookb])
             .then(() => Book.findAll())
@@ -222,12 +196,12 @@ describe('Favorite Endpoint Functionality', () => {
       });
     });
     it('it should return book not found on favorite list', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
         const userId = createdUser.id;
-        const booka = bookDataTest.book1;
-        const bookb = bookDataTest.book2;
+        const booka = bookData.book1;
+        const bookb = bookData.book2;
         const token = generateToken(createdUser);
         Book.bulkCreate([booka, bookb])
           .then(() => Book.findAll()).then((books) => {
@@ -251,12 +225,12 @@ describe('Favorite Endpoint Functionality', () => {
       });
     });
     it('it should successfully delete book from a user favorite list', (done) => {
-      const user = userDataTest.user1;
+      const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const userId = createdUser.id;
-          const booka = bookDataTest.book1;
-          const bookb = bookDataTest.book2;
+          const booka = bookData.book1;
+          const bookb = bookData.book2;
           const token = generateToken(createdUser);
           Book.bulkCreate([booka, bookb])
             .then(() => Book.findAll())
@@ -272,6 +246,7 @@ describe('Favorite Endpoint Functionality', () => {
                   expect(200);
                   expect(res.body.message)
                     .to.eql(`${booka.title} has been removed from your favorite list`);
+                  expect(res.body).to.have.own.property('book')
                   done(err);
                 });
             });

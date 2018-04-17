@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     bookId: {
       type: DataTypes.INTEGER,
+      unique: true,
       onDelete: 'CASCADE',
       references: {
         model: 'Books',
@@ -28,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.INTEGER,
+      unique: true,
       references: {
         model: 'Users',
         key: 'id',
@@ -37,7 +39,13 @@ module.exports = (sequelize, DataTypes) => {
     caption: {
       type: DataTypes.TEXT,
       allowNull: false,
-      defaultValue: ''
+      defaultValue: '',
+      validate: {
+        len: {
+          args: [1, 35],
+          msg: 'Minimum of 1 character and Maximum of 35 characters required'
+        }
+      }
     }
   });
   Review.associate = (models) => {

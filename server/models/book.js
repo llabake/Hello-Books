@@ -9,24 +9,55 @@ export default(sequelize, DataTypes) => {
   const Book = sequelize.define('Book', {
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'title is required'
+        }
+      }
     },
     author: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'author is required'
+        }
+      }
     },
     publishedYear: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'publishedYear is required'
+        }
+      }
+      
     },
     isbn: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'isbn is required'
+        }
+      }
     },
     quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'quantity is required'
+        }
+      }
     },
     description: {
       type: DataTypes.TEXT,
@@ -35,6 +66,10 @@ export default(sequelize, DataTypes) => {
         len: {
           args: [1, 700],
           msg: 'Minimum of 1 character and Maximum of 700 characters required'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'description is required'
         }
       }
     },
@@ -60,7 +95,13 @@ export default(sequelize, DataTypes) => {
     aboutAuthor: {
       type: DataTypes.TEXT,
       allowNull: false,
-      defaultValue: ''
+      defaultValue: '',
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'aboutAuthor is required'
+        }
+      }
     }
   });
   Book.associate = (models) => {
