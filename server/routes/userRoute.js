@@ -17,12 +17,23 @@ const userRoute = (app) => {
  *         type: string
  *       email:
  *         type: string
+ *     example: {
+ *       username: smith,
+ *       firstName: William,
+ *       lastName: Smith,
+ *       password: smithpassword,
+ *       email: wsmith@rocketmail.com
+ *     }
  *   SignInData:
  *     properties:
  *       username:
  *         type: string
  *       password:
  *         type: string
+ *     example: {
+ *       username: femi,
+ *       password: femiBoy
+ *     }
  * /api/v1/users/signup:
  *   post:
  *     tags:

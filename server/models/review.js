@@ -1,11 +1,13 @@
 
 /** Defines the Review database model and association
  * @exports Review
+ * 
  * @param  {object} sequelize - sequelize
  * @param  {object} DataTypes - sequelize Datatypes
+ * 
  * @return {object} Review model
  */
-module.exports = (sequelize, DataTypes) => {
+export default function (sequelize, DataTypes) {
   const Review = sequelize.define('Review', {
     content: {
       type: DataTypes.TEXT,
@@ -19,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     bookId: {
       type: DataTypes.INTEGER,
-      unique: true,
       onDelete: 'CASCADE',
       references: {
         model: 'Books',
@@ -29,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.INTEGER,
-      unique: true,
       references: {
         model: 'Users',
         key: 'id',
@@ -58,4 +58,4 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
   return Review;
-};
+}

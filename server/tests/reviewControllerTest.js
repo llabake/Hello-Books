@@ -267,7 +267,7 @@ describe('Review Endpoint Functionality', () => {
         });
       });
     });
-    it.only('it should successfully get all reviews for a book', (done) => {
+   xit('it should successfully get all reviews for a book', (done) => {
       const user = userData.validUser3;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {

@@ -11,10 +11,13 @@ export default class FavoriteController {
  *
  *
  * @static
+ * 
  * @param {any} req
  * @param {any} res
+ * 
  * @returns {any} response containing a a message
  * @description Adds a books to users favorite list
+ * 
  * @memberof FavoriteController
  */
   static markBookAsFavorite(req, res) {
@@ -29,11 +32,7 @@ export default class FavoriteController {
           where: {
             id: req.params.bookId
           },
-          attributes: [
-            'id', 'title', 'description', 'image', 'author',
-            'upVotes', 'downVotes', 'borrowCount',
-            'quantity', 'aboutAuthor'
-          ],
+          attributes: { exclude: ["createdAt", "updatedAt"] },
           include: [{
             model: Review,
             as: 'reviews',
@@ -75,8 +74,10 @@ export default class FavoriteController {
  *
  *
  * @static
+ * 
  * @param {any} req
  * @param {any} res
+ * 
  * @returns {any} response containing an array of user's favorite books
  * @memberof FavoriteController
  */
@@ -85,9 +86,6 @@ export default class FavoriteController {
       where: {
         userId: req.user.id
       },
-      attributes: [
-        'createdAt',
-      ],
       include: [{
         model: Book,
         attributes: ['id', 'title', 'description', 'upVotes', 'downVotes', 'image'],
@@ -121,9 +119,11 @@ export default class FavoriteController {
    *
    *
    * @static
+   * 
    * @param {any} req
    * @param {any} res
-   * @returns {Object} succes message
+   * @returns {Object} success message
+   * 
    * @memberof FavoriteController
    */
   static deleteBookFromFavorite(req, res) {

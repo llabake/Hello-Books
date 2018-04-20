@@ -38,12 +38,6 @@ module.exports = {
       allowNull: false,
       type: Sequelize.DATE
     }
-  }, {
-    uniqueKeys: {
-      user_email_unique: {
-        fields: ['username', 'email']
-      }
-    }
   }),
   down: queryInterface => queryInterface.dropTable('Users')
 };

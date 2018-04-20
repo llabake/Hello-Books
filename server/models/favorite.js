@@ -4,7 +4,7 @@
  * @param  {object} DataTypes - sequelize Datatypes
  * @return {object} Favorite model
  */
-module.exports = (sequelize) => {
+export default function (sequelize) {
   const Favorite = sequelize.define('Favorite', {});
   Favorite.associate = (models) => {
     Favorite.belongsTo(models.Book, {
@@ -19,4 +19,4 @@ module.exports = (sequelize) => {
     });
   };
   return Favorite;
-};
+}

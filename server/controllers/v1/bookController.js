@@ -1,10 +1,33 @@
 import models from '../../models';
 import InputValidator from '../../helpers/inputValidator';
-import { sortBooksByTopFavorites, trimObject } from '../../helpers/utils'
+import { trimObject, formatPagination, paginateBookResult, } from '../../helpers/utils'
 
 const {
- Book, Review, User, Favorite, sequelize, Sequelize
+ Book, Review, User, Favorite, BorrowBook,
 } = models;
+
+const includeReviewAndFavorite = [{
+  model: Review,
+  as: 'reviews',
+  attributes: ['id', 'content', 'createdAt', 'caption','updatedAt'],
+  include: [{
+    model: User,
+    as: 'user',
+    attributes: ['username', 'id'],
+  }],
+}, {
+  model: Favorite,
+  as: 'favorited',
+  attributes: ['id', 'createdAt'],
+  include: [{
+    model: User,
+    as: 'user',
+    attributes: ['username', 'id'],
+  }],
+}]
+
+const exclude = { exclude: ["createdAt", "updatedAt"] }
+
 
 /**
  *
@@ -15,29 +38,33 @@ class BookController {
    *
    *
    * @static
+   * 
    * @param {any} req
    * @param {any} res
+   * 
    * @returns {any} response containing a book object
+   * 
    * @description Adds new book
    * @memberof BookController
    */
-  static addBook(req, res) {
+  static async addBook(req, res) {
     const bookDetail = trimObject(req.body);
     const { errors, isValid } = InputValidator.addBook(bookDetail);
     if (!isValid) {
       res.status(400).json({ errors });
     } else {
-      const { title, author, publishedYear, isbn, quantity, description, image, aboutAuthor } = bookDetail;
-      Book.create({ title, author, publishedYear, description, image,
-        aboutAuthor, isbn: parseInt(isbn, 10), quantity: parseInt(quantity, 10),
-      })
-        .then((book) => {
-          res.status(201).json({
+      try {
+        const { title, author, publishedYear, isbn, quantity, description, image, aboutAuthor } = bookDetail;
+        const book = await Book.create({ title, author, publishedYear, description, image,
+          aboutAuthor, isbn: parseInt(isbn, 10), quantity: parseInt(quantity, 10),
+        })
+        if(book) {
+          return res.status(201).json({
             message: `Book with title: ${book.title} has been added`,
             book
           });
-        })
-        .catch((error) => {
+        }
+      } catch (error) {
           if (error.name === 'SequelizeUniqueConstraintError') {
             const field = Object.keys(error.fields)[0];
             return res.status(409).json({
@@ -45,88 +72,76 @@ class BookController {
             });
           }
           return res.status(400).send(error);
-        });
+      }
     }
   }
   /**
    *
    *
    * @static
+   * 
    * @param {any} req
    * @param {any} res
+   * 
    * @description Gets a single book from the library
    * @returns {any} response contaning a single book
    * @memberof BookController
    */
-  static getSingleBook(req, res) {
-    Book.findOne({
-      where: {
-        id: req.params.bookId
-      },
-      attributes: [
-        'id', 'title', 'description', 'image', 'author',
-        'upVotes', 'downVotes', 'borrowCount',
-        'quantity', 'aboutAuthor'
-      ],
-      include: [{
-        model: Review,
-        as: 'reviews',
-        attributes: ['id', 'content', 'createdAt', 'caption','updatedAt'],
-        include: [{
-          model: User,
-          as: 'user',
-          attributes: ['username', 'id'],
-        }],
-      }, {
-        model: Favorite,
-        as: 'favorited',
-        attributes: ['id', 'createdAt'],
-        include: [{
-          model: User,
-          as: 'user',
-          attributes: ['username', 'id'],
-        }],
-      }],
-    })
-      .then((book) => {
+  static async getSingleBook(req, res) {
+    try {
+      const book = await Book.findOne({
+        where: {
+          id: req.params.bookId
+        },
+        attributes: exclude,
+        include: includeReviewAndFavorite,
+      })
+      if (book) {
         res.status(200).json({
           book,
         });
-      })
-      .catch(error => res.status(500).json({
+      }
+    } catch (error) {
+      return res.status(500).json({
         message: 'error sending your request',
         error
-      }));
+      })
+    }
   }
 
   /**
    *
    *
    * @static
+   * 
    * @param {any} req
    * @param {any} res
+   * 
    * @returns {any} response containing a modified book detail
    * @description Modifies a book in the library
    * @memberof BookController
    */
-  static modifyBook(req, res) {
+  static async modifyBook(req, res) {
     const bookToBeEditedDetail = trimObject(req.body)
     const { errors, isValid } = InputValidator.modifyBook(bookToBeEditedDetail);
     if (!isValid) {
       res.status(400).json({ errors });
     } else {
-      Book.update(
-        bookToBeEditedDetail,
-        {
-          where: { id: req.params.bookId },
-          returning: true,
+      try {
+        const updatedBook = await Book.update(
+          bookToBeEditedDetail,
+          {
+            where: { id: req.params.bookId },
+            returning: true,
+          }
+        )
+        if(updatedBook) {
+          return res.status(200).json({
+            book: updatedBook[1][0],
+            message: 'Your book has been updated'
+          });
         }
-      ).then((updatedBook) => {
-        res.status(200).json({
-          book: updatedBook[1][0],
-          message: 'Your book has been updated'
-        });
-      }).catch((error) => {
+      } catch (error) {
         if (error.name === 'SequelizeUniqueConstraintError') {
           const field = Object.keys(error.fields)[0];
           return res.status(409).json({
@@ -134,54 +149,33 @@ class BookController {
           });
         }
         return res.status(500).send(error);
-      });
+      }
     }
   }
   /**
    *
    *
    * @static
-   * @param {any} req
-   * @param {any} res
+   * 
+   * @param {Object} req
+   * @param {Object} res
    * @param {next} next
+   * 
    * @returns {any} response containing all the books in the library in an array
+   * 
    * @description Gets all books in the library
    * @memberof BookController
    */
   static getAllBooks(req, res, next) {
     if (req.query.sort || req.query.search) return next();
-    Book.findAll({
-      include: [{
-        model: Review,
-        as: 'reviews',
-        attributes: ['id', 'content', 'createdAt'],
-        include: [{
-          model: User,
-          as: 'user',
-          attributes: ['username', 'id'],
-        }],
-      }, {
-        model: Favorite,
-        as: 'favorited',
-        attributes: ['id', 'createdAt'],
-        include: [{
-          model: User,
-          as: 'user',
-          attributes: ['username', 'id'],
-        }],
-      }],
+    const { limit, page, offset } = formatPagination(req)
+    Book.findAndCountAll({
+      include: includeReviewAndFavorite,
+      limit,
+      offset
     })
-      .then((books) => {
-        if (books.length === 0) {
-          return res.status(200).json({
-            message: 'Books are unavailable now, do check back later',
-            books
-          });
-        }
-        return res.status(200).json({
-          message: 'Books retrieved successfully',
-          books
-        });
+      .then((result) => {
+        return paginateBookResult({ req, res, result, limit, page })
       })
       .catch((error) => {
         res.status(500).json({ message: 'error sending your request', error });
@@ -191,13 +185,16 @@ class BookController {
    *@description Gets books with the most upvotes
    *
    * @static
+   * 
    * @param {Object} req
    * @param {Object} res
    * @param {Object} next
+   * 
    * @returns {Object} response containing top 10 books in the library in an array
    * @memberof BookController
    */
   static getBooksByUpvotes(req, res, next) {
+    const { limit, page, offset } = formatPagination(req)    
     if (req.query.sort === undefined) return next();
     if (req.query.order !== 'descending') {
       res.status(400).json({
@@ -211,33 +208,17 @@ class BookController {
     }
     const options = {};
     options.order = [['upVotes', 'DESC']];
-    options.limit = 10;
-    options.attributes = [
-      'id', 'title', 'description', 'image',
-      'upVotes', 'downVotes', 'borrowCount'
-    ];
-    options.include = [{
-      model: Review,
-      as: 'reviews',
-      attributes: ['id', 'content', 'createdAt'],
-      include: [{
-        model: User,
-        as: 'user',
-        attributes: ['username', 'id'],
-      }],
-    }, {
-      model: Favorite,
-      as: 'favorited',
-      attributes: ['id', 'createdAt'],
-      include: [{
-        model: User,
-        as: 'user',
-        attributes: ['username', 'id'],
-      }],
-    }];
-    Book.findAll(options)
+    options.limit = limit;
+    options.offset = offset
+    options.attributes = exclude;
+    options.include = includeReviewAndFavorite;
+    Book.findAndCountAll(options)
     // Fix me: check the next line
-      .then(books => res.status(200).json(books))
+      // .then(books => res.status(200).json(books))
+      .then((result) => {
+        return paginateBookResult({ req, res, result, limit, page })
+        // return res.json({ req})
+      })
       .catch(error => res.status(400).json({
         message: 'error sending your request',
         error
@@ -246,39 +227,24 @@ class BookController {
   /**
  *
  *@description Gets books by search word
+
  * @static
+ * 
  * @param {Object} req
  * @param {Object} res
+ * 
  * @returns {Object} response containing books that match the search
+ * 
  * @memberof BookController
  */
   static getBooksBySearch(req, res) {
+    const { limit, page, offset } = formatPagination(req)
     const options = {};
     const searchQuery = req.query.search;
-    options.limit = 10;
-    options.attributes = [
-      'id', 'title', 'description', 'author', 'image',
-      'upVotes', 'downVotes', 'borrowCount', 'quantity'
-    ];
-    options.include = [{
-      model: Review,
-      as: 'reviews',
-      attributes: ['id', 'content', 'createdAt'],
-      include: [{
-        model: User,
-        as: 'user',
-        attributes: ['username', 'id'],
-      }],
-    }, {
-      model: Favorite,
-      as: 'favorited',
-      attributes: ['id', 'createdAt'],
-      include: [{
-        model: User,
-        as: 'user',
-        attributes: ['username', 'id'],
-      }],
-    }];
+    options.limit = limit;
+    options.offset = offset;
+    options.attributes = exclude;
+    options.include = includeReviewAndFavorite
     options.where = {
       $or: [
         { author: { $like: `%${searchQuery}%` } },
@@ -286,18 +252,12 @@ class BookController {
         { title: { $like: `%${searchQuery}%` } }
       ],
     };
-    Book.findAll(options)
-      .then((books) => {
-        if (!books.length) {
-          res.status(200).json({
-            message: 'No book matches your search. Try some other combinations',
-            books
-          });
+    Book.findAndCountAll(options)
+      .then((result) => {
+        if (!result.length) {
+          return paginateBookResult({ req, res, result, limit, page })
         }
-        res.status(200).json({
-          message: 'Books retrieved successfully',
-          books
-        });
+        return paginateBookResult({ req, res, result, limit, page })
       })
       .catch(error => res.status(400).json({
         message: 'error sending your request',
@@ -309,8 +269,10 @@ class BookController {
    * 
    * 
    * @static
+   * 
    * @param {any} req 
-   * @param {any} res 
+   * @param {any} res
+   * 
    * @returns {Object} response containing validity of book
    * @memberof BookController
    */
@@ -345,82 +307,78 @@ class BookController {
    * 
    * 
    * @static
+   * 
    * @param {any} req 
-   * @param {any} res 
+   * @param {any} res
+   * 
    * @memberof BookController
    * @returns {Object} response message
    */
   static deleteBook(req, res) {
-    Book.findById(req.params.bookId)
-      .then((book) => {
-        book.destroy()
-        .then(() => {
-          return res.status(200).json({
-            message: 'Book deleted successfully',
-          });
-        })
-        .catch((error) => {
-          return res.status(400).json({
-            error,
-            message: error.message
-          })
-        })
+    Book.find({
+      where : {
+        id: req.params.bookId
+      },
+      include: [{
+        model: BorrowBook,
+        as: 'book',
+        attributes: ['borrowStatus', 'returnStatus'],
+      }],
+    })
+    .then((book) => {
+      if(book.book[0] !== null) {
+        const borrowedBook = book.book[0]
+        if(borrowedBook.borrowStatus === 'accepted'
+          && borrowedBook.returnStatus === 'pending'
+          || borrowedBook.borrowStatus === 'accepted'
+          && borrowedBook.returnStatus === '') {
+            return res.status(400).json({
+              message: "This book cannot be deleted at the moment, a user has borrowed it"
+            })
+        }
+      }
+      book.destroy()
+      .then(() => {
+        return res.status(200).json({
+          message: 'Book deleted successfully',
+        });
       })
       .catch((error) => {
-        return res.status(500).json({
+        return res.status(400).json({
           error,
-          message: 'error sending your request'
+          message: error.message
         })
       })
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        error,
+        message: 'error sending your request'
+      })
+    })
   }
   /**
    * 
    * 
    * @static
+   * 
    * @param {any} req 
-   * @param {any} res 
+   * @param {any} res
+   * 
    * @returns {Array} A list of popular books
    * @memberof BookController
    */
   static getPopularBooks(req, res) {
     const options = {};
-    options.limit = 6;
+    const { limit, page, offset } = formatPagination(req)
+    options.limit = limit;
+    options.offset = offset;
     options.order = [['borrowCount', 'DESC']];
-    options.attributes = [
-      'id', 'title', 'description', 'author', 'image',
-      'upVotes', 'downVotes', 'borrowCount', 'quantity'
-    ];
-    options.include = [{
-      model: Review,
-      as: 'reviews',
-      attributes: ['id', 'content', 'createdAt'],
-      include: [{
-        model: User,
-        as: 'user',
-        attributes: ['username', 'id'],
-      }],
-    }, {
-      model: Favorite,
-      as: 'favorited',
-      attributes: ['id', 'createdAt'],
-      include: [{
-        model: User,
-        as: 'user',
-        attributes: ['username', 'id'],
-      }],
-    }];
-    Book.findAll(options)
-      .then((books) => {
-        if (!books.length) {
-          res.status(200).json({
-            message: 'No books found',
-            books
-          });
-        }
-        res.status(200).json({
-          message: 'Popular books retrieved successfully',
-          books
-        });
+    options.attributes = exclude;
+    options.include = includeReviewAndFavorite;
+    Book.findAndCountAll(options)
+      .then((result) => {
+        return paginateBookResult({ req, res, result, limit, page })
       })
       .catch(error => res.status(400).json({
         message: 'error sending your request',
@@ -431,33 +389,27 @@ class BookController {
  * 
  * 
  * @static
+ * 
  * @param {any} req 
- * @param {any} res 
- * @returns {Array} Top favoritwe books
+ * @param {any} res
+ * 
+ * @returns {Array} Top favorite books
  * @memberof BookController
  */
 static getTopFavoritedBooks(req, res) {
     const options = {};
-    options.limit = 9;
-    options.attributes = [
-      'id', 'title', 'image'];
+    const { limit, page, offset } = formatPagination(req)
+    options.limit = limit;
+    options.offset = offset;
+    options.attributes = ['id', 'title', 'image'];
     options.include = [{
       model: Favorite,
       as: 'favorited',
       attributes: ['id']
     }];
-    Book.findAll(options)
-      .then((books) => {
-        if (!books.length) {
-          res.status(200).json({
-            message: 'No books found',
-            books
-          });
-        }
-        res.status(200).json({
-          message: 'Top favorited books retrieved successfully',
-          books: sortBooksByTopFavorites(books)
-        });
+    Book.findAndCountAll(options)
+      .then((result) => {
+        return paginateBookResult({ req, res, result, limit, page })
       })
       .catch(error => res.status(400).json({
         message: 'error sending your request',

@@ -21,7 +21,7 @@ export default class RequestBookController {
    * @memberof RequestBookController
    */
   static requestBook(req, res) {
-    const { errors, isValid } = InputValidator.requetsBook(req.body);
+    const { errors, isValid } = InputValidator.requestBook(req.body);
     if (!isValid) {
       res.status(400).json({ errors });
     } else {

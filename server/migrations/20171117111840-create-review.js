@@ -15,6 +15,7 @@ module.exports = {
     bookId: {
       type: Sequelize.INTEGER,
       onDelete: 'CASCADE',
+      unique: 'userid_bookid_unique',
       references: {
         model: 'Books',
         key: 'id',
@@ -23,6 +24,7 @@ module.exports = {
     },
     userId: {
       type: Sequelize.INTEGER,
+      unique: 'userid_bookid_unique',
       references: {
         model: 'Users',
         key: 'id',
@@ -39,7 +41,7 @@ module.exports = {
     }
   }, {
     uniqueKeys: {
-      userId_bookId_unique: {
+      userid_bookid_unique: {
         fields: ['userId', 'bookId']
       }
     }

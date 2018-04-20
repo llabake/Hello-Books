@@ -1,6 +1,6 @@
 
 const validateParamsMiddleware = (req, res, next) => {
-  let { bookId, userId} = req.params
+  let { bookId, userId, reviewId } = req.params
   if(bookId) {
     bookId = parseInt(bookId, 10)
     if(!Number.isInteger(bookId)) {
@@ -14,6 +14,14 @@ const validateParamsMiddleware = (req, res, next) => {
     if(!Number.isInteger(userId)) {
       return res.status(400).json({
         message: 'userId must be a valid integer'
+      })
+    }
+  }
+  if(reviewId) {
+    userId = parseInt(reviewId, 10)
+    if(!Number.isInteger(userId)) {
+      return res.status(400).json({
+        message: 'reviewId must be a valid integer'
       })
     }
   }
