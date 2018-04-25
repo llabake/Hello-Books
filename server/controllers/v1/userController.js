@@ -17,13 +17,15 @@ export default class UserController {
    * @description Signs up a new user
    *
    * @static
+   * 
    * @param {any} req
    * @param {any} res
+   * 
    * @memberof UserController
    * @returns {any} User object
    */
   static signUp(req, res) {
-    const userDetail = trimObject(req.body)    
+    const userDetail = trimObject(req.body)
     const { errors, isValid, } = InputValidator.signUp(userDetail);
     if (!isValid) {
       res.status(400).json({ errors });
@@ -64,8 +66,10 @@ export default class UserController {
  *
  *
  * @static
+ * 
  * @param {any} req
  * @param {any} res
+ * 
  * @returns {any} user object
  * @memberof UserController
  */
@@ -105,9 +109,15 @@ export default class UserController {
         });
     }
   }
+  
   /**
+    * 
+    * 
+    * @static
+    * 
     * @param {Object} req request object
     * @param {Object} res response object
+    * 
     * @returns {void} no returns
     */
   static signOut(req, res) {
@@ -127,8 +137,10 @@ export default class UserController {
    * 
    * 
    * @static
+   * 
    * @param {any} req 
-   * @param {any} res 
+   * @param {any} res
+   * 
    * @returns {object} message containing validation response
    * @memberof UserController
    */
@@ -164,7 +176,7 @@ export default class UserController {
       }
     })
     .catch((error) => {
-      return res.status(400).json({ error })
+      return res.status(500).json({ error })
     })
   }
 
@@ -173,8 +185,10 @@ export default class UserController {
    * 
    * 
    * @static
+   * 
    * @param {any} req 
-   * @param {any} res 
+   * @param {any} res
+   * 
    * @returns {any} response containing updated user profile
    * @memberof UserController
    */
@@ -215,8 +229,10 @@ export default class UserController {
    * 
    * 
    * @static
+   * 
    * @param {any} req 
    * @param {any} res 
+   * 
    * @returns {any} response containing user profile
    * @memberof UserController
    */

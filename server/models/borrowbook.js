@@ -5,7 +5,7 @@
  * @param  {object} DataTypes - sequelize Datatypes
  * @return {object} BorrowBook model
  */
-module.exports = (sequelize, DataTypes) => {
+export default function (sequelize, DataTypes) {
   const BorrowBook = sequelize.define('BorrowBook', {
     borrowDate: {
       type: DataTypes.DATE,
@@ -43,4 +43,4 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
   return BorrowBook;
-};
+}

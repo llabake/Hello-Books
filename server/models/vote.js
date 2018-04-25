@@ -5,7 +5,7 @@
  * @param  {object} DataTypes - sequelize Datatypes
  * @return {object} Vote model
  */
-module.exports = (sequelize, DataTypes) => {
+export default function (sequelize, DataTypes) {
   const Vote = sequelize.define('Vote', {
     voteType: {
       type: DataTypes.STRING,
@@ -27,4 +27,4 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
   return Vote;
-};
+}

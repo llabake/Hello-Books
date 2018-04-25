@@ -3,6 +3,26 @@ import InputValidator from '../../helpers/inputValidator';
 import { trimObject } from '../../helpers/utils';
 
 const { Review, Book, User , Favorite } = models;
+const includeModels = [{
+  model: Review,
+  as: 'reviews',
+  attributes: ['id', 'content', 'createdAt', 'updatedAt','caption'],
+  include: [{
+    model: User,
+    as: 'user',
+    attributes: ['username', 'id', 'image']
+  }],
+},
+{
+  model: Favorite,
+  as: 'favorited',
+  attributes: ['id', 'createdAt'],
+  include: [{
+    model: User,
+    as: 'user',
+    attributes: ['username', 'id'],
+  }],
+}]
 /**
  *
  *
@@ -36,29 +56,8 @@ export default class ReviewController {
           where: {
             id: req.params.bookId
           },
-          // exclude: [{
-          //   attributes: ['createdAt', 'updatedAt']
-          // }],
-          include: [{
-            model: Review,
-            as: 'reviews',
-            attributes: ['id', 'content', 'createdAt', 'updatedAt','caption'],
-            include: [{
-              model: User,
-              as: 'user',
-              attributes: ['username', 'id', 'image']
-            }],
-          },
-          {
-            model: Favorite,
-            as: 'favorited',
-            attributes: ['id', 'createdAt'],
-            include: [{
-              model: User,
-              as: 'user',
-              attributes: ['username', 'id'],
-            }],
-          }],
+          exclude:  ['createdAt', 'updatedAt'],
+          include: includeModels,
           order: [[{model: Review, as: 'reviews'}, 'updatedAt', 'DESC']],
         })
         .then((book) => {
@@ -76,16 +75,8 @@ export default class ReviewController {
       })
       .catch((error) => {
         if (error.name === 'SequelizeUniqueConstraintError') {
-          // const uniqueErrors = [];
-          // error.errors.forEach((uniqueError) => {
-          //   uniqueErrors.push({
-          //     path: uniqueError.path,
-          //     message: `${uniqueError.path.charAt(0).toUpperCase() 
-          //       + uniqueError.path.slice(1)} already exist`
-          //   })
-          // })
           return res.status(409).json({
-            message: 'You already posted a review'
+            message: 'You already posted a review, edit your former review to post a new one'
           });
         }
         return res.status(500).json({error});
@@ -181,20 +172,26 @@ export default class ReviewController {
    * @memberof ReviewController
    */
   static editBookReview(req, res) {
-    Review.update(
-      req.body,
-      {
-        where: { id: req.params.reviewId },
-        returning: true,
-      }
-    ).then((editedReview) => {
-      res.status(200).json({
-        review: editedReview[1][0],
-        message: 'Your review has been updated'
-      });
-    }).catch((error) => {
-      return res.status(500).send(error);
-    })
+    const reviewDetail = trimObject(req.body);
+    const { errors, isValid } = InputValidator.editReview(reviewDetail);
+    if (!isValid) {
+      res.status(400).json({ errors });
+    } else {
+      Review.update(
+        req.body,
+        {
+          where: { id: req.params.reviewId },
+          returning: true,
+        }
+      ).then((editedReview) => {
+        res.status(200).json({
+          review: editedReview[1][0],
+          message: 'Your review has been updated'
+        });
+      }).catch((error) => {
+        return res.status(500).json({error: error.errors[0].message});
+      })
+    }
   }
 }
 

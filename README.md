@@ -17,20 +17,35 @@ Hello-Books is a simple application that helps manage a library and its processe
 * [Sequelize](http://docs.sequelizejs.com/) - The ORM used
 * [Postgres](https://www.postgresql.org/) - Database Used
 * [NPM](https://www.npmjs.com/) - Dependency Management
+* [Swaggerhub](https://swaggerhub.com) -API Documentation
+* [Webpack](https://webpack.js.org/) -Build Front End
+* [Reactjs](reactjs.org) Front End framework
+* [Jest](https://facebook.github.io/jest) Front End test 
+
 
 # Installation
 
-Clone the repo git clone https://github.com/llabake/hello-books.git and navigate to the project root directory
+* Install [**Node JS**](https://nodejs.org/en/)
+* Install [**Postgres**](https://www.postgresql.org/)
+* Clone this **repository**
+> - To clone this repository.
+> - Scroll to the top of the page and look for the `clone or download` green button
+> - click on this green button and a white tab pops up with an https url and an option to either `Open in Desktop` or `Download Zip`
+> - copy the https link may look like this `https://github.com/llabake/hello-books.git`
+> - open your terminal and `cd` to the directory where you would want the repository to be cloned
+> - run the command `git clone https://github.com/llabake/hello-books.git` in order to clone the repository.
+* **cd** into the root of the **project directory**.
+> after cloning the repository, change directory into the repository
+> in the repository run `npm install` in the terminal to install all Dependecies
+* Create Postgresql database, and run migrations
+* After Setting your database run the following command to run `database migrations and seed`<br>
+> - `sequelize db:migrate:undo:all` to drop database,
+> - `sequelize db:migrate` to run migration,
+> - `sequelize db:seed:all` to seed the database,
+> - `sequelize db:seed:undo:all` to undo seed,
 
-Install dependencies
-
-Set up Express
-
-Set up Database and make migrations by running the following commands.<br> 
-- `sequelize db model:create.`
-- `create necessary tables in the database.`
-- `sequelize db migrate to apply changes in the table.`
-
+* Create a `.env` file in the root directory of the application as in the .env.example file. Set up your database for test and development configuration
+* Start the app
 
 # Available Scripts
 
@@ -40,13 +55,23 @@ In the project directory, you can :
 
 - To start the app run `npm start-dev`. It restarts app when changes are made to the source code
 
-## Test 
-- To test run `npm test` or `npm run test`
+## Test
+
+- Server side testing is done through the use of `supertest`, `mocha` and `chai` packages. `supertest` is used to make requests to the api and `mocha` is the testing framework and `chai` is the assertion library. They will both be installed when you run `npm install` and the tests will run when you run `npm test`.
+- Run `npm test` or `npm run test`
 
 ## Coverage
 - To check coverage `npm run coveralls`
 
 Launches the interactive test runner and display test coverage reports
+
+
+# Authentication
+
+- It uses JSON Web Token (JWT) for authentication.
+- Token is generated at sign up
+- Token gets verified each time user interact with the    application
+- Admin user will be created when you run seed
 
 # Hosted API
 
@@ -55,6 +80,10 @@ https://myhellobooks.herokuapp.com/
 # Published Template
 
 https://llabake.github.io/Hello-Books/
+
+# API Docs
+
+To get more information on how to use the API, a good place to start would be here: [Hello Books Doc](https://myhellobooks.herokuapp.com/api-docs/) on swaggerhub.
 
 # Functionality and Endpoints
 
@@ -84,20 +113,25 @@ DELETE | [/api/v1/books/review/:reviewId](#delete-reviews) | Delete review for a
  
 
 # Usage
+
 - Run database migration with `npm run db:migrate`
 - Start app development with `npm run start-dev`
 - Install **Postman** and use to test all endpoints
 
+# Contibution
+- If you are interested in contributing to the development of this project , check the [**Contributing**](CONTRIBUTING.md) file.
+
 # References
-http://materializecss.com/<br/>
-https://scotch.io/tutorials/getting-started-with-node-express-and-postgres-using-sequelize#toc-generating-models <br/>
-http://docs.sequelizejs.com/manual/tutorial/models-usage.html </br>
-https://medium.com/@jeffandersen/building-a-node-js-rest-api-with-express-46b0901f29b6</br>
+[Materializecss](http://materializecss.com/)<br/>
+[Scotch](https://scotch.io/tutorials/getting-started-with-node-express-and-postgres-using-sequelize#toc-generating-models) <br/>
+[Sequelize](http://docs.sequelizejs.com/manual/tutorial/models-usage.html) </br>
+[Medium ](https://medium.com/@jeffandersen/building-a-node-js-rest-api-with-express-46b0901f29b6)</br>
 
 # Author
 Lemboye Labake
 
 # License
+[License](https://github.com/llabake/Hello-Books/blob/develop/LICENSE)
 
 </content>
 </snippet>

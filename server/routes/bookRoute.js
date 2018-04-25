@@ -5,14 +5,12 @@ import FavoriteController from '../controllers/v1/favoriteController';
 import ReviewController from '../controllers/v1/reviewController';
 import BorrowBookController from '../controllers/v1/borrowBookController';
 import VoteController from '../controllers/v1/voteController';
-import BookMiddleware from '../middlewares/bookMiddleware';
-import UserMiddleware from '../middlewares/userMiddleware';
 import FavoriteMiddleware from '../middlewares/favoriteMiddleware';
 import VoteMiddleware from '../middlewares/voteMiddleware';
 import BorrowedBookMiddleware from '../middlewares/borrowedBookMiddleware';
-import ReviewMiddleware from '../middlewares//reviewMiddleware';
 import RequestBookController from '../controllers/v1/requestBookController';
 import validateParamsMiddleware from '../middlewares/validateParamsMiddleware';
+import ResourceExistMiddleware from '../middlewares/resourceExistMiddleware';
 
 const bookRoute = (app) => {
   /**
@@ -73,8 +71,41 @@ const bookRoute = (app) => {
   app.get(
     '/api/v1/books/:bookId', validateParamsMiddleware,
     Authentication.authMiddleware, Authentication.isActive,
-    BookMiddleware.bookExist, BookController.getSingleBook
+    ResourceExistMiddleware.bookExist, BookController.getSingleBook
   );
+
+
+    /**
+ * @swagger
+ * /api/v1/books/favbooks:
+ *   get:
+ *     tags:
+ *       - Book Functionality
+ *     description: Adds a book as favorite
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: book
+ *         description: Book object
+ *         in: body
+ *         required: true
+ *       - name: authorization
+ *         in: header
+ *         type: string
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Favorite'
+ *     responses:
+ *       200:
+ *         description: Successfully created
+ *       400:
+ *         description: Incomplete parameters or type
+ */
+app.get(
+  '/api/v1/users/favbooks',
+  Authentication.authMiddleware,
+  Authentication.isActive, FavoriteController.retrieveUserFavorite
+);
   /**
  * @swagger
  * /api/v1/books/{bookId}:
@@ -111,9 +142,10 @@ const bookRoute = (app) => {
  *         description: Book not found
  */
   app.put(
-    '/api/v1/books/:bookId(\\d+)', BookMiddleware.bookExist,
+    '/api/v1/books/:bookId', validateParamsMiddleware, 
     Authentication.authMiddleware, AdminMiddleware.isAdmin,
-    Authentication.isActive, BookController.modifyBook
+    Authentication.isActive, ResourceExistMiddleware.bookExist,
+    BookController.modifyBook
   );
   /**
  * @swagger
@@ -218,10 +250,10 @@ const bookRoute = (app) => {
  *         description: Incomplete parameters or type
  */
   app.post(
-    '/api/v1/books/:bookId(\\d+)/review/',
-    Authentication.authMiddleware, UserMiddleware.userExist,
-    Authentication.isActive,
-    BookMiddleware.bookExist, ReviewController.addReview
+    '/api/v1/books/:bookId/review',
+    Authentication.authMiddleware, ResourceExistMiddleware.userExist,
+    Authentication.isActive, validateParamsMiddleware,
+    ResourceExistMiddleware.bookExist, ReviewController.addReview
   );
   /**
  * @swagger
@@ -250,10 +282,10 @@ const bookRoute = (app) => {
  *         description: Incomplete parameters or type
  */
   app.post(
-    '/api/v1/books/fav/:bookId(\\d+)',
-    Authentication.authMiddleware, UserMiddleware.userExist,
-    Authentication.isActive, BookMiddleware.bookExist,
-    FavoriteController.markBookAsFavorite
+    '/api/v1/books/fav/:bookId',
+    Authentication.authMiddleware, ResourceExistMiddleware.userExist,
+    Authentication.isActive, validateParamsMiddleware,
+    ResourceExistMiddleware.bookExist, FavoriteController.markBookAsFavorite
   );
   /**
  * @swagger
@@ -282,7 +314,7 @@ const bookRoute = (app) => {
  *         description: Incomplete parameters or type
  */
   app.get(
-    '/api/v1/books/favbooks',
+    '/api/v1/users/favbooks',
     Authentication.authMiddleware,
     Authentication.isActive, FavoriteController.retrieveUserFavorite
   );
@@ -313,9 +345,9 @@ const bookRoute = (app) => {
  *         description: Unauthenticated
  */
   app.delete(
-    '/api/v1/books/fav/:bookId(\\d+)',
-    Authentication.authMiddleware,
-    Authentication.isActive, FavoriteMiddleware.favoriteExist,
+    '/api/v1/users/favbooks/:bookId',
+    Authentication.authMiddleware, Authentication.isActive,
+    validateParamsMiddleware, FavoriteMiddleware.favoriteExist,
     FavoriteController.deleteBookFromFavorite
   );
   /**
@@ -368,12 +400,11 @@ const bookRoute = (app) => {
  *         description: Request had been made before
  */
   app.post(
-    '/api/v1/users/borrow/:bookId(\\d+)',
-    Authentication.authMiddleware, UserMiddleware.userExist,
-    Authentication.isActive, BookMiddleware.bookExist,
-    BorrowedBookMiddleware.bookReturnOverDueExist,
-    BorrowedBookMiddleware.borrowedBookExist,
-    BorrowBookController.borrowBook
+    '/api/v1/users/borrow/:bookId',
+    Authentication.authMiddleware, ResourceExistMiddleware.userExist,
+    Authentication.isActive, validateParamsMiddleware,
+    ResourceExistMiddleware.bookExist, BorrowedBookMiddleware.bookReturnOverDueExist,
+    BorrowedBookMiddleware.borrowedBookExist, BorrowBookController.borrowBook
   );
   /**
  * @swagger
@@ -425,13 +456,14 @@ const bookRoute = (app) => {
  *         description: Request had been made before
  */
   app.post(
-    '/api/v1/users/return/:bookId(\\d+)',
-    Authentication.authMiddleware, UserMiddleware.userExist,
-    Authentication.isActive, BorrowBookController.returnBook
+    '/api/v1/users/return/:bookId',
+    Authentication.authMiddleware, ResourceExistMiddleware.userExist,
+    Authentication.isActive, validateParamsMiddleware,
+    BorrowBookController.returnBook
   );
   /**
  * @swagger
- * /api/v1/admin/user/{userId}/borrow/{bookId}:
+ * /api/v1/admin/users/{userId}/borrow/{bookId}:
  *   put:
  *     tags:
  *       - Borrow Functionality
@@ -479,13 +511,13 @@ const bookRoute = (app) => {
  *         description: Request had been made before
  */
   app.put(
-    '/api/v1/admin/user/:userId/borrow/:bookId', validateParamsMiddleware,
+    '/api/v1/admin/users/:userId/borrow/:bookId', validateParamsMiddleware,
     Authentication.authMiddleware, AdminMiddleware.isAdmin,
     Authentication.isActive, BorrowBookController.acceptBorrowBook
   );
   /**
  * @swagger
- * /api/v1/admin/user/{userId}/return/{bookId}:
+ * /api/v1/admin/users/{userId}/return/{bookId}:
  *   put:
  *     tags:
  *       - Return Functionality
@@ -533,7 +565,7 @@ const bookRoute = (app) => {
  *         description: Request had been made before
  */
   app.put(
-    '/api/v1/admin/user/:userId/return/:bookId', validateParamsMiddleware,
+    '/api/v1/admin/users/:userId/return/:bookId', validateParamsMiddleware,
     Authentication.authMiddleware, AdminMiddleware.isAdmin,
     Authentication.isActive, BorrowBookController.acceptReturnBook
   );
@@ -564,10 +596,10 @@ const bookRoute = (app) => {
  *         description: Unauthenticated
  */
   app.delete(
-    '/api/v1/books/review/:reviewId(\\d+)',
-    Authentication.authMiddleware, UserMiddleware.userExist,
-    Authentication.isActive,
-    ReviewController.deleteReview
+    '/api/v1/books/:bookId/reviews/:reviewId',
+    Authentication.authMiddleware, ResourceExistMiddleware.userExist,
+    Authentication.isActive, validateParamsMiddleware,
+    ResourceExistMiddleware.bookExist, ReviewController.deleteReview
   );
   /**
  * @swagger
@@ -596,10 +628,11 @@ const bookRoute = (app) => {
  *         description: Unathenticated
  */
   app.post(
-    '/api/v1/books/:bookId(\\d+)/upvote',
-    Authentication.authMiddleware, UserMiddleware.userExist,
-    Authentication.isActive, BookMiddleware.bookExist,
-    VoteMiddleware.setUpVote, VoteController.voteBook
+    '/api/v1/books/:bookId/upvote',
+    Authentication.authMiddleware, ResourceExistMiddleware.userExist,
+    Authentication.isActive, validateParamsMiddleware,
+    ResourceExistMiddleware.bookExist, VoteMiddleware.setUpVote,
+    VoteController.voteBook
   );
   /**
  * @swagger
@@ -628,10 +661,11 @@ const bookRoute = (app) => {
  *         description: Unathenticated
  */
   app.post(
-    '/api/v1/books/:bookId(\\d+)/downvote',
-    Authentication.authMiddleware, UserMiddleware.userExist,
-    Authentication.isActive, BookMiddleware.bookExist,
-    VoteMiddleware.setDownVote, VoteController.voteBook
+    '/api/v1/books/:bookId/downvote',
+    Authentication.authMiddleware, ResourceExistMiddleware.userExist,
+    Authentication.isActive, validateParamsMiddleware,
+    ResourceExistMiddleware.bookExist, VoteMiddleware.setDownVote,
+    VoteController.voteBook
   );
   /**
  * @swagger
@@ -655,7 +689,7 @@ const bookRoute = (app) => {
  */
 
   app.get(
-    '/api/v1/borrowedbooks/',
+    '/api/v1/admin/books/borrowed-books',
     Authentication.authMiddleware,
     Authentication.isActive,
     BorrowBookController.getAllBorrowedBook
@@ -693,7 +727,7 @@ const bookRoute = (app) => {
   
   /**
   * @swagger
-  * /api/v1/books/{bookId}/allreviews:
+  * /api/v1/books/{bookId}/reviews:
   *   get:
   *     tags:
   *       - Review Functionality
@@ -714,9 +748,10 @@ const bookRoute = (app) => {
   *         description: Book not found
   */
   app.get(
-    '/api/v1/books/:bookId(\\d+)/allreviews/',
-    Authentication.authMiddleware, BookMiddleware.bookExist,
-    Authentication.isActive, ReviewController.getAllBookReview
+    '/api/v1/books/:bookId/reviews',
+    Authentication.authMiddleware, validateParamsMiddleware,
+    ResourceExistMiddleware.bookExist, Authentication.isActive,
+    ReviewController.getAllBookReview
   );
   /**
    * @swagger
@@ -743,11 +778,12 @@ const bookRoute = (app) => {
    *           $ref: '#/definitions/Book'
    */
   app.delete(
-    '/api/v1/books/:bookId(\\d+)',
+    '/api/v1/books/:bookId',
     Authentication.authMiddleware,
     Authentication.isActive,
     AdminMiddleware.isAdmin,
-    BookMiddleware.bookExist,
+    validateParamsMiddleware,
+    ResourceExistMiddleware.bookExist,
     BookController.deleteBook
   );
 
@@ -772,7 +808,7 @@ const bookRoute = (app) => {
    *           $ref: '#/definitions/BorrowedBooks'
    */
   app.get(
-    '/api/v1/user/borrowed_books/',
+    '/api/v1/users/borrowed-books',
     Authentication.authMiddleware,
     Authentication.isActive,
     BorrowBookController.getUserBorrowedBooks
@@ -814,13 +850,15 @@ const bookRoute = (app) => {
    *         description: Book not found
    */
   app.put(
-    '/api/v1/book/review/:reviewId(\\d+)', Authentication.authMiddleware, 
-    UserMiddleware.userExist, Authentication.isActive,
-    ReviewMiddleware.reviewExist, ReviewController.editBookReview
+    '/api/v1/books/:bookId/reviews/:reviewId', Authentication.authMiddleware, 
+    ResourceExistMiddleware.userExist, Authentication.isActive,
+    validateParamsMiddleware, ResourceExistMiddleware.bookExist,
+    ResourceExistMiddleware.reviewExist,
+    ReviewController.editBookReview
   );
     /**
    * @swagger
-   * /api/v1/popular-books:
+   * /api/v1/books/popular-books:
    *   get:
    *     tags:
    *       - Book Functionality
@@ -839,15 +877,15 @@ const bookRoute = (app) => {
    *           $ref: '#/definitions/Book'
    */
   app.get(
-      '/api/v1/popular-books', BookController.getPopularBooks
+      '/api/v1/users/books/popular-books', BookController.getPopularBooks
   )
     /**
    * @swagger
-   * /api/v1/top-user-favorite-books:
+   * /api/v1/books/top-favorite:
    *   get:
    *     tags:
    *       - Book Functionality
-   *     description: Returns a list of top user's favorite books
+   *     description: Returns a list of top favorite books
    *     produces:
    *       - application/json
    *     parameters:
@@ -862,11 +900,11 @@ const bookRoute = (app) => {
    *           $ref: '#/definitions/Book'
    */
   app.get(
-      '/api/v1/top-user-favorite-books', BookController.getTopFavoritedBooks
+      '/api/v1/books/fav/top-favorite', BookController.getTopFavoritedBooks
   )
     /**
  * @swagger
- * /api/v1/user/suggest-book:
+ * /api/v1/books/suggest-book:
  *   post:
  *     tags:
  *       - Book Functionality
@@ -891,8 +929,8 @@ const bookRoute = (app) => {
  *         description: Unathenticated
  */
   app.post(
-    '/api/v1/user/suggest-book', Authentication.authMiddleware,
-    UserMiddleware.userExist, Authentication.isActive,
+    '/api/v1/books/suggest-book', Authentication.authMiddleware,
+    ResourceExistMiddleware.userExist, Authentication.isActive,
     RequestBookController.requestBook
   );
 }

@@ -1,6 +1,13 @@
 import models from '../models';
 
 const { BorrowBook, Book } = models;
+const includeBook = [{
+  model: Book,
+  as: 'book',
+  required: true,
+  attribute: ['id', 'title']
+}]
+
 /**
  *
  *
@@ -28,12 +35,7 @@ export default class BorrowedBookMiddleware {
           $or: ['', 'pending'],
         }
       },
-      include: [{
-        model: Book,
-        as: 'book',
-        required: true,
-        attribute: ['id', 'title']
-      }],
+      include: includeBook,
     })
       .then((borrowedBook) => {
         if (borrowedBook) {
@@ -82,12 +84,7 @@ export default class BorrowedBookMiddleware {
         }
 
       },
-      include: [{
-        model: Book,
-        as: 'book',
-        required: true,
-        attribute: ['id', 'title']
-      }],
+      include: includeBook,
     })
       .then((overDueBook) => {
         if (overDueBook) {

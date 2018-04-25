@@ -2,24 +2,27 @@ const bookDataTest = {
   book1: {
     title: 'so long a letter',
     author: 'mariam ba',
-    isbn: 65486565,
+    isbn: 65486565091,
     quantity: 56,
     publishedYear: 2009,
-    description: 'a book a family'
+    description: 'a book a family',
+    aboutAuthor: 'about the author',
+    
   },
   book2: {
     title: 'zero to hero',
     author: 'eric reis',
-    isbn: 8752626,
+    isbn: 6268752626437,
     quantity: 55,
     publishedYear: 2012,
     description: '8752626',
+    aboutAuthor: 'about the author',
     image: 'https://images-na.ssl-images-amazon.com/images/I/41mbSg-W6-L._SY344_BO1,204,203,200_.jpg'
   },
   validBook1: {
     title: 'fine boys',
     author: 'ehabsuen',
-    isbn: 27565,
+    isbn: 8655758493029,
     quantity: 6,
     publishedYear: 2015,
     aboutAuthor: 'about the author',
@@ -28,7 +31,7 @@ const bookDataTest = {
   validBook2: {
     title: 'There Was A Country',
     author: 'Chinua Achebe',
-    isbn: 65486565,
+    isbn: 6855758493029,
     quantity: 56,
     publishedYear: 2008,
     aboutAuthor: 'about the author',
@@ -37,7 +40,7 @@ const bookDataTest = {
   validBook3: {
     title: 'Lean Start Up',
     author: 'Eric Reis',
-    isbn: 687565,
+    isbn: 7685655612098,
     quantity: 6,
     publishedYear: 2015,
     aboutAuthor: 'about the author',
@@ -48,7 +51,7 @@ const bookDataTest = {
   zeroQuantity: {
     title: 'Alapata Apata',
     author: 'Wole Soyinka',
-    isbn: '8655',
+    isbn: '8655758493029',
     quantity: 0,
     publishedYear: '2009',
     aboutAuthor: 'about the author',
@@ -57,7 +60,7 @@ const bookDataTest = {
   stringQuantity: {
     title: 'Alapata Apata',
     author: 'Wole Soyinka',
-    isbn: 6565,
+    isbn: 8655758493029,
     quantity: 'pj',
     publishedYear: 2009,
     aboutAuthor: 'about the author',

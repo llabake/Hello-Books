@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import models from '../models/index';
 
 export const isEmail = (email) => {
   const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -18,7 +19,9 @@ export const isNumeric = (str) => {
 /**
    *
    * @description: generate a login token
+   * 
    * @param {Object} user payload to generate token
+   * 
    * @returns {String} the gnerated token
    */
 export const generateToken = (user) => {
@@ -59,3 +62,87 @@ export const trimObject = (obj) => {
   return trimmedObject;
 }
 
+export const formatPagination = (req) => {
+  const maxPageLimit = 4;
+  const limit = !Number.isInteger(parseInt(req.query.limit, 10))
+  || req.query.limit > maxPageLimit ? maxPageLimit : req.query.limit
+  // TODO: add limit as an env variable
+  const page = (!Number.isInteger(parseInt(req.query.page, 10))
+  || req.query.page <= 0) ? 1 : req.query.page
+  const offset = limit * (page - 1);
+  return { limit, page, offset }
+}
+
+export const hostUrl = process.env.NODE_ENV === 'production' ?
+  'https://myhellobooks.herokuapp.com' :
+  'http://localhost:5000';
+
+export const getPrevPaginatedUrl = (limit, page, totalCount, path) => {
+  const char = path.indexOf('?') !== -1 ? '&' : '?';
+  return page > 1 ? `${hostUrl}${path}${char}page=${page-1}&limit=${limit}` : null
+}
+
+export const getNextPaginatedUrl = (limit, page, totalCount, path) => {
+  const char = path.indexOf('?') !== -1 ? '&' : '?';
+  return page + 1 <= Math.ceil(totalCount/limit) ? `${hostUrl}${path}${char}page=${page+1}&limit=${limit}` : null
+}
+
+export const paginateBookResult = ({ req, res, result, limit, page, }) => {
+  let books = result.rows;
+  let message = 'Books retrieved successfully';
+  if(result.count === 0) {
+    message = 'Books are unavailable now, do check back later'
+    if(req.query.search !== null || req.query.borrowStatus || req.query.returnStatus) {
+      message = 'No book matches your search. Try some other combinations'
+    }
+    if(req.path === '/api/v1/books/fav/top-favorite') {
+      message = 'No books found';
+    }
+    if(req.path === '/api/v1/users/borrowed-books') {
+      message = 'Start borrowing books now';
+    }
+  } else if (result.rows.length === 0) {
+      message = 'There are no books in this pagination set'
+  } else if (req.path === '/api/v1/books/fav/top-favorite') {
+      message = 'Top favorited books retrieved successfully',
+      books = sortBooksByTopFavorites(result.rows)
+  } else if (req.path === '/api/v1/users/books/popular-books') {
+      message = 'Popular books retrieved successfully'
+  } else if (req.path === '/api/v1/users/borrowed-books' || req.path === '/api/v1/admin/books/borrowed-books') {
+    message = 'BorrowedBooks history fetched successfully'
+    if (req.path === '/api/v1/admin/books/borrowed-books') {
+      message = 'Borrowed books retrieved successfully'
+    }
+    return res.status(200).json({
+      message,
+      borrowedBooks: result.rows,
+      count: result.count,
+      next: getNextPaginatedUrl(limit, page, result.count, req.originalUrl),
+      previous: getPrevPaginatedUrl(limit, page, result.count, req.originalUrl)
+    });
+  }
+  return res.status(200).json({
+    message,
+    books,
+    count: result.count,
+    next: getNextPaginatedUrl(limit, page, result.count, req.originalUrl),
+    previous: getPrevPaginatedUrl(limit, page, result.count, req.originalUrl)
+  });
+}
+
+export const checkResourceExist = async (resource, resourceId, res, next) =>  {
+  try {
+    const resourceFound = await models[resource].findById(resourceId)
+    if(!resourceFound) {
+      return res.status(404).json({
+        message: `${resource} with id: ${resourceId} not found`
+      });
+    }
+    next();
+  } catch (error) {
+      return res.status(500).json({
+        message: 'Error sending your request',
+        error
+      })
+  }
+}
