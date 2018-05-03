@@ -44,8 +44,16 @@ const bookDataTest = {
     quantity: 6,
     publishedYear: 2015,
     aboutAuthor: 'about the author',
-   
     description: 'a start up book'
+  },
+  validBook4: {
+    title: 'Lean Up',
+    author: 'Erica Reis',
+    isbn: 5485655612098,
+    quantity: 6,
+    publishedYear: 2010,
+    aboutAuthor: 'about the author of the book',
+    description: 'a start up book on book'
   },
   emptyBookDetail: {},
   zeroQuantity: {
@@ -88,8 +96,17 @@ const bookDataTest = {
     isbn: 565,
     quantity: 0,
     publishedYear: 2009,
+    aboutAuthor: 'about the author',
     description: 'a book a family'
   },
+  suggestedBook1: {
+    title: 'suggested book title',
+    author: 'suggested book author'
+  },
+  suggestedBook2: {
+    title: 'suggested book title2',
+    author: 'suggested book author2'
+  }
 };
 
 export default bookDataTest;

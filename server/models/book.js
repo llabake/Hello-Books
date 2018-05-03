@@ -52,6 +52,7 @@ export default(sequelize, DataTypes) => {
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 0,
       validate: {
         notEmpty: {
           args: true,
@@ -115,7 +116,7 @@ export default(sequelize, DataTypes) => {
     });
     Book.hasMany(models.BorrowBook, {
       foreignKey: 'bookId',
-      as: 'book',
+      as: 'borrowedBook',
     });
     Book.hasMany(models.Vote, {
       foreignKey: 'bookId',

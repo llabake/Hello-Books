@@ -55,13 +55,13 @@ export default class FavoriteController {
         }).then((book) => {
           if (created) {
             return res.status(201).json({
-              message: `${book.title} has been added to your favorite list`,
+              message: `'${book.title}' has been added to your favorite list`,
               favorite,
               book
             });
           }
           return res.status(409).json({
-            message: `${book.title} already on your favorite list`
+            message: `'${book.title}' already on your favorite list`
           });
         });
       })
@@ -112,7 +112,7 @@ export default class FavoriteController {
         });
       })
       .catch((error) => {
-        res.status(500).json({ message: 'error sending your request', error: error.message });
+        return res.status(500).json({ message: 'error sending your request', error: error.message });
       });
   }
   /**
@@ -141,7 +141,7 @@ export default class FavoriteController {
       .then((favorite) => {
         favorite.destroy()
           .then(() => res.status(200).json({
-            message: `${favorite.book.title} has been removed from your favorite list`,
+            message: `'${favorite.book.title}' has been removed from your favorite list`,
             book: favorite.book
           }));
       })

@@ -14,17 +14,28 @@ const { expect } = chai;
 describe('Review Endpoint Functionality', () => {
   describe('User signs in to post a review', () => {
     beforeEach((done) => {
-      Review.destroy({ where: {} })
-        .then(() => {
-        }); Book.destroy({ where: {} })
-        .then(() => {
-        });
-      User.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
-    });
-    it('it should return an array of errors to validate empty input', (done) => {
+      Review.destroy({
+        cascade: true,
+        truncate: true,
+        restartIdentity: true
+      }).then(() => {
+          Book.destroy({
+            cascade: true,
+            truncate: true,
+            restartIdentity: true
+          }).then(() => {
+            User.destroy({
+              cascade: true,
+              truncate: true,
+              restartIdentity: true
+            }).then(() => {
+              done();
+            })
+          })
+      })
+    })
+    
+    it('should return an array of errors to validate empty input', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -39,16 +50,10 @@ describe('Review Endpoint Functionality', () => {
               .end((err, res) => {
                 expect(400);
                 expect(res.body).to.eql({
-                  errors: [
-                    {
-                      path: 'content',
-                      message: 'content is required'
-                    },
-                    {
-                      path: 'caption',
-                      message: 'caption is required'
-                    }
-                  ]
+                  errors: {
+                    content: 'Content can not be blank',
+                    caption: 'Caption can not be blank'
+                  }
                 });
                 done(err);
               });
@@ -56,7 +61,7 @@ describe('Review Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return an array of errors to validate short review content', (done) => {
+    it('should return an array of errors to validate short review content', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -71,12 +76,9 @@ describe('Review Endpoint Functionality', () => {
               .end((err, res) => {
                 expect(400);
                 expect(res.body).to.eql({
-                  errors: [
-                    {
-                      path: 'content',
-                      message: 'Review content is too short'
-                    }
-                  ]
+                  errors: {
+                    content: "Minimum of 10 character and Maximum of 1000 characters required"
+                  }
                 });
                 done(err);
               });
@@ -84,7 +86,7 @@ describe('Review Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow a logged out user post a review', (done) => {
+    it('should not allow a logged out user post a review', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         const book = bookData.book1;
@@ -104,7 +106,7 @@ describe('Review Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow a post of review if a book does not exist', (done) => {
+    it('should not allow a post of review if a book does not exist', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -124,15 +126,15 @@ describe('Review Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow a post of review by a user that does not exist', (done) => {
-      const user = userData.validUser1;
+    it('should not allow a post of review by a user that does not exist', (done) => {
+      const user = userData.validUser7;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const bookId = 200;
           const review = reviewData.validReview1;
           const token = generateToken(createdUser);
-          createdUser.destroy();
-          request.post(`/api/v1/books/${bookId}/review`)
+          createdUser.destroy().then(() => {
+            request.post(`/api/v1/books/${bookId}/review`)
             .send(review)
             .set('Accept', 'application/json')
             .set('Authorization', token)
@@ -142,10 +144,11 @@ describe('Review Endpoint Functionality', () => {
                 .to.eql(`User with id: ${createdUser.id} not found`);
               done(err);
             });
+          })
         });
       });
     });
-    it('it should successfully post a review', (done) => {
+    it('should successfully post a review', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -168,7 +171,7 @@ describe('Review Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow users delete others reviews', (done) => {
+    it('should not allow users delete others reviews', (done) => {
       const userA = userData.validUser1;
       const userB = userData.validUser2;
       User.bulkCreate([userA, userB])
@@ -180,9 +183,10 @@ describe('Review Endpoint Functionality', () => {
             Review.create({
               bookId: createdBook.id,
               userId: users[0].id,
-              content: 'suspense filled'
+              content: reviewData.reviewToBeDeleted.content,
+              caption: reviewData.reviewToBeDeleted.caption
             }).then((createdReview) => {
-              request.delete(`/api/v1/books/review/${createdReview.id}`)
+              request.delete(`/api/v1/books/${createdBook.id}/reviews/${createdReview.id}`)
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .end((err, res) => {
@@ -195,7 +199,7 @@ describe('Review Endpoint Functionality', () => {
           });
         });
     });
-    it('it should return review not found', (done) => {
+    it('should return review not found', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
@@ -205,10 +209,11 @@ describe('Review Endpoint Functionality', () => {
           Review.create({
             bookId: createdBook.id,
             userId: createdUser.id,
-            content: 'suspense filled'
+            content: reviewData.reviewToBeDeleted.content,
+            caption: reviewData.reviewToBeDeleted.caption
           }).then(() => {
             const reviewId = 5000;
-            request.delete(`/api/v1/books/review/${reviewId}`)
+            request.delete(`/api/v1/books/${createdBook.id}/reviews/${reviewId}`)
               .set('Accept', 'application/json')
               .set('Authorization', token)
               .end((err, res) => {
@@ -220,7 +225,7 @@ describe('Review Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully delete a review', (done) => {
+    it('should successfully delete a review', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
@@ -230,9 +235,10 @@ describe('Review Endpoint Functionality', () => {
           Review.create({
             bookId: createdBook.id,
             userId: createdUser.id,
-            content: 'suspense filled'
+            content: reviewData.reviewToBeDeleted.content,
+            caption: reviewData.reviewToBeDeleted.caption
           }).then((createdReview) => {
-            request.delete(`/api/v1/books/review/${createdReview.id}`)
+            request.delete(`/api/v1/books/${createdBook.id}/reviews/${createdReview.id}`)
               .set('Accept', 'application/json')
               .set('Authorization', token)
               .end((err, res) => {
@@ -244,14 +250,14 @@ describe('Review Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return be the first to post a review', (done) => {
+    it('should return be the first to post a review', (done) => {
       const user = userData.validUser3;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const book = bookData.book1
           const token = generateToken(createdUser);
           Book.create(book).then((createdBook) => {
-            request.get(`/api/v1/books/${createdBook.id}/allreviews`)
+            request.get(`/api/v1/books/${createdBook.id}/reviews`)
               .set('Accept', 'application/json')
               .set('Authorization', token)
               .end((err, res) => {
@@ -267,19 +273,31 @@ describe('Review Endpoint Functionality', () => {
         });
       });
     });
-   xit('it should successfully get all reviews for a book', (done) => {
-      const user = userData.validUser3;
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true }).then(() => {
-          const reviewA = reviewData.validReview1;
-          const reviewB = reviewData.validReview2;
+    it('should successfully get all reviews for a book', (done) => {
+      const userA = userData.validUser1;
+      const userB = userData.validUser2;
+      User.bulkCreate([userA, userB])
+        .then(() => User.update({ active: true }, { where: {} }))
+        .spread(() => User.findAll()).then((createdUsers) => {
           const book = bookData.book2
-          const token = generateToken(createdUser);
+          const token = generateToken(createdUsers[0]);
           Book.create(book).then((createdBook) => {
+            const reviewA = {
+              content: 'mesmerising read and grest lessons',
+              caption: 'read the caption',
+              userId: createdUsers[0].id,
+              bookId: createdBook.id
+            }
+            const reviewB = {
+              content: 'suspense filled and thrilling',
+              caption: 'suspense filled',
+              userId: createdUsers[1].id,
+              bookId: createdBook.id
+            }
             Review.bulkCreate([reviewA, reviewB])
             .then(() => Review.findAll())
             .then(() => {
-              request.get(`/api/v1/books/${createdBook.id}/allreviews`)
+              request.get(`/api/v1/books/${createdBook.id}/reviews`)
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .end((err, res) => {
@@ -292,37 +310,71 @@ describe('Review Endpoint Functionality', () => {
                   done(err);
                 });
             });
-          })
-
-        });
-      });
-    });
-    xit('it should successfully edit a review', (done) => {
-      const user = userData.validUser4;
-      const newReview = userData.editReviewObject
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true });
-        const book = bookData.book1;
-        const token = generateToken(createdUser);
-        Book.create(book).then((createdBook) => {
-          Review.create({
-            bookId: createdBook.id,
-            userId: createdUser.id,
-            content: 'suspense filled',
-            caption: "test caption"
-          }).then((createdReview) => {
-            request.put(`/api/v1/books/review/${createdReview.id}`)
-              .send(newReview)
-              .set('Accept', 'application/json')
-              .set('Authorization', token)
-              .end((err, res) => {
-                expect(200);
-                expect(res.body.message).to.eql('Your review has been updated');
-                expect(res.body).to.have.own.property('review')
-                done(err);
-              });
           });
         });
+    });
+    it ('should return caption cannot be blank', (done) => {
+      const user = userData.validUser4;
+      const reviewWithNoCaption = reviewData.reviewWithNoCaption;
+      User.create(user).then((createdUser) => {
+        createdUser.update({ active: true }).then(() => {
+          const book = bookData.book1;
+          const token = generateToken(createdUser);
+          Book.create(book).then((createdBook) => {
+            Review.create({
+              bookId: createdBook.id,
+              userId: createdUser.id,
+              content: 'suspense filled',
+              caption: "what was there before is fine"
+            }).then((createdReview) => {
+              request.put(`/api/v1/books/${createdBook.id}/reviews/${createdReview.id}`)
+                .send(reviewWithNoCaption)
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .end((err, res) => {
+                  expect(400);
+                  expect(res.body).to.eql({
+                    errors: {
+                      caption: 'Caption can not be blank'
+                    }
+                  });
+                  done(err);
+                });
+            });
+          });
+        })
+      });
+    });
+    // FIX ME: what happens when review is null
+    it('should successfully edit a review', (done) => {
+      const user = userData.validUser4;
+      const newReview = reviewData.editReviewObject;
+      User.create(user).then((createdUser) => {
+        createdUser.update({ active: true }).then(() => {
+          const book = bookData.book1;
+          const token = generateToken(createdUser);
+          Book.create(book).then((createdBook) => {
+            Review.create({
+              bookId: createdBook.id,
+              userId: createdUser.id,
+              content: 'suspense filled',
+              caption: "test caption"
+            }).then((createdReview) => {
+              request.put(`/api/v1/books/${createdBook.id}/reviews/${createdReview.id}`)
+                .send(newReview)
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .end((err, res) => {
+                  expect(200);
+                  expect(res.body.message).to.eql('Your review has been updated');
+                  expect(res.body.review.content).to.eql(newReview.content);
+                  expect(res.body.review.caption).to.eql(newReview.caption);
+                  expect(res.body).to.have.own.property('review')
+                  done(err);
+                });
+            });
+          });
+        })
       });
     });
   });

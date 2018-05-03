@@ -12,45 +12,49 @@ const { expect } = chai;
 
 describe('User Endpoint Functionality', () => {
   beforeEach((done) => {
-    User.destroy({ where: {} })
+    User.destroy({
+      cascade: true,
+      truncate: true,
+      restartIdentity: true
+    })
       .then(() => {
         done();
       });
   });
   describe('User account creation', () => {
-    it('it should return an array of errors to validate user input', (done) => {
+    it('should return an array of errors to validate user input', (done) => {
       request.post('/api/v1/users/signup')
         .send({})
         .end((err, res) => {
           expect(400);
           expect(res.body).to.eql({
             errors: {
-              "username": "username is required",
-              "lastName": "lastName is required",
-              "email": "email is required",
-              "password": "password is required",
-              "firstName": "firstName is required"
+              username: "username is required",
+              lastName: "lastName is required",
+              email: "email is required",
+              password: "password is required",
+              firstName: "firstName is required"
             }
           });
           done(err);
         });
     });
-    it('it should return error for wrong field input type', (done) => {
+    it('should return error for wrong field input type', (done) => {
       request.post('/api/v1/users/signup')
         .send(userDataTest.userWithWrongFieldFormat)
         .end((err, res) => {
           expect(400);
           expect(res.body).to.eql({
             errors: {
-              "username": "Username can only contain alphabets and numbers",
-              "email": "Please enter a valid email",
-              "firstName": "Firstname can not be blank"
+              username: "Username can only contain alphabets and numbers",
+              email: "Please enter a valid email",
+              firstName: "Firstname can not be blank"
             }
           });
           done(err);
         });
     });
-    it('it should create a user and return status code of 201', (done) => {
+    it('should create a user and return status code of 201', (done) => {
       const user = userDataTest.validUser1;
       request.post('/api/v1/users/signup')
         .send(user)
@@ -60,14 +64,14 @@ describe('User Endpoint Functionality', () => {
           expect(res.body.message)
             .to.eql(`Your Signup was successful ${user.username}`);
           expect(res.body.user).to.have.own.property('id');
-          expect(res.body.user.id).to.be.an('number');
+          expect(res.body.user.id).to.be.a('number');
           expect(res.body.user.username).to.eql(user.username);
           expect(res.body.user.email).to.eql(user.email);
           expect(res.body.token).to.be.a('string');
           done(err);
         });
     });
-    it('it should raise validation error for unique username', (done) => {
+    it('should raise validation error for unique email', (done) => {
       const user = userDataTest.validUser1;
       User.create(user).then(() => {
         request.post('/api/v1/users/signup')
@@ -78,9 +82,9 @@ describe('User Endpoint Functionality', () => {
             expect(res.body).to.eql({
               errors: [
                 {
-                  'path': 'email',
-                  'message': 'Email already exist'
-                },
+                  message: "Email already exist",
+                  path: "email"
+                }
               ]
             });
             expect(res.status).to.eql(409);
@@ -90,7 +94,7 @@ describe('User Endpoint Functionality', () => {
     });
   });
   describe('User sign in operation', () => {
-    it('it should return an array of errors to validate user input', (done) => {
+    it('should return an array of errors to validate user input', (done) => {
       const user = userDataTest.userWithBlankUsernameAndPassword;
       request.post('/api/v1/users/signin')
         .send(user)
@@ -98,29 +102,30 @@ describe('User Endpoint Functionality', () => {
           expect(400);
           expect(res.body).to.eql({
             errors: {
-              "username": "Username can not be blank",
-              "password": "Password can not be blank"
+              username: "Username can not be blank",
+              password: "Password can not be blank"
             }
           });
           done(err);
         });
     });
 
-    it('it should return error for wrong field input type', (done) => {
+    it('should return error for wrong field input type', (done) => {
       request.post('/api/v1/users/signup')
         .send(userDataTest.userWithWrongSignInFormat)
         .end((err, res) => {
           expect(400);
           expect(res.body).to.eql({
             errors: {
-              "username": "Username can only contain alphabets and numbers",
-              "password": "Minimum of 3 character and Maximum of 25 characters required"
+              email: "email is required",
+              firstName: "firstName is required",
+              lastName: "lastName is required"
             }
           });
           done(err);
         });
     });
-    it('it should return authentication failed for username not found', (done) => {
+    it('should return authentication failed for username not found', (done) => {
       const user = userDataTest.wrongUserSignInCredentials1;
       request.post('/api/v1/users/signin')
         .send(user)
@@ -132,7 +137,7 @@ describe('User Endpoint Functionality', () => {
           done(err);
         });
     });
-    it('it should return authentication failed for password incorrect', (done) => {
+    it('should return authentication failed for password incorrect', (done) => {
       const user = userDataTest.invalidUserSignIn3;
       request.post('/api/v1/users/signin')
         .send(user)
@@ -144,7 +149,7 @@ describe('User Endpoint Functionality', () => {
           done(err);
         });
     });
-    it('it should sign a user in', (done) => {
+    it('should sign a user in', (done) => {
       const user = userDataTest.validUser1;
       User.create(user).then(() => {
         request.post('/api/v1/users/signin')
@@ -160,7 +165,7 @@ describe('User Endpoint Functionality', () => {
     });
   });
   describe('User sign out operation', () => {
-    it('it should sign a user out', (done) => {
+    it('should sign a user out', (done) => {
       const user = userDataTest.validUser1;
       User.create(user).then((createdUser) => {
         const token = generateToken(createdUser);
@@ -179,7 +184,7 @@ describe('User Endpoint Functionality', () => {
   });
   describe('User Exist Operation', () => {
     
-    it('it should return email or username expected in query', (done) => {
+    it('should return email or username expected in query', (done) => {
         request.get('/api/v1/users/signup/validate')
         .end((err, res) => {
           expect(400);
@@ -190,7 +195,7 @@ describe('User Endpoint Functionality', () => {
         });
     });
 
-    it('it should return username is valid', (done) => {
+    it('should return username is valid', (done) => {
       request.get('/api/v1/users/signup/validate?username=andela')
       .end((err, res) => {
         expect(200);
@@ -200,7 +205,7 @@ describe('User Endpoint Functionality', () => {
         done(err);
       });
     });
-    it('it should return email is valid', (done) => {
+    it('should return email is valid', (done) => {
       request.get('/api/v1/users/signup/validate?email=damolawuraola@gmail.com')
       .end((err, res) => {
         expect(200);
@@ -210,7 +215,7 @@ describe('User Endpoint Functionality', () => {
         done(err);
       });
     });
-    it('it should check if a username already exist', (done) => {
+    it('should check if a username already exist', (done) => {
       const user = userDataTest.validUser2;
       User.create(user).then(() => {
         request.get('/api/v1/users/signup/validate?username=solape')
@@ -223,7 +228,7 @@ describe('User Endpoint Functionality', () => {
         });
       })
     });
-    it('it should check if an email already exist', (done) => {
+    it('should check if an email already exist', (done) => {
       const user = userDataTest.validUser2;
       User.create(user).then(() => {
         request.get('/api/v1/users/signup/validate?email=damywuraola@gmail.com')
@@ -239,7 +244,7 @@ describe('User Endpoint Functionality', () => {
   });
 
   describe('User Profile Operation', () => {
-    it('it should  edit user profile successfully', (done) => {
+    it('should edit user\'s profile successfully', (done) => {
       const user = userDataTest.validUser1;
       const editDetail = userDataTest.editDetail
       User.create(user).then((createdUser) => {
@@ -259,25 +264,24 @@ describe('User Endpoint Functionality', () => {
           });
       });
     });
-  });
-
-  it('it should  get user profile successfully', (done) => {
-    const user = userDataTest.validUser1;
-    User.create(user).then((createdUser) => {
-      const token = generateToken(createdUser);
-      request.get('/api/v1/users/profile')
-        .set('Accept', 'application/json')
-        .set("Authorization" , token)
-        .end((err, res) => {
-          expect(200);
-          expect(res.body.message).to.eql("Profile retrieved successfully");
-          expect(res.body.profile).to.have.own.property('id');
-          expect(res.body.profile.id).to.be.a("number");
-          expect(res.body.profile.firstName).to.eql(createdUser.firstName);
-          expect(res.body.profile.lastName).to.eql(createdUser.lastName);
-          expect(res.status).to.eql(200);
-          done(err);
-        });
+    it('should  get user profile successfully', (done) => {
+      const user = userDataTest.validUser1;
+      User.create(user).then((createdUser) => {
+        const token = generateToken(createdUser);
+        request.get('/api/v1/users/profile')
+          .set('Accept', 'application/json')
+          .set("Authorization" , token)
+          .end((err, res) => {
+            expect(200);
+            expect(res.body.message).to.eql("Profile retrieved successfully");
+            expect(res.body.profile).to.have.own.property('id');
+            expect(res.body.profile.id).to.be.a("number");
+            expect(res.body.profile.firstName).to.eql(createdUser.firstName);
+            expect(res.body.profile.lastName).to.eql(createdUser.lastName);
+            expect(res.status).to.eql(200);
+            done(err);
+          });
+      });
     });
   });
 });

@@ -32,7 +32,13 @@
     "no-param-reassign": 0,
     "comma-dangle": 0,
     "curly": ["error", "multi-line"],
-    "import/no-unresolved": [0, { "commonjs": true }],
+    "import/no-unresolved": 0,
+    "import/extensions": [
+      2,
+      {
+        "js": "never"
+      }
+    ],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
     "valid-jsdoc": ["error", {
       "requireReturn": true,
@@ -50,6 +56,17 @@
   },
   "globals": {
     "document": true,
-    "window": true
-  }
+    "window": true,
+    "localStorage": true
+  },
+  "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
+        }
+      }
+    }
 }

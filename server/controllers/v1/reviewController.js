@@ -1,6 +1,6 @@
 import models from '../../models';
 import InputValidator from '../../helpers/inputValidator';
-import { trimObject } from '../../helpers/utils';
+import { trimObject, formatPagination, paginateBookReviews } from '../../helpers/utils';
 
 const { Review, Book, User , Favorite } = models;
 const includeModels = [{
@@ -95,7 +95,8 @@ export default class ReviewController {
   static deleteReview(req, res) {
     Review.findOne({
       where: {
-        id: req.params.reviewId
+        id: req.params.reviewId,
+        bookId: req.params.bookId
       }
     })
       .then((review) => {
@@ -131,7 +132,8 @@ export default class ReviewController {
    * @memberof ReviewController
    */
   static getAllBookReview(req, res) {
-    Review.findAll({
+    const { limit, page, offset } = formatPagination(req)
+    Review.findAndCountAll({
       where: {
         bookId: req.params.bookId
       },
@@ -141,25 +143,14 @@ export default class ReviewController {
         attributes: ['username', 'id', 'image']
       }],
       order:[['updatedAt', 'DESC']],
-      
+      limit,
+      offset
     })
-    .then((reviews) => {
-      if (reviews.length === 0) {
-        return res.status(200).json({
-          reviews,
-          message: 'Be the first to post a review...'
-        })
-      }
-      return res.status(200).json({
-        message: 'Reviews retrieved successfully',
-        reviews
-      })
+    .then((result) => {
+      return paginateBookReviews({ req, res, result, limit, page })      
     })
     .catch((error) => {
-      res.status(500).json({
-        message: 'error sending your request',
-        error: error.message
-      });
+      return res.status(500).json({ message: 'error sending your request', error });
     })
   }
 
@@ -175,16 +166,16 @@ export default class ReviewController {
     const reviewDetail = trimObject(req.body);
     const { errors, isValid } = InputValidator.editReview(reviewDetail);
     if (!isValid) {
-      res.status(400).json({ errors });
+      return res.status(400).json({ errors });
     } else {
       Review.update(
-        req.body,
+        reviewDetail,
         {
           where: { id: req.params.reviewId },
           returning: true,
         }
       ).then((editedReview) => {
-        res.status(200).json({
+        return res.status(200).json({
           review: editedReview[1][0],
           message: 'Your review has been updated'
         });

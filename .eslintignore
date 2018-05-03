@@ -1,0 +1,13 @@
+logs
+*.log
+coverage/*
+.env
+.nyc_output/*
+.vscode/*
+template/*
+!client/src
+node-modules
+webpack.*
+dist*
+server/tests
+client/tests

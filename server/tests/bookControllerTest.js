@@ -6,31 +6,38 @@ import { generateToken } from '../helpers/utils';
 import userData from '../tests/mocks/userData';
 import bookData from '../tests/mocks/bookData';
 
-const { Book, User } = models;
+const { Book, User, BorrowBook } = models;
 const request = supertest(app);
 const { expect } = chai;
 
-describe('Index route:', () => {
-  it('it should return welcome message', (done) => {
-    request.get('/')
-      .expect(200)
-      .end((err, res) => {
-        expect(res.body).to.eql({ message: 'Welcome to Hello Books' });
-        done(err);
-      });
-  });
-});
+// describe('Index route:', () => {
+//   it('should return welcome message', (done) => {
+//     request.get('/')
+//       .expect(200)
+//       .end((err, res) => {
+//         expect(res.body).to.eql({ message: 'Welcome to Hello Books' });
+//         done(err);
+//       });
+//   });
+// });
 
 describe('Book Endpoint Functionality', () => {
   describe('Book addition', () => {
     beforeEach((done) => {
-      Book.destroy({ where: {} })
-        .then(() => {
-          User.destroy({ where: {} })
-            .then(() => {
-              done();
-            });
-        });
+      Book.destroy({
+        cascade: true,
+        truncate: true,
+        restartIdentity: true
+      })
+      .then(() => {
+        User.destroy({
+          cascade: true,
+          truncate: true,
+          restartIdentity: true
+        })
+      }).then(() => {
+        done();
+      })
     });
     it('should return an array of errors to validate book input', (done) => {
       User.create(userData.adminUser).then((createdUser) => {
@@ -172,7 +179,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return book not found', (done) => {
+    it('should return book not found', (done) => {
       User.create(userData.normalUser).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const token = generateToken(createdUser);
@@ -191,7 +198,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully get a book', (done) => {
+    it('should successfully get a book', (done) => {
       User.create(userData.normalUser).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const token = generateToken(createdUser);
@@ -216,7 +223,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow a normal user modify a book', (done) => {
+    it('should not allow a normal user modify a book', (done) => {
       User.create(userData.normalUser).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const token = generateToken(createdUser);
@@ -234,7 +241,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should modify a book', (done) => {
+    it('should modify a book', (done) => {
       User.create(userData.adminUser).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const token = generateToken(createdUser);
@@ -255,7 +262,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not modify a book isbn number to an existing book isbn number', (done) => {
+    it('should not modify a book isbn number to an existing book isbn number', (done) => {
       User.create(userData.adminUser).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const booka = bookData.validBook3;
@@ -278,7 +285,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully get all books in the library', (done) => {
+    it('should successfully get all books in the library', (done) => {
       const user = userData.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -311,8 +318,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    // check the returned message it is returning the message for book search
-    xit('it should return books unavailable', (done) => {
+    it('should return books unavailable', (done) => {
       const user = userData.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -321,7 +327,6 @@ describe('Book Endpoint Functionality', () => {
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .end((err, res) => {
-              // console.log(res, 'ehhdfhfhf')
               expect(200);
               expect(res.body.message)
                 .to.eql('Books are unavailable now, do check back later');
@@ -332,7 +337,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully get all books by upvotes', (done) => {
+    it('should successfully get all books by upvotes', (done) => {
       const user = userData.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -362,8 +367,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    // check the count
-    xit('should return no match', (done) => {
+    it('should return no match', (done) => {
       const user = userData.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -372,18 +376,15 @@ describe('Book Endpoint Functionality', () => {
           const token = generateToken(createdUser);
           Book.bulkCreate([booka, bookb])
             .then(() => Book.findAndCountAll())
-            .then((result) => {
+            .then(() => {
               request.get('/api/v1/books?search=everything')
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .end((err, res) => {
-                  console.log(result.count, 'count')
-                  console.log(result, 'result')
                   expect(200);
                   expect(res.body.message)
                     .to.eql('No book matches your search. Try some other combinations');
                   expect(res.body.books).to.be.an('array').to.have.length(0);
-                  // expect(res.body.count).to.equal(result.count)
                   expect(res.body.next).to.equal(null)
                   expect(res.body.previous).to.equal(null)
                   done(err);
@@ -392,7 +393,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully get all books by search term', (done) => {
+    it('should successfully get all books by search term', (done) => {
       const user = userData.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -418,7 +419,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return isbn expected in query', (done) => {
+    it('should return isbn expected in query', (done) => {
       request.get('/api/v1/books/add/validate')
       .end((err, res) => {
         expect(400);
@@ -429,7 +430,7 @@ describe('Book Endpoint Functionality', () => {
       });
     });
 
-    it('it should return ISBN is valid', (done) => {
+    it('should return ISBN is valid', (done) => {
       request.get('/api/v1/books/add/validate?isbn=576737')
       .end((err, res) => {
         expect(200);
@@ -439,7 +440,7 @@ describe('Book Endpoint Functionality', () => {
         done(err);
       });
     });
-    it('it should check if a ISBN already exist', (done) => {
+    it('should check if a ISBN already exist', (done) => {
       const book = bookData.book2;
       Book.create(book).then((createdBook) => {
         request.get(`/api/v1/books/add/validate?isbn=${book.isbn}`)
@@ -452,19 +453,17 @@ describe('Book Endpoint Functionality', () => {
         });
       })
     });
-    // check delete
-    xit('it should successfully delete a book', (done) => {
+    it('should successfully delete a book', (done) => {
       const user = userData.adminUser2;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
-        const book = bookData.book1;
+        const book = bookData.validBook4;
         const token = generateToken(createdUser);
         Book.create(book).then((createdBook) => {
           request.delete(`/api/v1/books/${createdBook.id}`)
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .end((err, res) => {
-              // console.log(res, 'ghhd')
               expect(200);
               expect(res.body.message).to.eql('Book deleted successfully');
               done(err);
@@ -472,7 +471,35 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should get most popular books ', (done) => {
+    it('should not delete a book that has been borrowed out', (done) => {
+      const user = userData.adminUser2;
+      User.create(user).then((createdUser) => {
+        createdUser.update({ active: true });
+        const book = bookData.book1;
+        const token = generateToken(createdUser);
+        Book.create(book).then((createdBook) => {
+          BorrowBook.create({
+            bookId: createdBook.id,
+            userId: createdUser.id
+          }).then((createdBorrowedBook) => {
+            createdBorrowedBook.update({
+              borrowStatus: 'accepted',
+              returnStatus: ''
+            }).then(() => {
+              request.delete(`/api/v1/books/${createdBook.id}`)
+              .set('Accept', 'application/json')
+              .set('Authorization', token)
+              .end((err, res) => {
+                expect(400);
+                expect(res.body.message).to.eql(`'${createdBook.title}' cannot be deleted at the moment, a user has borrowed it`);
+                done(err);
+              });
+            })
+          })
+        });
+      });
+    });
+    it('should get most popular books ', (done) => {
       const user = userData.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -502,7 +529,7 @@ describe('Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should get top favorite books ', (done) => {
+    it('should get top favorite books ', (done) => {
       const user = userData.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
