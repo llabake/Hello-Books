@@ -11,20 +11,30 @@ const request = supertest(app);
 const { expect } = chai;
 
 describe('Vote Endpoint Functionality', () => {
-  describe('Aunthenticated user can vote a book', () => {
+  describe('Authenticated user can vote a book', () => {
     beforeEach((done) => {
-      Vote.destroy({ where: {} })
-        .then(() => {
-        }); Book.destroy({ where: {} })
-        .then(() => {
-        });
-      User.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
-    });
-    it('it should not allow a logged out user vote a book', (done) => {
-      const user = userData.validUser1;
+      Vote.destroy({
+        cascade: true,
+        truncate: true,
+        restartIdentity: true
+      }).then(() => {
+          Book.destroy({
+            cascade: true,
+            truncate: true,
+            restartIdentity: true
+          }).then(() => {
+            User.destroy({
+              cascade: true,
+              truncate: true,
+              restartIdentity: true
+            }).then(() => {
+              done();
+            })
+          })
+      })
+    })
+    it('should not allow a logged out user vote a book', (done) => {
+      const user = userData.validUser9;
       User.create(user).then((createdUser) => {
         const book = bookData.book1;
         const token = generateToken(createdUser);
@@ -41,7 +51,7 @@ describe('Vote Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow vote action if a book does not exist', (done) => {
+    it('should not allow vote action if a book does not exist', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -59,7 +69,7 @@ describe('Vote Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow vote action by a user that does not exist', (done) => {
+    it('should not allow vote action by a user that does not exist', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -80,7 +90,7 @@ describe('Vote Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return already upvoted book', (done) => {
+    it('should return already upvoted book', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -102,7 +112,7 @@ describe('Vote Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return successfully downvoted a book', (done) => {
+    it('should return successfully downvoted a book', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -125,7 +135,7 @@ describe('Vote Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully upvote a book', (done) => {
+    it('should successfully upvote a book', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -145,7 +155,7 @@ describe('Vote Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return already downvoted book', (done) => {
+    it('should return already downvoted book', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -167,7 +177,7 @@ describe('Vote Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return successfully upvoted a book', (done) => {
+    it('should return successfully upvoted a book', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -190,7 +200,7 @@ describe('Vote Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully downvote a book', (done) => {
+    it('should successfully downvote a book', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {

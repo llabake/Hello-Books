@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import chai from 'chai';
+import jwt from 'jsonwebtoken';
 import app from '../../app';
 import models from '../models';
 import { generateToken } from '../helpers/utils';
@@ -12,30 +13,29 @@ const { expect } = chai;
 
 
 describe('Borrow Book Endpoint Functionality', () => {
-  describe('Aunthenticated user can borrow a book', () => {
-    beforeEach((done) => {
-      BorrowBook.destroy({ where: {} })
-        .then(() => {
-        }); Book.destroy({ where: {} })
-        .then(() => {
-        });
-      User.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
-    });
-    after((done) => {
-      BorrowBook.destroy({ where: {} })
-        .then(() => {
-        }); Book.destroy({ where: {} })
-        .then(() => {
-        });
-      User.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
-    });
-    it('it should return missing token', (done) => {
+  beforeEach((done) => {
+    BorrowBook.destroy({
+      cascade: true,
+      truncate: true,
+      restartIdentity: true
+    }).then(() => {
+        Book.destroy({
+          cascade: true,
+          truncate: true,
+          restartIdentity: true
+        }).then(() => {
+          User.destroy({
+            cascade: true,
+            truncate: true,
+            restartIdentity: true
+          }).then(() => {
+            done();
+          })
+        })
+    })
+  })
+  describe('Authenticated user can borrow a book', () => {
+    it('should return missing token', (done) => {
       const user = userData.user1;
       User.create(user).then(() => {
         const book = bookData.book1;
@@ -44,14 +44,14 @@ describe('Borrow Book Endpoint Functionality', () => {
             .set('Accept', 'application/json')
             .end((err, res) => {
               expect(401);
-              expect(res.body.error)
+              expect(res.body.message)
                 .to.eql('Missing token.Expects token in header with key as Authorization');
               done(err);
             });
         });
       });
     });
-    it('it should return invalid token', (done) => {
+    it('should return invalid token', (done) => {
       const user = userData.user1;
       const token = '956236789hgsdfgh96238755';
       User.create(user).then(() => {
@@ -62,14 +62,42 @@ describe('Borrow Book Endpoint Functionality', () => {
             .set('Authorization', token)
             .end((err, res) => {
               expect(401);
-              expect(res.body.error)
+              expect(res.body.message)
                 .to.eql('Authentication failed. Invalid access token');
               done(err);
             });
         });
       });
     });
-    xit('it should return expired token', (done) => {
+    it('should return expired token', (done) => {
+      const user = userData.user1;
+      User.create(user).then((createdUser) => {
+        const book = bookData.book1;
+        const token = jwt.sign(
+          {
+            id: createdUser.id,
+            role: createdUser.role,
+            email: createdUser.email,
+            username: createdUser.username,
+            active: createdUser.active
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: '0.0001s' }
+        )
+        Book.create(book).then((createdBook) => {
+          request.post(`/api/v1/users/borrow/${createdBook.id}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .end((err, res) => {
+              expect(401);
+              expect(res.body.message)
+                .to.eql('Access token has expired. You are required to login again');
+              done(err);
+            });
+        });
+      });
+    });
+    it('should not allow a logged out user borrow a book', (done) => {
       const user = userData.user1;
       User.create(user).then((createdUser) => {
         const book = bookData.book1;
@@ -87,7 +115,7 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow a logged out user borrow a book', (done) => {
+    it('should not allow a logged out user borrow a book', (done) => {
       const user = userData.user1;
       User.create(user).then((createdUser) => {
         const book = bookData.book1;
@@ -105,7 +133,7 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow borrow action if a book does not exist', (done) => {
+    it('should not allow borrow action if a book does not exist', (done) => {
       const user = userData.user1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -123,7 +151,7 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow borrow action by a user that does not exist', (done) => {
+    it('should not allow borrow action by a user that does not exist', (done) => {
       const user = userData.user1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -143,7 +171,7 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return request made earlier', (done) => {
+    it('should return request made earlier', (done) => {
       const user = userData.user1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -157,7 +185,7 @@ describe('Borrow Book Endpoint Functionality', () => {
                   .set('Authorization', token)
                   .end((err, res) => {
                     expect(409);
-                    expect(res.body.message).to.eql(`You have made a request earlier on ${createdBook.title}, it is pending approval by Administrator`);
+                    expect(res.body.message).to.eql(`You have made a request earlier on '${createdBook.title}', it is pending approval by Administrator`);
                     done(err);
                   });
               });
@@ -165,7 +193,34 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should ask user to return pending books', (done) => {
+    it('should return request not yet attempted', (done) => {
+      const user = userData.user1;
+      const admin = userData.adminUser2
+      User.bulkCreate([user, admin])
+        .then(() => User.update({ active: true }, { where: {} }))
+        .spread(() => User.findAll()).then((createdUsers) => {
+          const book = bookData.book1;
+          const token = generateToken(createdUsers[1]);
+          Book.create(book).then((createdBook) => {
+            BorrowBook.create({ userId: createdUsers[1].id, bookId: createdBook.id, })
+              .then((createdBorrowedBook) => {
+                createdBorrowedBook.update({
+                  borrowStatus: 'accepted',
+                }).then(() => {
+                  request.post(`/api/v1/users/borrow/${createdBook.id}`)
+                    .set('Accept', 'application/json')
+                    .set('Authorization', token)
+                    .end((err, res) => {
+                      expect(409);
+                      expect(res.body.message).to.eql(`You have already borrowed '${createdBook.title}' and have not attempted to return it`);
+                      done(err);
+                    });
+                });
+              });
+          });
+        })
+    });
+    it('should ask user\'s to return pending books', (done) => {
       const user = userData.user1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -196,8 +251,8 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return book currently unavailable', (done) => {
-      const user = userData.user1;
+    it('should return book currently unavailable', (done) => {
+      const user = userData.validUser9;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const book = bookData.book3;
@@ -208,14 +263,14 @@ describe('Borrow Book Endpoint Functionality', () => {
               .set('Authorization', token)
               .end((err, res) => {
                 expect(400);
-                expect(res.body.message).to.eql(`${book.title} presently unavailable for borrow`);
+                expect(res.body.message).to.eql(`'${book.title}' presently unavailable for borrow`);
                 done(err);
               });
           });
         });
       });
     });
-    it('it should successfully borrow a book', (done) => {
+    it('should successfully borrow a book', (done) => {
       const user = userData.user1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -228,7 +283,7 @@ describe('Borrow Book Endpoint Functionality', () => {
               .end((err, res) => {
                 expect(201);
                 expect(res.body).to.have.own.property('borrowedBook');
-                expect(res.body.message).to.eql(`Borrow request has been made on ${book.title} and it is being processed`);
+                expect(res.body.message).to.eql(`Borrow request has been made on '${book.title}' and it is being processed`);
                 expect(res.body).to.have.own.property('book');
                 done(err);
               });
@@ -237,31 +292,28 @@ describe('Borrow Book Endpoint Functionality', () => {
       });
     });
   });
-  describe('Aunthenticated user can return a book', () => {
-    beforeEach((done) => {
-      BorrowBook.destroy({ where: {} })
-        .then(() => {
-        }); Book.destroy({ where: {} })
-        .then(() => {
-        });
-      User.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
+  describe('Authenticated user can return a book', () => {
+    it('should return borrowed book match not found', (done) => {
+      const user = userData.user3;
+      User.create(user).then((createdUser) => {
+        createdUser.update({ active: true }).then(() => {
+          const book = bookData.book1;
+          const token = generateToken(createdUser);
+          Book.create(book).then((createdBook) => {
+            request.post(`/api/v1/users/return/${createdBook.id}`)
+              .set('Accept', 'application/json')
+              .set('Authorization', token)
+              .end((err, res) => {
+                expect(404);
+                expect(res.body.message).to.eql('borrowedBook match not found');
+                done(err);
+              });
+          });
+        })
+      })
     });
-    after((done) => {
-      BorrowBook.destroy({ where: {} })
-        .then(() => {
-        }); Book.destroy({ where: {} })
-        .then(() => {
-        });
-      User.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
-    });
-    xit('it should return request not yet attempted', (done) => {
-      const user = userData.user1;
+    it('should check that borrow request has been accepted before allowing user return book', (done) => {
+      const user = userData.user3;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const book = bookData.book1;
@@ -269,25 +321,21 @@ describe('Borrow Book Endpoint Functionality', () => {
           Book.create(book).then((createdBook) => {
             BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
               .then(() => {
-                createdBook.update({
-                  borrowStatus: 'accepted',
-                  returnSatus: ''
-                }).then(() => {
-                  request.post(`/api/v1/users/borrow/${createdBook.id}`)
-                    .set('Accept', 'application/json')
-                    .set('Authorization', token)
-                    .end((err, res) => {
-                      expect(409);
-                      expect(res.body.message).to.eql(`You have not attempted to return this ${createdBook.title}`);
-                      done(err);
-                    });
-                });
+                request.post(`/api/v1/users/return/${createdBook.id}`)
+                  .set('Accept', 'application/json')
+                  .set('Authorization', token)
+                  .end((err, res) => {
+                    expect(400);
+                    expect(res.body.message).to.eql('This book borrow request has not been accepted');
+                    done(err);
+                  });
               });
           });
-        });
-      });
+        })
+      })
     });
-    it('it should successfully return a book', (done) => {
+
+    it('should successfully return a book', (done) => {
       const user = userData.user1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -316,36 +364,14 @@ describe('Borrow Book Endpoint Functionality', () => {
       });
     });
   });
-  describe('Aunthenticated admin can accept a borrow request', () => {
-    beforeEach((done) => {
-      BorrowBook.destroy({ where: {} })
-        .then(() => {
-        }); Book.destroy({ where: {} })
-        .then(() => {
-        });
-      User.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
-    });
-    after((done) => {
-      BorrowBook.destroy({ where: {} })
-        .then(() => {
-        }); Book.destroy({ where: {} })
-        .then(() => {
-        });
-      User.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
-    });
-    it('it should not allow a logged out admin accept book request', (done) => {
+  describe('Authenticated admin can accept a borrow request', () => {
+    it('should not allow a logged out admin accept book request', (done) => {
       const user = userData.user3;
       User.create(user).then((createdUser) => {
         const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then((createdBook) => {
-          request.put(`/api/v1/admin/user/${createdUser.id}/borrow/${createdBook.id}`)
+          request.put(`/api/v1/admin/users/${createdUser.id}/borrow/${createdBook.id}`)
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .end((err, res) => {
@@ -357,13 +383,13 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow a normal user accept book request', (done) => {
+    it('should not allow a normal user accept book request', (done) => {
       const user = userData.user1;
       User.create(user).then((createdUser) => {
         const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then((createdBook) => {
-          request.put(`/api/v1/admin/user/${createdUser.id}/borrow/${createdBook.id}`)
+          request.put(`/api/v1/admin/users/${createdUser.id}/borrow/${createdBook.id}`)
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .end((err, res) => {
@@ -374,56 +400,51 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return borrowed book match not found', (done) => {
+    it('should return borrowed book match not found', (done) => {
+      User.bulkCreate([userData.user3, userData.adminUser2])
+        .then(() => User.update({ active: true }, { where: {} }))
+        .spread(() => User.findAll()).then((createdUsers) => {
+          const user = createdUsers[0];
+          const admin = createdUsers[1]
+          const book = bookData.book1;
+          const token = generateToken(admin);
+          Book.create(book).then((createdBook) => {
+            request.put(`/api/v1/admin/users/${user.id}/borrow/${createdBook.id}`)
+              .set('Accept', 'application/json')
+              .set('Authorization', token)
+              .end((err, res) => {
+                expect(404);
+                expect(res.body.message).to.eql('borrowedBook match not found');
+                done(err);
+              });
+          });
+        })
+    });
+    it('should return book unavailable for borrow', (done) => {
       const user = userData.user3;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
-          const book = bookData.book1;
-          const bookId = 85624;
+          const book = bookData.book2;
           const token = generateToken(createdUser);
           Book.create(book).then((createdBook) => {
+            createdBook.update({ quantity: 0 }).then(() => {
             BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
               .then(() => {
-                request.put(`/api/v1/admin/user/${createdUser.id}/borrow/${bookId}`)
+                request.put(`/api/v1/admin/users/${createdUser.id}/borrow/${createdBook.id}`)
                   .set('Accept', 'application/json')
                   .set('Authorization', token)
                   .end((err, res) => {
-                    expect(404);
-                    expect(res.body.message).to.eql('borrowedBook match not found');
+                    expect(400);
+                    expect(res.body.message).to.eql(`'${book.title}' presently unavailable for borrow`);
                     done(err);
                   });
               });
+            })
           });
         });
       });
     });
-    xit('it should return borrow request has been accepted', (done) => {
-      const user = userData.user3;
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true }).then(() => {
-          const book = bookData.book1;
-          const token = generateToken(createdUser);
-          Book.create(book).then((createdBook) => {
-            BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
-              .then((createdBorrowedBook) => {
-                createdBorrowedBook.update({
-                  borrowStatus: 'accepted',
-                }).then(() => {
-                  request.put(`/api/v1/admin/user/${createdUser.id}/borrow/${createdBook.id}`)
-                    .set('Accept', 'application/json')
-                    .set('Authorization', token)
-                    .end((err, res) => {
-                      expect(200);
-                      expect(res.body.message).to.eql('This book borrow request has been accepted');
-                      done(err);
-                    });
-                });
-              });
-          });
-        });
-      });
-    });
-    it('it should successfully accept book borrow request', (done) => {
+    it('should successfully accept book borrow request', (done) => {
       const user = userData.user3;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -432,7 +453,7 @@ describe('Borrow Book Endpoint Functionality', () => {
           Book.create(book).then((createdBook) => {
             BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
               .then(() => {
-                request.put(`/api/v1/admin/user/${createdUser.id}/borrow/${createdBook.id}`)
+                request.put(`/api/v1/admin/users/${createdUser.id}/borrow/${createdBook.id}`)
                   .set('Accept', 'application/json')
                   .set('Authorization', token)
                   .end((err, res) => {
@@ -447,36 +468,14 @@ describe('Borrow Book Endpoint Functionality', () => {
       });
     });
   });
-  describe('Aunthenticated admin can accept a return request', () => {
-    beforeEach((done) => {
-      BorrowBook.destroy({ where: {} })
-        .then(() => {
-        }); Book.destroy({ where: {} })
-        .then(() => {
-        });
-      User.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
-    });
-    after((done) => {
-      BorrowBook.destroy({ where: {} })
-        .then(() => {
-        }); Book.destroy({ where: {} })
-        .then(() => {
-        });
-      User.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
-    });
-    it('it should not allow a logged out admin accept book request', (done) => {
+  describe('Authenticated admin can accept a return request', () => {
+    it('should not allow a logged out admin accept book request', (done) => {
       const user = userData.user3;
       User.create(user).then((createdUser) => {
         const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then((createdBook) => {
-          request.put(`/api/v1/admin/user/${createdUser.id}/return/${createdBook.id}`)
+          request.put(`/api/v1/admin/users/${createdUser.id}/return/${createdBook.id}`)
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .end((err, res) => {
@@ -488,13 +487,13 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow a normal user accept book request', (done) => {
+    it('should not allow a normal user accept book request', (done) => {
       const user = userData.user1;
       User.create(user).then((createdUser) => {
         const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then((createdBook) => {
-          request.put(`/api/v1/admin/user/${createdUser.id}/borrow/${createdBook.id}`)
+          request.put(`/api/v1/admin/users/${createdUser.id}/borrow/${createdBook.id}`)
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .end((err, res) => {
@@ -505,7 +504,7 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return borrowed book match not found', (done) => {
+    it('should return borrowed book match not found', (done) => {
       const user = userData.user3;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -515,7 +514,7 @@ describe('Borrow Book Endpoint Functionality', () => {
           Book.create(book).then((createdBook) => {
             BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
               .then(() => {
-                request.put(`/api/v1/admin/user/${createdUser.id}/return/${bookId}`)
+                request.put(`/api/v1/admin/users/${createdUser.id}/return/${bookId}`)
                   .set('Accept', 'application/json')
                   .set('Authorization', token)
                   .end((err, res) => {
@@ -528,33 +527,7 @@ describe('Borrow Book Endpoint Functionality', () => {
         });
       });
     });
-    xit('it should return return request has been accepted', (done) => {
-      const user = userData.user3;
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true }).then(() => {
-          const book = bookData.book1;
-          const token = generateToken(createdUser);
-          Book.create(book).then((createdBook) => {
-            BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
-              .then((createdBorrowedBook) => {
-                createdBorrowedBook.update({
-                  returnStatus: 'accepted',
-                }).then(() => {
-                  request.put(`/api/v1/admin/user/${createdUser.id}/return/${createdBook.id}`)
-                    .set('Accept', 'application/json')
-                    .set('Authorization', token)
-                    .end((err, res) => {
-                      expect(200);
-                      expect(res.body.message).to.eql('This book return request has been accepted');
-                      done(err);
-                    });
-                });
-              });
-          });
-        });
-      });
-    });
-    xit('it should successfully accept book return request', (done) => {
+    it('should successfully accept book return request', (done) => {
       const user = userData.user3;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -562,74 +535,63 @@ describe('Borrow Book Endpoint Functionality', () => {
           const token = generateToken(createdUser);
           Book.create(book).then((createdBook) => {
             BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
-              .then(() => {
-                request.put(`/api/v1/users/${createdUser.id}/return/${createdBook.id}`)
-                  .set('Accept', 'application/json')
-                  .set('Authorization', token)
-                  .end((err, res) => {
-                    expect(200);
-                    expect(res.body).to.have.own.property('borrowedBook');
-                    expect(res.body.message).to.eql('successfully accepted return request');
-                    done(err);
-                  });
+              .then((createdBorrowedBook) => {
+                createdBorrowedBook.update({
+                  borrowStatus: 'accepted',
+                }).then((acceptedBorrow) => {
+                  createdBook.increment('borrowCount')
+                  createdBook.decrement('quantity').then((updatedBook) => {
+                    acceptedBorrow.update({
+                      returnStatus: 'pending'
+                    }).then(() => {
+                      request.put(`/api/v1/admin/users/${createdUser.id}/return/${createdBook.id}`)
+                      .set('Accept', 'application/json')
+                      .set('Authorization', token)
+                      .end((err, res) => {
+                        expect(200);
+                        expect(res.body).to.have.own.property('borrowedBook');
+                        expect(res.body.message).to.eql('successfully accepted return request');
+                        expect(res.body.book.quantity).to.eql(book.quantity)
+                        expect(res.body.book.borrowCount).to.eql(updatedBook.borrowCount)
+                        done(err);
+                      });
+                    })
+                  })
+                })
               });
           });
         });
       });
     });
-
-    it('it should successfully get all borrowed books with pending borrow status', (done) => {
-      const user = userData.normalUser;
+    // fix  paginatioon assertin
+    it('should successfully get all borrowed books with pending borrow status', (done) => {
+      const user = userData.adminUser2;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const booka = bookData.validBook1;
-          const bookb = bookData.validBook2;
+          // const bookb = bookData.validBook2;
           const token = generateToken(createdUser);
           Book.create(booka)
             .then((createdBook) => {
               BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
-              .then(() => {
-                request.get('/api/v1/borrowedbooks?borrowStatus=pending')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .end((err, res) => {
-                  expect(200);
-                  expect(res.body.message)
-                    .to.eql('Borrowed books retrieved successfully');
-                  expect(res.body).to.have.own.property('borrowedBooks');
-                  expect(res.body.borrowedBooks).to.be.an('array').to.have.length(1);
-                  done(err);
-                });
-              })
+                .then(() => {
+                  request.get('/api/v1/admin/books/borrowed-books?borrowStatus=pending')
+                    .set('Accept', 'application/json')
+                    .set('Authorization', token)
+                    .end((err, res) => {
+                      expect(200);
+                      expect(res.body.message)
+                        .to.eql('Borrowed books retrieved successfully');
+                      expect(res.body).to.have.own.property('borrowedBooks');
+                      expect(res.body.borrowedBooks).to.be.an('array').to.have.length(1);
+                      done(err);
+                    });
+                })
             });
         });
       });
     });
-    it('it should return borrowStatus or returnStatus expected in query', (done) => {
-      const user = userData.normalUser;
-      User.create(user).then((createdUser) => {
-        createdUser.update({ active: true }).then(() => {
-          const booka = bookData.validBook1;
-          const token = generateToken(createdUser);
-          Book.create(booka)
-            .then((createdBook) => {
-              BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
-              .then(() => {
-                request.get('/api/v1/borrowedbooks')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .end((err, res) => {
-                  expect(400);
-                  expect(res.body.message)
-                    .to.eql('borrowStatus or returnStatus expected in query');
-                  done(err);
-                });
-              })
-            });
-        });
-      });
-    });
-    it('it should return borrow can either be accepted or pending', (done) => {
+    it('should return borrowStatus or returnStatus expected in query', (done) => {
       const user = userData.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -638,22 +600,22 @@ describe('Borrow Book Endpoint Functionality', () => {
           Book.create(booka)
             .then((createdBook) => {
               BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
-              .then(() => {
-                request.get('/api/v1/borrowedbooks?borrowStatus=pendingstatus')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .end((err, res) => {
-                  expect(400);
-                  expect(res.body.message)
-                    .to.eql('returnStatus can either be accepted or pending');
-                  done(err);
-                });
-              })
+                .then(() => {
+                  request.get('/api/v1/admin/books/borrowed-books')
+                    .set('Accept', 'application/json')
+                    .set('Authorization', token)
+                    .end((err, res) => {
+                      expect(400);
+                      expect(res.body.message)
+                        .to.eql('borrowStatus or returnStatus expected in query');
+                      done(err);
+                    });
+                })
             });
         });
       });
     });
-    it('it should return returnStatus can either be accepted or pending', (done) => {
+    it('should return borrow can either be accepted or pending', (done) => {
       const user = userData.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -662,22 +624,46 @@ describe('Borrow Book Endpoint Functionality', () => {
           Book.create(booka)
             .then((createdBook) => {
               BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
-              .then(() => {
-                request.get('/api/v1/borrowedbooks?returnStatus=pendingstatus')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .end((err, res) => {
-                  expect(400);
-                  expect(res.body.message)
-                    .to.eql('returnStatus can either be accepted or pending');
-                  done(err);
-                });
-              })
+                .then(() => {
+                  request.get('/api/v1/admin/books/borrowed-books?borrowStatus=pendingstatus')
+                    .set('Accept', 'application/json')
+                    .set('Authorization', token)
+                    .end((err, res) => {
+                      expect(400);
+                      expect(res.body.message)
+                        .to.eql('borrowStatus can either be accepted or pending');
+                      done(err);
+                    });
+                })
             });
         });
       });
     });
-    it('it should successfully get users borrowed books', (done) => {
+    it('should return returnStatus can either be accepted or pending', (done) => {
+      const user = userData.normalUser;
+      User.create(user).then((createdUser) => {
+        createdUser.update({ active: true }).then(() => {
+          const booka = bookData.validBook1;
+          const token = generateToken(createdUser);
+          Book.create(booka)
+            .then((createdBook) => {
+              BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
+                .then(() => {
+                  request.get('/api/v1/admin/books/borrowed-books?returnStatus=pendingstatus')
+                    .set('Accept', 'application/json')
+                    .set('Authorization', token)
+                    .end((err, res) => {
+                      expect(400);
+                      expect(res.body.message)
+                        .to.eql('returnStatus can either be accepted or pending');
+                      done(err);
+                    });
+                })
+            });
+        });
+      });
+    });
+    it('should successfully get users borrowed books', (done) => {
       const user = userData.normalUser;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -687,19 +673,22 @@ describe('Borrow Book Endpoint Functionality', () => {
           Book.create(booka)
             .then((createdBook) => {
               BorrowBook.create({ userId: createdUser.id, bookId: createdBook.id, })
-              .then(() => {
-                request.get('/api/v1/user/borrowed_books')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .end((err, res) => {
-                  expect(200);
-                  expect(res.body.message)
-                    .to.eql('BorrowedBooks history fetched successfully');
-                  expect(res.body).to.have.own.property('borrowedBooks');
-                  expect(res.body.borrowedBooks).to.be.an('array').to.have.length(1);
-                  done(err);
-                });
-              })
+                .then(() => {
+                  request.get('/api/v1/users/borrowed-books')
+                    .set('Accept', 'application/json')
+                    .set('Authorization', token)
+                    .end((err, res) => {
+                      expect(200);
+                      expect(res.body.message)
+                        .to.eql('BorrowedBooks history fetched successfully');
+                      expect(res.body).to.have.own.property('borrowedBooks');
+                      expect(res.body.borrowedBooks).to.be.an('array').to.have.length(1);
+                      expect(res.body.count).to.equal(1)
+                      expect(res.body.next).to.equal(null)
+                      expect(res.body.previous).to.equal(null)
+                      done(err);
+                    });
+                })
             });
         });
       });

@@ -46,6 +46,39 @@ module.exports = {
       image: 'https://www.amazon.co.uk/Reclaim-Your-Heart-Yasmin-Mogahed/dp/0985751207',
       createdAt: new Date(),
       updatedAt: new Date()
+    }, {
+      title: 'Fine Boys',
+      author: 'Imaseun Egbosa',
+      publishedYear: 2012,
+      isbn: 7698102987364,
+      quantity: 7,
+      description: 'Youth juvenile deliquency',
+      image: 'https://www.goodreads.com/book/show/16059213-fine-boys',
+      aboutAuthor: 'Great Author',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }, {
+      title: 'Productive Muslim',
+      author: 'mohammed farris',
+      publishedYear: 2015,
+      isbn: 9674352817652,
+      quantity: 6,
+      description: 'this book is for the productive muslims',
+      image: 'http://deensquare.com/the-productive-muslim-where-faith-meets-productivity',
+      aboutAuthor: 'mo farris is a great author',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }, {
+      title: 'Everything Good Will Come',
+      author: 'Sefi Atta',
+      publishedYear: 2011,
+      isbn: 1566565707123,
+      quantity: 6,
+      description: 'Sefi Atta about a girl growing into a woman in postcolonial Nigeria and England. It was published by Interlink World Fiction in 2005',
+      image: 'https://farafinabooks.wordpress.com/2010/10/08/a-review-of-everything-good-will-come/',
+      aboutAuthor: 'Sefi Atta is a Nigerian',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }], {}),
 
   down: queryInterface =>

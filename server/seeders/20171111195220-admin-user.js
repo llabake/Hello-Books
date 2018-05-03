@@ -24,26 +24,6 @@ module.exports = {
       active: false,
       createdAt: new Date(),
       updatedAt: new Date()
-    }, {
-      username: process.env.SEED_USER1_USERNAME,
-      firstName: process.env.SEED_USER1_FIRSTNAME,
-      lastName: process.env.SEED_USER1_LASTNAME,
-      email: process.env.SEED_USER1_EMAIL,
-      password: bcrypt.hashSync(process.env.SEED_USER1_PASSWORD, 10),
-      role: 'normal',
-      active: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }, {
-      username: process.env.SEED_USER2_USERNAME,
-      firstName: process.env.SEED_USER2_FIRSTNAME,
-      lastName: process.env.SEED_USER2_LASTNAME,
-      email: process.env.SEED_USER2_EMAIL,
-      password: bcrypt.hashSync(process.env.SEED_USER2_PASSWORD, 10),
-      role: 'normal',
-      active: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
     }], {}),
 
   down: queryInterface =>

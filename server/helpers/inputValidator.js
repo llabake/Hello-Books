@@ -246,9 +246,15 @@ export default class InputValidator {
   static addReview(args) {
     const errors = {};
     let isValid = true;
-    if (typeof args.content !== 'undefined'||
-    typeof args.caption !== 'undefined' 
+    if (typeof args.content === 'undefined' ||
+    typeof args.caption === 'undefined' 
     ) {
+      ['content', 'caption'].forEach((field) => {
+        if(Object.keys(args).indexOf(field) === -1) {
+          errors[field] = `${field} is required`;
+        }
+      })
+    } else {
       const content = args.content;
       const caption = args.caption;
       if (content.length) {
@@ -267,13 +273,6 @@ export default class InputValidator {
         errors.caption = 'Caption can not be blank'
         
       }
-      
-    } else {
-      ['content', 'caption'].forEach((field) => {
-        if(Object.keys(args).indexOf(field) === -1) {
-          errors[field] = `${field} is required`;
-        }
-      })
     }
     Object.keys(errors).map(key => errors[key]).forEach((error)=> {
       if(error) {
@@ -417,30 +416,23 @@ export default class InputValidator {
   static editReview(args) {
     const errors = {};
     let isValid = true;
-    if (typeof args.content !== 'undefined'||
-    typeof args.caption !== 'undefined' 
-    ) {
       const content = args.content;
       const caption = args.caption;
       if (content && content.length) {
-        if(content.length < 10){
-          errors.content = 'Review content is too short'
-        } 
+        if(content.length < 10 || content.length > 1000){
+          errors.content = 'Minimum of 10 character and Maximum of 1000 characters required'
+        }
       } else {
         errors.content = 'Content can not be blank'
       }
 
-      if (!caption.length) {
+      if (caption.length) {
+        if(caption.length < minLength || caption.length > maxLength) {
+          errors.caption = 'Minimum of 3 character and Maximum of 25 characters required'
+        }
+      } else {
         errors.caption = 'Caption can not be blank'
       }
-      
-    } else {
-      ['content', 'caption'].forEach((field) => {
-        if(Object.keys(args).indexOf(field) === -1) {
-          errors[field] = `${field} is required`;
-        }
-      })
-    }
     Object.keys(errors).map(key => errors[key]).forEach((error)=> {
       if(error) {
         isValid = false;

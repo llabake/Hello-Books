@@ -51,7 +51,7 @@ class BookController {
     const bookDetail = trimObject(req.body);
     const { errors, isValid } = InputValidator.addBook(bookDetail);
     if (!isValid) {
-      res.status(400).json({ errors });
+      return res.status(400).json({ errors });
     } else {
       try {
         const { title, author, publishedYear, isbn, quantity, description, image, aboutAuthor } = bookDetail;
@@ -97,7 +97,7 @@ class BookController {
         include: includeReviewAndFavorite,
       })
       if (book) {
-        res.status(200).json({
+        return res.status(200).json({
           book,
         });
       }
@@ -178,7 +178,7 @@ class BookController {
         return paginateBookResult({ req, res, result, limit, page })
       })
       .catch((error) => {
-        res.status(500).json({ message: 'error sending your request', error });
+        return res.status(500).json({ message: 'error sending your request', error });
       });
   }
   /**
@@ -197,12 +197,12 @@ class BookController {
     const { limit, page, offset } = formatPagination(req)    
     if (req.query.sort === undefined) return next();
     if (req.query.order !== 'descending') {
-      res.status(400).json({
+      return res.status(400).json({
         message: 'order can only be descending'
       });
     }
     if (req.query.sort !== 'upvotes') {
-      res.status(400).json({
+      return res.status(400).json({
         message: 'sort can only be by upvotes'
       });
     }
@@ -321,19 +321,19 @@ class BookController {
       },
       include: [{
         model: BorrowBook,
-        as: 'book',
+        as: 'borrowedBook',
         attributes: ['borrowStatus', 'returnStatus'],
       }],
     })
     .then((book) => {
-      if(book.book[0] !== null) {
-        const borrowedBook = book.book[0]
+      if(book.borrowedBook.length) {
+        const borrowedBook = book.borrowedBook[0]
         if(borrowedBook.borrowStatus === 'accepted'
           && borrowedBook.returnStatus === 'pending'
           || borrowedBook.borrowStatus === 'accepted'
           && borrowedBook.returnStatus === '') {
             return res.status(400).json({
-              message: "This book cannot be deleted at the moment, a user has borrowed it"
+              message: `'${book.title}' cannot be deleted at the moment, a user has borrowed it`
             })
         }
       }
@@ -344,7 +344,7 @@ class BookController {
         });
       })
       .catch((error) => {
-        return res.status(400).json({
+        return res.status(500).json({
           error,
           message: error.message
         })

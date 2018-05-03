@@ -92,7 +92,7 @@ export const paginateBookResult = ({ req, res, result, limit, page, }) => {
   let message = 'Books retrieved successfully';
   if(result.count === 0) {
     message = 'Books are unavailable now, do check back later'
-    if(req.query.search !== null || req.query.borrowStatus || req.query.returnStatus) {
+    if(req.query.search || req.query.borrowStatus || req.query.returnStatus) {
       message = 'No book matches your search. Try some other combinations'
     }
     if(req.path === '/api/v1/books/fav/top-favorite') {
@@ -108,7 +108,7 @@ export const paginateBookResult = ({ req, res, result, limit, page, }) => {
       books = sortBooksByTopFavorites(result.rows)
   } else if (req.path === '/api/v1/users/books/popular-books') {
       message = 'Popular books retrieved successfully'
-  } else if (req.path === '/api/v1/users/borrowed-books' || req.path === '/api/v1/admin/books/borrowed-books') {
+  } else if (req.path === '/api/v1/users/borrowed-books' || req.query.borrowStatus || req.query.returnStatus) {
     message = 'BorrowedBooks history fetched successfully'
     if (req.path === '/api/v1/admin/books/borrowed-books') {
       message = 'Borrowed books retrieved successfully'
@@ -145,4 +145,18 @@ export const checkResourceExist = async (resource, resourceId, res, next) =>  {
         error
       })
   }
+}
+
+export const paginateBookReviews = ({ req, res, result, limit, page }) => {
+    let message = 'Reviews retrieved successfully'
+    if(result.count === 0) {
+      message = 'Be the first to post a review...'
+    }
+    return res.status(200).json({
+      message,
+      reviews: result.rows,
+      count: result.count,
+      next: getNextPaginatedUrl(limit, page, result.count, req.originalUrl),
+      previous: getPrevPaginatedUrl(limit, page, result.count, req.originalUrl)
+    });
 }

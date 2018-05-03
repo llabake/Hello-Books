@@ -2,23 +2,12 @@ import models from '../../models';
 import { formatPagination, paginateBookResult } from '../../helpers/utils';
 
 const { BorrowBook, Book, User } = models;
-
 const fetchBook = async (bookModel, bookId) => {
-  let book =  Book.findOne({ where: { id: bookId } })
+  let book = Book.findOne({ where: { id: bookId } })
   return book;
 }
-const findReturnRequest = async (BorrowBookModel, userId, bookId, returnStatus) => {
-  let borrowedBook = BorrowBook.findOne({
-    where: {
-      userId,
-      bookId,
-      returnStatus
-    }
-  })
-  return borrowedBook;
-}
 
-const findPendingBorrowRequest = async (BorrowBookModel, userId, bookId, borrowStatus) => {
+const fetchPendingBorrowRequest = async (BorrowBookModel, userId, bookId, borrowStatus) => {
   let borrowedBook = BorrowBook.findOne({
     where: {
       userId,
@@ -29,7 +18,7 @@ const findPendingBorrowRequest = async (BorrowBookModel, userId, bookId, borrowS
   return borrowedBook;
 }
 
-const findPendingReturnRequest = async (BorrowBookModel, userId, bookId, returnStatus) => {
+const returnBook = async (BorrowBookModel, userId, bookId, returnStatus) => {
   let borrowedBook = BorrowBook.findOne({
     where: {
       userId,
@@ -39,6 +28,18 @@ const findPendingReturnRequest = async (BorrowBookModel, userId, bookId, returnS
   })
   return borrowedBook;
 }
+
+const fetchPendingReturnRequest = async (BorrowBookModel, userId, bookId, returnStatus ) => {
+  let borrowedBook = BorrowBook.findOne({
+    where: {
+      userId,
+      bookId,
+      returnStatus
+    }
+  });
+  return borrowedBook
+}
+
 /**
  *
  *
@@ -56,6 +57,7 @@ export default class BorrowedBookController {
    * 
    * @returns {any} response containing a message
    * @description Borrow a book
+   * 
    * @memberof BookController
    */
   static borrowBook(req, res) {
@@ -67,13 +69,13 @@ export default class BorrowedBookController {
       },
       include: [{
         model: BorrowBook,
-        as: 'book',
+        as: 'borrowedBook',
       }],
     })
       .then((book) => {
         if (!book.isAvailable()) {
-          res.status(400).json({
-            message: `${book.title} presently unavailable for borrow`
+          return res.status(400).json({
+            message: `'${book.title}' presently unavailable for borrow`
           });
         }
         BorrowBook.create({
@@ -82,8 +84,8 @@ export default class BorrowedBookController {
         })
           .then((createdBorrowedBook) => {
             book.reload().then((reloadedBook) => {
-              res.status(201).json({
-              message: `Borrow request has been made on ${book.title} and it is being processed`,
+              return res.status(201).json({
+              message: `Borrow request has been made on '${book.title}' and it is being processed`,
               borrowedBook: createdBorrowedBook,
               book: reloadedBook
             });
@@ -106,27 +108,81 @@ export default class BorrowedBookController {
    * 
    * @returns {any} response containing a message
    * @description Return a book
+   * 
    * @memberof BookController
    */
   static async returnBook(req, res) {
-    let borrowedBook
+    let borrowedBook;
     try {
-      borrowedBook = findReturnRequest(BorrowBook, req.user.id, req.params.bookId, { $and: ['']} )
-      if (!borrowedBook) {
+      borrowedBook = await returnBook(BorrowBook, req.user.id, req.params.bookId, { $and: [''] } )
+      if(!borrowedBook) {
         return res.status(404).json({
           message: 'borrowedBook match not found'
         });
       } else if (borrowedBook.borrowStatus !== 'accepted') {
-        res.status(200).json({
+        return res.status(400).json({
           message: 'This book borrow request has not been accepted'
         });
       } else {
         borrowedBook = await borrowedBook.update({ returnStatus: 'pending' })
-        const reloadedupdatedborrowedBook = await borrowedBook.reload();
+        const reloadedupdatedborrowedBook = borrowedBook.reload();
         return res.status(200).json({
           message: 'Book return request is pending approval by Administrator',
           borrowedBook: reloadedupdatedborrowedBook
         });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message
+      })
+    }
+  }
+  /**
+   *
+   *
+   * @static
+   * 
+   * @param {any} req
+   * @param {any} res
+   * 
+   * @returns {any} response containing a message
+   * @description Admin accept borrow Book
+   * 
+   * @memberof BookController
+   */
+  static async acceptBorrowBook(req, res) {
+    const BORROW_DURATION = 14 * 24 * 60 * 60 * 1000;
+    let book;
+    let borrowedBook;
+    try {
+      book = await fetchBook(Book, req.params.bookId);
+      if (book) {
+        borrowedBook = await fetchPendingBorrowRequest(BorrowBook,
+          req.params.userId, req.params.bookId, { $and: ['pending'] })
+          if(!borrowedBook) {
+          return res.status(404).json({
+            message: 'borrowedBook match not found'
+          })
+        } else if (!book.isAvailable()) {
+          return res.status(400).json({
+            message: `'${book.title}' presently unavailable for borrow`
+          });
+        } else {
+          borrowedBook.update({
+          expectedReturnDate: new Date(Date.now() + BORROW_DURATION),
+          borrowDate: new Date(),
+            borrowStatus: 'accepted'
+          })
+        const reloadedupdatedborrowedBook = await borrowedBook.reload();
+          const decrementBookQuantity = await book.decrement('quantity');
+          const incrementBookBorrowCount = await decrementBookQuantity.increment('borrowCount');
+          const finalBook = await incrementBookBorrowCount.reload();
+        return res.status(200).json({
+          message: 'Successfully accepted borrow request',
+            borrowedBook: reloadedupdatedborrowedBook,
+            book: finalBook
+        });
+      }
       }
     } catch (error) {
       return res.status(500).json({
@@ -143,94 +199,39 @@ export default class BorrowedBookController {
    * @param {any} res
    * 
    * @returns {any} response containing a message
-   * @description Admin accept borrow Book
-   * @memberof BookController
-   */
-  static async acceptBorrowBook(req, res) {
-    const BORROW_DURATION = 14 * 24 * 60 * 60 * 1000;
-    let book;
-    let borrowedBook;
-    try {
-      book = await fetchBook(Book, req.params.bookId)
-      if(book) {
-        borrowedBook = await findPendingBorrowRequest(BorrowBook,
-          req.params.userId, req.params.bookId, {$and: ['pending']} )     
-        if (!borrowedBook) {
-          return res.status(404).json({
-            message: 'borrowedBook match not found',
-          });
-        } else if (borrowedBook.borrowStatus === 'accepted') {
-          return res.status(200).json({
-            message: 'This book borrow request has been accepted'
-          });
-        } else if (!book.isAvailable()) {
-          return res.status(400).json({
-            message: `${book.title} presently unavailable for borrow`
-          });
-        } else {
-        borrowedBook = await borrowedBook.update({
-          expectedReturnDate: new Date(Date.now() + BORROW_DURATION),
-          borrowDate: new Date(),
-          borrowStatus: 'accepted'})
-        }
-        const reloadedupdatedborrowedBook = await borrowedBook.reload();
-        book = await book.decrement('quantity');
-        book = await book.increment('borrowCount');
-        return res.status(200).json({
-          message: 'Successfully accepted borrow request',
-          borrowedBook: reloadedupdatedborrowedBook
-        });
-      }
-    } catch (error) {
-      res.status(500).json({
-        message: error.message,
-      });
-    }
-  }
-  /**
-   *
-   *
-   * @static
-   * 
-   * @param {any} req
-   * @param {any} res
-   * 
-   * @returns {any} response containing a message
    * @description Admin accepts return book
+   * 
    * @memberof BookController
    */
   static async acceptReturnBook(req, res) {
-    let borrowedBook;
     let book;
+    let borrowedBook;
     try {
-      borrowedBook = await findPendingReturnRequest(BorrowBook,
-        req.params.userId, req.params.bookId, {$and: ['pending']} )
-        if(!borrowedBook) {
-          res.status(404).json({
+      borrowedBook = await fetchPendingReturnRequest(BorrowBook,
+        req.params.userId, req.params.bookId, { $and: ['pending'] } );
+        if (!borrowedBook) {
+          return res.status(404).json({
             message: 'borrowedBook match not found'
           });
-        } else if (borrowedBook.returnStatus === 'accepted') {
-          res.status(200).json({
-            message: 'This book return request has been accepted'
-          });
         } else {
-          borrowedBook = await borrowedBook.update({
+          borrowedBook.update({
             actualReturnDate: new Date(),
-            returnStatus: 'accepted' })
+            returnStatus: 'accepted'
+          })
           const reloadedupdatedborrowedBook = await borrowedBook.reload();
           book = await fetchBook(Book, req.params.bookId)
           if(book) {
-            book = await book.increment('quantity');
+            const incrementBookQuantity = await book.increment('quantity');
+            const reloadedBook = await incrementBookQuantity.reload();
             return res.status(200).json({
               message: 'successfully accepted return request',
-              borrowedBook: reloadedupdatedborrowedBook
+              borrowedBook: reloadedupdatedborrowedBook,
+              book: reloadedBook
             });
           }
         }
     } catch (error) {
-      res.status(500).json({
-        message: error.message
-      });
+      return res.status(500).json({ message: error.message })
     }
   }
   /**

@@ -457,8 +457,9 @@ app.get(
  */
   app.post(
     '/api/v1/users/return/:bookId',
-    Authentication.authMiddleware, ResourceExistMiddleware.userExist,
-    Authentication.isActive, validateParamsMiddleware,
+    Authentication.authMiddleware, validateParamsMiddleware,
+    ResourceExistMiddleware.userExist,
+    Authentication.isActive,
     BorrowBookController.returnBook
   );
   /**

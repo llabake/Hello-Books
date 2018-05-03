@@ -3,7 +3,7 @@ import models from '../models';
 const { BorrowBook, Book } = models;
 const includeBook = [{
   model: Book,
-  as: 'book',
+  as: 'book', // TODO: Fix alias
   required: true,
   attribute: ['id', 'title']
 }]
@@ -18,9 +18,11 @@ export default class BorrowedBookMiddleware {
  *
  *
  * @static
+ * 
  * @param {any} req
  * @param {any} res
  * @param {any} next
+ * 
  * @returns {Object} response about if book borrow already exist
  * @memberof BorrowedBookMiddleware
  */
@@ -41,7 +43,7 @@ export default class BorrowedBookMiddleware {
         if (borrowedBook) {
           if (borrowedBook.borrowStatus === 'pending') {
             return res.status(409).json({
-              message: `You have made a request earlier on ${borrowedBook.book.title}, it is pending approval by Administrator`
+              message: `You have made a request earlier on '${borrowedBook.book.title}', it is pending approval by Administrator`
             });
           } else if (borrowedBook.returnStatus === 'pending') {
             return res.status(409).json({
@@ -49,7 +51,7 @@ export default class BorrowedBookMiddleware {
             });
           } else if (borrowedBook.returnStatus === '') {
             return res.status(409).json({
-              message: `You have not attempted to return this ${borrowedBook.book.title}`
+              message: `You have already borrowed '${borrowedBook.book.title}' and have not attempted to return it`
             });
           } next();
         }
@@ -67,28 +69,28 @@ export default class BorrowedBookMiddleware {
  *
  *
  * @static
+ * 
  * @param {any} req
  * @param {any} res
  * @param {any} next
+ * 
  * @returns {Object} response stating if user as any books due for return
  * @memberof BorrowedBookMiddleware
  */
   static bookReturnOverDueExist(req, res, next) {
     const userId = req.user.id;
-
     BorrowBook.findOne({
       where: {
         userId,
         expectedReturnDate: {
           $lt: new Date(),
         }
-
       },
       include: includeBook,
     })
       .then((overDueBook) => {
         if (overDueBook) {
-          res.status(400).json({
+          return res.status(400).json({
             message: 'You have to return the book with you before you can make a new request',
             book: overDueBook.book.title
           });

@@ -22,7 +22,8 @@ module.exports = {
       unique: true
     },
     quantity: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     description: {
       type: Sequelize.TEXT
@@ -34,13 +35,16 @@ module.exports = {
       type: Sequelize.TEXT
     },
     upVotes: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     downVotes: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     borrowCount: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     createdAt: {
       allowNull: false,

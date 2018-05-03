@@ -13,17 +13,27 @@ const { expect } = chai;
 describe('Favorite Endpoint Functionality', () => {
   describe('User signs in to add a book as a favorite', () => {
     beforeEach((done) => {
-      Favorite.destroy({ where: {} })
-        .then(() => {
-        }); User.destroy({ where: {} })
-        .then(() => {
-        });
-      Book.destroy({ where: {} })
-        .then(() => {
-          done();
-        });
-    });
-    it('it should not allow a logged out user mark book as favorite', (done) => {
+      Favorite.destroy({
+        cascade: true,
+        truncate: true,
+        restartIdentity: true
+      }).then(() => {
+          Book.destroy({
+            cascade: true,
+            truncate: true,
+            restartIdentity: true
+          }).then(() => {
+            User.destroy({
+              cascade: true,
+              truncate: true,
+              restartIdentity: true
+            }).then(() => {
+              done();
+            })
+          })
+      })
+    })
+    it('should not allow a logged out user mark book as favorite', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         const book = bookData.book1;
@@ -41,8 +51,8 @@ describe('Favorite Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not add a book that does not exist as favorite', (done) => {
-      const user = userData.validUser1;
+    it('should not add a book that does not exist as favorite', (done) => {
+      const user = userData.validUser6;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const bookId = 200;
@@ -59,7 +69,7 @@ describe('Favorite Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not allow a user that does not exist add book as favorite', (done) => {
+    it('should not allow a user that does not exist add book as favorite', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -79,7 +89,7 @@ describe('Favorite Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully mark a book as favorite', (done) => {
+    it('should successfully mark a book as favorite', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
@@ -91,7 +101,7 @@ describe('Favorite Endpoint Functionality', () => {
             .set('Authorization', token)
             .end((err, res) => {
               expect(201);
-              expect(res.body.message).to.eql(`${createdBook.title} has been added to your favorite list`);
+              expect(res.body.message).to.eql(`'${createdBook.title}' has been added to your favorite list`);
               expect(res.body).to.have.own.property('favorite');
               expect(res.body).to.have.own.property('book');
               done(err);
@@ -99,7 +109,7 @@ describe('Favorite Endpoint Functionality', () => {
         });
       });
     });
-    it('it should not add a book as favorite twice', (done) => {
+    it('should not add a book as favorite twice', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
@@ -115,14 +125,14 @@ describe('Favorite Endpoint Functionality', () => {
               .set('Authorization', token)
               .end((err, res) => {
                 expect(409);
-                expect(res.body.message).to.eql(`${createdBook.title} already on your favorite list`);
+                expect(res.body.message).to.eql(`'${createdBook.title}' already on your favorite list`);
                 done(err);
               });
           });
         });
       });
     });
-    it('it should successfully get a single favorite list item', (done) => {
+    it('should successfully get a single favorite list item', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
@@ -133,7 +143,7 @@ describe('Favorite Endpoint Functionality', () => {
             bookId: createdBook.id,
             userId: createdUser.id
           }).then(() => {
-            request.get('/api/v1/books/favbooks/')
+            request.get('/api/v1/users/favbooks/')
               .set('Accept', 'application/json')
               .set('Authorization', token)
               .end((err, res) => {
@@ -146,14 +156,14 @@ describe('Favorite Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return an empty array if no books on the favorite list', (done) => {
+    it('should return an empty array if no books on the favorite list', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
         const book = bookData.book1;
         const token = generateToken(createdUser);
         Book.create(book).then(() => {
-          request.get('/api/v1/books/favbooks/')
+          request.get('/api/v1/users/favbooks/')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .end((err, res) => {
@@ -165,7 +175,7 @@ describe('Favorite Endpoint Functionality', () => {
         });
       });
     });
-    it('it should successfully get a list of users favorite books', (done) => {
+    it('should successfully get a list of users favorite books', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
@@ -180,7 +190,7 @@ describe('Favorite Endpoint Functionality', () => {
                 { bookId: books[0].id, userId },
                 { bookId: books[1].id, userId },
               ]).then(() => {
-                request.get('/api/v1/books/favbooks/')
+                request.get('/api/v1/users/favbooks/')
                   .set('Accept', 'application/json')
                   .set('Authorization', token)
                   .end((err, res) => {
@@ -195,7 +205,7 @@ describe('Favorite Endpoint Functionality', () => {
         });
       });
     });
-    it('it should return book not found on favorite list', (done) => {
+    it('should return book not found on favorite list', (done) => {
       const user = userData.validUser1;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true });
@@ -212,7 +222,7 @@ describe('Favorite Endpoint Functionality', () => {
               .then(() => Favorite.findAll())
               .then(() => {
                 const bookId = 500;
-                request.delete(`/api/v1/books/fav/${bookId}/`)
+                request.delete(`/api/v1/users/favbooks/${bookId}/`)
                   .set('Accept', 'application/json')
                   .set('Authorization', token)
                   .end((err, res) => {
@@ -224,8 +234,8 @@ describe('Favorite Endpoint Functionality', () => {
           });
       });
     });
-    it('it should successfully delete book from a user favorite list', (done) => {
-      const user = userData.validUser1;
+    it('should successfully delete book from a user favorite list', (done) => {
+      const user = userData.validUser8;
       User.create(user).then((createdUser) => {
         createdUser.update({ active: true }).then(() => {
           const userId = createdUser.id;
@@ -239,13 +249,13 @@ describe('Favorite Endpoint Functionality', () => {
                 { bookId: books[0].id, userId },
                 { bookId: books[1].id, userId },
               ]);
-              request.delete(`/api/v1/books/fav/${books[0].id}/`)
+              request.delete(`/api/v1/users/favbooks/${books[0].id}/`)
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .end((err, res) => {
                   expect(200);
                   expect(res.body.message)
-                    .to.eql(`${booka.title} has been removed from your favorite list`);
+                    .to.eql(`'${booka.title}' has been removed from your favorite list`);
                   expect(res.body).to.have.own.property('book')
                   done(err);
                 });
