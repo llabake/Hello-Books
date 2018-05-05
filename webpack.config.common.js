@@ -13,7 +13,7 @@ const paths = {
 };
 
 module.exports = {
-  entry: path.join(paths.ENTRY, 'index.js'),
+  entry: ['babel-polyfill', path.join(paths.ENTRY, 'index.js')],
   output: {
     path: paths.DIST,
     filename: 'bundle.js'
@@ -21,24 +21,20 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(paths.SRC, 'index.html'),
+      filename: 'index.html',
+      inject: 'body'
     }),
     new ExtractTextPlugin('style.css'),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV':  JSON.stringify(isProduction ? 'production' : 'development')
-    })
-],
-    devServer: {
-      contentBase: paths.SRC,
-      compress: true,
-        historyApiFallback: true
-    },
-  devtool: 'inline-source-map',
+  ],
   module: { 
     loaders: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        query: {
+          presets: ['react', 'es2015', 'stage-2'],
+        },
       },
       {
         test: /\.(scss|css|sass)$/,
