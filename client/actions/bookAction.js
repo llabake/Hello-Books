@@ -25,10 +25,11 @@ import {
   FETCH_TOP_FAVORITED_BOOKS_SUCCESS, 
   FETCH_TOP_FAVORITED_BOOKS_ERROR,
   FETCH_BOOK,
-  HANDLE_CANCEL_CLICK
+  HANDLE_CANCEL_CLICK,
+  SET_BOOK_COUNT
 } from './actionTypes'
 import toastMessage from '../helpers/toastMessage';
-import { hostUrl } from '../helpers/utils';
+import { hostUrl, maxPageLimit } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
 
 const fetchBook = () => {
@@ -44,7 +45,12 @@ const fetchBookSuccess = (books) => {
   }
 }
 
-
+const setBookCount = (bookCount) => {
+  return {
+    type: SET_BOOK_COUNT,
+    bookCount
+  }
+}
 const fetchBookError = (error) => {
   return {
     type: FETCH_BOOK_ERROR,
@@ -52,11 +58,17 @@ const fetchBookError = (error) => {
   }
 }
 
-export const fetchAllBooks = () => dispatch => {
+export const fetchAllBooks = (page=1, limit=maxPageLimit) => dispatch => {
   dispatch(fetchBook());
-  return axios.get(`${hostUrl}/api/v1/books/`, axiosDefaultOptions)
+  const axiosOptions = {
+    headers: {
+      Authorization: localStorage.getItem('token')
+    },
+  };  
+  return axios.get(`${hostUrl}/api/v1/books?page=${page}&limit=${limit}`, axiosOptions)
     .then((response) => {
-      dispatch(fetchBookSuccess(response.data.books))
+      dispatch(fetchBookSuccess(response.data.books));
+      dispatch(setBookCount(response.data.count))
     })
     .catch((error) => {
       dispatch(fetchBookError(error.response.data))
@@ -86,7 +98,7 @@ const fetchPopularBooksError = (error) => {
 
 export const fetchPopularBooks = () => dispatch => {
   dispatch(popularBooks());
-  return axios.get(`${hostUrl}/api/v1/popular-books/`, axiosDefaultOptions)
+  return axios.get(`${hostUrl}/api/v1/users/books/popular-books`)
     .then((response) => {
       dispatch(fetchPopularBooksSuccess(response.data.books))
     })
@@ -118,7 +130,7 @@ const fetchTopFavoriteBooksError = (error) => {
 
 export const fetchTopFavoriteBooks = () => dispatch => {
   dispatch(topFavoritedBooks());
-  return axios.get(`${hostUrl}/api/v1/top-user-favorite-books`)
+  return axios.get(`${hostUrl}/api/v1/books/fav/top-favorite`)
     .then((response) => {
     dispatch(fetchTopFavoriteBooksSuccess(response.data.books))
     })

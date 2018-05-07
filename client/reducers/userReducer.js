@@ -25,6 +25,7 @@ export default (state = initialState.user, action) => {
       }
     case USER_SIGNUP_SUCCESS:
     case USER_SIGNIN_SUCCESS:
+    case SET_CURRENT_USER:
       return {
         ...state,
         authUser: action.user,
@@ -44,12 +45,6 @@ export default (state = initialState.user, action) => {
         ...state,
         error: action.error
       }
-    case SET_CURRENT_USER:
-      return {
-        ...state,
-        authUser: action.user,
-        authenticated: true
-      } 
     case USER_BORROW_LIST_SUCCESS:
       return {
         ...state,

@@ -36,3 +36,61 @@ export const getUser = () => {
 }
 
 export const bookDefaultImage = 'https://res.cloudinary.com/sardaunan/image/upload/v1518354032/book-default-image_e8nj1p.png';
+
+export const maxPageLimit = process.env.MAX_PAGE_LIMIT || 4;
+
+export const checkFavorited = (book, user) => {
+  if (!book.favorited || !book.favorited.length) {
+    return false;
+  }
+  for (const favorite of book.favorited ) {
+    if (favorite.user.id === user.id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export const checkReviewed = (book, user) => {
+  if (!book.reviews || !book.reviews.length) {
+    return false;
+  }
+  for (const review of book.reviews ) {
+    if (review.user.id === user.id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export const checkUpVote = (book, user) => {
+  if (!book.votes || !book.votes.length) {
+    return false;
+  }
+  
+  for (const vote of book.votes ) {
+    if (vote.user.id === user.id) {
+      if ( vote.voteType === 'upVote') {
+        return true;
+      }
+      return false
+    }
+  }
+  return false;
+}
+
+export const checkDownVote = (book, user) => {
+  if (!book.votes || !book.votes.length) {
+    return false;
+  }
+  
+  for (const vote of book.votes ) {
+    if (vote.user.id === user.id) {
+      if ( vote.voteType === 'downVote') {
+        return true;
+      }
+      return false
+    }
+  }
+  return false;
+}

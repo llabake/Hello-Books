@@ -9,11 +9,10 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';
 import BookCard from '../common/BookCard'
 import { fetchAllBooks } from '../../actions/bookAction';
-import { getUser } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
 import ProtectRoute from '../ProtectRoute';
 import ajaxLoader from '../../media/ajax-loader.gif';
-
+import { maxPageLimit } from '../../helpers/utils'
 
 /**
  * 
@@ -34,9 +33,7 @@ class AllBooks extends ProtectRoute {
       redirect: false,
       maxItems: 2,
       showPagination: false,
-      displayedBooks: [],
       activePage: 1,
-      maxItemsPerPage: 8,
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.handleSelectedPage = this.handleSelectedPage.bind(this);
@@ -47,13 +44,22 @@ class AllBooks extends ProtectRoute {
    * 
    * 
    * @memberof AllBooks
-   * @returns {Array} books array
+   * @returns {void}
    */
   componentWillMount() {
     super.componentWillMount();
-    this.props.fetchAllBooks();
   }
 
+  /**
+   * 
+   * 
+   * @memberof AllBooks
+   * @returns {Array} books array
+   */
+  componentDidMount() {
+    this.props.fetchAllBooks();
+    
+  }
   /**
    * @returns {object} redirects to home page
    * 
@@ -73,10 +79,8 @@ class AllBooks extends ProtectRoute {
    */
   componentWillReceiveProps(newProps) {
     if(newProps === this.props) return;
-    const { books } = newProps;
-    const noOfBooks = books.length;
-    const maxItems = Math.ceil(noOfBooks / this.state.maxItemsPerPage);
-    this.setDisplayedBooks(books);
+    const { bookCount } = newProps
+    const maxItems = Math.ceil(bookCount / maxPageLimit);
     if (maxItems > 1) {
       this.setState({
         maxItems: maxItems,
@@ -86,32 +90,15 @@ class AllBooks extends ProtectRoute {
   }
 
   /**
-   * 
-   * 
-   * @param {any} books 
-   * @returns {Array} an array of books to be displayed on each page
-   * @memberof AllBooks
-   */
-  setDisplayedBooks(books) {
-    const displayedBooks = books.slice((this.state.activePage - 1) *
-    this.state.maxItemsPerPage,
-    (this.state.activePage) * this.state.maxItemsPerPage);
-    this.setState({
-      displayedBooks
-    })
-  }
-
-  /**
    * @returns {void}
    * 
-   * @param {any} activePage 
+   * @param {number} page
+   * @param {number} limit
    * @memberof AllBooks
    */
-  handleSelectedPage(activePage) {
-    this.setState({
-      activePage
-    }, () => this.setDisplayedBooks(this.props.books))
-
+  handleSelectedPage(page) {
+    this.props.fetchAllBooks(page, maxPageLimit)
+    // TODO: add component that allows users select the limit the want
   }
 
   /**
@@ -121,9 +108,8 @@ class AllBooks extends ProtectRoute {
    * @memberof AllBooks
    */
   render () { 
-    const { books, loading , user} = this.props;
-    const { showPagination, displayedBooks } = this.state;
-    // const user = getUser();
+    const { books, loading , user, authenticated, } = this.props;
+    const { showPagination, } = this.state;
     return (
       <div>
         <header>
@@ -137,19 +123,8 @@ class AllBooks extends ProtectRoute {
                       { user.role === 'admin' ? <li><Link to="/admindashboard">Admin DashBoard</Link></li> : null }
                       { user.role === 'admin' ? <li><Link to="/addbook">Add book</Link></li> : null }
                       {/* <!-- <i className="material-icons prefix">notifications</i> --> */}
-                      <li><a className="dropdown-button" href="#" data-activates="dropdown2">Categories<i className="material-icons right">arrow_drop_down</i></a>
-                          {/* <!-- Dropdown Structure --> */}
-                          <ul id="dropdown2" className="dropdown-content">
                               
-                              <li><a href="notifications.html">Finance</a></li>
-                              <li><a href="notifications.html">Engineering</a></li>
-                              <li><a href="notifications.html">African Literature</a></li>
-                              <li><a href="notifications.html">Children</a></li>
-                              <li><a href="notifications.html">Law</a></li>
-                              <li><a href="notifications.html">Business</a></li>
-                          </ul>
-                      </li>
-                      <li><a className="dropdown-button" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
+                      <li><a className="dropdown-button" data-activates="dropdown1">{authenticated ? user.username : ''}<i className="material-icons right">arrow_drop_down</i></a>
                           {/* <!-- Dropdown Structure --> */}
                           <ul id="dropdown1" className="dropdown-content">
                               <li><Link to="/favorite">Favorite Books</Link></li>
@@ -173,10 +148,10 @@ class AllBooks extends ProtectRoute {
           }
           <div>
             <div className="row ">
-              { displayedBooks.length ? 
+              { books.length ? 
                 <div className="section">
                   <div className="row">
-                  {displayedBooks ? displayedBooks.map((book, index) => {
+                  { books ? books.map((book, index) => {
                     return <div key={index}><BookCard book={book}/></div>
                   }) : null }              
                   </div>
@@ -214,13 +189,15 @@ const mapStateToProps = (state) => {
   return {
     books: state.bookReducer.books,
     loading: state.bookReducer.loading,
-    user: state.userReducer.authUser
+    user: state.userReducer.authUser,
+    authenticated: state.userReducer.authenticated,
+    bookCount: state.bookReducer.bookCount,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllBooks: () => dispatch(fetchAllBooks()),
+    fetchAllBooks: (page) => dispatch(fetchAllBooks(page)),
     logout: () => dispatch(logout())
   };
 };

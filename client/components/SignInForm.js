@@ -58,7 +58,9 @@ class SignInForm extends Component {
   componentWillReceiveProps(nextProps) {
     if(nextProps === this.props) return;
     if (nextProps.user.authenticated) {
-      this.props.history.push('/allbooks');
+      setTimeout(() => {
+        this.props.history.push('/allbooks');
+      }, 1000)
     }
   }
 

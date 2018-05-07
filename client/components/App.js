@@ -46,6 +46,8 @@ export default class App extends Component {
     $('.dropdown-button').dropdown();
     $('.tooltipped').tooltip({ delay: 50 });
     $('.tabs').tabs();
+    $('.tooltipped').tooltip();
+  
 
     // $('.modal').modal();
     // $('select').material_select();

@@ -62,11 +62,11 @@ export const trimObject = (obj) => {
   return trimmedObject;
 }
 
+export const maxPageLimit = process.env.MAX_PAGE_LIMIT || 4;
+
 export const formatPagination = (req) => {
-  const maxPageLimit = 4;
   const limit = !Number.isInteger(parseInt(req.query.limit, 10))
   || req.query.limit > maxPageLimit ? maxPageLimit : req.query.limit
-  // TODO: add limit as an env variable
   const page = (!Number.isInteger(parseInt(req.query.page, 10))
   || req.query.page <= 0) ? 1 : req.query.page
   const offset = limit * (page - 1);

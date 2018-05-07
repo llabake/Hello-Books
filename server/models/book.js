@@ -120,6 +120,7 @@ export default(sequelize, DataTypes) => {
     });
     Book.hasMany(models.Vote, {
       foreignKey: 'bookId',
+      as: 'votes'
     });
   };
   Book.prototype.isAvailable = function isAvailable() {

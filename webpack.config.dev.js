@@ -14,7 +14,8 @@ module.exports = merge(common, {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV':  JSON.stringify('development')
+      'process.env.NODE_ENV':  JSON.stringify('development'),
+      'process.env.MAX_PAGE_LIMIT': 4
     }),
   ],
   devServer: {

@@ -3,7 +3,7 @@ import InputValidator from '../../helpers/inputValidator';
 import { trimObject, formatPagination, paginateBookResult, } from '../../helpers/utils'
 
 const {
- Book, Review, User, Favorite, BorrowBook,
+ Book, Review, User, Favorite, BorrowBook, Vote
 } = models;
 
 const includeReviewAndFavorite = [{
@@ -19,6 +19,15 @@ const includeReviewAndFavorite = [{
   model: Favorite,
   as: 'favorited',
   attributes: ['id', 'createdAt'],
+  include: [{
+    model: User,
+    as: 'user',
+    attributes: ['username', 'id'],
+  }],
+}, {
+  model: Vote,
+  as: 'votes',
+  attributes: ['id', 'voteType'],
   include: [{
     model: User,
     as: 'user',

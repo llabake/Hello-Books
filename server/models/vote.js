@@ -24,6 +24,7 @@ export default function (sequelize, DataTypes) {
     Vote.belongsTo(models.User, {
       foreignKey: 'userId',
       onDelete: 'CASCADE',
+      as: 'user'
     });
   };
   return Vote;

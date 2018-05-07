@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
+import  { logout } from '../../actions/userAction'
 
 import SearchBar from './SearchBar';
 
@@ -12,6 +13,23 @@ import SearchBar from './SearchBar';
  */
 class Header extends Component {
 
+  /**
+   * Creates an instance of Header.
+   * @memberof Header
+   */
+  constructor() {
+    super();
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+  
+    /**
+   * @returns {object} redirects to home page
+   * 
+   * @memberof Header
+   */
+  handleLogout() {
+    this.props.logout();
+  }
   /**
    * 
    * 
@@ -37,7 +55,8 @@ class Header extends Component {
                 </li>
                 { user.authenticated ? 
                   <li>
-                    <NavLink to="/">Log Out
+                    <NavLink to=""
+                    onClick={this.handleLogout}>Log Out
                     </NavLink>
                   </li> 
                   :
@@ -60,7 +79,8 @@ class Header extends Component {
                 </li>
                 { user.authenticated ? 
                   <li>
-                    <NavLink to="/">Log Out
+                    <NavLink to="" 
+                    onClick={this.handleLogout}>Log Out
                     </NavLink>
                   </li> 
                   :
@@ -91,4 +111,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Header);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
