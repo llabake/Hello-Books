@@ -185,7 +185,7 @@ class SingleBook extends ProtectRoute {
                     <SearchBar/>
                   </li>
                   
-                  <li><a className="dropdown-button" data-activates="dropdown1">{ authenticated ? user.username : '' }<i className="material-icons right">arrow_drop_down</i></a>
+                  <li><a className="dropdown-button" data-activates="dropdown1">{ authenticated && user ? user.username : '' }<i className="material-icons right">arrow_drop_down</i></a>
                     <ul id="dropdown1" className="dropdown-content">
                       <li><Link to="/favorite"><i className="material-icons ">library_add</i>Add Favorites</Link></li>
                       <li><a href="#">Terms and Condition</a></li>
@@ -198,7 +198,7 @@ class SingleBook extends ProtectRoute {
                   <li>
                     <SearchBar/>
                   </li>
-                  <li><a className="dropdown-button" data-activates="dropdown1">{ authenticated ? user.username : '' }<i className="material-icons right">arrow_drop_down</i></a>
+                  <li><a className="dropdown-button" data-activates="dropdown1">{ authenticated && user ? user.username : '' }<i className="material-icons right">arrow_drop_down</i></a>
                     {/* <!-- Dropdown Structure --> */}
                     <ul id="dropdown1" className="dropdown-content">
                       <li><a href="/favorite"><i className="material-icons ">library_add</i>Add Favorites</a></li>
