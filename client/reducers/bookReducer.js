@@ -22,7 +22,8 @@ import {
   FETCH_TOP_FAVORITED_BOOKS_SUCCESS,
   FETCH_BOOK,
   FETCH_SINGLE_BOOK,
-  HANDLE_CANCEL_CLICK
+  HANDLE_CANCEL_CLICK,
+  SET_BOOK_COUNT
 } from '../actions/actionTypes';
 import initialState from './initialState';
 
@@ -34,6 +35,9 @@ export default (state = initialState.books, action) => {
     case FETCH_BOOK_SUCCESS:
       return {...state, books: action.books, loading: false }
 
+    case SET_BOOK_COUNT:
+      return { ...state, bookCount: action.bookCount }
+      
     case FETCH_BOOK_ERROR:
       return { ...state, error: action.error, loading: false}
   
@@ -46,8 +50,10 @@ export default (state = initialState.books, action) => {
     case FETCH_SINGLE_BOOK_ERROR:
       return { ...state, error: action.error, loading: false }
     
-      case FAVORITE_BOOK_SUCCESS:
-      return {...state, favoritedBook: action.favoritedBook }
+      case FAVORITE_BOOK_SUCCESS:{
+        const updatedBook = { ...state.book, ...action.favoritedBook }
+        return { ...state, favoritedBook: action.favoritedBook, book:updatedBook }
+      }
 
     case FAVORITE_BOOK_ERROR:
       return {...state, error: action.error}

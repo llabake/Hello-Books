@@ -85,24 +85,20 @@ export const checkUserExist = (field, userInput) => (dispatch) => {
 
 export const signUpUser = userData => (dispatch) => {
   dispatch(userSignUpRequest())
-  // return new Promise((resolve, reject) => {
     return axios.post(`${hostUrl}/api/v1/users/signup/`, userData)
       .then((response) => {
-        dispatch(userSignUpSuccess(response.data.user))
         const { token } = response.data;
         localStorage.setItem('token', token)
-        dispatch(setCurrentUser(jwt.decode(token)));
+        const decodedToken = jwt.decode(token)
+        const authUser = decodedToken.user
+        dispatch(userSignUpSuccess(authUser))
+        dispatch(setCurrentUser(authUser));
         toastMessage(response.data.message, 'success');
-        // resolve(response)
       })
       .catch((error) => {
         dispatch(userSignUpError(error))
         toastMessage('Signup failed. Please try again', 'failure')
-        // reject(error)
       })
-
-  // })
-
 }
 
 
@@ -142,7 +138,6 @@ export const signInUser = userData => (dispatch) => {
       localStorage.setItem('token', token) 
       const decodedToken = jwt.decode(token)
       const authUser = decodedToken.user
-      // localStorage.setItem('user', JSON.stringify(authUser))
       dispatch(userSignInSuccess(authUser))
       dispatch(setCurrentUser(authUser));
       toastMessage(response.data.message, 'success');
@@ -241,7 +236,7 @@ const userFavoriteListError = (error) => {
 
 export const fetchUserFavoriteBooks = () => dispatch => {
   dispatch(userFavoriteList());
-  return axios.get(`${hostUrl}/api/v1/books/favbooks`, axiosDefaultOptions)
+  return axios.get(`${hostUrl}/api/v1/users/favbooks`, axiosDefaultOptions)
     .then((response) => {
       dispatch(userFavoriteListSuccess(response.data.favorites))
     })
@@ -273,7 +268,7 @@ const unFavoriteError = (error) => {
 
 export const removeFromFavorite = bookId => dispatch => {
   dispatch(unFavorite());
-  return axios.delete(`${hostUrl}/api/v1/books/fav/${bookId}`, axiosDefaultOptions)
+  return axios.delete(`${hostUrl}/api/v1/users/favbooks/${bookId}`, axiosDefaultOptions)
     .then((response) => {
       dispatch(unFavoriteSuccess(bookId));
       toastMessage(response.data.message, 'success')

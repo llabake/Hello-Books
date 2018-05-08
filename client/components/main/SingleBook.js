@@ -12,7 +12,7 @@ import ReviewArea from '../main/ReviewArea';
 import { fetchSingleBook, favoriteABook, upVoteBook,
         downVoteBook, showReviewTextArea, showAllReviews,
         borrowBook } from '../../actions/bookAction';
-import { getUser, bookDefaultImage } from '../../helpers/utils';
+import { bookDefaultImage, checkFavorited, checkReviewed, checkUpVote, checkDownVote } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
 import SearchBar from '../common/SearchBar';
 import ProtectRoute from '../ProtectRoute';
@@ -71,11 +71,6 @@ class SingleBook extends ProtectRoute {
   handleAddFavorite (event) {
     event.preventDefault();
     this.props.favoriteABook(this.props.match.params.bookId)
-    .then(() => {
-      this.setState({
-        favorited: true
-      })
-    })
   }
 
   /**
@@ -164,6 +159,8 @@ class SingleBook extends ProtectRoute {
     this.props.logout();
   }
   
+
+
   /**
    * 
    * 
@@ -171,9 +168,10 @@ class SingleBook extends ProtectRoute {
    * @memberof SingleBook
    */
   render () { 
-    const { book, loadTextArea, loadAllReview, loading } = this.props;
-    const { favorited, downvoted, upvoted, borrowed, reviewed} = this.state
-    const user = getUser();
+    const { book, loadTextArea, loadAllReview, loading, user, authenticated } = this.props;
+    const { borrowed } = this.state
+    const userFavorited = checkFavorited(book, user)
+
     return (
       <div>
         <header>
@@ -187,7 +185,7 @@ class SingleBook extends ProtectRoute {
                     <SearchBar/>
                   </li>
                   
-                  <li><a className="dropdown-button" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
+                  <li><a className="dropdown-button" data-activates="dropdown1">{ authenticated ? user.username : '' }<i className="material-icons right">arrow_drop_down</i></a>
                     <ul id="dropdown1" className="dropdown-content">
                       <li><Link to="/favorite"><i className="material-icons ">library_add</i>Add Favorites</Link></li>
                       <li><a href="#">Terms and Condition</a></li>
@@ -200,11 +198,11 @@ class SingleBook extends ProtectRoute {
                   <li>
                     <SearchBar/>
                   </li>
-                  <li><a className="dropdown-button" data-activates="dropdown1">{ user.username }<i className="material-icons right">arrow_drop_down</i></a>
+                  <li><a className="dropdown-button" data-activates="dropdown1">{ authenticated ? user.username : '' }<i className="material-icons right">arrow_drop_down</i></a>
                     {/* <!-- Dropdown Structure --> */}
                     <ul id="dropdown1" className="dropdown-content">
-                      <li><a href="addfavorite.html"><i className="material-icons ">library_add</i>Add Favorites</a></li>
-                      <li><a href="detail.html!">Terms and Condition</a></li>
+                      <li><a href="/favorite"><i className="material-icons ">library_add</i>Add Favorites</a></li>
+                      <li><a href="#">Terms and Condition</a></li>
                       <li className="divider"></li>
                       <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
                     </ul>
@@ -245,11 +243,8 @@ class SingleBook extends ProtectRoute {
                     <div className="section">
                       <div className="section1">
                         <div> 
-                          <a className=" write-review " onClick={this.handleAddFavorite}>
-                          { favorited ? 
-                            <i className=" material-icons pencil medium" style={{color: 'rgb(254, 170, 38)'}} >favorite</i> : 
-                            <i className=" material-icons pencil medium">favorite</i>
-                          }Add to Favorite
+                          <a className=" write-review " onClick={this.handleAddFavorite} style={{ 'cursor': 'pointer'}}>
+                          { userFavorited ? <i className=" material-icons pencil medium" style={{color: 'rgb(254, 170, 38)'}} >favorite</i> : <i className=" material-icons pencil medium">favorite</i> }{userFavorited ? '' : 'Add to Favorite'}
                           </a>
                         </div>
                         <form id="form-lend" >
@@ -269,16 +264,15 @@ class SingleBook extends ProtectRoute {
                       <div className="section3">
                         <span>{book.title} has been borrowed </span> <span >{book.borrowCount}</span> times <span><a  className="write-review" href="review.html"><i className=" material-icons tiny pencil ">create</i>Review?</a></span>
                         <br/>
-                        {/* <span>Last Borrowed 25/05/2016</span> */}
-                        <div> 
-                          <a className=" upvote" onClick={this.handleUpvote} >
-                          { upvoted ? <i className=" material-icons pencil small" style={{color: 'rgb(0, 169, 0)'}}>thumb_up</i> : <i className=" material-icons pencil small">thumb_up</i> }{book.upVotes}
+                        <div style={{ 'cursor': 'pointer'}}> 
+                          <a className=" upvote" onClick={this.handleUpvote}>
+                          { checkUpVote(book, user) ? <i className=" material-icons pencil small" style={{color: 'rgb(0, 169, 0)'}}>thumb_up</i> : <i className=" material-icons pencil small">thumb_up</i> }{book.upVotes}
                           </a>
                           <a className=" upvote" onClick={this.handleDownvote} >
-                          { downvoted ? <i className=" material-icons pencil small" style={{color: 'red'}}>thumb_down</i> : <i className=" material-icons pencil small">thumb_down</i> }{book.downVotes}
+                          { checkDownVote(book, user) ? <i className=" material-icons pencil small" style={{color: 'red'}}>thumb_down</i> : <i className=" material-icons pencil small">thumb_down</i> }{book.downVotes}
                           </a>
                           <a className=" upvote" onClick={this.handleAddReview} >
-                        { reviewed ? <i className=" material-icons pencil small" style={{color: 'rgb(91, 150, 196)'}}>comment</i> : <i className=" material-icons pencil small">comment</i>}{book.reviews ? book.reviews.length : 0}
+                        { checkReviewed(book, user) ? <i className=" material-icons pencil small" style={{color: 'rgb(91, 150, 196)'}}>comment</i> : <i className=" material-icons pencil small">comment</i>}{book.reviews ? book.reviews.length : 0}
                           </a>
                         </div>
                       </div>
@@ -356,7 +350,10 @@ const mapStateToProps = (state) => {
     book: state.bookReducer.book,
     loadTextArea: state.bookReducer.loadTextArea,
     loadAllReview: state.bookReducer.loadAllReview,
-    loading: state.bookReducer.loading
+    loading: state.bookReducer.loading,
+    user: state.userReducer.authUser.user,
+    authenticated: state.userReducer.authenticated
+
   };
 };
 

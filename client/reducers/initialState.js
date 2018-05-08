@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 const token = localStorage.getItem('token');
-const user = token ? jwt.decode(token) : {}
+const user = token ? jwt.decode(token).user : {}
 
 export default {
   user: {
@@ -14,6 +14,7 @@ export default {
   },
   books: {
     books: [],
+    bookCount: 0,
     book: {},
     favoritedBook: {},
     upvotedBook: {},

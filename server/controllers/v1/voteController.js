@@ -1,6 +1,6 @@
 import models from '../../models';
 
-const { Book, Vote, } = models;
+const { Book, Vote, User} = models;
 
 const fetchVote = async (voteModel, userId, bookId) => {
   let vote = Vote.findOne({ where: { userId, bookId } });
@@ -8,7 +8,16 @@ const fetchVote = async (voteModel, userId, bookId) => {
 }
 
 const fetchBook = async (bookModel, bookId) => {
-  let book =  Book.findOne({ where: { id: bookId } })
+  let book =  Book.findOne({ where: { id: bookId }, include: [{
+    model: Vote,
+    as: 'votes',
+    attributes: ['id', 'voteType'],
+    include: [{
+      model: User,
+      as: 'user',
+      attributes: ['username', 'id'],
+    }],
+  }]})
   return book;
 }
 

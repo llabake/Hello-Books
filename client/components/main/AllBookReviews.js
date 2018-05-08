@@ -85,7 +85,7 @@ class AllBookReviews extends Component {
               <div className='row'>
                 <div className='col s3' >
                   <div className='col s1' >
-                    <img className="responsive-img circle right" src={userImage} valign= 'top' height = '37px'  alt="" />
+                    <img className="responsive-img circle right" src={review.user.image || userImage } valign= 'top' height = '37px'  alt="" />
                   </div>
                   <div className= 'col s2' >
                     <span style={contentStyle}>
