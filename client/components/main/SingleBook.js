@@ -351,7 +351,7 @@ const mapStateToProps = (state) => {
     loadTextArea: state.bookReducer.loadTextArea,
     loadAllReview: state.bookReducer.loadAllReview,
     loading: state.bookReducer.loading,
-    user: state.userReducer.authUser.user,
+    user: state.userReducer.authUser,
     authenticated: state.userReducer.authenticated
 
   };
