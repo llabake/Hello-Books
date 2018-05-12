@@ -5,14 +5,25 @@ $h5-color: #a96464;
 $btn-color: #7c4545;
 $btn-hover-color: #7c6145;
 $form-color: #7c4561;
+$color-white: #fff;
 
 body {
     background: rgb(240, 240, 240);
     color: rgb(20, 20, 20);
     font-family: Helvetica;
-    margin: 0;
   }
   
+  .body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
   * {
     box-sizing: border-box;
     &:before, &:after {
@@ -199,6 +210,35 @@ body {
     background-color: $footer-color !important;
     ul {
       display: inline-flex;
+    }
+    .navigation {
+      display: block;
+    }
+    h5 {
+      margin-bottom: 7px;
+      font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-weight: 500;
+    }
+    .social-btn {
+      display: inline-block;
+      height: 50px;
+      width: 50px;
+      text-align: center;
+      font-size: 16px;
+      line-height: 45px;
+    }
+    p {
+      padding-top: 1.2em;
+    }
+    .list-inline {
+      list-style: none;
+      margin-left: -5px;
+      padding-left: 0;
+    }
+    
+    .icon-style {
+      color: $color-white;
+      margin: 8px;
     }
   }
   

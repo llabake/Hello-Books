@@ -1,8 +1,16 @@
 body {
   background: #f0f0f0;
   color: #141414;
-  font-family: Helvetica;
-  margin: 0; }
+  font-family: Helvetica; }
+
+.body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100vh; }
+
+main {
+  flex: 1 0 auto; }
 
 * {
   box-sizing: border-box; }
@@ -148,6 +156,28 @@ h5 {
   background-color: #8c4e4e !important; }
   .page-footer ul {
     display: inline-flex; }
+  .page-footer .navigation {
+    display: block; }
+  .page-footer h5 {
+    margin-bottom: 7px;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 500; }
+  .page-footer .social-btn {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 45px; }
+  .page-footer p {
+    padding-top: 1.2em; }
+  .page-footer .list-inline {
+    list-style: none;
+    margin-left: -5px;
+    padding-left: 0; }
+  .page-footer .icon-style {
+    color: #fff;
+    margin: 8px; }
 
 .similar h3 {
   font-weight: 500;

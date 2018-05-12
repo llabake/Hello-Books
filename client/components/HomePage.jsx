@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import Header from '../components/common/Header'
-import Footer from '../components/common/Footer';
 import Slider from '../components/common/Slider';
 import Carousel from '../components/common/Carousel';
 import BookCard from '../components/common/BookCard';
@@ -70,7 +68,6 @@ class HomePage extends Component {
     const { popularBooks, loadingPopularBooks } = this.props;
     return (
       <div>
-        <Header />
         <Slider />
         <div >
           <h4 className="center-align">
@@ -102,7 +99,6 @@ class HomePage extends Component {
           </h3>
           <div><Carousel /></div>
         </div>
-        <Footer />
       </div>
     );
   }

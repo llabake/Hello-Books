@@ -54,7 +54,7 @@ class Favorite extends Component {
    * @memberof Favorite
    */
   componentWillReceiveProps(newProps) {
-    if(newProps === this.props) return;
+    if (newProps === this.props) return;
     const { favoriteBooks } = newProps;
     const noOfBooks = favoriteBooks.length;
     const maxItems = Math.ceil(noOfBooks / this.state.maxItemsPerPage);
@@ -75,8 +75,8 @@ class Favorite extends Component {
    */
   setDisplayedBooks(favoriteBooks) {
     const displayedBooks = favoriteBooks.slice((this.state.activePage - 1) *
-    this.state.maxItemsPerPage,
-    (this.state.activePage) * this.state.maxItemsPerPage);
+      this.state.maxItemsPerPage,
+      (this.state.activePage) * this.state.maxItemsPerPage);
     this.setState({
       displayedBooks
     })
@@ -101,52 +101,50 @@ class Favorite extends Component {
    * @returns {void}
    * @memberof Favorite
    */
-  render () {
+  render() {
     const { loading, favoriteBooks } = this.props;
     const { showPagination, displayedBooks } = this.state;
     return (
       <div>
-        <FavoritePageHeader/>
-        { loading ? 
-          <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em'}}>
-            <img src={ajaxLoader} alt="Loading..."/>
-          </div> : 
+        {loading ?
+          <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em' }}>
+            <img src={ajaxLoader} alt="Loading..." />
+          </div> :
           ''
         }
-        { !loading && displayedBooks.length ?
+        {!loading && displayedBooks.length ?
           <div className="container">
             <div className="row">
-                <div className="col s12">
-                  <h3 className="center-align"> My Favorites Books </h3>
-                </div>
+              <div className="col s12">
+                <h3 className="center-align"> My Favorites Books </h3>
+              </div>
             </div>
             <div className="row">
-            {  displayedBooks.map((favoriteBook,index) => {
-              return <div key={index}><FavoriteBookCard  favoriteBook={favoriteBook}/></div>
+              {displayedBooks.map((favoriteBook, index) => {
+                return <div key={index}><FavoriteBookCard favoriteBook={favoriteBook} /></div>
               })
-            }
+              }
             </div>
-            { showPagination ? 
+            {showPagination ?
               <Pagination
                 className={'center-align'}
                 items={this.state.maxItems}
                 activePage={1} maxButtons={4}
                 onSelect={this.handleSelectedPage}
               /> :
-              null 
+              null
             }
-          </div> : null }
-        { !loading && !favoriteBooks.length ?
+          </div> : null}
+        {!loading && !favoriteBooks.length ?
           <div className="container">
-              <div className="card">
-                <div className="card-content">
+            <div className="card">
+              <div className="card-content">
                 <p>
                   Favorite List is empty
                 </p>
-                </div>
               </div>
-            </div> : null }
-        <Footer/>
+            </div>
+          </div> : null}
       </div>
     )
   }
@@ -168,4 +166,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favorite);
-   
+

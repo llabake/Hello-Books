@@ -5,9 +5,7 @@ import { connect } from 'react-redux'
 
 import { checkUserExist, signUpUser } from '../actions/userAction';
 import TextInput from '../components/common/TextInput';
-import inputValidator from '../helpers/inputValidator'
-import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
+import inputValidator from '../helpers/inputValidator';
 
 /**
  * 
@@ -35,7 +33,6 @@ class SignUpForm extends Component {
       saving: false,
       isValid: false,
       userExist: {},
-      // redirect: false
 
     };
     this.handleChange = this.handleChange.bind(this);
@@ -72,19 +69,6 @@ class SignUpForm extends Component {
         saving: true
       });
       this.props.signUpUser(userData)
-      // .then(() => {
-      //   setTimeout(() => {
-      //     this.setState({
-      //       redirect: true,
-      //     });
-      //   }, 2000)
-      // })
-      // .catch(() => {
-      //   this.setState({
-      //     redirect: false,
-      //     saving: false
-      //   })
-      // })
     }
   }
 
@@ -109,13 +93,12 @@ class SignUpForm extends Component {
    * @returns {Object} User onbject
    */
   componentWillReceiveProps(nextProps) {
-    if(nextProps === this.props) {
-      this.setState({ saving: false })
-    }
     if(nextProps.user.authenticated) {
       setTimeout(() => {
         this.props.history.push('/allbooks')
       }, 2000)
+    } else {
+      this.setState({ saving: false })
     }
   }
 
@@ -168,23 +151,9 @@ class SignUpForm extends Component {
    * @memberof SignUpForm
    */
   render () {  
-    const { errors, isValid, saving, redirect } = this.state;
+    const { errors, isValid, saving, } = this.state;
     return (
-      // redirect ? <Redirect to='/' /> :
       <div>
-        <header> 
-          <div className="navbar-fixed">
-            <nav>
-              <div className="nav-wrapper">
-                <Link to="/" className="brand-logo left adjust">Hello Books</Link>
-                <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
-                
-                <ul id="nav-mobile" className="right hide-on-med-and-down">
-                </ul>
-              </div>
-            </nav>
-          </div> 
-        </header>
         <div id="banner">
           <div className="container form-style">
             <div className="row">
@@ -272,7 +241,6 @@ class SignUpForm extends Component {
             </div>
           </div> 
         </div>
-        <Footer/>
       </div>
 
 

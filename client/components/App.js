@@ -15,6 +15,8 @@ import SearchResult from './common/SearchResult';
 import EditProfile from './userDashBoard/EditProfile';
 
 import '../styles/style.scss';
+import Header from './common/Header';
+import Footer from './common/Footer';
 /**
  * 
  * 
@@ -43,7 +45,9 @@ export default class App extends Component {
     // setTimeout(autoplay, 4500)}
 
     $('.slider').slider();
-    $('.dropdown-button').dropdown();
+    $('.dropdown-button').dropdown({
+      belowOrigin: true,
+    });
     $('.tooltipped').tooltip({ delay: 50 });
     $('.tabs').tabs();
     $('.tooltipped').tooltip();
@@ -51,7 +55,7 @@ export default class App extends Component {
 
     // $('.modal').modal();
     // $('select').material_select();
-  
+    
   }
   /**
    * 
@@ -62,7 +66,11 @@ export default class App extends Component {
   render () {
     return (
       <Router>
-        <div>
+        <div className="body">
+        <header>
+        <Header />
+        </header>
+        <main>
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/signup' component={SignUpForm} />
@@ -76,6 +84,10 @@ export default class App extends Component {
           <Route exact path='/search/:searchTerm' component={requireAuthentication(SearchResult)}/>
           <Route exact path='/editprofile' component={requireAuthentication(EditProfile)} />
         </Switch>
+        </main>
+        <footer>
+        <Footer />
+        </footer>
         </div>
       </Router>
     );

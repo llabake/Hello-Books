@@ -42,19 +42,14 @@ class UserProfilePage extends Component {
    */
   render () {
     const user = getUser();
-    // const { courses } = this.props;
     return (
       <div>
-        <header>
-          <UserProfileHeader user={user}/>
-        </header>
         <div className="row ">
             <UserProfileSidePanel user={user}/>
             <div className="col s12 m8">
               <UserBorrowedBookList />
             </div>
         </div>
-        <Footer/>
       </div>
     )
   }
