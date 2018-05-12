@@ -13,6 +13,7 @@ import UserProfilePage from './userDashBoard/UserProfilePage';
 import Favorite from './userFavorite/Favorite';
 import SearchResult from './common/SearchResult';
 import EditProfile from './userDashBoard/EditProfile';
+import NotFound from './NotFound';
 
 import '../styles/style.scss';
 import Header from './common/Header';
@@ -83,6 +84,7 @@ export default class App extends Component {
           <Route exact path='/favorite' component={requireAuthentication(Favorite)}/>
           <Route exact path='/search/:searchTerm' component={requireAuthentication(SearchResult)}/>
           <Route exact path='/editprofile' component={requireAuthentication(EditProfile)} />
+          <Route path="*" component={NotFound} />
         </Switch>
         </main>
         <footer>
