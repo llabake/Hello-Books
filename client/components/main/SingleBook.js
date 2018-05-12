@@ -15,7 +15,6 @@ import { fetchSingleBook, favoriteABook, upVoteBook,
 import { bookDefaultImage, checkFavorited, checkReviewed, checkUpVote, checkDownVote } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
 import SearchBar from '../common/SearchBar';
-import ProtectRoute from '../ProtectRoute';
 import ajaxLoader from '../../media/ajax-loader.gif'
 
 
@@ -25,7 +24,7 @@ import ajaxLoader from '../../media/ajax-loader.gif'
  * @class SingleBook
  * @extends {Component}
  */
-class SingleBook extends ProtectRoute {
+class SingleBook extends Component {
   /**
    * Creates an instance of SingleBook.
    * @param {any} props 
