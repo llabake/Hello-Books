@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
+import requireAuthentication from './Authentication';
 import HomePage from './HomePage';
 import SignUpForm from './SignUpForm';
 import SignInForm from './SignInForm';
@@ -67,14 +67,14 @@ export default class App extends Component {
           <Route exact path='/' component={HomePage} />
           <Route exact path='/signup' component={SignUpForm} />
           <Route exact path='/signin' component={SignInForm} />
-          <Route exact path='/allbooks' component={AllBooks} />
-          <Route exact path='/addbook' component={AddBook} />
-          <Route exact path='/admindashboard' component={AdminDashBoard} />
-          <Route exact path='/book/:bookId' component={SingleBook} />
-          <Route exact path='/profile' component={UserProfilePage} />
-          <Route exact path='/favorite' component={Favorite}/>
-          <Route exact path='/search/:searchTerm' component={SearchResult}/>
-          <Route exact path='/editprofile' component={EditProfile} />
+          <Route exact path='/allbooks' component={requireAuthentication(AllBooks)} />
+          <Route exact path='/addbook' component={requireAuthentication(AddBook)} />
+          <Route exact path='/admindashboard' component={requireAuthentication(AdminDashBoard)} />
+          <Route exact path='/book/:bookId' component={requireAuthentication(SingleBook)} />
+          <Route exact path='/profile' component={requireAuthentication(UserProfilePage)} />
+          <Route exact path='/favorite' component={requireAuthentication(Favorite)}/>
+          <Route exact path='/search/:searchTerm' component={requireAuthentication(SearchResult)}/>
+          <Route exact path='/editprofile' component={requireAuthentication(EditProfile)} />
         </Switch>
         </div>
       </Router>

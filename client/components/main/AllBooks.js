@@ -10,7 +10,6 @@ import Footer from '../common/Footer';
 import BookCard from '../common/BookCard'
 import { fetchAllBooks } from '../../actions/bookAction';
 import { logout } from '../../actions/userAction';
-import ProtectRoute from '../ProtectRoute';
 import ajaxLoader from '../../media/ajax-loader.gif';
 import { maxPageLimit } from '../../helpers/utils'
 
@@ -21,7 +20,7 @@ import { maxPageLimit } from '../../helpers/utils'
  * @class AllBooks
  * @extends {Component}
  */
-class AllBooks extends ProtectRoute {
+class AllBooks extends Component {
   /**
    * Creates an instance of AllBooks.
    * @param {any} props 
@@ -46,9 +45,9 @@ class AllBooks extends ProtectRoute {
    * @memberof AllBooks
    * @returns {void}
    */
-  componentWillMount() {
-    super.componentWillMount();
-  }
+  // componentWillMount() {
+  //   super.componentWillMount();
+  // }
 
   /**
    * 

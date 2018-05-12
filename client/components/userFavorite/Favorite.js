@@ -8,7 +8,6 @@ import FavoritePageHeader from '../userFavorite/FavoritePageHeader';
 import Footer from '../../components/common/Footer';
 import FavoriteBookCard from '../userFavorite/FavoriteBookCard'
 import { fetchUserFavoriteBooks } from '../../actions/userAction';
-import ProtectRoute from '../ProtectRoute';
 import ajaxLoader from '../../media/ajax-loader.gif';
 
 
@@ -18,7 +17,7 @@ import ajaxLoader from '../../media/ajax-loader.gif';
  * @class Favorite
  * @extends {Component}
  */
-class Favorite extends ProtectRoute {
+class Favorite extends Component {
 
   /**
    * Creates an instance of Favorite.
@@ -44,7 +43,6 @@ class Favorite extends ProtectRoute {
    * @memberof Favorite
    */
   componentWillMount() {
-    super.componentWillMount()
     this.props.fetchUserFavoriteBooks()
   }
 
