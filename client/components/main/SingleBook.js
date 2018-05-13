@@ -14,6 +14,7 @@ import { bookDefaultImage, checkFavorited, checkReviewed, checkUpVote, checkDown
 import { logout } from '../../actions/userAction';
 import SearchBar from '../common/SearchBar';
 import ajaxLoader from '../../media/ajax-loader.gif'
+import NotFound from '../NotFound'
 
 
 /**
@@ -56,8 +57,7 @@ class SingleBook extends Component {
   componentDidMount() {
     this.props.fetchSingleBook(this.props.match.params.bookId);
   }
-
-
+  
   /**
    * 
    * 
@@ -165,9 +165,13 @@ class SingleBook extends Component {
    * @memberof SingleBook
    */
   render () { 
-    const { book, loadTextArea, loadAllReview, loading, user, authenticated } = this.props;
+    const { book, loadTextArea, loadAllReview, loading, user, authenticated, resourceNotFound } = this.props;
     const { borrowed } = this.state
     const userFavorited = checkFavorited(book, user)
+
+    if (resourceNotFound) {
+      return <NotFound />
+    }
 
     return (
       <div>
@@ -310,8 +314,8 @@ const mapStateToProps = (state) => {
     loadAllReview: state.bookReducer.loadAllReview,
     loading: state.bookReducer.loading,
     user: state.userReducer.authUser,
-    authenticated: state.userReducer.authenticated
-
+    authenticated: state.userReducer.authenticated,
+    resourceNotFound: state.bookReducer.resourceNotFound
   };
 };
 

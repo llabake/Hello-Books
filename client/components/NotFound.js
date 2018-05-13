@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import SearchBar from './common/SearchBar';
 
 const NotFound = (props) =>
-  <div className="container" style= {{ height: "95vh"}}>
+  <div className="container" >
   <div style={{marginLeft: "0px"}}>
     <h4>This is embarassing, something's missing.</h4>
     <b>404: page not found</b>
   </div>
-    <div style={{margin: "10 55px 20 35px",}}>
+    <div>
       <SearchBar />
     </div>
     <div >

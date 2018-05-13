@@ -84,7 +84,7 @@ export default class App extends Component {
           <Route exact path='/favorite' component={requireAuthentication(Favorite)}/>
           <Route exact path='/search/:searchTerm' component={requireAuthentication(SearchResult)}/>
           <Route exact path='/editprofile' component={requireAuthentication(EditProfile)} />
-          <Route path="*" component={NotFound} />
+          <Route component={NotFound} />
         </Switch>
         </main>
         <footer>
