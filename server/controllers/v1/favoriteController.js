@@ -1,4 +1,5 @@
 import models from '../../models';
+import { formatPagination, paginateBookFavoriteList } from '../../helpers/utils';
 
 const { Book, Favorite, Review, User } = models;
 /**
@@ -82,7 +83,8 @@ export default class FavoriteController {
  * @memberof FavoriteController
  */
   static retrieveUserFavorite(req, res) {
-    Favorite.findAll({
+    const { limit, page, offset } = formatPagination
+    Favorite.findAndCountAll({
       where: {
         userId: req.user.id
       },
@@ -98,18 +100,11 @@ export default class FavoriteController {
           as: 'favorited',
         }]
       }],
+      limit,
+      offset
     })
-      .then((favorites) => {
-        if (favorites.length === 0) {
-          return res.status(200).json({
-            favorites,
-            message: 'There are no Books on your Favorite List'
-          });
-        }
-        return res.status(200).json({
-          message: 'Favorite Book(s) retrieved successfully',
-          favorites
-        });
+      .then((result) => {
+        return paginateBookFavoriteList({ req, res, result, limit, page })
       })
       .catch((error) => {
         return res.status(500).json({ message: 'error sending your request', error: error.message });

@@ -46,7 +46,7 @@ class UserProfileHeader extends Component {
    * @memberof UserProfileHeader
    */
   render () {
-    const { user } = this.props
+    const { user, authenticated } = this.props
     return (
       <div className="navbar-fixed">
         <nav>
@@ -58,7 +58,7 @@ class UserProfileHeader extends Component {
               <li><Link to="/favorite">Favorite Books</Link></li>
               {/* <!-- <i className="material-icons prefix">notifications</i> --> */}
               <li><Link to="/notifications">Notifications<span className="new badge red">4</span></Link></li>
-              <li><a className="dropdown-button" href="#" data-activates="dropdown1">{user.username}<i className="material-icons right">arrow_drop_down</i></a>
+              <li><a className="dropdown-button" href="#" data-activates="dropdown1">{ authenticated ? user.username : ""}<i className="material-icons right">arrow_drop_down</i></a>
                 {/* <!-- Dropdown Structure --> */}
                 <ul id="dropdown1" className="dropdown-content">
                   <li><Link to="/editprofile"><i className="material-icons ">settings</i>Profile Setting</Link></li>
@@ -78,6 +78,7 @@ class UserProfileHeader extends Component {
 const mapStateToProps = (state) => {
   return {
     errors: state.errors,
+    user: state.userReducer.authUser
   };
 };
 

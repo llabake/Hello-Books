@@ -3,7 +3,6 @@ import { Link, } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
-import { getUser } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
 import SearchBar from '../common/SearchBar';
 
@@ -45,7 +44,7 @@ class FavoritePageHeader extends Component {
    * @memberof FavoritePageHeader
    */
   render () {
-    const user = getUser();
+    const { user, authenticated } = this.props;
     return (
       <div className="navbar-fixed">
         <nav>
@@ -58,7 +57,7 @@ class FavoritePageHeader extends Component {
                 <SearchBar/>
               </li>
               
-              <li><a className="dropdown-button" data-activates="dropdown1">{user.username}<i className="material-icons right">arrow_drop_down</i></a>
+              <li><a className="dropdown-button" data-activates="dropdown1">{ authenticated ? user.username : '' }<i className="material-icons right">arrow_drop_down</i></a>
                 {/* <!-- Dropdown Structure --> */}
                 <ul id="dropdown1" className="dropdown-content">
                   {/* <li><Link to="detail.html!">Terms and Condition</Link></li> */}
@@ -78,7 +77,8 @@ class FavoritePageHeader extends Component {
 const mapStateToProps = (state) => {
   return {
     errors: state.errors,
-    user: state.userReducer.user,
+    user: state.userReducer.authUser,
+    authenticated: state.userReducer.authenticated
   };
 };
 
