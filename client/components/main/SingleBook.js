@@ -12,7 +12,6 @@ import { fetchSingleBook, favoriteABook, upVoteBook,
         borrowBook } from '../../actions/bookAction';
 import { bookDefaultImage, checkFavorited, checkReviewed, checkUpVote, checkDownVote } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
-import SearchBar from '../common/SearchBar';
 import ajaxLoader from '../../media/ajax-loader.gif'
 import NotFound from '../NotFound'
 
@@ -165,7 +164,7 @@ class SingleBook extends Component {
    * @memberof SingleBook
    */
   render () { 
-    const { book, loadTextArea, loadAllReview, loading, user, authenticated, resourceNotFound } = this.props;
+    const { book, loadTextArea, loadAllReview, loading, user, resourceNotFound } = this.props;
     const { borrowed } = this.state
     const userFavorited = checkFavorited(book, user)
 
