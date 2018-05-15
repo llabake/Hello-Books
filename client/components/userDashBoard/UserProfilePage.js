@@ -4,10 +4,8 @@ import { Link, } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 import Footer from '../common/Footer';
-import UserProfileHeader from '../userDashBoard/UserProfileHeader';
 import UserProfileSidePanel from '../userDashBoard/UserProfileSidePanel';
 import UserBorrowedBookList from '../userDashBoard//UserBorrowedBookList';
-import { getUser } from '../../helpers/utils';
 import { getUserProfile } from '../../actions/userAction';
 
 /**
@@ -41,7 +39,7 @@ class UserProfilePage extends Component {
    * @memberof UserProfilePage
    */
   render () {
-    const user = getUser();
+    const { user } = this.props;
     return (
       <div>
         <div className="row ">
@@ -55,7 +53,11 @@ class UserProfilePage extends Component {
   }
 }
 
-
+const mapStateToProps = (state) => {
+  return {
+    user: state.userReducer.authUser
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -63,4 +65,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(null, mapDispatchToProps) (UserProfilePage);
+export default connect(mapStateToProps, mapDispatchToProps) (UserProfilePage);

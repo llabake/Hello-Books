@@ -170,7 +170,7 @@ const userBorrowListError = (error) => {
 
 export const fetchUserBorrowedBooks = () => dispatch => {
   dispatch(userBorrowList());
-  return axios.get(`${hostUrl}/api/v1/user/borrowed_books/`, axiosDefaultOptions)
+  return axios.get(`${hostUrl}/api/v1/users/borrowed-books`, axiosDefaultOptions)
     .then((response) => {
       dispatch(userBorrowListSuccess(response.data.borrowedBooks));
       // toastMessage(response.data.message, 'success')

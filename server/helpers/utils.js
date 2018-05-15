@@ -160,3 +160,17 @@ export const paginateBookReviews = ({ req, res, result, limit, page }) => {
       previous: getPrevPaginatedUrl(limit, page, result.count, req.originalUrl)
     });
 }
+
+export const paginateBookFavoriteList = ({ req, res, result, limit, page }) => {
+  let message = 'Favorite Book(s) retrieved successfully'
+  if(result.count === 0) {
+    message = 'There are no Books on your Favorite List'
+  }
+  return res.status(200).json({
+    message,
+    favorites: result.rows,
+    count: result.count,
+    next: getNextPaginatedUrl(limit, page, result.count, req.originalUrl),
+    previous: getPrevPaginatedUrl(limit, page, result.count, req.originalUrl)
+  });
+}
