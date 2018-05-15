@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate",
     "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register server/tests --timeout 4000 --exit",
-    "start": "sequelize db:migrate && sequelize db:seed:all && babel-node app.js",
+    "start": "npm run build && sequelize db:migrate && sequelize db:seed:all && babel-node app.js",
     "start-dev": "babel-watch app.js",
     "heroku-postbuild": "npm install sequelize-cli babel-cli -g",
     "dev": "webpack-dev-server --open --config webpack.config.dev.js --colors",

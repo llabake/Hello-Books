@@ -18,6 +18,6 @@ coverage
 .nyc_output
 
 .sass-cache/
-
+dist
 /.idea
 .DS_Store
