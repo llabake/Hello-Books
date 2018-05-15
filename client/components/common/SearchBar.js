@@ -69,7 +69,7 @@ class SearchBar extends Component {
   render () {
     return (
       <form onSubmit={this.handleSearch}>
-        <div className="input-field col s6 s12 " style={{'marginRight': '122px'}}>
+        <div className="input-field col m6 s12 l6 " style={{'marginRight': '12px'}}>
           <input
             id="search" 
             type="search"  
@@ -78,7 +78,7 @@ class SearchBar extends Component {
             onChange={this.handleChange}
             value={this.state.searchTerm}
           />
-          <label className="label-icon icon-sit" htmlFor="search"><i className="material-icons">search</i></label>
+          <label className="label-icon icon-sit" htmlFor="search"><a><i className="material-icons">search</i></a></label>
           {/* <label className="label-icon icon-sit" htmlFor="search"><button style={{
             'lineHeight': '15px',
             'letterSpacing': 'undefined',

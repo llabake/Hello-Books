@@ -6,8 +6,6 @@ import { connect } from 'react-redux'
 import {  checkIsbnExist, saveBook } from '../../actions/bookAction'
 import TextInput from '../common/TextInput';
 import inputValidator from '../../helpers/inputValidator'
-import Header from '../common/Header';
-import Footer from '../common/Footer';
 import TextAreaInput from '../common/TextAreaInput';
 
 /**
@@ -157,19 +155,6 @@ class AddBook extends Component {
     return (
       redirect ? <Redirect to='/allbooks' /> : 
       <div>
-        <header> 
-          <div className="navbar-fixed">
-            <nav>
-              <div className="nav-wrapper">
-                <Link to="/" className="brand-logo left adjust">Hello Books</Link>
-                <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
-                
-                <ul id="nav-mobile" className="right hide-on-med-and-down">
-                </ul>
-              </div>
-            </nav>
-          </div> 
-        </header>
         <div id="banner">
           <div className="container form-style">
             <div className="row">
@@ -284,7 +269,6 @@ class AddBook extends Component {
             </div>
            </div> 
         </div>
-        <Footer/>
       </div>
 
     );

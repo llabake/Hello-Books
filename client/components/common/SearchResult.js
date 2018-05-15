@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { fetchSearchedBooks } from '../../actions/bookAction';
-import Header from '../common/Header';
-import Footer from '../common/Footer';
 import BookCard from '../common/BookCard';
-import { getUser } from '../../helpers/utils';
 
 
 /**
@@ -44,29 +41,8 @@ class SearchResult extends Component {
    */
   render () {
   const searchedBooks = this.props.searchedBooks;
-  const user = getUser();
     return (
       <div>
-        <div className="navbar-fixed">
-          <nav>
-            <div className="nav-wrapper">
-              <Link to="/" className="brand-logo left adjust">HelloBooks</Link>
-              <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
-              
-              <ul id="nav-mobile" className="right hide-on-med-and-down">
-                <li><a className="dropdown-button" href="#" data-activates="dropdown1">{user.username}<i className="material-icons right">arrow_drop_down</i></a>
-                  {/* <!-- Dropdown Structure --> */}
-                  <ul id="dropdown1" className="dropdown-content">
-                    <li><Link to="/profile"><i className="material-icons ">account_box</i>Profile</Link></li>
-                    <li><a href="#!">Terms and Condition</a></li>
-                    <li className="divider"></li>
-                    <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </div>
         <div className="container">
           <div>
             <h3 className="center">
@@ -79,7 +55,6 @@ class SearchResult extends Component {
           })}
           </div>
         </div>
-        <Footer/>
       </div>
     )
   }

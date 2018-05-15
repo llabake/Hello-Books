@@ -6,8 +6,6 @@ import { connect } from 'react-redux'
 import  { signInUser }  from '../actions/userAction';
 import TextInput from '../components/common/TextInput';
 import inputValidator from '../helpers/inputValidator'
-import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
 
 /**
  * 
@@ -56,11 +54,12 @@ class SignInForm extends Component {
    * @memberof SignInForm
    */
   componentWillReceiveProps(nextProps) {
-    if(nextProps === this.props) return;
     if (nextProps.user.authenticated) {
       setTimeout(() => {
         this.props.history.push('/allbooks');
       }, 1000)
+    } else {
+      this.setState({ saving: false })
     }
   }
 
@@ -118,20 +117,6 @@ class SignInForm extends Component {
     const { errors, isValid, saving, } = this.state;
     return (
       <div>
-        <header> 
-          <div className="navbar-fixed">
-            <nav>
-              <div className="nav-wrapper">
-                <Link to="/" className="brand-logo left adjust">Hello Books</Link>
-                <a href="#" data-activates="mobile-demo" className="button-collapse">
-                  <i className="material-icons">menu</i>
-                </a>
-                <ul id="nav-mobile" className="right hide-on-med-and-down">
-                </ul>
-              </div>
-            </nav>
-          </div> 
-        </header>
         <div id="banner">
           <div className="container form-style signin-form">
             <div className="row">
@@ -170,12 +155,10 @@ class SignInForm extends Component {
             </div>
             <div className="terms">         
                 <p> Don't have an account? <Link to="/signup">Sign Up Now</Link>  
-                {/* | <span><Link to="/recoverpassword">Forgot Password</Link></span> */}
                 </p> 
             </div>
           </div> 
         </div>
-        <Footer/> 
       </div>
     );
   }

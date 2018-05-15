@@ -4,9 +4,6 @@ import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { Pagination } from 'react-materialize';
 
-
-import Header from '../common/Header';
-import Footer from '../common/Footer';
 import BookCard from '../common/BookCard'
 import { fetchAllBooks } from '../../actions/bookAction';
 import { logout } from '../../actions/userAction';
@@ -38,16 +35,6 @@ class AllBooks extends Component {
     this.handleSelectedPage = this.handleSelectedPage.bind(this);
     
   }
-
-  /**
-   * 
-   * 
-   * @memberof AllBooks
-   * @returns {void}
-   */
-  // componentWillMount() {
-  //   super.componentWillMount();
-  // }
 
   /**
    * 
@@ -107,37 +94,10 @@ class AllBooks extends Component {
    * @memberof AllBooks
    */
   render () { 
-    const { books, loading , user, authenticated, } = this.props;
+    const { books, loading } = this.props;
     const { showPagination, } = this.state;
     return (
       <div>
-        <header>
-          <div className="navbar-fixed">
-            <nav>
-              <div className="nav-wrapper">
-                  <a href="/" className="brand-logo left adjust">HelloBooks</a>
-                  <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
-                  
-                  <ul id="nav-mobile" className="right hide-on-med-and-down">
-                      { user.role === 'admin' ? <li><Link to="/admindashboard">Admin DashBoard</Link></li> : null }
-                      { user.role === 'admin' ? <li><Link to="/addbook">Add book</Link></li> : null }
-                      {/* <!-- <i className="material-icons prefix">notifications</i> --> */}
-                              
-                      <li><a className="dropdown-button" data-activates="dropdown1">{authenticated ? user.username : ''}<i className="material-icons right">arrow_drop_down</i></a>
-                          {/* <!-- Dropdown Structure --> */}
-                          <ul id="dropdown1" className="dropdown-content">
-                              <li><Link to="/favorite">Favorite Books</Link></li>
-                              <li><Link to="/profile"><i className="material-icons ">account_box</i>Profile</Link></li>
-                              <li><a href="#!">Terms and Condition</a></li>
-                              <li className="divider"></li>
-                              <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
-                          </ul>
-                      </li>
-                  </ul>
-              </div>
-            </nav>
-          </div>
-        </header>
         <div className="container">
           { loading ? 
             <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em'}}>
@@ -178,7 +138,6 @@ class AllBooks extends Component {
             </div>
           </div>
         </div>
-        <Footer/> 
       </div>
     );
   }

@@ -6,8 +6,6 @@ import { Redirect } from 'react-router';
 import BookList from '../adminDashBoard/BookList';
 import BookBorrow from '../adminDashBoard/BookBorrow';
 import BookReturn from '../adminDashBoard/BookReturn';
-import Footer from '../common/Footer';
-import { getUser } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
 
 
@@ -43,8 +41,7 @@ class AdminDashBoard extends Component {
    * @memberof AdminDashBoard
    */
   componentWillMount() {
-    const user = getUser();
-    const { role }  = user 
+    const { role }  = this.props.user 
     role === 'normal' ? this.setState({ redirect: true })  : null
   }
   /**
@@ -88,38 +85,10 @@ class AdminDashBoard extends Component {
    * @memberof AdminDashBoard
    */
   render () {
-  // console.log(this.props)
-    const { redirect, showBorrowRequestList, showReturnRequestList, showBookList } = this.state;
-    const user = getUser();
+    const { redirect, showBorrowRequestList, showReturnRequestList, showBookList, } = this.state;
     return (
       redirect ? <Redirect to='/allbooks'/> : 
       <div>
-        <header>
-          <div className="navbar-fixed">
-            <nav>
-              <div className="nav-wrapper">
-                <a href="/" className="brand-logo left adjust">HelloBooks</a>
-                <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
-                
-                <ul id="nav-mobile" className="right hide-on-med-and-down">
-                <li><Link to="/addbook">Add book</Link></li>
-                {/* <li><a href="favorite.html">Favorite Books</a></li> */}
-                  {/* <!-- <i className="material-icons prefix">notifications</i> --> */}
-                  <li><a href="notifications.html">Notifications<span className="new badge red">4</span></a></li>
-                  <li><a className="dropdown-button" href="#" data-activates="dropdown1">{user.username}<i className="material-icons right">arrow_drop_down</i></a>
-                    {/* <!-- Dropdown Structure --> */}
-                    <ul id="dropdown1" className="dropdown-content">
-                      <li><Link to="/profile"><i className="material-icons ">account_box</i>Profile</Link></li>
-                      <li><a href="#!">Terms and Condition</a></li>
-                      <li className="divider"></li>
-                      <li><Link to=""  onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
-                    </ul>
-                    </li>
-                </ul>
-              </div>
-            </nav>
-          </div>
-        </header>
         <div className="row ">
           <div className="col s12 m9">
               <div className="card-panel">
@@ -177,7 +146,7 @@ class AdminDashBoard extends Component {
 const mapStateToProps = (state) => {
   return {
     errors: state.errors,
-    user: state.userReducer.user,
+    user: state.userReducer.authUser,
   };
 };
 

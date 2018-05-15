@@ -90,19 +90,6 @@ class EditProfile extends Component {
     const user = getUser();
     return (
       <div>
-        <header> 
-          <div className="navbar-fixed">
-            <nav>
-              <div className="nav-wrapper">
-                <Link to="/" className="brand-logo left adjust">Hello Books</Link>
-                <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
-                
-                <ul id="nav-mobile" className="right hide-on-med-and-down">
-                </ul>
-              </div>
-            </nav>
-          </div> 
-        </header>
         <div id="banner">
           <div className="container form-style signin-form">
             <div className="row">
@@ -158,7 +145,6 @@ class EditProfile extends Component {
             </div>
           </div> 
         </div>
-        <Footer/>
       </div>
     )
   }
