@@ -23,7 +23,8 @@ import {
   FETCH_BOOK,
   FETCH_SINGLE_BOOK,
   HANDLE_CANCEL_CLICK,
-  SET_BOOK_COUNT
+  SET_BOOK_COUNT,
+  RESOURCE_NOT_FOUND
 } from '../actions/actionTypes';
 import initialState from './initialState';
 
@@ -49,6 +50,9 @@ export default (state = initialState.books, action) => {
 
     case FETCH_SINGLE_BOOK_ERROR:
       return { ...state, error: action.error, loading: false }
+
+    case RESOURCE_NOT_FOUND:
+      return { ...state, resourceNotFound: true }
     
       case FAVORITE_BOOK_SUCCESS:{
         const updatedBook = { ...state.book, ...action.favoritedBook }

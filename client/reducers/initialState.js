@@ -30,7 +30,8 @@ export default {
     loadingPopularBooks: false,
     loadingTopFavoritedBooks: false,
     topFavoriteBooks: [],
-    loading: false
+    loading: false,
+    resourceNotFound: false
   },
   admin: {
     book: {},

@@ -26,7 +26,8 @@ import {
   FETCH_TOP_FAVORITED_BOOKS_ERROR,
   FETCH_BOOK,
   HANDLE_CANCEL_CLICK,
-  SET_BOOK_COUNT
+  SET_BOOK_COUNT,
+  RESOURCE_NOT_FOUND
 } from './actionTypes'
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl, maxPageLimit } from '../helpers/utils';
@@ -228,6 +229,12 @@ const fetchSingleBookError = (error) => {
     error
   }
 }
+const resourceNotFound = () => {
+  return {
+    type: RESOURCE_NOT_FOUND,
+  }
+}
+
 export const fetchSingleBook = (bookId) => dispatch => {
   dispatch(singleBook());
   return axios.get(`${hostUrl}/api/v1/books/${bookId}`, axiosDefaultOptions)
@@ -235,6 +242,8 @@ export const fetchSingleBook = (bookId) => dispatch => {
       dispatch(fetchSingleBookSuccess(response.data.book))
     })
     .catch((error) => {
+      error.response.status === 404 ?
+      dispatch(resourceNotFound()) :
       dispatch(fetchSingleBookError(error.response.data))
     })
 }
