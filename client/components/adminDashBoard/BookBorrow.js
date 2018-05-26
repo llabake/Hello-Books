@@ -102,8 +102,8 @@ class BookBorrow extends Component {
       <div id="accept">
         { displayedBorrowBooks.length ? 
           <div className="col s12">
-            <div className="card-panel responsive-table">
-              <table className="bordered centered highlight ">
+            <div className="card-panel">
+              <table className="bordered centered highlight responsive-table">
                 <thead>
                   <tr>
                     <th>S/N</th>

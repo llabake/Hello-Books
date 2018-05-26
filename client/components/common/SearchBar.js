@@ -19,7 +19,7 @@ class SearchBar extends Component {
     this.state = {
       searchTerm: '',
     };
-    
+
     this.handleChange = this.handleChange.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
     this.redirectToSearch = this.redirectToSearch.bind(this)
@@ -31,13 +31,13 @@ class SearchBar extends Component {
    * @param {any} event 
    * @memberof SearchBar
    */
-  handleChange (event) {
+  handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     })
   }
 
-  
+
   /**
    * @returns {array} an array of books that match the search criteria
    * 
@@ -47,7 +47,7 @@ class SearchBar extends Component {
   handleSearch(event) {
     event.preventDefault();
     this.redirectToSearch();
-    
+
   }
 
   /**
@@ -55,7 +55,7 @@ class SearchBar extends Component {
    * 
    * @memberof SearchBar
    */
-  redirectToSearch(){
+  redirectToSearch() {
     window.location.href = `/search/${this.state.searchTerm}`
   }
 
@@ -66,19 +66,26 @@ class SearchBar extends Component {
    * @returns {void} 
    * @memberof SearchBar
    */
-  render () {
+  render() {
     return (
       <form onSubmit={this.handleSearch}>
         <div className="input-field col s6 s12 ">
           <input
-            id="search" 
-            type="search"  
-            placeholder="Title, author, or ISBN" 
-            name='searchTerm' 
+            id="search"
+            type="search"
+            placeholder="Title, Author, Keyword"
+            name='searchTerm'
             onChange={this.handleChange}
             value={this.state.searchTerm}
           />
-          <label className="label-icon icon-sit" htmlFor="search"><i className="material-icons">search</i></label>
+          <label
+            className="label-icon icon-sit"
+            htmlFor="search">
+            <i
+              className="material-icons clickable"
+              onClick={this.handleSearch}>search
+            </i>
+          </label>
           <i className="material-icons">close</i>
         </div>
       </form>

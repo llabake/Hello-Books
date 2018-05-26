@@ -81,7 +81,7 @@ const pendingAcceptBorrowError = (error) => {
 
 export const pendingAcceptBorrowRequest = () => dispatch => {
   dispatch(pendingAcceptBorrow());
-  return axios.get(`${hostUrl}/api/v1/borrowedbooks/?borrowStatus=pending`, axiosDefaultOptions())
+  return axios.get(`${hostUrl}/api/v1/admin/books/borrowed-books/?borrowStatus=pending`, axiosDefaultOptions())
   .then((response) => {
     dispatch(pendingAcceptBorrowSuccess(response.data.borrowedBooks))
     // toastMessage('Book fetch successful', 'success')
@@ -114,7 +114,7 @@ const pendingAcceptReturnError = (error) => {
 
 export const pendingAcceptReturnRequest = () => dispatch => {
   dispatch(pendingAcceptReturn());
-  return axios.get(`${hostUrl}/api/v1/borrowedbooks/?returnStatus=pending`, axiosDefaultOptions())
+  return axios.get(`${hostUrl}/api/v1/admin/books/borrowed-books/?returnStatus=pending`, axiosDefaultOptions())
   .then((response) => {
     dispatch(pendingAcceptReturnSuccess(response.data.borrowedBooks))
     // toastMessage(response.data.message, 'success')
@@ -221,7 +221,7 @@ const acceptBookBorrowError = (error) => {
 
 export const acceptBookBorrowRequest = (bookId, userId) => dispatch => {
   dispatch(acceptBookBorrow());
-  return axios.put(`${hostUrl}/api/v1/admin/user/${userId}/borrow/${bookId}`, {},  axiosDefaultOptions())
+  return axios.put(`${hostUrl}/api/v1/admin/users/${userId}/borrow/${bookId}`, {},  axiosDefaultOptions())
   .then((response) => {
     dispatch(acceptBookBorrowSuccess(response.data.borrowedBook))
     toastMessage(response.data.message, 'success')
@@ -254,7 +254,7 @@ const acceptBookReturnError = (error) => {
 
 export const acceptBookReturnRequest = (bookId, userId) => dispatch => {
   dispatch(acceptBookReturn());
-  return axios.put(`${hostUrl}/api/v1/admin/user/${userId}/return/${bookId}`, {},  axiosDefaultOptions())
+  return axios.put(`${hostUrl}/api/v1/admin/users/${userId}/return/${bookId}`, {},  axiosDefaultOptions())
   .then((response) => {
     dispatch(acceptBookReturnSuccess(response.data.borrowedBook))
     toastMessage(response.data.message, 'success')

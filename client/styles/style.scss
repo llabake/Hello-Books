@@ -33,6 +33,9 @@ body {
   
   .icon-sit {
     margin-top: -0.4em;
+    .clickable {
+      cursor: pointer;
+    }
   }
   
   .nav-wrapper {
@@ -274,6 +277,7 @@ body {
     color: inherit;
     outline: 0 !important;
     font-weight: 200;
+    cursor: pointer;
   }
   
   .pencil {
@@ -400,6 +404,15 @@ body {
     color: #000;
     outline: 0 !important;
     font-weight: 200;
+    .upvoted-style {
+      color: rgb(0, 169, 0)
+    }
+    .downvoted-style {
+      color: 'red'
+    }
+    .review-posted {
+      color: rgb(91, 150, 196)
+    }
   }
   
   .home-page-slider {
@@ -408,3 +421,22 @@ body {
       height: 500px;
     }
   }
+
+  .favorite-card {
+    height: 520px;
+  }
+
+  .fav-card-image { 
+    max-height: '175px';
+    min-height: '150px';
+    padding-top: '10px';
+  }
+  // .postReviewButton {
+  //   width: '25%';
+  //   margin-left: '36em';
+  //   // border: 2px double grey;
+  //   // &:hover {
+  //   //   background: grey;
+  //   //   color: white;
+  //   // }
+  // }

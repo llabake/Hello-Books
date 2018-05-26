@@ -51,7 +51,9 @@ export default class App extends Component {
     });
     $('.tooltipped').tooltip({ delay: 50 });
     $('.tabs').tabs();
-    $('.tooltipped').tooltip();
+    // $('.tooltipped').tooltip();
+      $('.tooltipped').tooltip({delay: 50});
+
   
 
     // $('.modal').modal();

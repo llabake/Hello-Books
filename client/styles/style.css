@@ -19,6 +19,8 @@ main {
 
 .icon-sit {
   margin-top: -0.4em; }
+  .icon-sit .clickable {
+    cursor: pointer; }
 
 .nav-wrapper {
   background-color: #6c3c3c; }
@@ -208,7 +210,8 @@ h5 {
   text-decoration: underline;
   color: inherit;
   outline: 0 !important;
-  font-weight: 200; }
+  font-weight: 200;
+  cursor: pointer; }
 
 .pencil {
   background-position: 0 -15px; }
@@ -312,10 +315,24 @@ h5 {
   color: #000;
   outline: 0 !important;
   font-weight: 200; }
+  .upvote .upvoted-style {
+    color: #00a900; }
+  .upvote .downvoted-style {
+    color: "red"; }
+  .upvote .review-posted {
+    color: #5b96c4; }
 
 .home-page-slider {
   height: 550px; }
   .home-page-slider .slider li {
     height: 500px; }
+
+.favorite-card {
+  height: 520px; }
+
+.fav-card-image {
+  max-height: '175px';
+  min-height: '150px';
+  padding-top: '10px'; }
 
 /*# sourceMappingURL=style.css.map */

@@ -98,6 +98,11 @@ export default class FavoriteController {
         }, {
           model: Favorite,
           as: 'favorited',
+          include: [{
+            model: User,
+            as: 'user',
+            attributes: ['username',],
+          }],
         }]
       }],
       limit,

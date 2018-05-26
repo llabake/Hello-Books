@@ -50,7 +50,8 @@ class BookBorrowListRow extends Component {
         <td>{borrowedBook.book.borrowCount}</td>
         <td>{borrowedBook.user.username}</td>
         <td>
-          <a onClick= {this.handleAccept}>
+          <a onClick= {this.handleAccept}
+          style={{ cursor: "pointer" }}>
           <i className="material-icons">
             call_made
           </i>
