@@ -1,5 +1,9 @@
+const dotenv = require('dotenv')
 const path = require('path');
 const webpack = require('webpack');
+
+dotenv.config();
+
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -13,7 +17,7 @@ const paths = {
 };
 
 module.exports = {
-  entry: ['babel-polyfill', path.join(paths.ENTRY, 'index.js')],
+  entry: [path.join(paths.ENTRY, 'index.js')],
   output: {
     path: paths.DIST,
     filename: 'bundle.js'
@@ -25,6 +29,12 @@ module.exports = {
       inject: 'body'
     }),
     new ExtractTextPlugin('style.css'),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        JWT_SECRET: JSON.stringify(process.env.JWT_SECRET),
+      }
+    }),
   ],
   module: { 
     loaders: [
@@ -75,4 +85,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
+  node: {
+    dns: 'empty',
+    net: 'empty',
+    fs: 'empty'
+  }
 };

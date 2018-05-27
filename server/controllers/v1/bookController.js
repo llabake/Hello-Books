@@ -256,9 +256,9 @@ class BookController {
     options.include = includeReviewAndFavorite
     options.where = {
       $or: [
-        { author: { $like: `%${searchQuery}%` } },
-        { description: { $like: `%${searchQuery}%` } },
-        { title: { $like: `%${searchQuery}%` } }
+        { author: { $iLike: `%${searchQuery}%` } },
+        { description: { $iLike: `%${searchQuery}%` } },
+        { title: { $iLike: `%${searchQuery}%` } }
       ],
     };
     Book.findAndCountAll(options)

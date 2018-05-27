@@ -91,7 +91,7 @@ export const signUpUser = userData => (dispatch) => {
         localStorage.setItem('token', token)
         const decodedToken = jwt.decode(token)
         const authUser = decodedToken.user
-        dispatch(userSignUpSuccess(authUser))
+        // dispatch(userSignUpSuccess(authUser))
         dispatch(setCurrentUser(authUser));
         toastMessage(response.data.message, 'success');
       })
@@ -138,7 +138,7 @@ export const signInUser = userData => (dispatch) => {
       localStorage.setItem('token', token) 
       const decodedToken = jwt.decode(token)
       const authUser = decodedToken.user
-      dispatch(userSignInSuccess(authUser))
+      // dispatch(userSignInSuccess(authUser))
       dispatch(setCurrentUser(authUser));
       toastMessage(response.data.message, 'success');
     })
@@ -170,7 +170,7 @@ const userBorrowListError = (error) => {
 
 export const fetchUserBorrowedBooks = () => dispatch => {
   dispatch(userBorrowList());
-  return axios.get(`${hostUrl}/api/v1/users/borrowed-books`, axiosDefaultOptions)
+  return axios.get(`${hostUrl}/api/v1/users/borrowed-books`, axiosDefaultOptions())
     .then((response) => {
       dispatch(userBorrowListSuccess(response.data.borrowedBooks));
       // toastMessage(response.data.message, 'success')
@@ -203,7 +203,7 @@ const returnBookError = (error) => {
 
 export const returnBookAction = bookId => dispatch => {
   dispatch(returnBook());
-  return axios.post(`${hostUrl}/api/v1/users/return/${bookId}`, {}, axiosDefaultOptions)
+  return axios.post(`${hostUrl}/api/v1/users/return/${bookId}`, {}, axiosDefaultOptions())
     .then((response) => {
       dispatch(returnBookSuccess(response.data.borrowedBook))
       toastMessage(response.data.message, 'success')
@@ -236,7 +236,7 @@ const userFavoriteListError = (error) => {
 
 export const fetchUserFavoriteBooks = () => dispatch => {
   dispatch(userFavoriteList());
-  return axios.get(`${hostUrl}/api/v1/users/favbooks`, axiosDefaultOptions)
+  return axios.get(`${hostUrl}/api/v1/users/favbooks`, axiosDefaultOptions())
     .then((response) => {
       dispatch(userFavoriteListSuccess(response.data.favorites))
     })
@@ -268,7 +268,7 @@ const unFavoriteError = (error) => {
 
 export const removeFromFavorite = bookId => dispatch => {
   dispatch(unFavorite());
-  return axios.delete(`${hostUrl}/api/v1/users/favbooks/${bookId}`, axiosDefaultOptions)
+  return axios.delete(`${hostUrl}/api/v1/users/favbooks/${bookId}`, axiosDefaultOptions())
     .then((response) => {
       dispatch(unFavoriteSuccess(bookId));
       toastMessage(response.data.message, 'success')
@@ -324,7 +324,7 @@ const fetchUserProfileError = (error) => {
 export const getUserProfile = () => dispatch => {
   dispatch(fetchUserProfile());
   return new Promise((resolve, reject) => {
-    return axios.get(`${hostUrl}/api/v1/users/profile`, axiosDefaultOptions)
+    return axios.get(`${hostUrl}/api/v1/users/profile`, axiosDefaultOptions())
       .then((response) => {
         dispatch(fetchUserProfileSuccess(response.data.profile))
         resolve()
@@ -359,7 +359,7 @@ const editUserProfileError = (error) => {
 
 
 export const editProfileData = userData => dispatch => {
-  return axios.put(`${hostUrl}/api/v1/users/profile`, userData, axiosDefaultOptions)
+  return axios.put(`${hostUrl}/api/v1/users/profile`, userData, axiosDefaultOptions())
     .then((response) => {
       dispatch(editUserProfileSuccess(response.data.profile))
       toastMessage(response.data.message, 'success')

@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import  { signInUser }  from '../actions/userAction';
 import TextInput from '../components/common/TextInput';
 import inputValidator from '../helpers/inputValidator'
+import { authenticateUser } from '../helpers/utils';
 
 /**
  * 
@@ -36,30 +37,15 @@ class SignInForm extends Component {
   /**
    * 
    * 
-   * @memberof SignInForm
-   * 
-   * @returns {void}
-   */
-  componentWillMount() {
-    if (this.props.user.authenticated) {
-      this.props.history.push('/profile');
-    }
-  }
-
-  /**
-   * 
-   * 
-   * @param {any} nextProps 
+   * @param {any} nextProps
+   *  
    * @returns {Object} User pbject
+   * 
    * @memberof SignInForm
    */
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user.authenticated) {
-      setTimeout(() => {
-        this.props.history.push('/allbooks');
-      }, 1000)
-    } else {
-      this.setState({ saving: false })
+    if (!nextProps.authenticated) {
+      this.setState({ saving: false });
     }
   }
 
@@ -115,6 +101,15 @@ class SignInForm extends Component {
    */
   render () {
     const { errors, isValid, saving, } = this.state;
+    const { location } = this.props;
+    const { isAuthenticated } = authenticateUser()
+    const { from } = location.state || { from: { pathname: '/allbooks' } };
+    if (isAuthenticated) {
+      return (
+        <Redirect to={from} />
+      );
+    }    
+    
     return (
       <div>
         <div id="banner">
@@ -166,8 +161,9 @@ class SignInForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    errors: state.errors,
-    user: state.userReducer,
+    error: state.userReducer.error,
+    user: state.userReducer.authUser,
+    authenticated: state.userReducer.authenticated
   };
 };
 

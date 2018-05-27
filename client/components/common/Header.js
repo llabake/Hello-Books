@@ -72,6 +72,7 @@ class Header extends Component {
           <i className="material-icons large left">account_circle</i>
           <i className="material-icons right">arrow_drop_down</i></a>
           <ul id="dropdown1" className="dropdown-content">
+            <li><Link to="/admindashboard">Admin Dashboard</Link></li>
             <li><Link to="/favorite">Favorite Books</Link></li>
             <li><Link to="/profile">Profile</Link></li>
             <li><Link to="/addbook">Add Book</Link></li>

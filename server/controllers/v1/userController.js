@@ -34,7 +34,7 @@ export default class UserController {
       const { username, email, password, firstName, lastName } = userDetail;
       User.create({username, email, password, firstName, lastName })
         .then((user) => {
-          user.update({ active: false });
+          user.update({ active: true });
           const token = generateToken(user);
           res.status(201).json({
             message: `Your Signup was successful ${user.username}`,

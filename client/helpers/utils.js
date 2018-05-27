@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 
 export const isEmail = (email) => {
   const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -94,3 +95,16 @@ export const checkDownVote = (book, user) => {
   }
   return false;
 }
+
+export const authenticateUser = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    return jwt.verify(token, process.env.JWT_SECRET, ((error, decoded) => {
+      if (error) {
+        return { isAuthenticated: false, user: {} };
+      }
+      return { isAuthenticated: true, user: decoded.user };
+    }));
+  }
+  return { isAuthenticated: false, user: {} };
+};
