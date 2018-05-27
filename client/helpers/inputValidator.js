@@ -9,6 +9,10 @@ import {
   isNotEmpty
 } from './utils';
 
+const MINIMUM_NAME_LENGTH = 3;
+const MAXIMUM_NAME_LENGTH = 25;
+const MINIMUM_NAME_MESSAGE = `Minimum of ${MINIMUM_NAME_LENGTH} characters allowed`;
+const MAXIMUM_NAME_MESSAGE = `Maximum of ${MAXIMUM_NAME_LENGTH} characters allowed`;
 
 /**
  *
@@ -30,10 +34,6 @@ export default class InputValidator {
    * @memberof InputValidator
    */
   static signUp(data) {
-    const MINIMUM_NAME_LENGTH = 3;
-    const MAXIMUM_NAME_LENGTH = 25;
-    const MINIMUM_NAME_MESSAGE = `Minimum of ${MINIMUM_NAME_LENGTH} characters allowed`;
-    const MAXIMUM_NAME_MESSAGE = `Maximum of ${MAXIMUM_NAME_LENGTH} characters allowed`;
     const fields = [
       'firstName',
       'lastName',
@@ -238,11 +238,28 @@ export default class InputValidator {
       errors[field] = [];
       if (!isDefined(data[field]) || !isNotEmpty(data[field])) {
         errors[field].push(`${field} is required`);
+      } else {
+        const { content, caption } = trimObject(data);
+        if( field === 'content') {
+          if (content.length < 10) {
+            errors.content.push('Review content is too short');
+          } else if (content.length > 1000) {
+            errors.content.push('Content should be a maximum of 1000 characters');
+          }
+        }
+
+        if( field === 'caption') {
+          if (caption.length < 3) {
+            errors.caption.push(MINIMUM_NAME_MESSAGE)
+          } else if (caption.length > 700) {
+            errors.caption.push(MAXIMUM_NAME_MESSAGE)
+          }
+        }
       }
     });
-    if (data.content && data.content.length < 10) {
-      errors.content.push('Review content is too short');
-    }
+
+
+
     let isValid = true;
     Object.keys(errors)
       .map(key => errors[key]).forEach((error) => {

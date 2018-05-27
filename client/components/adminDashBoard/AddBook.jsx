@@ -235,6 +235,7 @@ class AddBook extends Component {
                       />
                       <div
                         className="file-field input-field"
+                        id="image-field"
                         style={{ marginTop: '35em' }} >
                         <div
                           className="btn"

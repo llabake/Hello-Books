@@ -148,6 +148,7 @@ class EditReview extends Component {
           >Cancel
           </button>
           <button
+            id= "edit-profile"
             type="submit"
             className="waves-effect waves-light btn"
             style={saveButton}>Save Changes

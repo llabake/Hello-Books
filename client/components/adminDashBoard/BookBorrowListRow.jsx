@@ -49,7 +49,7 @@ class BookBorrowListRow extends Component {
         <td>{borrowedBook.book.quantity}</td>
         <td>{borrowedBook.book.borrowCount}</td>
         <td>{borrowedBook.user.username}</td>
-        <td>
+        <td id='accept-book'>
           <a onClick= {this.handleAccept}
           style={{ cursor: "pointer" }}>
           <i className="material-icons">

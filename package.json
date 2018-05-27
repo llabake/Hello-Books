@@ -12,7 +12,8 @@
     "dev": "webpack-dev-server --open --config webpack.config.dev.js --colors",
     "watch": "webpack --watch && npm run build",
     "build": "webpack --config webpack.config.prod.js",
-    "test:client": "jest --coverage"
+    "test:client": "jest --coverage",
+    "e2e-test": "nightwatch"
   },
   "jest": {
     "setupFiles": [
@@ -80,6 +81,7 @@
     "babel-eslint": "^8.0.3",
     "babel-jest": "^22.4.1",
     "babel-loader": "^7.1.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
@@ -106,6 +108,7 @@
     "pg": "^6.4.2",
     "redux-mock-store": "^1.5.1",
     "sass-loader": "^6.0.6",
+    "selenium-standalone": "^6.15.0",
     "style-loader": "^0.19.1",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^3.10.0",

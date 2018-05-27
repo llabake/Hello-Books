@@ -102,7 +102,7 @@ class BookListRow extends Component {
           <td>{book.title}</td>
           <td>{book.author}</td>
           <td>
-            <a onClick={this.handleEdit} 
+            <a id='edit-book' onClick={this.handleEdit} 
               className="modal-trigger .modal-close"
               style={{ cursor: "pointer" }}>
             <i className="material-icons">
@@ -118,7 +118,7 @@ class BookListRow extends Component {
             } 
           </td>
           <td>
-            <a onClick={this.handleDelete}
+            <a id='delete-book' onClick={this.handleDelete}
             style={{ cursor: "pointer" }}>
             <i className="material-icons">
               delete

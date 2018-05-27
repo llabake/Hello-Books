@@ -44,45 +44,45 @@ export default class Slider extends Component {
         <div className="slider" style={{background: 'rgba(0,0,0,0.7)'}}>
           <ul className="slides">
             <li>
-              <img src={sliderimage1} alt="" />
+              <img src={sliderimage1} alt="sliderimage1" style={{ backgroundColor: 'rgba(0,0,0,3)'}}/>
               <div className="caption left-align">
-                <h1 style={{'textShadow':'0 1px 0 black',}}>Welcome to HelloBooks</h1>
-                <h3 style={{'textShadow':'0 1px 0 black'}} className="light grey-text text-lighten-3">Sign Up today to enter into <br /> a whole book world</h3>
+                <h1 style={{'textShadow':'0 1px 0 black',}}><strong>Welcome to HelloBooks</strong></h1>
+                <h3 style={{'textShadow':'0 1px 0 black'}} className="light grey-text text-lighten-3"><strong>Sign Up today to enter into <br /> a whole book world</strong></h3>
               </div>
             </li>
             <li>
-              <img src={sliderimage2} alt="" />
+              <img src={sliderimage2} alt=""style={{ backgroundColor: 'rgba(0,0,0,3)'}} />
               <div className="caption left-align">
-                <h1 style={{ 'textShadow': '0 1px 0 black', 'color': '#ffffff'}} >Welcome to the HelloBooks</h1>
-                <h2 className="light grey-text text-lighten-3">You can borrow a book to read <br /> and post reviews on it</h2>
+                <h1 style={{ 'textShadow': '0 1px 0 black', 'color': '#ffffff'}} ><strong>Welcome to the HelloBooks</strong></h1>
+                <h3 className="light grey-text text-lighten-3"><strong>You can borrow a book to read <br /> and post reviews on it</strong></h3>
               </div>
             </li>
             <li>
-              <img src={sliderimage3} alt="" />
+              <img src={sliderimage3} alt=""style={{ backgroundColor: 'rgba(0,0,0,3)'}} />
               <div className="caption left-align">
-                <h3 style={{ 'textShadow': '0 1px 0 black', 'color': '#ffffff'}}>Welcome to HelloBooks</h3>
-                <h5 className="light grey-text text-lighten-3">Create Reading list and <br />  suggest books to the library</h5>
+                <h1 style={{ 'textShadow': '0 1px 0 black', 'color': '#ffffff'}}><strong>Welcome to HelloBooks</strong></h1>
+                <h3 className="light grey-text text-lighten-3"><strong>Create Reading list and <br />  suggest books to the library</strong></h3>
               </div>
             </li>
             <li>
-              <img src={sliderimage4} alt="" />
+              <img src={sliderimage4} alt="" style={{ backgroundColor: 'rgba(0,0,0,3)'}}/>
               <div className="caption left-align">
-                <h3 style={{ 'textShadow': '0 1px 0 black', 'color': '#ffffff'}}>Welcome to HelloBooks</h3>
-                <h5 className="light grey-text text-lighten-3">Review books and add <br />books to your favorite list</h5>
+                <h1 style={{ 'textShadow': '0 1px 0 black', 'color': '#ffffff'}}><strong>Welcome to HelloBooks</strong></h1>
+                <h3 className="light grey-text text-lighten-3"><strong>Review books and add <br />books to your favorite list</strong></h3>
               </div>
             </li>
             <li>
-              <img src={sliderimage5} alt="" />
+              <img src={sliderimage5} alt="" style={{ backgroundColor: 'rgba(0,0,0,3)'}}/>
               <div className="caption left-align">
-                <h3 style={{ 'textShadow': '0 1px 0 black', 'color': '#ffffff'}}>Welcome to HelloBooks</h3>
-                <h5 className="light grey-text text-lighten-3">Sign Up today to enter into a whole book world</h5>
+                <h1 style={{ 'textShadow': '0 1px 0 black', 'color': '#ffffff'}}><strong>Welcome to HelloBooks</strong></h1>
+                <h3 className="light grey-text text-lighten-3"><strong>Sign Up today to enter into a whole book world</strong></h3>
               </div>
             </li>
             <li>
-              <img src={sliderimage6} alt="" />
+              <img src={sliderimage6} alt="" style={{ backgroundColor: 'rgba(0,0,0,3)'}}/>
               <div className="caption left-align">
-                <h3 style={{ 'textShadow': '0 1px 0 black', 'color': '#ffffff'}}>Welcome to HelloBooks</h3>
-                <h5 className="light grey-text text-lighten-3">Sign Up today to enter into a whole book world</h5>
+                <h1 style={{ 'textShadow': '0 1px 0 black', 'color': '#ffffff'}}><strong>Welcome to HelloBooks</strong></h1>
+                <h3 className="light grey-text text-lighten-3"><strong>Sign Up today to enter into a whole book world</strong></h3>
               </div>
             </li>
 

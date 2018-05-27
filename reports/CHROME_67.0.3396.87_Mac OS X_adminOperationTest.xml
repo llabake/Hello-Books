@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="2">
+
+  <testsuite name="adminOperationTest"
+    errors="0" failures="0" hostname="" id="" package="adminOperationTest" skipped="0"
+    tests="2" time="24.76" timestamp="Sun, 17 Jun 2018 21:41:03 GMT">
+  
+    <testcase name="Admin operations" classname="adminOperationTest" time="19.37" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="AdminDashboard: Requested books table" classname="adminOperationTest" time="5.395" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>
