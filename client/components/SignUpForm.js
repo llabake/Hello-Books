@@ -251,7 +251,7 @@ class SignUpForm extends Component {
 const mapStateToProps = (state) => {
   return {
     errors: state.errors,
-    user: state.userReducer
+    user: state.userReducer.autUser
   };
 };
 

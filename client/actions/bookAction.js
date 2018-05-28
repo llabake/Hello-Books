@@ -184,7 +184,7 @@ export const uploadImageToCloudinary = (image) => {
 }
 
 export const saveBookData = bookData => dispatch => {
-  return axios.post(`${hostUrl}/api/v1/books/`, bookData, axiosDefaultOptions)
+  return axios.post(`${hostUrl}/api/v1/books/`, bookData, axiosDefaultOptions())
   .then((response) => {
     dispatch(addBookSuccess(response.data.book));
     toastMessage(response.data.message, 'success');
@@ -237,7 +237,7 @@ const resourceNotFound = () => {
 
 export const fetchSingleBook = (bookId) => dispatch => {
   dispatch(singleBook());
-  return axios.get(`${hostUrl}/api/v1/books/${bookId}`, axiosDefaultOptions)
+  return axios.get(`${hostUrl}/api/v1/books/${bookId}`, axiosDefaultOptions())
     .then((response) => {
       dispatch(fetchSingleBookSuccess(response.data.book))
     })
@@ -271,7 +271,7 @@ const favoriteBookError = (error) => {
 
 export const favoriteABook = (bookId) => dispatch => {
   dispatch(favoriteBook());
-  return axios.post(`${hostUrl}/api/v1/books/fav/${bookId}`, {}, axiosDefaultOptions)
+  return axios.post(`${hostUrl}/api/v1/books/fav/${bookId}`, {}, axiosDefaultOptions())
   .then((response) => {
     dispatch(favoriteBookSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
@@ -304,7 +304,7 @@ const upVoteError = (error) => {
 
 export const upVoteBook = (bookId) => dispatch => {
   dispatch(upVote());
-  return axios.post(`${hostUrl}/api/v1/books/${bookId}/upvote`, {}, axiosDefaultOptions)
+  return axios.post(`${hostUrl}/api/v1/books/${bookId}/upvote`, {}, axiosDefaultOptions())
   .then((response) => {
     dispatch(upVoteSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
@@ -337,7 +337,7 @@ const downVoteError = (error) => {
 
 export const downVoteBook = (bookId) => dispatch => {
   dispatch(downVote());
-  return axios.post(`${hostUrl}/api/v1/books/${bookId}/downvote`, {}, axiosDefaultOptions)
+  return axios.post(`${hostUrl}/api/v1/books/${bookId}/downvote`, {}, axiosDefaultOptions())
   .then((response) => {
     dispatch(downVoteSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
@@ -390,7 +390,7 @@ export const showAllReviews = () => dispatch => {
 
 export const reviewBook = (bookId, reviewData) => dispatch => {
   dispatch(review());
-  return axios.post(`${hostUrl}/api/v1/books/${bookId}/review`, reviewData, axiosDefaultOptions)
+  return axios.post(`${hostUrl}/api/v1/books/${bookId}/review`, reviewData, axiosDefaultOptions())
   .then((response) => {
     dispatch(reviewBookSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
@@ -423,7 +423,7 @@ const borrowBookError = (error) => {
 
 export const borrowBook = (bookId) => dispatch => {
   dispatch(borrow());
-  return axios.post(`${hostUrl}/api/v1/users/borrow/${bookId}`, {}, axiosDefaultOptions)
+  return axios.post(`${hostUrl}/api/v1/users/borrow/${bookId}`, {}, axiosDefaultOptions())
   .then((response) => {
     dispatch(borrowBookSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
@@ -457,7 +457,7 @@ const searchBooksError = (error) => {
 
 export const fetchSearchedBooks = (searchTerm) => dispatch => {
   dispatch(searchBooks());
-  return axios.get(`${hostUrl}/api/v1/books/?search=${searchTerm}`, axiosDefaultOptions)
+  return axios.get(`${hostUrl}/api/v1/books/?search=${searchTerm}`, axiosDefaultOptions())
   .then((response) => {
     dispatch(searchBooksSuccess(response.data.books))
     toastMessage(response.data.message, 'success')
@@ -491,7 +491,7 @@ const deleteReviewError = error => {
 
 export const deleteBookReview = reviewId => dispatch => {
   dispatch(deleteReview());
-  return axios.delete(`${hostUrl}/api/v1/books/review/${reviewId}`, axiosDefaultOptions)
+  return axios.delete(`${hostUrl}/api/v1/books/review/${reviewId}`, axiosDefaultOptions())
   .then(() => {
     dispatch(deleteReviewSuccess(reviewId))
   })
@@ -534,7 +534,7 @@ const modifyReviewError = (error) => {
 
 export const modifyReviewAction = (reviewId, reviewData) => dispatch => {
   dispatch(modifyReview());
-  return axios.put(`${hostUrl}/api/v1/book/review/${reviewId}`, reviewData, axiosDefaultOptions)
+  return axios.put(`${hostUrl}/api/v1/book/review/${reviewId}`, reviewData, axiosDefaultOptions())
   .then((response) => {
     dispatch(modifyReviewSuccess(response.data.review))
     toastMessage(response.data.message, 'success')
