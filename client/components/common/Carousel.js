@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 
 import { bookDefaultImage } from '../../helpers/utils';
 import { fetchTopFavoriteBooks } from '../../actions/bookAction'
@@ -27,7 +29,7 @@ class Carousel extends Component {
   * @memberof Carousel
   */
   componentDidMount() {
-   this.initializeCarousel()
+    this.initializeCarousel()
   }
 
   /**
@@ -44,7 +46,7 @@ class Carousel extends Component {
    * @memberof Carousel
    */
   initializeCarousel() {
-     $('.carousel').carousel({
+    $('.carousel').carousel({
       dist: 0,
       shift: 0,
       padding: 50,
@@ -56,8 +58,9 @@ class Carousel extends Component {
      *
      */
     function autoplay() {
-    $('.carousel').carousel('next');
-    setTimeout(autoplay, 4500)}
+      $('.carousel').carousel('next');
+      setTimeout(autoplay, 4500)
+    }
   }
 
   /**
@@ -66,23 +69,32 @@ class Carousel extends Component {
    * @returns {Object} html
    * @memberof Carousel
    */
-  render () {
+  render() {
     this.initializeCarousel()
     let { topFavoriteBooks, loadingTopFavoritedBooks } = this.props;
 
     return (
       <div>
         {
-          loadingTopFavoritedBooks ? <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em'}}>
-            <img src={ajaxLoader} alt="Loading..."/>
+          loadingTopFavoritedBooks ? <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em' }}>
+            <img src={ajaxLoader} alt="Loading..." />
           </div> : ''
         }
-        { !loadingTopFavoritedBooks ? topFavoriteBooks.length ?
-          <div className="carousel" style={{ marginTop: '-5em'}}> {
+        {!loadingTopFavoritedBooks ? topFavoriteBooks.length ?
+          <div className="carousel" style={{ marginTop: '-5em' }}> {
             topFavoriteBooks.map((book, index) => {
-            return <a className='carousel-item pointer' key={index} href={'/book/' + book.id} title={book.title}><img src={book.image || bookDefaultImage } style={{minHeight: '200px', maxHeight: '200px'}}/> </a>
-          })} </div>
-         : null : null
+              return <Link
+                className='carousel-item pointer'
+                key={index}
+                to={'/book/' + book.id}
+                title={book.title}
+              ><img
+                  src={book.image || bookDefaultImage}
+                  style={{ minHeight: '200px', maxHeight: '200px' }}
+                />
+              </Link>
+            })} </div>
+          : null : null
         }
       </div>
     )

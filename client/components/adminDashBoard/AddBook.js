@@ -235,23 +235,13 @@ class AddBook extends Component {
                     onChange = {this.handleChange}
                     errors = {errors.aboutAuthor}
                     />
-                    {/* <TextInput
-                    id = 'image'
-                    type = 'text'
-                    icon = 'image'
-                    name = 'image'
-                    placeholder = 'Image'
-                    onChange = {this.handleChange}
-                    value = {this.state.image}
-                    errors = {errors.image}
-                    /> */}
-                    <div className="file-field input-field" style={{position: 'absolute', marginTop: '30em'}} >
-                      <div className="btn" style={{width: '40%',fontSize: '13px'}}>
+                    <div className="file-field input-field" style={{marginTop: '35em'}} >
+                      <div className="btn" style={{width: '40%',fontSize: '13px', marginTop: '34px'}}>
                         <span>Upload Image</span>
-                        <input type="file" accept="image/*"  onChange={this.handleFileChange} />
+                        <input type="file" accept="image/*" style={{marginTop: '74px'}} onChange={this.handleFileChange} />
                       </div>
                       <div className="file-path-wrapper">
-                        <input className="file-path validate" type="text"/>
+                        <input className="file-path validate" type="text" style={{marginTop: '29px'}}/>
                       </div>
                       {errors.image && errors.image.length ?
                         errors.image.map((error, i) => { return (
@@ -262,7 +252,7 @@ class AddBook extends Component {
                         </div>
                         )}) : null }
                     </div>
-                    <button type="submit" className="waves-effect waves-light btn" disabled= {!isValid || saving}>Add Book</button>
+                    <button type="submit" style={{ marginTop: '2em' }} className="waves-effect waves-light btn" disabled= {!isValid || saving}>Add Book</button>
                   </form>
                 </div>
               </div>

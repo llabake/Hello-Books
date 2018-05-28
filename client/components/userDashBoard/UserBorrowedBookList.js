@@ -36,13 +36,13 @@ class UserBorrowedBookList extends Component {
    * 
    * @memberof UserBorrowedBookList
    */
-  render () {
+  render() {
     const { borrowedBooks } = this.props
     return (
       <div>
-        { borrowedBooks.length ? 
-          <div className="card-panel responsive-table">
-            <table className="bordered centered highlight ">
+        {borrowedBooks.length ?
+          <div className="card-panel">
+            <table className="bordered centered highlight responsive-table">
               <thead>
                 <tr>
                   <th>S/N</th>
@@ -54,10 +54,14 @@ class UserBorrowedBookList extends Component {
                 </tr>
               </thead>
               <tbody>
-                { borrowedBooks ? borrowedBooks.map((borrowedBook, i) => 
-                  <UserBorrowedBookListRow key={borrowedBook.id} borrowedBook={borrowedBook} index={i}/>
-                  ) :
-                  null 
+                {borrowedBooks ? borrowedBooks.map((borrowedBook, i) =>
+                  <UserBorrowedBookListRow
+                    key={borrowedBook.id}
+                    borrowedBook={borrowedBook}
+                    index={i}
+                  />
+                ) :
+                  null
                 }
               </tbody>
             </table>

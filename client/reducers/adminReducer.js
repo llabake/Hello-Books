@@ -13,8 +13,12 @@ import {
   ACCEPT_BOOK_BORROW_SUCCESS,
   ACCEPT_BOOK_BORROW_ERROR,
   ACCEPT_BOOK_RETURN_SUCCESS,
-  ACCEPT_BOOK_RETURN_ERROR, FETCH_BOOK,
-  PENDING_BORROW_REQUEST, PENDING_RETURN_REQUEST
+  ACCEPT_BOOK_RETURN_ERROR,
+  FETCH_BOOK,
+  PENDING_BORROW_REQUEST,
+  PENDING_RETURN_REQUEST,
+  ADD_BOOK_SUCCESS,
+  ADD_BOOK_ERROR
 } from '../actions/actionTypes';
 
 export default (state = initialState.admin, action) => {
@@ -100,7 +104,18 @@ export default (state = initialState.admin, action) => {
         ...state,
         error: action.error
       }
-      
+    
+    case ADD_BOOK_SUCCESS:
+      return {
+        ...state,
+        book: action.book
+      }
+
+      case ADD_BOOK_ERROR:
+      return {
+        ...state,
+        error: action.error
+      }
     default :
       return state
   }

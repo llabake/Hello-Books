@@ -118,7 +118,7 @@ class ReviewArea extends Component {
           onChange = {this.handleChange}
           errors = {errors.content}
           />
-          <button type="submit" className="waves-effect waves-light btn" 
+          <button type="submit" className="waves-effect waves-light btn right" 
             disabled= {!isValid || saving} style={postReviewButton}>Post Review
           </button>
         </form>

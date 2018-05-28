@@ -13,7 +13,7 @@ const includeReviewAndFavorite = [{
   include: [{
     model: User,
     as: 'user',
-    attributes: ['username', 'id'],
+    attributes: ['username', 'id', 'image'],
   }],
 }, {
   model: Favorite,

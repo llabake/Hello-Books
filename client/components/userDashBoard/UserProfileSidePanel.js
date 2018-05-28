@@ -30,52 +30,55 @@ class UserProfileSidePanel extends Component {
    * @returns {void}
    * @memberof UserProfileSidePanel
    */
-  render () {
-  const { user, profile } = this.props;
+  render() {
+    const { user, profile } = this.props;
 
     return (
       <div className="col s12 m4 profile-bio ">
-      <div className="card large hide-on-small-only ">
-        <div className="row">
-          <div className="card-image ">
-            { profile.image == undefined ? '' :
-               <img src={profile.image || profileImage} style={{borderRadius: '50%'}}/>
+        <div className="card large hide-on-small-only ">
+          <div className="row">
+            <div className="card-image">
+              {profile.image == undefined ? '' :
+                <img
+                  src={profile.image || profileImage}
+                  className="responsive-img"
+                  style={{ marginTop: 34 }}
+                />
               }
+            </div>
+          </div>
+          <div className="card-action">
+            <Link to="/editprofile" >Profile Setting</Link>
           </div>
         </div>
-        <div className="card-content">
-          <span className="card-title">User Bio</span>
-          <p> <b>Name: </b> {user.username} </p>
+        <div className="hide-on-med-and-up">
+          <ul className="collapsible " data-collapsible="accordion">
+            <li>
+              <div className="collapsible-header ">
+                <i className="material-icons">account_circle
+            </i>Profile
+            </div>
+              <div className="collapsible-body"><span><div className="card large">
+                <div className="row">
+                  <div className="card-image ">
+                    {profile.image == undefined ? '' :
+                      <img src={profile.image || profileImage} style={{ borderRadius: '50%' }} />
+                    }
+                  </div>
+                </div>
+                <div className="card-content">
+                  <span className="card-title">User Bio</span>
+                  <p> <b>Name: </b> {user.username} </p>
+                </div>
+                <div className="card-action">
+                  <Link to="/editprofile" >Profile Setting</Link>
+                </div>
+              </div>.</span></div>
+            </li>
+          </ul>
         </div>
-        <div className="card-action">
-          <Link to="/editprofile" >Profile Setting</Link>
-        </div>
+
       </div>
-      <div className="hide-on-med-and-up"> 
-        <ul className="collapsible " data-collapsible="accordion">
-          <li>
-            <div className="collapsible-header "><i className="material-icons">account_circle</i>Profile</div>
-            <div className="collapsible-body"><span><div className="card large ">
-            <div className="row">
-            <div className="card-image ">
-              { profile.image == undefined ? '' :
-               <img src={profile.image || profileImage} style={{borderRadius: '50%'}}/>
-              }
-            </div>
-            </div>
-            <div className="card-content">
-              <span className="card-title">User Bio</span>
-              <p> <b>Name: </b> {user.username} </p>
-            </div>
-            <div className="card-action">
-              <Link to="/editprofile" >Profile Setting</Link>
-            </div>
-            </div>.</span></div>
-          </li>
-        </ul>
-      </div>
-      
-    </div>
     )
   }
 }

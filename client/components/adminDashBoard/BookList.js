@@ -105,12 +105,11 @@ class BookList extends Component {
       <div id="allbooks">
         { displayedBooks.length ?
           <div  className="col s12">
-            <div className="card-panel responsive-table">
-              <table className="bordered centered highlight ">
+            <div className="card-panel">
+              <table className="bordered highlight responsive-table">
                 <thead>
                   <tr>
                     <th>S/N</th>
-                    <th>Book ID</th>
                     <th>Title</th>
                     <th>Author </th>
                     <th>Edit</th>

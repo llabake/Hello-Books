@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { returnBookAction } from '../../actions/userAction';
 
@@ -11,7 +12,7 @@ import { returnBookAction } from '../../actions/userAction';
  * @extends {Component}
  */
 class UserBorrowedBookListRow extends Component {
-  
+
   /**
    * Creates an instance of UserBorrowedBookListRow.
    * @param {any} props 
@@ -39,20 +40,30 @@ class UserBorrowedBookListRow extends Component {
    * 
    * @memberof UserBorrowedBookListRow
    */
-  render () {
+  render() {
     const { borrowedBook, index } = this.props
     return (
       <tr>
         <td>{index + 1}</td>
-        <td><Link to={'/books/' + borrowedBook.id}>{borrowedBook.book.title}</Link></td>
-        <td>{borrowedBook.book.author}</td>
-        <td>{borrowedBook.borrowDate}</td>
-        <td>{borrowedBook.expectedReturnDate}</td>
         <td>
-          { borrowedBook.returnStatus == 'accepted' ? 'Returned' : 
-            <a onClick={this.handleReturn}>
-            <i className="material-icons">
-              assignment_returned
+          <Link to={'/book/' + borrowedBook.id}>
+            {borrowedBook.book.title}
+          </Link>
+        </td>
+        <td>{borrowedBook.book.author}</td>
+        <td>{borrowedBook.borrowDate ?
+          moment(borrowedBook.borrowDate).format('LL') :
+          borrowedBook.borrowDate} </td>
+        <td>{borrowedBook.expectedReturnDate ?
+          moment(borrowedBook.expectedReturnDate).format('ll') :
+          borrowedBook.expectedReturnDate}</td>
+        <td>
+          {borrowedBook.returnStatus == 'accepted' ? 'Returned' :
+            <a 
+            style={{cursor: 'pointer' }}
+            onClick={this.handleReturn}>
+              <i className="material-icons">
+                assignment_returned
             </i>
             </a>
           }
@@ -66,7 +77,7 @@ const mapStateToProps = (state) => {
   return {
     errors: state.errors,
   }
-} 
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {

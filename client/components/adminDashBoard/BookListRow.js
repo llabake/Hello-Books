@@ -99,12 +99,12 @@ class BookListRow extends Component {
     return (
         <tr>
           <td>{index + 1}</td>
-          <td>{book.id}</td>
           <td>{book.title}</td>
           <td>{book.author}</td>
           <td>
             <a onClick={this.handleEdit} 
-              className="modal-trigger .modal-close ">
+              className="modal-trigger .modal-close"
+              style={{ cursor: "pointer" }}>
             <i className="material-icons">
               edit
             </i>
@@ -118,7 +118,8 @@ class BookListRow extends Component {
             } 
           </td>
           <td>
-            <a onClick={this.handleDelete}>
+            <a onClick={this.handleDelete}
+            style={{ cursor: "pointer" }}>
             <i className="material-icons">
               delete
             </i>

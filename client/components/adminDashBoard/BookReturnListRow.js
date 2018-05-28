@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from "moment";
 import { acceptBookReturnRequest } from '../../actions/adminAction';
 
 
@@ -46,10 +47,11 @@ class BookReturnListRow extends Component {
         <td>{index + 1}</td>
         <td>{borrowedBook.book.title}</td>
         <td>{borrowedBook.book.author}</td>
-        <td>{borrowedBook.borrowDate}</td>
+        <td>{moment(borrowedBook.borrowDate).format('ll')}</td>
         <td>{borrowedBook.user.username}</td>
         <td>
-          <a onClick = {this.handleReturn}>
+          <a onClick = {this.handleReturn}
+          style={{ cursor: "pointer" }}>
           <i className="material-icons">
             assignment_returned
           </i>
