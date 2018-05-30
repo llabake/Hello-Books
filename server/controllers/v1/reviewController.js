@@ -144,7 +144,8 @@ export default class ReviewController {
       }],
       order:[['updatedAt', 'DESC']],
       limit,
-      offset
+      offset,
+      distinct: true
     })
     .then((result) => {
       return paginateBookReviews({ req, res, result, limit, page })      
