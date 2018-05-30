@@ -2,6 +2,44 @@ import models from '../../models';
 import { formatPagination, paginateBookFavoriteList } from '../../helpers/utils';
 
 const { Book, Favorite, Review, User } = models;
+
+const includeBookDetail = [{
+  model: Book,
+  attributes: ['id', 'title', 'description', 'upVotes', 'downVotes', 'image'],
+  as: 'book',
+  include: [{
+    model: Review,
+    as: 'reviews'
+  }, {
+    model: Favorite,
+    as: 'favorited',
+    include: [{
+      model: User,
+      as: 'user',
+      attributes: ['username',],
+    }],
+  }]
+}]
+
+const includeReviewandFavorite = [{
+  model: Review,
+  as: 'reviews',
+  attributes: ['id', 'content', 'createdAt', 'caption','updatedAt'],
+  include: [{
+    model: User,
+    as: 'user',
+    attributes: ['username', 'id'],
+  }],
+}, {
+  model: Favorite,
+  as: 'favorited',
+  attributes: ['id', 'createdAt'],
+  include: [{
+    model: User,
+    as: 'user',
+    attributes: ['username', 'id'],
+  }],
+}]
 /**
  *
  *
@@ -34,25 +72,7 @@ export default class FavoriteController {
             id: req.params.bookId
           },
           attributes: { exclude: ["createdAt", "updatedAt"] },
-          include: [{
-            model: Review,
-            as: 'reviews',
-            attributes: ['id', 'content', 'createdAt', 'caption','updatedAt'],
-            include: [{
-              model: User,
-              as: 'user',
-              attributes: ['username', 'id'],
-            }],
-          }, {
-            model: Favorite,
-            as: 'favorited',
-            attributes: ['id', 'createdAt'],
-            include: [{
-              model: User,
-              as: 'user',
-              attributes: ['username', 'id'],
-            }],
-          }],
+          include: includeReviewandFavorite,
         }).then((book) => {
           if (created) {
             return res.status(201).json({
@@ -83,30 +103,15 @@ export default class FavoriteController {
  * @memberof FavoriteController
  */
   static retrieveUserFavorite(req, res) {
-    const { limit, page, offset } = formatPagination
+    const { limit, page, offset } = formatPagination(req)
     Favorite.findAndCountAll({
       where: {
         userId: req.user.id
       },
-      include: [{
-        model: Book,
-        attributes: ['id', 'title', 'description', 'upVotes', 'downVotes', 'image'],
-        as: 'book',
-        include: [{
-          model: Review,
-          as: 'reviews'
-        }, {
-          model: Favorite,
-          as: 'favorited',
-          include: [{
-            model: User,
-            as: 'user',
-            attributes: ['username',],
-          }],
-        }]
-      }],
+      include: includeBookDetail,
       limit,
-      offset
+      offset,
+      distinct: true
     })
       .then((result) => {
         return paginateBookFavoriteList({ req, res, result, limit, page })

@@ -250,6 +250,7 @@ export default class BorrowedBookController {
     const options = {};
     options.limit = limit;
     options.offset = offset;
+    options.distinct = true;
     const { borrowStatus, returnStatus } = req.query;
     options.where = {};
     if (!borrowStatus && !returnStatus) {
@@ -329,7 +330,8 @@ export default class BorrowedBookController {
       }],
       order: [['updatedAt', 'DESC']],
       limit,
-      offset
+      offset,
+      distinct: true
     })
     .then((result) => {
       if (!result.length) {

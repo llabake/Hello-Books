@@ -181,7 +181,8 @@ class BookController {
     Book.findAndCountAll({
       include: includeReviewAndFavorite,
       limit,
-      offset
+      offset,
+      distinct: true
     })
       .then((result) => {
         return paginateBookResult({ req, res, result, limit, page })
@@ -221,6 +222,7 @@ class BookController {
     options.offset = offset
     options.attributes = exclude;
     options.include = includeReviewAndFavorite;
+    options.distinct = true;
     Book.findAndCountAll(options)
     // Fix me: check the next line
       // .then(books => res.status(200).json(books))
@@ -253,7 +255,8 @@ class BookController {
     options.limit = limit;
     options.offset = offset;
     options.attributes = exclude;
-    options.include = includeReviewAndFavorite
+    options.include = includeReviewAndFavorite;
+    options.distinct = true
     options.where = {
       $or: [
         { author: { $iLike: `%${searchQuery}%` } },
@@ -385,6 +388,7 @@ class BookController {
     options.order = [['borrowCount', 'DESC']];
     options.attributes = exclude;
     options.include = includeReviewAndFavorite;
+    options.distinct = true;
     Book.findAndCountAll(options)
       .then((result) => {
         return paginateBookResult({ req, res, result, limit, page })
@@ -416,6 +420,7 @@ static getTopFavoritedBooks(req, res) {
       as: 'favorited',
       attributes: ['id']
     }];
+    options.distinct = true;
     Book.findAndCountAll(options)
       .then((result) => {
         return paginateBookResult({ req, res, result, limit, page })
