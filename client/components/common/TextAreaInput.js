@@ -17,8 +17,8 @@ const TextAreaInput = ({ id, icon, placeholder, errors, name, value, onChange, }
         />
         {errors && errors.length ?
         errors.map((error, i) => { return (
-        <div key={i} className= 'red-text'>
-          <i className="material-icons">error_outline</i>
+        <div key={i} className= 'red-text left-align' style={{ 'fontSize':'medium', 'marginLeft': 46}}>
+          {/* <i className="material-icons">error_outline</i> */}
           {error}
         </div>
         )}) : null }

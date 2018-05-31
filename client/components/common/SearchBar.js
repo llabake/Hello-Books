@@ -56,7 +56,10 @@ class SearchBar extends Component {
    * @memberof SearchBar
    */
   redirectToSearch() {
-    window.location.href = `/search/${this.state.searchTerm}`
+    const trimmedSearchTerm = this.state.searchTerm && this.state.searchTerm.trim();
+    trimmedSearchTerm ? 
+    window.location.href = `/search/${trimmedSearchTerm}`:
+    window.location.href = window.location.href 
   }
 
 

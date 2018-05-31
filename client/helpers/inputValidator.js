@@ -1,8 +1,19 @@
-import { isAlphanumeric, isEmail, isNumeric, isStrong, isYear } from './utils';
+import {
+  isAlphanumeric,
+  isEmail,
+  isNumeric,
+  isStrong,
+  isYear,
+  trimObject,
+  isDefined,
+  isNotEmpty
+} from './utils';
+
 /**
  *
  *
  * @export
+ * 
  * @class InputValidator
  */
 export default class InputValidator {
@@ -10,8 +21,11 @@ export default class InputValidator {
    *
    *
    * @static
+   * 
    * @param {any} data
-   * @returns {status} errors array
+   * 
+   * @returns {object} errors and isValid status
+   * 
    * @memberof InputValidator
    */
   static signUp(data) {
@@ -23,80 +37,97 @@ export default class InputValidator {
       'password',
       'confirmPassword'
     ];
-    const errors = {}
-
+    const errors = {};
     fields.forEach((field) => {
       errors[field] = []
       if (data[field] === undefined || data[field] === '') {
-        errors[field].push(`${field} is required`); 
+        if (field === 'confirmPassword') {
+          errors[field].push('Please confirm your password')
+        } else {
+          errors[field].push(`${field} is required`);
+        }
+      } else if (field !== 'confirmPassword' && data[field].trim() === '') {
+        errors[field].push(`${field} can not be blank`)
       }
     });
+    const { username, email, password, userExist } = trimObject(data)
 
-    if (data.username && data.username.length <= 6) {
+    if (username && username.length < 5) {
       errors.username.push('Username too short Must be at least 5 characters');
     }
-    if (data.username && !isAlphanumeric(data.username)) {
+    if (username && !isAlphanumeric(username)) {
       errors.username.push('Username can only contain alphabets and numbers');
     }
-    if (data.email && !isEmail(data.email)) {
+    if (email && !isEmail(email)) {
       errors.email.push('Please enter a valid email');
     }
-    if (data.password && data.password.length < 8) {
+    if (password && password.length < 8) {
       errors.password.push('Password should contain atleast 8 characters');
-    } 
-    if (data.password && !isStrong(data.password)) {
-      errors.password.push('Password should contain atleast 1 uppercase, 1 lowercase letter, 1 number and a special character');
     }
-    if (data.password && data.confirmPassword && data.password !== data.confirmPassword) {
+    if (password && !isStrong(password)) {
+      errors.password.push(`Password should contain atleast 1 uppercase,
+        1 lowercase letter, 1 number and a special character`);
+    }
+    if (password && data.confirmPassword
+      && password !== data.confirmPassword) {
       errors.confirmPassword.push('Ensure passwords match');
     }
-    if (data.userExist.username) {
-      errors.username.push(data.userExist.username)
+    if (userExist.username) {
+      errors.username.push(userExist.username)
     }
-    if (data.userExist.email) {
-      errors.email.push(data.userExist.email)
+    if (userExist.email) {
+      errors.email.push(userExist.email)
     }
     let isValid = true;
     Object.keys(errors)
-    .map(key => errors[key]).forEach((error) => {
-      if (error.length) {
-        isValid = false;
-      }
-    });
+      .map(key => errors[key]).forEach((error) => {
+        if (error.length) {
+          isValid = false;
+        }
+      });
     return { errors, isValid };
   }
+
   /**
  *
  *
  * @static
+ * 
  * @param {any} data
+ * 
  * @memberof InputValidator
- * @returns {status} error array
+ * 
+ * @returns {object} errors and isValid status
  */
   static signIn(data) {
     const errors = {};
     const requiredFields = ['username', 'password'];
     requiredFields.forEach((field) => {
       errors[field] = []
-      if (data[field] === undefined || data[field] === '') {
-        errors[field].push(`${field} is required`); 
+      if (!isDefined(data[field])
+        || !isNotEmpty(data[field])) {
+        errors[field].push(`${field} is required`);
       }
     });
     let isValid = true;
     Object.keys(errors)
-    .map(key => errors[key]).forEach((error) => {
-      if (error.length) {
-        isValid = false;
-      }
-    });
+      .map(key => errors[key]).forEach((error) => {
+        if (error.length) {
+          isValid = false;
+        }
+      });
     return { errors, isValid };
   }
+
   /**
  *
  *
  * @static
+ * 
  * @param {any} data
- * @returns {status} error array
+ * 
+ * @returns {object} errors and isValid status
+ * 
  * @memberof InputValidator
  */
   static addBook(data) {
@@ -109,15 +140,16 @@ export default class InputValidator {
 
     requiredFields.forEach((field) => {
       errors[field] = []
-      if (data[field] === undefined || data[field] === '') {
-        errors[field].push(`${field} is required`); 
+      if (!isDefined(data[field]) || !isNotEmpty(data[field])) {
+        errors[field].push(`${field} is required`);
       }
     });
     if (data.publishedYear && !isNumeric(data.publishedYear)) {
       errors.publishedYear.push('PublishedYear can only be a number')
     }
     if (data.publishedYear && !isYear(data.publishedYear)) {
-      errors.publishedYear.push('PublishedYear is not a valid year, expect date in range 1000-9999')
+      errors.publishedYear.
+        push('PublishedYear is not a valid year, expect date in range 1000-9999')
     }
     if (data.isbn && !isNumeric(data.isbn)) {
       errors.isbn.push('isbn can only be a number');
@@ -130,65 +162,25 @@ export default class InputValidator {
       errors.isbn.push(data.isbnExist)
     }
 
-    errors.image = []
-    if (data.uploadedImage) {
-      
-      const reader = new FileReader();
-      //Read the contents of Image File.
-      reader.readAsDataURL(data.uploadedImage);
-      reader.onload = (e) => {
-        //Initiate the JavaScript Image object.
-        const image = new Image();
-
-        //Set the Base64 string return from FileReader as source.
-        image.src = e.target.result;
-        
-        const minimumImageWidth = 50;
-        const minimumImageHeight = 50;
-
-        const maximumImageWidth = 200;
-        const maximumImageHeight = 200;
-
-        //Validate the File Height and Width.
-        image.onload = () => {
-          console.log('inside onload')
-          const imageHeight = this.height;
-          const imageWidth = this.width;
-
-          if (!(minimumImageWidth <= imageWidth && maximumImageWidth >= imageWidth)) {
-            errors.image.push(`Image width must be in range 
-              ${minimumImageWidth}px - ${maximumImageWidth}px`)
-          }
-
-          if (!(minimumImageHeight <= imageHeight && maximumImageHeight >= imageHeight)) {
-            errors.image.push(`Image height must be in range 
-              ${minimumImageHeight}px - ${maximumImageHeight}px`)
-          }
-        }
-      }
-    } else {
-      errors.image.push('Image is required')      
-    }
-
-   
-    
     let isValid = true;
     Object.keys(errors)
-    .map(key => errors[key]).forEach((error) => {
-      if (error.length) {
-        isValid = false;
-      }
-    });
-    console.log('inside afhfshfdhj')
-    
+      .map(key => errors[key]).forEach((error) => {
+        if (error.length) {
+          isValid = false;
+        }
+      });
     return { errors, isValid };
   }
+
   /**
  *
  *
  * @static
+ * 
  * @param {any} data
- * @returns {status} error array
+ * 
+ * @returns {status} errors and isValid status
+ * 
  * @memberof InputValidator
  */
   static addReview(data) {
@@ -196,8 +188,8 @@ export default class InputValidator {
     const requiredFields = ['content', 'caption'];
     requiredFields.forEach((field) => {
       errors[field] = [];
-      if (data[field] === undefined || data[field] === '') {
-        errors[field].push(`${field} is required`); 
+      if (!isDefined(data[field]) || !isNotEmpty(data[field])) {
+        errors[field].push(`${field} is required`);
       }
     });
     if (data.content && data.content.length < 10) {
@@ -205,19 +197,23 @@ export default class InputValidator {
     }
     let isValid = true;
     Object.keys(errors)
-    .map(key => errors[key]).forEach((error) => {
-      if (error.length) {
-        isValid = false;
-      }
-    });
+      .map(key => errors[key]).forEach((error) => {
+        if (error.length) {
+          isValid = false;
+        }
+      });
     return { errors, isValid };
   }
+
   /**
  *
  *
  * @static
+ * 
  * @param {any} data
- * @returns {status} error array
+ * 
+ * @returns {object} errors and isValid status
+ * 
  * @memberof InputValidator
  */
   static modifyBook(data) {
@@ -228,31 +224,44 @@ export default class InputValidator {
    * 
    * 
    * @static
-   * @param {any} data 
-   * @returns {status} error array
+   * 
+   * @param {any} data
+   *  
+   * @returns {object} errors and isValid status
+   * 
    * @memberof InputValidator
    */
   static modifyReview(data) {
     return this.addReview(data)
   }
-
+  /**
+   * 
+   * 
+   * @static
+   * 
+   * @param {any} data
+   * 
+   * @returns {object} error and isValid
+   * 
+   * @memberof InputValidator
+   */
   static updateProfile(data) {
     const errors = {};
     const requiredFields = ['firstName', 'lastName'];
     requiredFields.forEach((field) => {
       errors[field] = [];
-      if (data[field] === undefined || data[field] === '') {
+      if (!isDefined(data[field]) || !isNotEmpty(data[field])) {
         errors[field].push(`${field} is required`);
       }
     });
 
     let isValid = true;
     Object.keys(errors)
-    .map(key => errors[key]).forEach((error) => {
-      if (error.length) {
-        isValid = false;
-      }
-    });
+      .map(key => errors[key]).forEach((error) => {
+        if (error.length) {
+          isValid = false;
+        }
+      });
     return { errors, isValid };
   }
 }

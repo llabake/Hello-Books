@@ -19,9 +19,13 @@ const TextInput = ({ id, type, icon, placeholder, name, errors, value, onChange,
       />
       {errors && errors.length ?
         errors.map((error, i) => { return (
-        <div key={i} className= 'red-text'>
-          <i className="material-icons">error_outline</i>
-          {/* <li>{error}</li> */}
+        <div key={i} 
+        className='red-text left-align' 
+        style={{ 
+          'fontSize':'medium', 
+          'marginLeft': 46, 
+          'marginTop': -12
+          }}>
           {error}
         </div>
         )}) : null }
