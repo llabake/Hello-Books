@@ -10,7 +10,8 @@ export default {
     favoriteBooks: [],
     loading: false,
     profile: {},
-    error: ''
+    error: '',
+    updated: false
   },
   books: {
     books: [],

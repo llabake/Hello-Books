@@ -1,6 +1,7 @@
 import initialState from './initialState';
-import { USER_SIGNUP_REQUEST,  SET_CURRENT_USER,
-  USER_BORROW_LIST_SUCCESS, 
+import {
+  USER_SIGNUP_REQUEST, SET_CURRENT_USER,
+  USER_BORROW_LIST_SUCCESS,
   USER_BORROW_LIST_ERROR,
   USER_FAVORITE_LIST,
   USER_FAVORITE_LIST_SUCCESS,
@@ -14,11 +15,16 @@ import { USER_SIGNUP_REQUEST,  SET_CURRENT_USER,
   USER_SIGNIN_SUCCESS,
   USER_SIGNIN_ERROR,
   FETCH_USER_PROFILE_SUCCESS,
-  FETCH_USER_PROFILE_ERROR
+  FETCH_USER_PROFILE_ERROR,
+  EDIT_USER_PROFILE_SUCCESS,
+  EDIT_USER_PROFILE_ERROR,
+  RETURN_SUCCESS,
+  RETURN_ERROR,
+  RETURN
 } from '../actions/actionTypes';
 
 export default (state = initialState.user, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case USER_SIGNUP_REQUEST:
       return {
         ...state,
@@ -36,11 +42,11 @@ export default (state = initialState.user, action) => {
         ...state,
         error: action.error
       }
-    case USER_SIGNIN_REQUEST: 
+    case USER_SIGNIN_REQUEST:
       return {
         ...state
       }
-    case USER_SIGNIN_ERROR: 
+    case USER_SIGNIN_ERROR:
       return {
         ...state,
         error: action.error
@@ -52,24 +58,24 @@ export default (state = initialState.user, action) => {
       }
 
     case USER_BORROW_LIST_ERROR:
-      return { ...state, error: action.error}
+      return { ...state, error: action.error }
 
-    case USER_FAVORITE_LIST: 
+    case USER_FAVORITE_LIST:
       return { ...state, loading: true }
-    
+
     case USER_FAVORITE_LIST_SUCCESS:
       return { ...state, favoriteBooks: action.favoriteBooks, loading: false }
-    
+
     case USER_FAVORITE_LIST_ERROR:
       return { ...state, error: action.error, loading: false }
 
     case REMOVE_FROM_FAVORITES_SUCCESS: {
-      const newFavoriteBooksList = 
-      state.favoriteBooks.filter(favoriteBook => favoriteBook.book.id !== action.bookId)
-      return { ...state, favoriteBooks: newFavoriteBooksList}
+      const newFavoriteBooksList =
+        state.favoriteBooks.filter(favoriteBook => favoriteBook.book.id !== action.bookId)
+      return { ...state, favoriteBooks: newFavoriteBooksList }
     }
-    
-    case REMOVE_FROM_FAVORITES_ERROR: 
+
+    case REMOVE_FROM_FAVORITES_ERROR:
       return { ...state, error: action.error }
 
     case UNSET_CURRENT_USER:
@@ -84,8 +90,32 @@ export default (state = initialState.user, action) => {
 
     case FETCH_USER_PROFILE_ERROR:
       return { ...state, error: action.error };
-    default :
+
+    case EDIT_USER_PROFILE_SUCCESS:
+      return { ...state, profile: action.user, updated: true }
+
+    case EDIT_USER_PROFILE_ERROR:
+      return { ...state, error: action.error, updated: false }
+
+    case RETURN:
+      return { ...state }
+    case RETURN_SUCCESS: {
+      const updatedBorrowedBook =
+      state.borrowedBookHistory.map((borrowedBook) => {
+        return borrowedBook.id == action.borrowedBook.id ? 
+        { ...action.borrowedBook, book: borrowedBook.book } : 
+        borrowedBook
+      });
+      return {
+        ...state,
+        borrowedBookHistory: updatedBorrowedBook
+      }
+    }
+
+    case RETURN_ERROR:
+      return { ...state, error: action.error }
+    default:
       return state
-    
+
   }
 }

@@ -29,7 +29,7 @@ class UserProfilePage extends Component {
    * 
    * @memberof UserProfilePage
    */
-  componentWillMount() {
+  componentDidMount() {
     this.props.getUserProfile()
   }
   /**
