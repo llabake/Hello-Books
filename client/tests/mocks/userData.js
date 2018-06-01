@@ -20,7 +20,8 @@ export default {
   },
   signUpResponse: {
     message: "Your Signup was successful ObiWalker",
-    token: "tokentokentoken",
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJyb2xlIjoibm9ybWFsIiwiZW1haWwiOiJvYmkud2Fsa2VyQGFuZGVsYS5jb20iLCJ1c2VybmFtZSI6Ik9iaVdhbGtlciIsImFjdGl2ZSI6dHJ1ZX0sImlhdCI6MTUyMTU3NDU4MSwiZXhwIjoxNTIxNjYwOTgxfQ.MsLArFgkScRjIyoMOML_vQpgbC52URdju991LRNYoAk",
+    // token: "tokentokentoken",
     user:
       {
         email: "obi.walker@andela.com",
@@ -66,6 +67,12 @@ export default {
         "userId":2
       }
     ]
+  },
+  returnBookError: {
+    data: {
+      message:'error sending your request'
+    },
+    error: {}
   },
   book1: {
     id: 2,
@@ -193,8 +200,10 @@ export default {
             ]
         }
       }
-    ]
+    ],
+    count: 1
   },
+
   unFavoriteResponse: {
     "message":"Never eat alone  has been removed from your favorite list",
     "book":
@@ -225,5 +234,6 @@ export default {
       "image": ""
     },
     message: 'Your profile has been updated'
-  }
+  },
+  bookCount: 2
 }

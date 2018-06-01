@@ -186,7 +186,8 @@ export const fetchUserBorrowedBooks = (page=1, limit=maxPageLimit) => dispatch =
     })
     .catch((error) => {
       dispatch(userBorrowListError(error))
-      toastMessage(error.response.data.message, 'failure')
+      // console.log(error, 'anyways')
+      // toastMessage(error.response.data.message, 'failure')
     })
 }
 
@@ -377,16 +378,19 @@ const editUserProfileError = (error) => {
 export const editProfileData = userData => dispatch => {
   return axios.put(`${hostUrl}/api/v1/users/profile`, userData, axiosDefaultOptions())
     .then((response) => {
+      // console.log('lastluy')
       dispatch(editUserProfileSuccess(response.data.profile))
       toastMessage(response.data.message, 'success')
 
     })
     .catch((error) => {
+      // console.log('did it eroror ndjjdjd')
       dispatch(editUserProfileError(error));
       toastMessage(error.response.data.message, 'failure')
     })
 }
 export const editProfile = userData => dispatch => {
+  // console.log(userData, 'ofoooo')
   dispatch(editUserProfile());
   if (userData.uploadedImage) {
     return uploadImageToCloudinary(userData.uploadedImage).then((fileUrl) => {
@@ -396,6 +400,7 @@ export const editProfile = userData => dispatch => {
       toastMessage('An error occurred, please try uploading your image again', 'failure')
     })
   } else {
+    // console.log('the n here ')
     dispatch(editProfileData(userData))
   }
 }

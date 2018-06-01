@@ -420,6 +420,7 @@ export const borrowBook = (bookId) => dispatch => {
   dispatch(borrow());
   return axios.post(`${hostUrl}/api/v1/users/borrow/${bookId}`, {}, axiosDefaultOptions())
   .then((response) => {
+    // console.log(response.data, 'respsp')
     dispatch(borrowBookSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
   })
