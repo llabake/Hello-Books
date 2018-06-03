@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { Pagination } from 'react-materialize';
+
 
 import UserBorrowedBookListRow from '../userDashBoard/UserBorrowedBookListRow';
 import { fetchUserBorrowedBooks } from '../../actions/userAction';
+import { maxPageLimit } from '../../helpers/utils';
 
 /**
  * 
@@ -19,7 +22,14 @@ class UserBorrowedBookList extends Component {
    */
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      maxItems: 2,
+      showPagination: false,
+      activePage: 1,
+    }
+
+    this.handleSelectedPage = this.handleSelectedPage.bind(this)
+
   }
 
   /**
@@ -32,12 +42,40 @@ class UserBorrowedBookList extends Component {
   }
 
   /**
+   * 
+   * 
+   * @param {any} newProps 
+   * @returns {Array} response containing user's borrowed book list
+   * @memberof UserBorrowedBookList
+   */
+  componentWillReceiveProps(newProps) {
+    if (newProps === this.props) return;
+    const { userBorrowedBookCount } = newProps;
+    const maxItems = Math.ceil(userBorrowedBookCount / maxPageLimit);
+    if (maxItems > 1) {
+      this.setState({
+        maxItems: maxItems,
+        showPagination: true
+      })
+    }
+  }
+  /**
+   * @returns {void}
+   * 
+   * @param {any} page 
+   * @memberof UserBorrowedBookList
+   */
+  handleSelectedPage(page) {
+    this.props.fetchUserBorrowedBooks(page, maxPageLimit);
+  }
+  /**
    * @returns {object} void
    * 
    * @memberof UserBorrowedBookList
    */
   render() {
-    const { borrowedBooks } = this.props
+    const { borrowedBooks } = this.props;
+    const { showPagination } = this.state;
     return (
       <div>
         {borrowedBooks.length ?
@@ -65,6 +103,15 @@ class UserBorrowedBookList extends Component {
                 }
               </tbody>
             </table>
+
+            {showPagination ?
+              <Pagination
+                className={'center-align'}
+                items={this.state.maxItems}
+                activePage={1} maxButtons={4}
+                onSelect={this.handleSelectedPage}
+              /> :
+              null}
           </div> :
           <div className="card-panel row">
             <p>
@@ -80,13 +127,14 @@ class UserBorrowedBookList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    borrowedBooks: state.userReducer.borrowedBookHistory
+    borrowedBooks: state.userReducer.borrowedBookHistory,
+    userBorrowedBookCount: state.userReducer.userBorrowedBookCount
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchUserBorrowedBooks: () => dispatch(fetchUserBorrowedBooks())
+    fetchUserBorrowedBooks: (page) => dispatch(fetchUserBorrowedBooks(page))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UserBorrowedBookList);

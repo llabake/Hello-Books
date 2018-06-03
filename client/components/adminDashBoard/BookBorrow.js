@@ -4,6 +4,7 @@ import { Pagination } from 'react-materialize';
 
 import { pendingAcceptBorrowRequest } from '../../actions/adminAction';
 import BookBorrowListRow from '../adminDashBoard/BookBorrowListRow';
+import { maxPageLimit } from '../../helpers/utils';
 /**
  * 
  * 
@@ -22,9 +23,7 @@ class BookBorrow extends Component {
     this.state = {
       maxItems: 2,
       showPagination: false,
-      displayedBorrowBooks: [],
       activePage: 1,
-      maxItemsPerPage: 2,
     }
 
     this.handleSelectedPage = this.handleSelectedPage.bind(this);
@@ -48,11 +47,8 @@ class BookBorrow extends Component {
    */
   componentWillReceiveProps(newProps) {
     if(newProps === this.props) return;
-    const { borrowedBooks } = newProps
-    console.log(borrowedBooks)
-    const noOfBorrowedBooks = borrowedBooks.length;
-    const maxItems = Math.ceil(noOfBorrowedBooks/ this.state.maxItemsPerPage);
-    this.setDisplayedBorrowBooks(borrowedBooks);
+    const { borrowedBookCount } = newProps
+    const maxItems = Math.ceil(borrowedBookCount/ maxPageLimit);
     if(maxItems > 1) {
       this.setState({
         maxItems: maxItems,
@@ -62,30 +58,13 @@ class BookBorrow extends Component {
   }
 
   /**
-   * @returns {Array} a list of borrowed books to be displayed on each page
-   * 
-   * @param {any} borrowedBooks 
-   * @memberof BookBorrow
-   */
-  setDisplayedBorrowBooks(borrowedBooks) {
-    const displayedBorrowBooks = borrowedBooks.slice((this.state.activePage - 1) *
-    this.state.maxItemsPerPage,
-    (this.state.activePage) * this.state.maxItemsPerPage);
-    this.setState({
-      displayedBorrowBooks
-    })
-  }
-
-  /**
    * @returns {void}
    * 
-   * @param {any} activePage 
+   * @param {any} page 
    * @memberof BookBorrow
    */
-  handleSelectedPage(activePage) {
-    this.setState({
-      activePage
-    }, () => this.setDisplayedBorrowBooks(this.props.borrowedBooks))
+  handleSelectedPage(page) {
+    this.props.pendingAcceptBorrowRequest(page, maxPageLimit);
   }
 
 
@@ -97,10 +76,10 @@ class BookBorrow extends Component {
    */
   render () {
     const { loading, borrowedBooks } = this.props;
-    const { showPagination, displayedBorrowBooks } = this.state;
+    const { showPagination } = this.state;
     return (
       <div id="accept">
-        { displayedBorrowBooks.length ? 
+        { borrowedBooks.length ? 
           <div className="col s12">
             <div className="card-panel">
               <table className="bordered centered highlight responsive-table">
@@ -117,7 +96,7 @@ class BookBorrow extends Component {
                 </thead>
                 <tbody>
                   {
-                    displayedBorrowBooks  ? displayedBorrowBooks .map((borrowedBook, i) => 
+                    borrowedBooks ? borrowedBooks .map((borrowedBook, i) => 
                       <BookBorrowListRow key={borrowedBook.id} borrowedBook={borrowedBook} index={i} />
                     ) :
                     null
@@ -150,13 +129,14 @@ class BookBorrow extends Component {
 const mapStateToProps = (state) => {
   return {
     borrowedBooks : state.adminReducer.pendingBorrowedBookRequest,
-    loading: state.adminReducer.loading
+    loading: state.adminReducer.loading,
+    borrowedBookCount: state.adminReducer.borrowedBookCount
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    pendingAcceptBorrowRequest: () => dispatch(pendingAcceptBorrowRequest())
+    pendingAcceptBorrowRequest: (page) => dispatch(pendingAcceptBorrowRequest(page))
   };
 };
 

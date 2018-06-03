@@ -60,13 +60,8 @@ const fetchBookError = (error) => {
 }
 
 export const fetchAllBooks = (page=1, limit=maxPageLimit) => dispatch => {
-  dispatch(fetchBook());
-  const axiosOptions = {
-    headers: {
-      Authorization: localStorage.getItem('token')
-    },
-  };  
-  return axios.get(`${hostUrl}/api/v1/books?page=${page}&limit=${limit}`, axiosOptions)
+  dispatch(fetchBook());  
+  return axios.get(`${hostUrl}/api/v1/books?page=${page}&limit=${limit}`, axiosDefaultOptions())
     .then((response) => {
       dispatch(fetchBookSuccess(response.data.books));
       dispatch(setBookCount(response.data.count))

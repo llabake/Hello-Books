@@ -4,6 +4,7 @@ import { Pagination } from 'react-materialize';
 
 import BookListRow from '../adminDashBoard/BookListRow';
 import { fetchAllBooks } from '../../actions/bookAction';
+import { maxPageLimit } from '../../helpers/utils';
 
 /**
  * 
@@ -23,9 +24,7 @@ class BookList extends Component {
     this.state = {
       maxItems: 2,
       showPagination: false,
-      displayedBooks: [],
       activePage: 1,
-      maxItemsPerPage: 8,
     }
 
     this.handleSelectedPage = this.handleSelectedPage.bind(this)
@@ -49,11 +48,10 @@ class BookList extends Component {
    * @memberof BookList
    */
   componentWillReceiveProps(newProps) {
+    //TODO: check the number iin the redux store has reduced and
     if(newProps === this.props) return;
-    const { allBooks } = newProps;
-    const noOfBooks = allBooks.length;
-    const maxItems = Math.ceil(noOfBooks / this.state.maxItemsPerPage);
-    this.setDisplayedBooks(allBooks);
+    const { bookCount } = newProps;
+    const maxItems = Math.ceil(bookCount / maxPageLimit);
     if (maxItems > 1) {
       this.setState({
         maxItems: maxItems,
@@ -63,32 +61,13 @@ class BookList extends Component {
   }
 
   /**
-   * 
-   * @returns {Array} an array of books to be displayed on each page
-   * @param {any} allBooks 
-   * @memberof BookList
-   */
-  setDisplayedBooks(allBooks) {
-    const displayedBooks = allBooks.slice((this.state.activePage - 1) *
-    this.state.maxItemsPerPage,
-    (this.state.activePage) * this.state.maxItemsPerPage);
-    this.setState({
-      displayedBooks
-    })
-  }
-
-
-
-  /**
    * @returns {void}
    * 
-   * @param {any} activePage 
+   * @param {any} page 
    * @memberof BookList
    */
-  handleSelectedPage(activePage) {
-    this.setState({
-      activePage
-    }, () => this.setDisplayedBooks(this.props.allBooks))
+  handleSelectedPage(page) {
+    this.props.fetchAllBooks(page, maxPageLimit)
 
   }
 
@@ -100,10 +79,10 @@ class BookList extends Component {
    */
   render () {
     const {  loading, allBooks } = this.props;
-    const { showPagination, displayedBooks } = this.state;
+    const { showPagination } = this.state;
     return (
       <div id="allbooks">
-        { displayedBooks.length ?
+        { allBooks.length ?
           <div  className="col s12">
             <div className="card-panel">
               <table className="bordered highlight responsive-table">
@@ -117,7 +96,7 @@ class BookList extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                { displayedBooks ? displayedBooks.map((book, index) =>
+                { allBooks ? allBooks.map((book, index) =>
                   <BookListRow key={book.id} book={book} index={index} />
                   ) : 
                   null
@@ -152,13 +131,14 @@ class BookList extends Component {
 const mapStateToProps = (state) => {
   return {
     allBooks: state.adminReducer.allBooks,
-    loading: state.adminReducer.loading
+    loading: state.adminReducer.loading,
+    bookCount: state.adminReducer.bookCount
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllBooks: () => dispatch(fetchAllBooks())
+    fetchAllBooks: (page) => dispatch(fetchAllBooks(page))
   };
 };
 

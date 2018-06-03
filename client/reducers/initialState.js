@@ -11,7 +11,9 @@ export default {
     loading: false,
     profile: {},
     error: '',
-    updated: false
+    updated: false,
+    favoriteCount: 0,
+    userBorrowedBookCount: 0
   },
   books: {
     books: [],
@@ -39,7 +41,10 @@ export default {
     allBooks: [],
     pendingBorrowedBookRequest: [],
     pendingReturnedBookRequest: [],
-    loading: false    
+    loading: false,
+    bookCount: 0,
+    borrowedBookCount: 0,
+    returnedBookCount: 0
   }
 }
 

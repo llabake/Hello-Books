@@ -18,16 +18,21 @@ import {
   PENDING_BORROW_REQUEST,
   PENDING_RETURN_REQUEST,
   ADD_BOOK_SUCCESS,
-  ADD_BOOK_ERROR
+  ADD_BOOK_ERROR,
+  SET_BOOK_COUNT,
+  SET_BORROWED_BOOK_COUNT,
+  SET_RETURNED_BOOK_COUNT
 } from '../actions/actionTypes';
 
 export default (state = initialState.admin, action) => {
   switch(action.type) {
-    case FETCH_BOOK:
+    case FETCH_BOOK: 
       return { ...state, loading: true };
     case FETCH_BOOK_SUCCESS:
       return {...state, allBooks: action.books, loading: false };
-
+    
+    case SET_BOOK_COUNT:
+      return { ...state, bookCount: action.bookCount }
     case FETCH_BOOK_ERROR:
       return { ...state, error: action.error, loading: false};
     case PENDING_BORROW_REQUEST:
@@ -37,6 +42,11 @@ export default (state = initialState.admin, action) => {
         ...state,
         loading: false,
         pendingBorrowedBookRequest: action.pendingBorrowList
+      }
+    case SET_BORROWED_BOOK_COUNT:
+      return { 
+        ...state, 
+        borrowedBookCount: action.bookCount
       }
 
     case PENDING_BORROW_REQUEST_ERROR:
@@ -49,8 +59,12 @@ export default (state = initialState.admin, action) => {
         ...state,
         loading: false,
         pendingReturnedBookRequest: action.pendingAcceptList
-      }
-  
+    }
+      case SET_RETURNED_BOOK_COUNT:
+      return { 
+        ...state, 
+        returnedBookCount: action.bookCount
+    }
     case PENDING_RETURN_REQUEST_ERROR:
       return { ...state, error: action.error, loading: false }
     

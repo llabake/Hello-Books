@@ -33,6 +33,7 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         JWT_SECRET: JSON.stringify(process.env.JWT_SECRET),
+        MAX_PAGE_LIMIT: JSON.stringify(process.env.MAX_PAGE_LIMIT)
       }
     }),
   ],
