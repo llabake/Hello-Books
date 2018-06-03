@@ -49,6 +49,7 @@ class FavoriteBookCard extends Component {
               swal(`"Poof! ${favoriteBook.book.title} has been unfavorited!"`, {
                 icon: "success",
               });
+              this.props.handleSelectedPage(this.props.page)
             })
             .catch(() => {
               swal("Argh! Your book escaped being unfavorited!", {
@@ -155,6 +156,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     removeFromFavorite: (bookId) => dispatch(removeFromFavorite(bookId)),
+    
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FavoriteBookCard);

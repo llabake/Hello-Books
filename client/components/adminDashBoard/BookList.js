@@ -78,11 +78,11 @@ class BookList extends Component {
    * @memberof BookList
    */
   render () {
-    const {  loading, allBooks } = this.props;
+    const {  loading, allBooks, bookCount } = this.props;
     const { showPagination } = this.state;
     return (
       <div id="allbooks">
-        { allBooks.length ?
+        { allBooks && allBooks.length ?
           <div  className="col s12">
             <div className="card-panel">
               <table className="bordered highlight responsive-table">
@@ -114,7 +114,7 @@ class BookList extends Component {
             </div>
 
           </div> :
-         !loading && !allBooks.length ?
+         !loading && !bookCount ?
           <div className="card-panel row center-align" >
             <p>
               Ooppss!!! You have not added any books to the library at the moment.

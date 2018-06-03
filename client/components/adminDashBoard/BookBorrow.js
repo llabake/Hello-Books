@@ -75,11 +75,12 @@ class BookBorrow extends Component {
    * @memberof BookBorrow
    */
   render () {
-    const { loading, borrowedBooks } = this.props;
+    const { loading, borrowedBooks, borrowedBookCount } = this.props;
     const { showPagination } = this.state;
+    // FIX: empty borrowed book length
     return (
       <div id="accept">
-        { borrowedBooks.length ? 
+        { borrowedBooks && borrowedBooks.length ? 
           <div className="col s12">
             <div className="card-panel">
               <table className="bordered centered highlight responsive-table">
@@ -113,7 +114,7 @@ class BookBorrow extends Component {
                 null }
             </div>
           </div> :
-          !loading && !borrowedBooks.length ? 
+          !loading && !borrowedBookCount ? 
           <div className="card-panel row center-align">
             <p>
               Ooppss!!! No pending borrowed books record found.

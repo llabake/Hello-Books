@@ -29,7 +29,7 @@ class AllBooks extends Component {
       redirect: false,
       maxItems: 2,
       showPagination: false,
-      activePage: 1,
+      // activePage: 1,
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.handleSelectedPage = this.handleSelectedPage.bind(this);
@@ -129,7 +129,7 @@ class AllBooks extends Component {
                   <div className="card">
                     <div className="card-content">
                       <p>
-                        Ooppss!!! There are books in library at the moment.
+                        Ooppss!!! There are no books in library at the moment.
                       </p>
                     </div>
                   </div>

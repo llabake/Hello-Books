@@ -76,11 +76,11 @@ class BookReturn extends Component {
    * @memberof BookReturn
    */
   render () {
-    const { loading,borrowedBooks } = this.props
+    const { loading,borrowedBooks, returnedBookCount } = this.props
     const { showPagination } = this.state;
     return (
       <div id="return">
-        { borrowedBooks.length  ? 
+        { borrowedBooks && borrowedBooks.length  ? 
           <div  className="col s12">
             <div className="card-panel">
               <table className="bordered centered highlight responsive-table">
@@ -113,7 +113,7 @@ class BookReturn extends Component {
                 null }
             </div>
           </div> :
-          !loading && !borrowedBooks.length ? 
+          !loading && !returnedBookCount ? 
           <div className="card-panel row center-align">
             <p>
               Ooppss!!! No return request pending.

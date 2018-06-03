@@ -27,7 +27,7 @@ import {
   EDIT_USER_PROFILE_SUCCESS,
   EDIT_USER_PROFILE_ERROR,
   SET_BORROWED_BOOK_COUNT,
-  SET_BOOK_COUNT
+  SET_FAVORITE_BOOK_COUNT
 } from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl, maxPageLimit } from '../helpers/utils';
@@ -236,10 +236,10 @@ const userFavoriteListSuccess = (favoriteBooks) => {
   }
 }
 
-const setBookCount = (bookCount) => {
+const setFavoriteBookCount = (favoriteCount) => {
   return {
-    type: SET_BOOK_COUNT,
-    bookCount
+    type: SET_FAVORITE_BOOK_COUNT,
+    favoriteCount
   }
 }
 const userFavoriteListError = (error) => {
@@ -254,7 +254,7 @@ export const fetchUserFavoriteBooks = (page=1, limit=maxPageLimit) => dispatch =
   return axios.get(`${hostUrl}/api/v1/users/favbooks?page=${page}&limit=${limit}`, axiosDefaultOptions())
     .then((response) => {
       dispatch(userFavoriteListSuccess(response.data.favorites))
-      dispatch(setBookCount(response.data.count))
+      dispatch(setFavoriteBookCount(response.data.count))
     })
     .catch((error) => {
       dispatch(userFavoriteListError(error))

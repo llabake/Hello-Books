@@ -54,16 +54,20 @@ class Favorite extends Component {
    */
   componentWillReceiveProps(newProps) {
     if (newProps === this.props) return;
-    const { favoriteCount } = newProps;
-    console.log(favoriteCount, 'favoriteCount')
-    console.log(maxPageLimit, 'maxPageLimit')
+    const { favoriteCount, favoriteBooks } = newProps;
     const maxItems = Math.ceil(favoriteCount / maxPageLimit);
-    console.log(maxItems, 'maxItems')
     if (maxItems > 1) {
       this.setState({
         maxItems: maxItems,
         showPagination: true
       })
+    } else {
+      this.setState({
+        showPagination: false
+      })
+    }
+    if(!favoriteBooks.length && this.state.activePage > 1 ) {
+      this.handleSelectedPage(this.state.activePage-1)
     }
   }
 
@@ -74,8 +78,11 @@ class Favorite extends Component {
    * @memberof Favorite
    */
   handleSelectedPage(page) {
-    console.log(page, 'page')
     this.props.fetchUserFavoriteBooks(page, maxPageLimit)
+    // work around for active page not changing
+    this.setState({
+      activePage: page
+    });
   }
 
   /**
@@ -85,8 +92,8 @@ class Favorite extends Component {
    * @memberof Favorite
    */
   render() {
-    const { loading, favoriteBooks } = this.props;
-    const { showPagination } = this.state;
+    const { loading, favoriteBooks, favoriteCount } = this.props;
+    const { showPagination, activePage } = this.state;
     return (
       <div>
         {loading ?
@@ -104,7 +111,11 @@ class Favorite extends Component {
             </div>
             <div className="row">
               {favoriteBooks.map((favoriteBook, index) => {
-                return <div key={index}><FavoriteBookCard favoriteBook={favoriteBook} /></div>
+                return <div key={index}><FavoriteBookCard 
+                favoriteBook={favoriteBook} 
+                page={activePage} 
+                handleSelectedPage={this.handleSelectedPage}/>
+                </div>
               })
               }
             </div>
@@ -112,13 +123,13 @@ class Favorite extends Component {
               <Pagination
                 className={'center-align'}
                 items={this.state.maxItems}
-                activePage={1} maxButtons={4}
+                activePage={activePage} maxButtons={4}
                 onSelect={this.handleSelectedPage}
               /> :
               null
             }
           </div> : null}
-        {!loading && !favoriteBooks.length ?
+        {!loading && !favoriteCount ?
           <div className="container">
             <div className="card">
               <div className="card-content">
