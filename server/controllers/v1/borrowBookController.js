@@ -125,7 +125,7 @@ export default class BorrowedBookController {
         });
       } else {
         borrowedBook = await borrowedBook.update({ returnStatus: 'pending' })
-        const reloadedupdatedborrowedBook = borrowedBook.reload();
+        const reloadedupdatedborrowedBook = await borrowedBook.reload();
         return res.status(200).json({
           message: 'Book return request is pending approval by Administrator',
           borrowedBook: reloadedupdatedborrowedBook

@@ -20,7 +20,6 @@ class UserBorrowedBookListRow extends Component {
    */
   constructor(props) {
     super(props);
-
     this.handleReturn = this.handleReturn.bind(this);
   }
 
@@ -46,7 +45,7 @@ class UserBorrowedBookListRow extends Component {
       <tr>
         <td>{index + 1}</td>
         <td>
-          <Link to={'/book/' + borrowedBook.id}>
+          <Link to={'/book/' + borrowedBook.book.id}>
             {borrowedBook.book.title}
           </Link>
         </td>
@@ -59,9 +58,10 @@ class UserBorrowedBookListRow extends Component {
           borrowedBook.expectedReturnDate}</td>
         <td>
           {borrowedBook.returnStatus == 'accepted' ? 'Returned' :
-            <a 
-            style={{cursor: 'pointer' }}
-            onClick={this.handleReturn}>
+            <a
+              className={`btn-flat 
+              ${borrowedBook.returnStatus === 'pending' ? 'disabled' : null}`}
+              onClick={this.handleReturn}>
               <i className="material-icons">
                 assignment_returned
             </i>
