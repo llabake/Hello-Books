@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { logout } from '../../actions/userAction'
 
 import SearchBar from './SearchBar';
 
@@ -22,22 +22,21 @@ const SideNav = ({ user, authenticated, handleLogout }) => {
    */
   const renderAuthUserSideNavigation = (normalUser) => {
     return (
-      <li class="no-padding">
-        <ul class="collapsible collapsible-accordion">
+      <li className="no-padding">
+        <ul className="collapsible collapsible-accordion">
           <li>
-            <a class="collapsible-header">{normalUser.username}
-              <i class="material-icons">account_circle</i>
-              <i class="material-icons right">arrow_drop_down</i>
+            <a className="collapsible-header">{normalUser.username}
+              <i className="material-icons">account_circle</i>
+              <i className="material-icons right">arrow_drop_down</i>
             </a>
-            <div class="collapsible-body">
+            <div className="collapsible-body">
               <ul>
                 <li><Link to="/allbooks">All Books</Link></li>
                 <li><Link to="/favorite">Favorite Books</Link></li>
                 <li><Link to="/profile">Profile</Link></li>
                 <li className="divider"></li>
                 <li>
-                  <NavLink to=""
-                    onClick={handleLogout}>
+                  <NavLink to="" onClick={handleLogout}>
                     <i className="material-icons ">lock</i>Log Out
                   </NavLink>
                 </li>
@@ -60,14 +59,14 @@ const SideNav = ({ user, authenticated, handleLogout }) => {
   const renderAdminSideNavigation = (adminUser) => {
     if (user.role === 'admin') {
       return (
-        <li class="no-padding">
-          <ul class="collapsible collapsible-accordion">
+        <li className="no-padding">
+          <ul className="collapsible collapsible-accordion">
             <li>
-              <a class="collapsible-header">{adminUser.username}
-                <i class="material-icons">account_circle</i>
-                <i class="material-icons right">arrow_drop_down</i>
+              <a className="collapsible-header">{adminUser.username}
+                <i className="material-icons">account_circle</i>
+                <i className="material-icons right">arrow_drop_down</i>
               </a>
-              <div class="collapsible-body">
+              <div className="collapsible-body">
                 <ul>
                   <li><Link to="/admindashboard">Admin Dashboard</Link></li>
                   <li><Link to="/favorite">Favorite Books</Link></li>
@@ -94,21 +93,21 @@ const SideNav = ({ user, authenticated, handleLogout }) => {
     : renderAuthUserSideNavigation(user)
 
   return (
-    <ul id="mobile-demo" class="side-nav">
+    <ul id="mobile-demo" className="side-nav">
       <li>
         <SearchBar />
       </li>
       {authenticated && user
         ? renderSideNav(user)
         :
-        <li class="no-padding">
-          <ul class="collapsible collapsible-accordion">
+        <li className="no-padding">
+          <ul className="collapsible collapsible-accordion">
             <li>
-              <a class="collapsible-header">Hi, User
-            <i class="material-icons">account_circle</i>
-                <i class="material-icons right">arrow_drop_down</i>
+              <a className="collapsible-header">Hi, User
+            <i className="material-icons">account_circle</i>
+                <i className="material-icons right">arrow_drop_down</i>
               </a>
-              <div class="collapsible-body">
+              <div className="collapsible-body">
                 <ul>
                   <li><Link to="/signup">Sign Up</Link></li>
                   <li><Link to="/signin">Sign In</Link></li>
@@ -120,6 +119,12 @@ const SideNav = ({ user, authenticated, handleLogout }) => {
       }
     </ul>
   )
+}
+
+SideNav.propTypes = {
+  user: PropTypes.Object.isRequired,
+  authenticated: PropTypes.bool.isRequired,
+  handleLogout: PropTypes.func.isRequired
 }
 
 export default SideNav;
