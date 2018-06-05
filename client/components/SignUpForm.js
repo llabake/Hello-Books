@@ -80,7 +80,7 @@ class SignUpForm extends Component {
    * @returns {void}
    */
   componentWillMount() {
-    if (this.props.user.authenticated) {
+    if (this.props.authenticated) {
       this.props.history.push('/profile');
     }
   }
@@ -93,7 +93,7 @@ class SignUpForm extends Component {
    * @returns {Object} User onbject
    */
   componentWillReceiveProps(nextProps) {
-    if(nextProps.user.authenticated) {
+    if(nextProps.authenticated) {
       setTimeout(() => {
         this.props.history.push('/allbooks')
       }, 2000)
@@ -251,7 +251,8 @@ class SignUpForm extends Component {
 const mapStateToProps = (state) => {
   return {
     errors: state.errors,
-    user: state.userReducer.autUser
+    user: state.userReducer.authUser,
+    authenticated: state.userReducer.authenticated    
   };
 };
 

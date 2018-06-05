@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { logout } from '../../actions/userAction'
 
 import SearchBar from './SearchBar';
+import SideNav from './SideNav';
 
 /**
  * 
@@ -42,6 +43,11 @@ class Header extends Component {
     $('.dropdown-button').dropdown({
       belowOrigin: true,
     });
+    $('.button-collapse').sideNav({
+      closeOnClick: true,
+      draggble: true
+    })
+    $('.collapsible').collapsible();
   }
 
   /**
@@ -78,7 +84,11 @@ class Header extends Component {
             <li><Link to="/addbook">Add Book</Link></li>
             <li><Link to="/allbooks">All Books</Link></li>
             <li className="divider"></li>
-            <li><Link to="" onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
+            <li>
+              <Link to="" onClick={this.handleLogout}>
+                <i className="material-icons ">lock</i>Log Out
+            </Link>
+            </li>
           </ul>
         </li>
       )
@@ -88,8 +98,8 @@ class Header extends Component {
 
   /**
    * 
-   * 
    * @returns {object} index navigation bar
+   * 
    * @memberof Header
    */
   renderIndexNavigation() {
@@ -111,9 +121,10 @@ class Header extends Component {
 
   /**
    * 
+   * @param {any} user
    * 
-   * @param {any} user 
    * @returns {object} authenticated user nav bar
+   * 
    * @memberof Header
    */
   renderAuthUserNavigation(user) {
@@ -131,7 +142,8 @@ class Header extends Component {
           <li className="divider"></li>
           <li>
             <NavLink to=""
-              onClick={this.handleLogout}>Log Out
+              onClick={this.handleLogout}>
+              <i className="material-icons ">lock</i>Log Out
           </NavLink>
           </li>
         </ul>
@@ -139,15 +151,22 @@ class Header extends Component {
     )
   }
 
-
+  /**
+   *
+   * @memberof Header
+   * 
+   * @param {any} user
+   * 
+   * @returns {Object} nav bar based on user's role
+   */
   renderNavigation = (user) => user.role === "admin"
-  ? this.renderAdminNavigation(user)
-  : this.renderAuthUserNavigation(user)
-  
+    ? this.renderAdminNavigation(user)
+    : this.renderAuthUserNavigation(user)
+
   /**
    * 
-   * 
    * @returns {void}
+   * 
    * @memberof Header
    */
   render() {
@@ -159,7 +178,7 @@ class Header extends Component {
             <div className="nav-wrapper">
               <NavLink
                 to="/"
-                className="brand-logo left adjust hide-on-small-only">HelloBooks
+                className="brand-logo left adjust">HelloBooks
               </NavLink>
               <a href="#" data-activates="mobile-demo" className="button-collapse">
                 <i className="material-icons">menu</i>
@@ -174,32 +193,14 @@ class Header extends Component {
                     this.renderIndexNavigation()
                 }
               </ul>
-              <ul className="side-nav" id="mobile-demo">
-                <li>
-                  <SearchBar />
-                </li>
-                {user.authenticated ?
-                  <li>
-                    <NavLink to=""
-                      onClick={this.handleLogout}>Log Out
-                    </NavLink>
-                  </li>
-                  :
-                  <span>
-                    <li>
-                      <NavLink to="/signin">Sign In
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink to="/signup">Sign Up
-                      </NavLink>
-                    </li>
-                  </span>
-                }
-              </ul>
             </div>
           </nav>
         </div>
+        <SideNav
+          user={user}
+          handleLogout={this.handleLogout}
+          authenticated={authenticated}
+        />
       </header>
     );
   }
