@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { logout } from '../../actions/userAction'
 
 import SearchBar from './SearchBar';
 
@@ -119,6 +119,12 @@ const SideNav = ({ user, authenticated, handleLogout }) => {
       }
     </ul>
   )
+}
+
+SideNav.propTypes = {
+  user: PropTypes.Object.isRequired,
+  authenticated: PropTypes.bool.isRequired,
+  handleLogout: PropTypes.func.isRequired
 }
 
 export default SideNav;
