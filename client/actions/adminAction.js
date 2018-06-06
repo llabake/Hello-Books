@@ -1,7 +1,7 @@
 import axios from 'axios';
 import bluebird, { Promise } from 'bluebird';
 import toastMessage from '..//helpers/toastMessage';
-import { hostUrl } from '../helpers/utils';
+import { hostUrl, maxPageLimit } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
 import {
   FETCH_BOOK,
@@ -25,6 +25,9 @@ import {
   ACCEPT_BOOK_RETURN,
   ACCEPT_BOOK_RETURN_SUCCESS,
   ACCEPT_BOOK_RETURN_ERROR,
+  SET_BOOK_COUNT,
+  SET_BORROWED_BOOK_COUNT,
+  SET_RETURNED_BOOK_COUNT
 } from './actionTypes';
 
 
@@ -41,6 +44,13 @@ const fetchBookSuccess = (books) => {
   }
 }
 
+const setBookCount = (bookCount) => {
+  return {
+    type: SET_BOOK_COUNT,
+    bookCount
+  }
+}
+
 const fetchBookError = (error) => {
   return {
     type: FETCH_BOOK_ERROR,
@@ -48,11 +58,12 @@ const fetchBookError = (error) => {
   }
 }
 
-export const fetchAllBooks = () => dispatch => {
+export const fetchAllBooks = (page=1, limit=maxPageLimit) => dispatch => {
   dispatch(fetchBook());
-  return axios.get(`${hostUrl}/api/v1/books/`, axiosDefaultOptions())
+  return axios.get(`${hostUrl}/api/v1/books?page=${page}&limit=${limit}`, axiosDefaultOptions())
     .then((response) => {
       dispatch(fetchBookSuccess(response.data.books))
+      dispatch(setBookCount(response.data.count))      
     })
     .catch((error) => {
       dispatch(fetchBookError(error.response.data))
@@ -72,6 +83,13 @@ const pendingAcceptBorrowSuccess = (pendingBorrowList) => {
   }
 }
 
+
+const setBorrowedBookCount = (bookCount) => {
+  return {
+    type: SET_BORROWED_BOOK_COUNT,
+    bookCount
+  }
+}
 const pendingAcceptBorrowError = (error) => {
   return {
     type: PENDING_BORROW_REQUEST_ERROR,
@@ -79,11 +97,12 @@ const pendingAcceptBorrowError = (error) => {
   }
 }
 
-export const pendingAcceptBorrowRequest = () => dispatch => {
+export const pendingAcceptBorrowRequest = (page=1, limit=maxPageLimit) => dispatch => {
   dispatch(pendingAcceptBorrow());
-  return axios.get(`${hostUrl}/api/v1/admin/books/borrowed-books/?borrowStatus=pending`, axiosDefaultOptions())
+  return axios.get(`${hostUrl}/api/v1/admin/books/borrowed-books/?borrowStatus=pending&page=${page}&limit=${limit}`, axiosDefaultOptions())
   .then((response) => {
     dispatch(pendingAcceptBorrowSuccess(response.data.borrowedBooks))
+    dispatch(setBorrowedBookCount(response.data.count))
     // toastMessage('Book fetch successful', 'success')
   })
   .catch((error) => {
@@ -105,6 +124,13 @@ const pendingAcceptReturnSuccess = (pendingAcceptList) => {
   }
 }
 
+
+const setReturnedBookCount = (bookCount) => {
+  return {
+    type: SET_RETURNED_BOOK_COUNT,
+    bookCount
+  }
+}
 const pendingAcceptReturnError = (error) => {
   return {
     type: PENDING_RETURN_REQUEST_ERROR,
@@ -112,11 +138,12 @@ const pendingAcceptReturnError = (error) => {
   }
 }
 
-export const pendingAcceptReturnRequest = () => dispatch => {
+export const pendingAcceptReturnRequest = (page=1, limit=maxPageLimit) => dispatch => {
   dispatch(pendingAcceptReturn());
-  return axios.get(`${hostUrl}/api/v1/admin/books/borrowed-books/?returnStatus=pending`, axiosDefaultOptions())
+  return axios.get(`${hostUrl}/api/v1/admin/books/borrowed-books/?returnStatus=pending&page=${page}&limit=${limit}`, axiosDefaultOptions())
   .then((response) => {
     dispatch(pendingAcceptReturnSuccess(response.data.borrowedBooks))
+    dispatch(setReturnedBookCount(response.data.count))    
     // toastMessage(response.data.message, 'success')
   })
   .catch((error) => {
@@ -146,11 +173,12 @@ const deleteBookError = (error) => {
   }
 }
 
-export const deleteBookAction = (bookId) => dispatch => {
+export const deleteBookAction = (bookId) => (dispatch, getState) => {
   dispatch(deleteBook());
     return axios.delete(`${hostUrl}/api/v1/books/${bookId}`,  axiosDefaultOptions())
     .then(() => {
       dispatch(deleteBookSuccess(bookId))
+      dispatch(setBookCount(getState().adminReducer.bookCount - 1));
     })
     .catch((error) => {
       dispatch(deleteBookError(error))
@@ -219,11 +247,12 @@ const acceptBookBorrowError = (error) => {
   }
 }
 
-export const acceptBookBorrowRequest = (bookId, userId) => dispatch => {
+export const acceptBookBorrowRequest = (bookId, userId) => (dispatch, getState) => {
   dispatch(acceptBookBorrow());
   return axios.put(`${hostUrl}/api/v1/admin/users/${userId}/borrow/${bookId}`, {},  axiosDefaultOptions())
   .then((response) => {
     dispatch(acceptBookBorrowSuccess(response.data.borrowedBook))
+    dispatch(setBorrowedBookCount(getState().adminReducer.borrowedBookCount - 1));
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {
@@ -252,11 +281,12 @@ const acceptBookReturnError = (error) => {
   }
 }
 
-export const acceptBookReturnRequest = (bookId, userId) => dispatch => {
+export const acceptBookReturnRequest = (bookId, userId) => (dispatch, getState) => {
   dispatch(acceptBookReturn());
   return axios.put(`${hostUrl}/api/v1/admin/users/${userId}/return/${bookId}`, {},  axiosDefaultOptions())
   .then((response) => {
     dispatch(acceptBookReturnSuccess(response.data.borrowedBook))
+    dispatch(setReturnedBookCount(getState().adminReducer.returnedBookCount - 1));
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {

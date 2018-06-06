@@ -25,10 +25,12 @@ import {
   FETCH_USER_PROFILE_ERROR,
   EDIT_USER_PROFILE,
   EDIT_USER_PROFILE_SUCCESS,
-  EDIT_USER_PROFILE_ERROR
+  EDIT_USER_PROFILE_ERROR,
+  SET_BORROWED_BOOK_COUNT,
+  SET_FAVORITE_BOOK_COUNT
 } from './actionTypes';
 import toastMessage from '../helpers/toastMessage';
-import { hostUrl } from '../helpers/utils';
+import { hostUrl, maxPageLimit } from '../helpers/utils';
 import axiosDefaultOptions from '../helpers/axiosDefaultOptions';
 import { uploadImageToCloudinary } from './bookAction';
 
@@ -161,6 +163,12 @@ const userBorrowListSuccess = (borrowedBookList) => {
   }
 }
 
+const setBorrowedBookCount = (bookCount) => {
+  return {
+    type: SET_BORROWED_BOOK_COUNT,
+    bookCount
+  }
+}
 const userBorrowListError = (error) => {
   return {
     type: USER_BORROW_LIST_ERROR,
@@ -168,11 +176,12 @@ const userBorrowListError = (error) => {
   }
 }
 
-export const fetchUserBorrowedBooks = () => dispatch => {
+export const fetchUserBorrowedBooks = (page=1, limit=maxPageLimit) => dispatch => {
   dispatch(userBorrowList());
-  return axios.get(`${hostUrl}/api/v1/users/borrowed-books`, axiosDefaultOptions())
+  return axios.get(`${hostUrl}/api/v1/users/borrowed-books?page=${page}&limit=${limit}`, axiosDefaultOptions())
     .then((response) => {
       dispatch(userBorrowListSuccess(response.data.borrowedBooks));
+      dispatch(setBorrowedBookCount(response.data.count))
       // toastMessage(response.data.message, 'success')
     })
     .catch((error) => {
@@ -227,6 +236,12 @@ const userFavoriteListSuccess = (favoriteBooks) => {
   }
 }
 
+const setFavoriteBookCount = (favoriteCount) => {
+  return {
+    type: SET_FAVORITE_BOOK_COUNT,
+    favoriteCount
+  }
+}
 const userFavoriteListError = (error) => {
   return {
     type: USER_FAVORITE_LIST_ERROR,
@@ -234,11 +249,12 @@ const userFavoriteListError = (error) => {
   }
 }
 
-export const fetchUserFavoriteBooks = () => dispatch => {
+export const fetchUserFavoriteBooks = (page=1, limit=maxPageLimit) => dispatch => {
   dispatch(userFavoriteList());
-  return axios.get(`${hostUrl}/api/v1/users/favbooks`, axiosDefaultOptions())
+  return axios.get(`${hostUrl}/api/v1/users/favbooks?page=${page}&limit=${limit}`, axiosDefaultOptions())
     .then((response) => {
       dispatch(userFavoriteListSuccess(response.data.favorites))
+      dispatch(setFavoriteBookCount(response.data.count))
     })
     .catch((error) => {
       dispatch(userFavoriteListError(error))

@@ -20,7 +20,9 @@ import {
   EDIT_USER_PROFILE_ERROR,
   RETURN_SUCCESS,
   RETURN_ERROR,
-  RETURN
+  RETURN,
+  SET_FAVORITE_BOOK_COUNT,
+  SET_BORROWED_BOOK_COUNT
 } from '../actions/actionTypes';
 
 export default (state = initialState.user, action) => {
@@ -56,6 +58,11 @@ export default (state = initialState.user, action) => {
         ...state,
         borrowedBookHistory: action.borrowedBookList
       }
+    case SET_BORROWED_BOOK_COUNT:
+      return { 
+        ...state, 
+        userBorrowedBookCount: action.bookCount
+      }
 
     case USER_BORROW_LIST_ERROR:
       return { ...state, error: action.error }
@@ -65,7 +72,12 @@ export default (state = initialState.user, action) => {
 
     case USER_FAVORITE_LIST_SUCCESS:
       return { ...state, favoriteBooks: action.favoriteBooks, loading: false }
-
+    
+    case SET_FAVORITE_BOOK_COUNT:
+      return { 
+        ...state, 
+        favoriteCount: action.favoriteCount
+      }
     case USER_FAVORITE_LIST_ERROR:
       return { ...state, error: action.error, loading: false }
 

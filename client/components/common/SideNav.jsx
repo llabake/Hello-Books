@@ -122,9 +122,15 @@ const SideNav = ({ user, authenticated, handleLogout }) => {
 }
 
 SideNav.propTypes = {
-  user: PropTypes.Object.isRequired,
-  authenticated: PropTypes.bool.isRequired,
-  handleLogout: PropTypes.func.isRequired
+  user: PropTypes.shape({
+    username: PropTypes.string,
+    email: PropTypes.string,
+    role: PropTypes.string,
+    id: PropTypes.number,
+    active: PropTypes.bool,
+  }).isRequired,
+  authenticated: PropTypes.bool,
+  handleLogout: PropTypes.func
 }
 
 export default SideNav;

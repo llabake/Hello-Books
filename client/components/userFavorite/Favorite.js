@@ -9,6 +9,7 @@ import Footer from '../../components/common/Footer';
 import FavoriteBookCard from '../userFavorite/FavoriteBookCard'
 import { fetchUserFavoriteBooks } from '../../actions/userAction';
 import ajaxLoader from '../../media/ajax-loader.gif';
+import { maxPageLimit } from '../../helpers/utils';
 
 
 /**
@@ -29,9 +30,7 @@ class Favorite extends Component {
     this.state = {
       maxItems: 2,
       showPagination: false,
-      displayedBooks: [],
       activePage: 1,
-      maxItemsPerPage: 2,
     }
 
     this.handleSelectedPage = this.handleSelectedPage.bind(this);
@@ -42,7 +41,7 @@ class Favorite extends Component {
    * 
    * @memberof Favorite
    */
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchUserFavoriteBooks()
   }
 
@@ -55,44 +54,34 @@ class Favorite extends Component {
    */
   componentWillReceiveProps(newProps) {
     if (newProps === this.props) return;
-    const { favoriteBooks } = newProps;
-    const noOfBooks = favoriteBooks.length;
-    const maxItems = Math.ceil(noOfBooks / this.state.maxItemsPerPage);
-    this.setDisplayedBooks(favoriteBooks);
+    const { favoriteCount, favoriteBooks } = newProps;
+    const maxItems = Math.ceil(favoriteCount / maxPageLimit);
     if (maxItems > 1) {
       this.setState({
         maxItems: maxItems,
         showPagination: true
       })
+    } else {
+      this.setState({
+        showPagination: false
+      })
     }
-  }
-
-  /**
-   * @returns {Array} an array of books to be displayed on each page
-   * 
-   * @param {any} favoriteBooks
-   * @memberof Favorite
-   */
-  setDisplayedBooks(favoriteBooks) {
-    const displayedBooks = favoriteBooks.slice((this.state.activePage - 1) *
-      this.state.maxItemsPerPage,
-      (this.state.activePage) * this.state.maxItemsPerPage);
-    this.setState({
-      displayedBooks
-    })
+    if(!favoriteBooks.length && this.state.activePage > 1 ) {
+      this.handleSelectedPage(this.state.activePage-1)
+    }
   }
 
   /**
    * @returns {void}
    * 
-   * @param {any} activePage 
+   * @param {any} page 
    * @memberof Favorite
    */
-  handleSelectedPage(activePage) {
+  handleSelectedPage(page) {
+    this.props.fetchUserFavoriteBooks(page, maxPageLimit)
     this.setState({
-      activePage
-    }, () => this.setDisplayedBooks(this.props.favoriteBooks))
-
+      activePage: page
+    });
   }
 
   /**
@@ -102,8 +91,8 @@ class Favorite extends Component {
    * @memberof Favorite
    */
   render() {
-    const { loading, favoriteBooks } = this.props;
-    const { showPagination, displayedBooks } = this.state;
+    const { loading, favoriteBooks, favoriteCount } = this.props;
+    const { showPagination, activePage } = this.state;
     return (
       <div>
         {loading ?
@@ -112,7 +101,7 @@ class Favorite extends Component {
           </div> :
           ''
         }
-        {!loading && displayedBooks.length ?
+        {!loading && favoriteBooks.length ?
           <div className="container">
             <div className="row">
               <div className="col s12">
@@ -120,8 +109,12 @@ class Favorite extends Component {
               </div>
             </div>
             <div className="row">
-              {displayedBooks.map((favoriteBook, index) => {
-                return <div key={index}><FavoriteBookCard favoriteBook={favoriteBook} /></div>
+              {favoriteBooks.map((favoriteBook, index) => {
+                return <div key={index}><FavoriteBookCard 
+                favoriteBook={favoriteBook} 
+                page={activePage} 
+                handleSelectedPage={this.handleSelectedPage}/>
+                </div>
               })
               }
             </div>
@@ -129,13 +122,13 @@ class Favorite extends Component {
               <Pagination
                 className={'center-align'}
                 items={this.state.maxItems}
-                activePage={1} maxButtons={4}
+                activePage={activePage} maxButtons={4}
                 onSelect={this.handleSelectedPage}
               /> :
               null
             }
           </div> : null}
-        {!loading && !favoriteBooks.length ?
+        {!loading && !favoriteCount ?
           <div className="container">
             <div className="card">
               <div className="card-content">
@@ -155,13 +148,14 @@ class Favorite extends Component {
 const mapStateToProps = state => {
   return {
     favoriteBooks: state.userReducer.favoriteBooks,
-    loading: state.userReducer.loading
+    loading: state.userReducer.loading,
+    favoriteCount: state.userReducer.favoriteCount    
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUserFavoriteBooks: () => dispatch(fetchUserFavoriteBooks())
+    fetchUserFavoriteBooks: (page) => dispatch(fetchUserFavoriteBooks(page))
   }
 }
 
