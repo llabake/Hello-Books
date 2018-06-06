@@ -5,6 +5,7 @@ import { Pagination } from 'react-materialize';
 import { pendingAcceptBorrowRequest } from '../../actions/adminAction';
 import BookBorrowListRow from '../adminDashBoard/BookBorrowListRow';
 import { maxPageLimit } from '../../helpers/utils';
+import NothingFound from '../common/NothingFound';
 /**
  * 
  * 
@@ -28,7 +29,7 @@ class BookBorrow extends Component {
 
     this.handleSelectedPage = this.handleSelectedPage.bind(this);
   }
-  
+
   /**
    * @returns {object} a list of books pending borro accept
    * 
@@ -115,7 +116,7 @@ class BookBorrow extends Component {
                         index={i}
                       />
                     ) :
-                    null
+                      null
                   }
                 </tbody>
               </table>
@@ -129,17 +130,20 @@ class BookBorrow extends Component {
                 null}
             </div>
           </div> :
-          !loading && !borrowedBookCount ? 
-          <div className="card-panel row center-align">
-            <p>
-              Ooppss!!! No pending borrowed books record found.
-            </p>
-          </div> : null
+          !loading && !borrowedBookCount ?
+            // <div className="card-panel row center-align">
+            //   <p>
+            //     Ooppss!!! No pending borrowed books record found.
+            //   </p>
+            // </div> 
+            <NothingFound
+              text={'Ooppss!!! No pending borrowed books record found.'} />
+            : null
         }
       </div>
 
     )
-  } 
+  }
 }
 
 const mapStateToProps = (state) => {

@@ -5,6 +5,7 @@ import { Pagination } from 'react-materialize';
 import { pendingAcceptReturnRequest } from '../../actions/adminAction';
 import BookReturnListRow from '../adminDashBoard/BookReturnListRow';
 import { maxPageLimit } from '../../helpers/utils';
+import NothingFound from '../common/NothingFound';
 
 /**
  * 
@@ -124,11 +125,14 @@ class BookReturn extends Component {
             </div>
           </div> :
           !loading && !returnedBookCount ?
-            <div className="card-panel row center-align">
-              <p>
-                Ooppss!!! No return request pending.
-            </p>
-            </div> : null
+            // <div className="card-panel row center-align">
+            //   <p>
+            //     Ooppss!!! No return request pending.
+            // </p>
+            // </div> 
+            <NothingFound
+              text={'Ooppss!!! No return request pending.'} />
+            : null
         }
       </div>
 

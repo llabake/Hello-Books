@@ -10,6 +10,7 @@ import FavoriteBookCard from '../userFavorite/FavoriteBookCard'
 import Loader from '../common/Loader';
 import { fetchUserFavoriteBooks } from '../../actions/userAction';
 import { maxPageLimit } from '../../helpers/utils';
+import NothingFound from '../common/NothingFound';
 
 
 /**
@@ -124,15 +125,18 @@ class Favorite extends Component {
             }
           </div> : null}
         {!loading && !favoriteCount ?
-          <div className="container">
-            <div className="card">
-              <div className="card-content">
-                <p>
-                  Favorite List is empty
-                </p>
-              </div>
-            </div>
-          </div> : null}
+          // <div className="container">
+          //   <div className="card">
+          //     <div className="card-content">
+          //       <p>
+          //         Favorite List is empty
+          //       </p>
+          //     </div>
+          //   </div>
+          // </div> 
+          <NothingFound
+            text={'Favorite List is empty'} />
+          : null}
       </div>
     )
   }
