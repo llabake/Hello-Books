@@ -6,6 +6,7 @@ import { Pagination } from 'react-materialize';
 import UserBorrowedBookListRow from '../userDashBoard/UserBorrowedBookListRow';
 import { fetchUserBorrowedBooks } from '../../actions/userAction';
 import { maxPageLimit } from '../../helpers/utils';
+import NothingFound from '../common/NothingFound';
 
 /**
  * 
@@ -114,12 +115,14 @@ class UserBorrowedBookList extends Component {
               null}
           </div> :
           !userBorrowedBookCount ?
-          <div className="card-panel row">
-            <p>
-              Start borrowing books today!!!
-            </p>
-          </div> 
-          : null
+            // <div className="card-panel row">
+            //   <p>
+            //     Start borrowing books today!!!
+            //   </p>
+            // </div> 
+            <NothingFound
+              text={'Start borrowing books today!!!'} />
+            : null
         }
       </div>
     )

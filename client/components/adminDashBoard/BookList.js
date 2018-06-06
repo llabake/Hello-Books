@@ -5,6 +5,7 @@ import { Pagination } from 'react-materialize';
 import BookListRow from '../adminDashBoard/BookListRow';
 import { fetchAllBooks } from '../../actions/bookAction';
 import { maxPageLimit } from '../../helpers/utils';
+import NothingFound from '../common/NothingFound';
 
 /**
  * 
@@ -49,7 +50,7 @@ class BookList extends Component {
    */
   componentWillReceiveProps(newProps) {
     //TODO: check the number iin the redux store has reduced and
-    if(newProps === this.props) return;
+    if (newProps === this.props) return;
     const { bookCount, allBooks } = newProps;
     const maxItems = Math.ceil(bookCount / maxPageLimit);
     if (maxItems > 1) {
@@ -87,13 +88,13 @@ class BookList extends Component {
    * @returns {object} admin component
    * @memberof BookList
    */
-  render () {
-    const {  loading, allBooks, bookCount } = this.props;
+  render() {
+    const { loading, allBooks, bookCount } = this.props;
     const { showPagination, activePage } = this.state;
     return (
       <div id="allbooks">
-        { allBooks && allBooks.length ?
-          <div  className="col s12">
+        {allBooks && allBooks.length ?
+          <div className="col s12">
             <div className="card-panel">
               <table className="bordered highlight responsive-table">
                 <thead>
@@ -106,36 +107,35 @@ class BookList extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                { allBooks ? allBooks.map((book, index) =>
-                  <BookListRow key={book.id} book={book} index={index} />
-                  ) : 
-                  null
-                }
+                  {allBooks ? allBooks.map((book, index) =>
+                    <BookListRow key={book.id} book={book} index={index} />
+                  ) :
+                    null
+                  }
                 </tbody>
               </table>
-              { showPagination ?
+              {showPagination ?
                 <Pagination
                   className={'center-align'}
                   items={this.state.maxItems}
                   activePage={activePage} maxButtons={4}
                   onSelect={this.handleSelectedPage}
                 /> :
-                null }
+                null}
             </div>
 
           </div> :
-         !loading && !bookCount ?
-          <div className="card-panel row center-align" >
-            <p>
-              Ooppss!!! You have not added any books to the library at the moment.
-            </p>
-          </div> : null
+          !loading && !bookCount ?
+            <NothingFound
+              text={'Ooppss!!! You have not added any books to the library at the moment.'}
+            />
+            : null
         }
-        
+
       </div>
-      
+
     )
-  } 
+  }
 }
 
 const mapStateToProps = (state) => {

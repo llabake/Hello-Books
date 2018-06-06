@@ -9,6 +9,7 @@ import Loader from '../common/Loader';
 import { fetchAllBooks } from '../../actions/bookAction';
 import { logout } from '../../actions/userAction';
 import { maxPageLimit } from '../../helpers/utils'
+import NothingFound from '../common/NothingFound';
 
 /**
  * 
@@ -120,15 +121,10 @@ class AllBooks extends Component {
                   }
                 </div> :
                 !loading && !books.length ?
-                  <div className="container">
-                    <div className="card">
-                      <div className="card-content">
-                        <p>
-                          Ooppss!!! There are no books in library at the moment.
-                      </p>
-                      </div>
-                    </div>
-                  </div> : null
+                  <NothingFound
+                    text={'Ooppss!!! There are no books in library at the moment.'}
+                  />
+                  : null
               }
             </div>
           </div>
