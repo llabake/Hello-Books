@@ -40,44 +40,46 @@ export default class InputValidator {
     const errors = {};
     fields.forEach((field) => {
       errors[field] = []
-      if (data[field] === undefined || data[field] === '') {
+      if (!isDefined(data[field]) || !isNotEmpty(data[field])) {
         if (field === 'confirmPassword') {
           errors[field].push('Please confirm your password')
         } else {
           errors[field].push(`${field} is required`);
         }
-      } else if (field !== 'confirmPassword' && data[field].trim() === '') {
-        errors[field].push(`${field} can not be blank`)
+      } else {
+        const { username, email, password, confirmPassword } = trimObject(data)
+
+        if (field === 'username') {
+          if (username.length >= 5) {
+            if (!isAlphanumeric(username)) {
+              errors[field].push('Username can only contain alphabets and numbers');
+            }
+          } else {
+            errors[field].push('Username too short Must be at least 5 characters');
+          }
+        }
+
+        if (field === 'email' && !isEmail(email)) {
+          errors[field].push('Please enter a valid email');
+        }
+
+        if (field === 'password') {
+          if (password.length >= 8) {
+            if (!isStrong(password)) {
+              errors[field].push(`Password should contain atleast 1 uppercase,
+              1 lowercase letter, 1 number and a special character`);
+            }
+          } else {
+            errors[field].push('Password should contain atleast 8 characters');
+          }
+        }
+
+        if (field === 'confirmPassword' && password !== confirmPassword) {
+          errors[field].push('Ensure passwords match');
+        }
       }
     });
-    const { username, email, password, userExist } = trimObject(data)
 
-    if (username && username.length < 5) {
-      errors.username.push('Username too short Must be at least 5 characters');
-    }
-    if (username && !isAlphanumeric(username)) {
-      errors.username.push('Username can only contain alphabets and numbers');
-    }
-    if (email && !isEmail(email)) {
-      errors.email.push('Please enter a valid email');
-    }
-    if (password && password.length < 8) {
-      errors.password.push('Password should contain atleast 8 characters');
-    }
-    if (password && !isStrong(password)) {
-      errors.password.push(`Password should contain atleast 1 uppercase,
-        1 lowercase letter, 1 number and a special character`);
-    }
-    if (password && data.confirmPassword
-      && password !== data.confirmPassword) {
-      errors.confirmPassword.push('Ensure passwords match');
-    }
-    if (userExist.username) {
-      errors.username.push(userExist.username)
-    }
-    if (userExist.email) {
-      errors.email.push(userExist.email)
-    }
     let isValid = true;
     Object.keys(errors)
       .map(key => errors[key]).forEach((error) => {
@@ -142,25 +144,44 @@ export default class InputValidator {
       errors[field] = []
       if (!isDefined(data[field]) || !isNotEmpty(data[field])) {
         errors[field].push(`${field} is required`);
+      } else {
+        let { publishedYear, isbn, quantity } = data;
+        if(field === 'publishedYear') {
+          publishedYear = publishedYear.toString().trim()
+          if(publishedYear.length && isNumeric(publishedYear)) {
+            if(isYear(publishedYear)) {
+              const presentYear = new Date().getFullYear();
+              if (publishedYear > presentYear) {
+                errors.publishedYear
+                  .push('PublishedYear can not be a future year');
+              }
+            } else {
+              errors.publishedYear.
+            push('PublishedYear is not a valid year, expect date in range 1000-9999');
+            }
+          } else {
+            errors.publishedYear.push('PublishedYear can only be a number');
+          }
+        }
+
+        if(field === 'isbn') {
+          isbn = isbn.toString().trim()
+          if (isbn.length && isNumeric(isbn)) {
+            if (isbn.toString().length !== 13) {
+              errors.isbn.push('Provide a valid 13-digit ISBN');
+            }
+          } else {
+            errors.isbn.push('ISBN can only be a number');
+          }
+        }
+
+        if(field === 'quantity') {
+          if (!isNumeric(quantity) || quantity <= 0) {
+            errors.quantity.push('Quantity must be a number and greater than zero');
+          }
+        }
       }
     });
-    if (data.publishedYear && !isNumeric(data.publishedYear)) {
-      errors.publishedYear.push('PublishedYear can only be a number')
-    }
-    if (data.publishedYear && !isYear(data.publishedYear)) {
-      errors.publishedYear.
-        push('PublishedYear is not a valid year, expect date in range 1000-9999')
-    }
-    if (data.isbn && !isNumeric(data.isbn)) {
-      errors.isbn.push('isbn can only be a number');
-    }
-
-    if (data.quantity && !isNumeric(data.quantity) || data.quantity <= 0) {
-      errors.quantity.push('Quantity must be a number and greater than zero');
-    }
-    if (data.isbnExist) {
-      errors.isbn.push(data.isbnExist)
-    }
 
     let isValid = true;
     Object.keys(errors)

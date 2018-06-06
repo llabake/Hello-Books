@@ -103,7 +103,7 @@ class AddBook extends Component {
    */
   handleBlur(event) {
     const field = event.target.name;
-    const userInput = event.target.value;
+    const userInput = event.target.value.trim();
     if(userInput !== '') {
       this.props.checkIsbnExist(field, userInput)
       .then(() => {

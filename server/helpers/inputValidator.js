@@ -190,7 +190,7 @@ export default class InputValidator {
 
       publishedYear = publishedYear.toString();
       if(publishedYear.length) {
-        if(isNumeric(isbn)) {
+        if(isNumeric(publishedYear)) {
           const presentYear = new Date().getFullYear();
           if(publishedYear > presentYear) {
             errors.publishedYear = 'PublishedYear can not be a future year'

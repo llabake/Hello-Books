@@ -106,8 +106,6 @@ export const authenticateUser = () => {
   return { isAuthenticated: false, user: {} };
 };
 
-// export const isDefined = input => input !== undefined;
-
 export const isDefined = input => input !== undefined && input !== null;
 
 export const isNotEmpty = input => {
