@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Pagination } from 'react-materialize';
 
 import BookCard from '../common/BookCard';
-import Loading from '../common/Loading';
+import Loader from '../common/Loader';
 import { fetchAllBooks } from '../../actions/bookAction';
 import { logout } from '../../actions/userAction';
 import { maxPageLimit } from '../../helpers/utils'
@@ -99,7 +99,7 @@ class AllBooks extends Component {
     return (
       <div>
         <div className="container">
-          {loading ? <Loading /> : ''}
+          {loading ? <Loader /> : ''}
           <div>
             <div className="row ">
               {books.length ?

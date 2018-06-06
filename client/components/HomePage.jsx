@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Slider from '../components/common/Slider';
 import Carousel from '../components/common/Carousel';
 import BookCard from '../components/common/BookCard';
-import Loading from '../components/common/Loading';
+import Loader from '../components/common/Loader';
 import { fetchPopularBooks } from '../actions/bookAction';
 
 import leanstart from '../media/lean start.jpg';
@@ -75,7 +75,7 @@ class HomePage extends Component {
           </h4>
         </div>
         <div className="divider" />
-        {loadingPopularBooks ? <Loading /> : ''}
+        {loadingPopularBooks ? <Loader/> : ''}
         <div className="section">
           <div className="container">
             <div className="row">

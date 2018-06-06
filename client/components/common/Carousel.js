@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-
 import { bookDefaultImage } from '../../helpers/utils';
 import { fetchTopFavoriteBooks } from '../../actions/bookAction'
-import ajaxLoader from '../../media/ajax-loader.gif';
+import Loader from '../common/Loader';
+
 /**
  * 
  * 
@@ -76,9 +76,7 @@ class Carousel extends Component {
     return (
       <div>
         {
-          loadingTopFavoritedBooks ? <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em' }}>
-            <img src={ajaxLoader} alt="Loading..." />
-          </div> : ''
+          loadingTopFavoritedBooks ? <Loader /> : ''
         }
         {!loadingTopFavoritedBooks ? topFavoriteBooks.length ?
           <div className="carousel" style={{ marginTop: '-5em' }}> {

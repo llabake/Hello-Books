@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import Carousel from '../common/Carousel';
 import BookCard from '../common/BookCard';
-import Loading from '../common/Loading';
+import Loader from '../common/Loader';
 import AllBookReviews from '../main/AllBookReviews'
 import ReviewArea from '../main/ReviewArea';
 import {
@@ -226,7 +226,7 @@ class SingleBook extends Component {
     return (
       <div>
         <div className="container">
-          {loading ? <Loading /> : ''}
+          {loading ? <Loader /> : ''}
           <div className="divider"></div>
           <div className="book-detail center-align">
             <h1 id="title">{book.title}</h1>

@@ -7,7 +7,7 @@ import { Pagination } from "react-materialize";
 import FavoritePageHeader from '../userFavorite/FavoritePageHeader';
 import Footer from '../../components/common/Footer';
 import FavoriteBookCard from '../userFavorite/FavoriteBookCard'
-import Loading from '../common/Loading';
+import Loader from '../common/Loader';
 import { fetchUserFavoriteBooks } from '../../actions/userAction';
 import { maxPageLimit } from '../../helpers/utils';
 
@@ -95,7 +95,7 @@ class Favorite extends Component {
     const { showPagination, activePage } = this.state;
     return (
       <div>
-        {loading ? <Loading /> : ''}
+        {loading ? <Loader /> : ''}
         {!loading && favoriteBooks.length ?
           <div className="container">
             <div className="row">
