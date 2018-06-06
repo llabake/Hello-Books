@@ -4,7 +4,8 @@ import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 import Carousel from '../common/Carousel';
-import BookCard from '../common/BookCard'
+import BookCard from '../common/BookCard';
+import Loader from '../common/Loader';
 import AllBookReviews from '../main/AllBookReviews'
 import ReviewArea from '../main/ReviewArea';
 import {
@@ -14,7 +15,6 @@ import {
 } from '../../actions/bookAction';
 import { bookDefaultImage, checkFavorited, checkReviewed, checkUpVote, checkDownVote } from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
-import ajaxLoader from '../../media/ajax-loader.gif'
 import NotFound from '../NotFound'
 
 
@@ -226,13 +226,7 @@ class SingleBook extends Component {
     return (
       <div>
         <div className="container">
-          {loading ?
-            <div className="center-align"
-              style={{ marginTop: '1em', marginBottom: '1em' }}>
-              <img src={'/' + ajaxLoader} alt="Loading..." />
-            </div> :
-            ''
-          }
+          {loading ? <Loader /> : ''}
           <div className="divider"></div>
           <div className="book-detail center-align">
             <h1 id="title">{book.title}</h1>

@@ -4,10 +4,10 @@ import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { Pagination } from 'react-materialize';
 
-import BookCard from '../common/BookCard'
+import BookCard from '../common/BookCard';
+import Loader from '../common/Loader';
 import { fetchAllBooks } from '../../actions/bookAction';
 import { logout } from '../../actions/userAction';
-import ajaxLoader from '../../media/ajax-loader.gif';
 import { maxPageLimit } from '../../helpers/utils'
 
 /**
@@ -33,7 +33,7 @@ class AllBooks extends Component {
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.handleSelectedPage = this.handleSelectedPage.bind(this);
-    
+
   }
 
   /**
@@ -44,7 +44,7 @@ class AllBooks extends Component {
    */
   componentDidMount() {
     this.props.fetchAllBooks();
-    
+
   }
   /**
    * @returns {object} redirects to home page
@@ -56,13 +56,13 @@ class AllBooks extends Component {
   }
 
 
-    /**
-   * 
-   * 
-   * @param {any} newProps 
-   * @returns {Array} response containing all books
-   * @memberof AllBooks
-   */
+  /**
+ * 
+ * 
+ * @param {any} newProps 
+ * @returns {Array} response containing all books
+ * @memberof AllBooks
+ */
   componentWillReceiveProps(newProps) {
     if (newProps === this.props) return;
     const { bookCount } = newProps
@@ -99,12 +99,7 @@ class AllBooks extends Component {
     return (
       <div>
         <div className="container">
-          { loading ? 
-            <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em'}}>
-              <img src={ajaxLoader} alt="Loading..."/>
-            </div> : 
-            ''
-          }
+          {loading ? <Loader /> : ''}
           <div>
             <div className="row ">
               {books.length ?
@@ -121,19 +116,19 @@ class AllBooks extends Component {
                       activePage={1} maxButtons={4}
                       onSelect={this.handleSelectedPage}
                     /> :
-                    null 
+                    null
                   }
-                </div> : 
+                </div> :
                 !loading && !books.length ?
-                <div className="container">
-                  <div className="card">
-                    <div className="card-content">
-                      <p>
-                        Ooppss!!! There are no books in library at the moment.
+                  <div className="container">
+                    <div className="card">
+                      <div className="card-content">
+                        <p>
+                          Ooppss!!! There are no books in library at the moment.
                       </p>
+                      </div>
                     </div>
-                  </div>
-                </div> : null 
+                  </div> : null
               }
             </div>
           </div>
