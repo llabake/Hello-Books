@@ -173,11 +173,12 @@ const deleteBookError = (error) => {
   }
 }
 
-export const deleteBookAction = (bookId) => dispatch => {
+export const deleteBookAction = (bookId) => (dispatch, getState) => {
   dispatch(deleteBook());
     return axios.delete(`${hostUrl}/api/v1/books/${bookId}`,  axiosDefaultOptions())
     .then(() => {
       dispatch(deleteBookSuccess(bookId))
+      dispatch(setBookCount(getState().adminReducer.bookCount - 1));
     })
     .catch((error) => {
       dispatch(deleteBookError(error))
@@ -246,11 +247,12 @@ const acceptBookBorrowError = (error) => {
   }
 }
 
-export const acceptBookBorrowRequest = (bookId, userId) => dispatch => {
+export const acceptBookBorrowRequest = (bookId, userId) => (dispatch, getState) => {
   dispatch(acceptBookBorrow());
   return axios.put(`${hostUrl}/api/v1/admin/users/${userId}/borrow/${bookId}`, {},  axiosDefaultOptions())
   .then((response) => {
     dispatch(acceptBookBorrowSuccess(response.data.borrowedBook))
+    dispatch(setBorrowedBookCount(getState().adminReducer.borrowedBookCount - 1));
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {
@@ -279,11 +281,12 @@ const acceptBookReturnError = (error) => {
   }
 }
 
-export const acceptBookReturnRequest = (bookId, userId) => dispatch => {
+export const acceptBookReturnRequest = (bookId, userId) => (dispatch, getState) => {
   dispatch(acceptBookReturn());
   return axios.put(`${hostUrl}/api/v1/admin/users/${userId}/return/${bookId}`, {},  axiosDefaultOptions())
   .then((response) => {
     dispatch(acceptBookReturnSuccess(response.data.borrowedBook))
+    dispatch(setReturnedBookCount(getState().adminReducer.returnedBookCount - 1));
     toastMessage(response.data.message, 'success')
   })
   .catch((error) => {

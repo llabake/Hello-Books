@@ -46,14 +46,22 @@ class BookBorrow extends Component {
    * @memberof BookBorrow
    */
   componentWillReceiveProps(newProps) {
-    if(newProps === this.props) return;
-    const { borrowedBookCount } = newProps
-    const maxItems = Math.ceil(borrowedBookCount/ maxPageLimit);
-    if(maxItems > 1) {
+    if (newProps === this.props) return;
+    const { borrowedBookCount, borrowedBooks } = newProps
+    const maxItems = Math.ceil(borrowedBookCount / maxPageLimit);
+    if (maxItems > 1) {
       this.setState({
         maxItems: maxItems,
         showPagination: true
       })
+    } else {
+      this.setState({
+        showPagination: false
+      })
+    }
+
+    if (borrowedBookCount && !borrowedBooks.length && this.state.activePage > 1) {
+      this.handleSelectedPage(this.state.activePage - 1)
     }
   }
 
@@ -65,6 +73,9 @@ class BookBorrow extends Component {
    */
   handleSelectedPage(page) {
     this.props.pendingAcceptBorrowRequest(page, maxPageLimit);
+    this.setState({
+      activePage: page
+    });
   }
 
 
@@ -74,13 +85,13 @@ class BookBorrow extends Component {
    * @returns {Object} All borrowed books
    * @memberof BookBorrow
    */
-  render () {
+  render() {
     const { loading, borrowedBooks, borrowedBookCount } = this.props;
-    const { showPagination } = this.state;
+    const { showPagination, activePage } = this.state;
     // FIX: empty borrowed book length
     return (
       <div id="accept">
-        { borrowedBooks && borrowedBooks.length ? 
+        {borrowedBooks && borrowedBooks.length ?
           <div className="col s12">
             <div className="card-panel">
               <table className="bordered centered highlight responsive-table">
@@ -97,21 +108,25 @@ class BookBorrow extends Component {
                 </thead>
                 <tbody>
                   {
-                    borrowedBooks ? borrowedBooks .map((borrowedBook, i) => 
-                      <BookBorrowListRow key={borrowedBook.id} borrowedBook={borrowedBook} index={i} />
+                    borrowedBooks ? borrowedBooks.map((borrowedBook, i) =>
+                      <BookBorrowListRow
+                        key={borrowedBook.id}
+                        borrowedBook={borrowedBook}
+                        index={i}
+                      />
                     ) :
                     null
                   }
                 </tbody>
               </table>
-              { showPagination ?
+              {showPagination ?
                 <Pagination
                   className={'center-align'}
                   items={this.state.maxItems}
-                  activePage={1} maxButtons={4}
+                  activePage={activePage} maxButtons={4}
                   onSelect={this.handleSelectedPage}
                 /> :
-                null }
+                null}
             </div>
           </div> :
           !loading && !borrowedBookCount ? 
@@ -129,7 +144,7 @@ class BookBorrow extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    borrowedBooks : state.adminReducer.pendingBorrowedBookRequest,
+    borrowedBooks: state.adminReducer.pendingBorrowedBookRequest,
     loading: state.adminReducer.loading,
     borrowedBookCount: state.adminReducer.borrowedBookCount
   };

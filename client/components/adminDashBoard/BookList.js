@@ -50,13 +50,21 @@ class BookList extends Component {
   componentWillReceiveProps(newProps) {
     //TODO: check the number iin the redux store has reduced and
     if(newProps === this.props) return;
-    const { bookCount } = newProps;
+    const { bookCount, allBooks } = newProps;
     const maxItems = Math.ceil(bookCount / maxPageLimit);
     if (maxItems > 1) {
       this.setState({
         maxItems: maxItems,
         showPagination: true
       })
+    } else {
+      this.setState({
+        showPagination: false
+      })
+    }
+
+    if (bookCount && !allBooks.length && this.state.activePage > 1) {
+      this.handleSelectedPage(this.state.activePage - 1)
     }
   }
 
@@ -68,7 +76,9 @@ class BookList extends Component {
    */
   handleSelectedPage(page) {
     this.props.fetchAllBooks(page, maxPageLimit)
-
+    this.setState({
+      activePage: page
+    });
   }
 
   /**
@@ -79,7 +89,7 @@ class BookList extends Component {
    */
   render () {
     const {  loading, allBooks, bookCount } = this.props;
-    const { showPagination } = this.state;
+    const { showPagination, activePage } = this.state;
     return (
       <div id="allbooks">
         { allBooks && allBooks.length ?
@@ -107,7 +117,7 @@ class BookList extends Component {
                 <Pagination
                   className={'center-align'}
                   items={this.state.maxItems}
-                  activePage={1} maxButtons={4}
+                  activePage={activePage} maxButtons={4}
                   onSelect={this.handleSelectedPage}
                 /> :
                 null }

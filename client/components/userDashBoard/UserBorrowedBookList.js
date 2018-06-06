@@ -74,11 +74,11 @@ class UserBorrowedBookList extends Component {
    * @memberof UserBorrowedBookList
    */
   render() {
-    const { borrowedBooks } = this.props;
+    const { borrowedBooks, userBorrowedBookCount } = this.props;
     const { showPagination } = this.state;
     return (
       <div>
-        {borrowedBooks.length ?
+        {borrowedBooks && borrowedBooks.length ?
           <div className="card-panel">
             <table className="bordered centered highlight responsive-table">
               <thead>
@@ -113,11 +113,13 @@ class UserBorrowedBookList extends Component {
               /> :
               null}
           </div> :
+          !userBorrowedBookCount ?
           <div className="card-panel row">
             <p>
               Start borrowing books today!!!
             </p>
-          </div>
+          </div> 
+          : null
         }
       </div>
     )

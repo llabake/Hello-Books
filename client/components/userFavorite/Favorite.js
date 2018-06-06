@@ -79,7 +79,6 @@ class Favorite extends Component {
    */
   handleSelectedPage(page) {
     this.props.fetchUserFavoriteBooks(page, maxPageLimit)
-    // work around for active page not changing
     this.setState({
       activePage: page
     });

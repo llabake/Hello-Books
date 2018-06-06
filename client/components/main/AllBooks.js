@@ -64,7 +64,7 @@ class AllBooks extends Component {
    * @memberof AllBooks
    */
   componentWillReceiveProps(newProps) {
-    if(newProps === this.props) return;
+    if (newProps === this.props) return;
     const { bookCount } = newProps
     const maxItems = Math.ceil(bookCount / maxPageLimit);
     if (maxItems > 1) {
@@ -93,7 +93,7 @@ class AllBooks extends Component {
    * @returns {Object} object containing user detail
    * @memberof AllBooks
    */
-  render () { 
+  render() {
     const { books, loading } = this.props;
     const { showPagination, } = this.state;
     return (
@@ -107,14 +107,14 @@ class AllBooks extends Component {
           }
           <div>
             <div className="row ">
-              { books.length ? 
+              {books.length ?
                 <div className="section">
                   <div className="row">
-                  { books ? books.map((book, index) => {
-                    return <div key={index}><BookCard book={book}/></div>
-                  }) : null }              
+                    {books ? books.map((book, index) => {
+                      return <div key={index}><BookCard book={book} /></div>
+                    }) : null}
                   </div>
-                  { showPagination ? 
+                  {showPagination ?
                     <Pagination
                       className={'center-align'}
                       items={this.state.maxItems}
