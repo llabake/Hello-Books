@@ -6,10 +6,10 @@ import { connect } from 'react-redux'
 import Slider from '../components/common/Slider';
 import Carousel from '../components/common/Carousel';
 import BookCard from '../components/common/BookCard';
+import Loading from '../components/common/Loading';
 import { fetchPopularBooks } from '../actions/bookAction';
 
 import leanstart from '../media/lean start.jpg';
-import ajaxLoader from '../media/ajax-loader.gif';
 
 
 /**
@@ -75,10 +75,7 @@ class HomePage extends Component {
           </h4>
         </div>
         <div className="divider" />
-        {loadingPopularBooks ? 
-          <div className="center-align" style={{ marginTop: '1em', marginBottom: '1em' }}>
-            <img src={ajaxLoader} alt="Loading..." />
-          </div> : ''}
+        {loadingPopularBooks ? <Loading /> : ''}
         <div className="section">
           <div className="container">
             <div className="row">
