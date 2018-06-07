@@ -25,9 +25,6 @@ export  const isYear = (str) => {
   return re.test(str);
 };
 
-// export const hostUrl = 'https://myhellobooks.herokuapp.com' 
-
-
 export const hostUrl = process.env.NODE_ENV === 'production' ?
   'https://myhellobooks.herokuapp.com' :
   'http://localhost:5000';
@@ -108,3 +105,18 @@ export const authenticateUser = () => {
   }
   return { isAuthenticated: false, user: {} };
 };
+
+export const isDefined = input => input !== undefined && input !== null;
+
+export const isNotEmpty = input => {
+  const result = input ? input.trim() !== '' : false;
+  return result;
+};
+
+export const trimObject = (obj) => {
+  const trimmedObject = {}
+  Object.keys(obj).forEach((key) => {
+    trimmedObject[key] = typeof obj[key] === 'string' ? obj[key].trim() : obj[key]
+  })
+  return trimmedObject;
+}

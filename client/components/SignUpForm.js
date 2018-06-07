@@ -113,7 +113,7 @@ class SignUpForm extends Component {
    */
   handleBlur(event) {
     const field = event.target.name;
-    const userInput = event.target.value;
+    const userInput = event.target.value.trim();
     if(userInput !== '') {
       this.props.checkUserExist(field, userInput)
       .then(() => {
@@ -250,9 +250,9 @@ class SignUpForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    errors: state.errors,
+    error: state.userReducer.error,
     user: state.userReducer.authUser,
-    authenticated: state.userReducer.authenticated    
+    authenticated: state.userReducer.authenticated
   };
 };
 
