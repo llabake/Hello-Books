@@ -125,17 +125,10 @@ class Favorite extends Component {
             }
           </div> : null}
         {!loading && !favoriteCount ?
-          // <div className="container">
-          //   <div className="card">
-          //     <div className="card-content">
-          //       <p>
-          //         Favorite List is empty
-          //       </p>
-          //     </div>
-          //   </div>
-          // </div> 
-          <NothingFound
-            text={'Favorite List is empty'} />
+          <div className="container">
+            <NothingFound
+              text={'Favorite List is empty'} />
+          </div>
           : null}
       </div>
     )

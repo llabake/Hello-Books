@@ -13,12 +13,13 @@ import {
   downVoteBook, showReviewTextArea, showAllReviews,
   borrowBook
 } from '../../actions/bookAction';
-import { 
-  bookDefaultImage, 
-  checkFavorited, 
-  checkReviewed, 
-  checkUpVote, 
-  checkDownVote } from '../../helpers/utils';
+import {
+  bookDefaultImage,
+  checkFavorited,
+  checkReviewed,
+  checkUpVote,
+  checkDownVote
+} from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
 import NotFound from '../NotFound'
 
@@ -147,7 +148,13 @@ class SingleBook extends Component {
       })
   }
 
-
+  /**
+   *
+   *
+   * @memberof SingleBook
+   * 
+   * @returns {JSX} JSX to view  
+   */
   scrollToReviewArea() {
     document.getElementById('review-area').scrollIntoView()
   }
