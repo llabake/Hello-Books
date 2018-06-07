@@ -13,7 +13,13 @@ import {
   downVoteBook, showReviewTextArea, showAllReviews,
   borrowBook
 } from '../../actions/bookAction';
-import { bookDefaultImage, checkFavorited, checkReviewed, checkUpVote, checkDownVote } from '../../helpers/utils';
+import {
+  bookDefaultImage,
+  checkFavorited,
+  checkReviewed,
+  checkUpVote,
+  checkDownVote
+} from '../../helpers/utils';
 import { logout } from '../../actions/userAction';
 import NotFound from '../NotFound'
 
@@ -111,6 +117,7 @@ class SingleBook extends Component {
   handleShowReviewTextArea(event) {
     event.preventDefault();
     this.props.showReviewTextArea()
+    this.scrollToReviewArea();
   }
 
   /**
@@ -123,6 +130,7 @@ class SingleBook extends Component {
   handleShowAllReview(event) {
     event.preventDefault();
     this.props.showAllReviews()
+    this.scrollToReviewArea();
   }
 
 
@@ -140,7 +148,16 @@ class SingleBook extends Component {
       })
   }
 
-
+  /**
+   *
+   *
+   * @memberof SingleBook
+   * 
+   * @returns {JSX} JSX to view  
+   */
+  scrollToReviewArea() {
+    document.getElementById('review-area').scrollIntoView()
+  }
 
   /**
    * 
@@ -255,7 +272,7 @@ class SingleBook extends Component {
                     <div className="section">
                       <div className="section1">
                         <div>
-                          <a className=" write-review "
+                          <a className="write-review "
                             onClick={this.handleAddFavorite}
                             style={{ 'cursor': 'pointer' }}>
                             {userFavorited ? <i className="material-icons pencil medium"
@@ -290,7 +307,9 @@ class SingleBook extends Component {
                       <div className="section3">
                         <span>{book.title} has been borrowed </span>
                         <span >{book.borrowCount}</span> times <span>
-                          <a className="write-review" href="#jump-to-write-review">
+                          <a className="write-review"
+                            onClick={this.handleShowReviewTextArea}
+                          >
                             <i className=" material-icons tiny pencil">create</i>
                             Review?</a>
                         </span>
@@ -310,7 +329,9 @@ class SingleBook extends Component {
                               <i className="material-icons pencil small">thumb_down</i>}
                             {book.downVotes}
                           </a>
-                          <a className=" upvote" onClick={this.handleAddReview} >
+                          <a className=" upvote"
+                            onClick={this.handleShowAllReview}
+                          >
                             {checkReviewed(book, user) ?
                               <i className="material-icons pencil small"
                                 style={{ color: 'review-posted' }}>comment</i> :
@@ -384,41 +405,45 @@ class SingleBook extends Component {
             </h3>
             <Carousel />
           </div>
-          <h3 id="review"> Reviews </h3>
-          <a className="write-review" style={{ 'cursor': 'pointer' }}
-            onClick={this.handleShowAllReview}>View all</a>
-          <a className="write-review" id='jump-to-write-review'
-            style={{ 'cursor': 'pointer' }}
-            onClick={this.handleShowReviewTextArea}>
-            <i className=" material-icons tiny pencil">
-              create</i>Write your review</a>
-
-          <div className="divider"></div>
-          <div className="section ">
-            {loadTextArea ?
-              <ReviewArea
-                bookId={book.id}
-                onChange={this.handleChange}
-                onSubmit={this.handleAddReview} /> :
-              loadAllReview ?
-                <AllBookReviews
+          <div id='review-area'>
+            <h3 id="review"> Reviews </h3>
+            <a className="write-review" style={{ 'cursor': 'pointer' }}
+              onClick={this.handleShowAllReview}>View all</a>
+            <a className="write-review"
+              style={{ 'cursor': 'pointer' }}
+              onClick={this.handleShowReviewTextArea}>
+              <i className=" material-icons tiny pencil">
+                create</i>Write your review</a>
+            <div className="divider"></div>
+            <div className="section ">
+              {loadTextArea ?
+                <ReviewArea
                   bookId={book.id}
-                  reviews={book.reviews} /> :
-                <div className="row">
-                  {book.reviews ?
-                    book.reviews.slice(0, 3).map((review, index) => {
-                      return <div
-                        className="col s4"
-                        key={index}>
-                        <h4 className="rev-title">
-                          “{review.caption}”
+                  onChange={this.handleChange}
+                  onSubmit={this.handleAddReview} /> :
+                loadAllReview ?
+                  <AllBookReviews
+                    bookId={book.id}
+                    reviews={book.reviews} /> :
+                  <div className="row">
+                    {book.reviews && book.reviews.length ?
+                      book.reviews.slice(0, 3).map((review, index) => {
+                        return <div
+                          className="col s4"
+                          key={index}>
+                          <h4 className="rev-title">
+                            “{review.caption}”
                       </h4> {review.content}</div>
-                    }) :
-                    <p>Be the first to post a review</p>
-                  }
-                </div>
-            }
+                      }) :
+                      <p>
+                        Be the first to post a review
+                      </p>
+                    }
+                  </div>
+              }
+            </div>
           </div>
+
         </div>
       </div>
     );

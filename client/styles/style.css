@@ -251,6 +251,9 @@ h5 {
   .tab .tab a {
     color: #7c4561; }
 
+ul.tabs .tab a.active {
+  background-color: #8c4e4e; }
+
 .card-action ul, .section1 {
   display: inline-flex; }
 

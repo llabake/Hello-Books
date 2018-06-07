@@ -10,6 +10,7 @@ const includeReviewAndFavorite = [{
   model: Review,
   as: 'reviews',
   attributes: ['id', 'content', 'createdAt', 'caption','updatedAt'],
+  order:[['updatedAt', 'DESC']],
   include: [{
     model: User,
     as: 'user',

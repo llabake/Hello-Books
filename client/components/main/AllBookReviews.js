@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { deleteBookReview, loadReviewToEditAction } from '../../actions/bookAction';
 import { getUser } from '../../helpers/utils';
-import images from '../../media/images.jpg';
+import images from '../../media/images.png';
 import EditReview from './EditReview';
 import userImage from '../../media/user.png';
 
@@ -49,11 +49,13 @@ class AllBookReviews extends Component {
   /**
    * @returns {void}
    * 
+   * @param {any} bookId 
+   * 
    * @param {any} reviewId 
    * @memberof AllBookReviews
    */
-  handleDelete(reviewId) {
-    this.props.deleteBookReview(reviewId)
+  handleDelete(bookId, reviewId) {
+    this.props.deleteBookReview(bookId,reviewId)
   }
 
   /**
@@ -62,8 +64,9 @@ class AllBookReviews extends Component {
    * @param {any} review 
    * @memberof AllBookReviews
    */
-  handleLoadReviewToEdit(review) {
-    this.props.loadReviewToEditAction(review)
+  handleLoadReviewToEdit(bookId, review) {
+    const reviewWithBookId = { ...review, bookId }
+    this.props.loadReviewToEditAction(reviewWithBookId)
   }
 
   /**
@@ -73,44 +76,38 @@ class AllBookReviews extends Component {
    * @memberof AllBookReviews
    */
   render() {
-    const { user, reviews, editReview, reviewToEdit } = this.props
+    const { user, reviews, editReview, reviewToEdit, bookId } = this.props
     return (
       <div>
         {editReview ? <EditReview review={reviewToEdit} /> : null}
         <div className="row">
           {reviews ?
             reviews.map((review, index) => {
+              const reviewImage = review.user.image || userImage
               return <div className="col l10 offset-l1 m12 s12" key={index}>
                 <div className='row'>
-                  <div className='col s3' >
-                    <div className='col s1' >
+                  <div className='col s4' >
+                    <div className='col s4' >
                       <img
-                        className="responsive-img circle right"
-                        src={review.user.image || userImage}
+                        className="circle right"
+                        src={'/' + reviewImage}
                         valign='top'
-                        width="35"
-                        height="35"
+                        width="55"
+                        height="55"
                         alt="reviewee image"
                       />
                     </div>
-                    <div className='col s2' >
+                    <div className='col s8' >
                       <span style={contentStyle}>
                         {review.user.username}
                       </span>
                       <br />
                       <span style={contentStyle}>
-                        {/* <small style={{ borderLeft: '5px solid green' }}> 
-                        {new Date(review.createdAt).toUTCString()}
-                      </small> */}
-                        <small style={{ borderLeft: '5px solid green' }}>
-                          {/* {moment(review.createdAt).format()} */}
-                          {/* {moment().startOf(review.createdAt).fromNow()} */}
-                          {moment(review.createdAt, "YYYYMMDD").fromNow()}
-                        </small>
+                        {moment(review.updatedAt).fromNow()}
                       </span>
                     </div>
                   </div>
-                  <div className='col s9' >
+                  <div className='col s8' >
                     <div>
                       <span style={captionStyle}>
                         {review.caption}
@@ -120,11 +117,11 @@ class AllBookReviews extends Component {
                           <span className="write-review" onClick={this.handleEdit} >
                             <i
                               className="material-icons tiny pencil blue-text text-darken-2"
-                              onClick={() => this.handleLoadReviewToEdit(review)}>
+                              onClick={() => this.handleLoadReviewToEdit(bookId, review)}>
                               create</i>
                             <i
                               className="material-icons tiny pencil red-text"
-                              onClick={() => this.handleDelete(review.id)}>
+                              onClick={() => this.handleDelete(bookId, review.id)}>
                               delete</i>
                           </span>
 
@@ -176,7 +173,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadReviewToEditAction: (review) => dispatch(loadReviewToEditAction(review)),
-    deleteBookReview: (reviewId) => dispatch(deleteBookReview(reviewId)),
+    deleteBookReview: (bookId, reviewId) => dispatch(deleteBookReview(bookId, reviewId)),
   }
 }
 

@@ -76,7 +76,7 @@ class EditReview extends Component {
    * @param {any} event 
    * @memberof EditReview
    */
-  handleChange (event) {
+  handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     }, () => this.validate());
@@ -91,11 +91,12 @@ class EditReview extends Component {
   handleModifyReview(event) {
     event.preventDefault();
     const reviewData = this.state;
-    if(this.validate()) {
+    if (this.validate()) {
       this.setState({
         error: {}
       });
-      this.props.modifyReviewAction(this.props.review.id, reviewData)
+      this.props
+        .modifyReviewAction(this.props.review.bookId, this.props.review.id, reviewData);
     }
   }
 
@@ -108,10 +109,6 @@ class EditReview extends Component {
   */
   handleCancelClick(event) {
     event.preventDefault();
-    console.log('clicked')
-    // this.setState({
-    //   saving: false
-    // })
     this.props.handleCancelClick()
   }
 
@@ -121,34 +118,38 @@ class EditReview extends Component {
    * @returns {object} Edited Review 
    * @memberof EditReview
    */
-  render () {
+  render() {
     const { errors } = this.state
     return (
       <div>
-        <form onSubmit= {this.handleModifyReview}>
+        <form onSubmit={this.handleModifyReview}>
           <TextInput
-          id = 'caption'
-          type = 'text'
-          icon = 'rate_review'
-          name = 'caption'
-          placeholder = 'Caption'
-          onChange = {this.handleChange}
-          value = {this.state.caption}
-          errors = {errors.caption}
+            id='caption'
+            type='text'
+            icon='rate_review'
+            name='caption'
+            placeholder='Caption'
+            onChange={this.handleChange}
+            value={this.state.caption}
+            errors={errors.caption}
           />
           <TextAreaInput
-          id='content'
-          icon = 'rate_review'
-          name = 'content'
-          placeholder = 'Content'
-          value = {this.state.content}
-          onChange = {this.handleChange}
-          errors = {errors.content}
+            id='content'
+            icon='rate_review'
+            name='content'
+            placeholder='Content'
+            value={this.state.content}
+            onChange={this.handleChange}
+            errors={errors.content}
           />
-          <button className="waves-effect waves-light btn"  
-            style={cancelButton} onClick={this.handleCancelClick} >Cancel
+          <button className="waves-effect waves-light btn"
+            style={cancelButton}
+            onClick={this.handleCancelClick}
+          >Cancel
           </button>
-          <button type="submit" className="waves-effect waves-light btn" 
+          <button
+            type="submit"
+            className="waves-effect waves-light btn"
             style={saveButton}>Save Changes
           </button>
         </form>
@@ -159,7 +160,7 @@ class EditReview extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    modifyReviewAction: (reviewId, reviewData) => dispatch(modifyReviewAction(reviewId, reviewData)),
+    modifyReviewAction: (bookId, reviewId, reviewData) => dispatch(modifyReviewAction(bookId, reviewId, reviewData)),
     handleCancelClick: () => dispatch(handleCancelClick()),
   }
 }

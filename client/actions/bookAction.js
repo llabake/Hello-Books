@@ -484,9 +484,9 @@ const deleteReviewError = error => {
   }
 }
 
-export const deleteBookReview = reviewId => dispatch => {
+export const deleteBookReview = (bookId, reviewId) => dispatch => {
   dispatch(deleteReview());
-  return axios.delete(`${hostUrl}/api/v1/books/review/${reviewId}`, axiosDefaultOptions())
+  return axios.delete(`${hostUrl}/api/v1/books/${bookId}/reviews/${reviewId}`, axiosDefaultOptions())
   .then(() => {
     dispatch(deleteReviewSuccess(reviewId))
   })
@@ -527,9 +527,9 @@ const modifyReviewError = (error) => {
   }
 }
 
-export const modifyReviewAction = (reviewId, reviewData) => dispatch => {
+export const modifyReviewAction = (bookId, reviewId, reviewData) => dispatch => {
   dispatch(modifyReview());
-  return axios.put(`${hostUrl}/api/v1/book/review/${reviewId}`, reviewData, axiosDefaultOptions())
+  return axios.put(`${hostUrl}/api/v1/books/${bookId}/reviews/${reviewId}`, reviewData, axiosDefaultOptions())
   .then((response) => {
     dispatch(modifyReviewSuccess(response.data.review))
     toastMessage(response.data.message, 'success')
@@ -547,6 +547,5 @@ const handleCancel = () => {
 }
 
 export const handleCancelClick = () => dispatch => {
-  console.log('got here')
   dispatch(handleCancel())
 }

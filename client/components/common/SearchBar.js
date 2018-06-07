@@ -89,7 +89,9 @@ class SearchBar extends Component {
               onClick={this.handleSearch}>search
             </i>
           </label>
-          <i className="material-icons">close</i>
+          <i className="material-icons"
+          style={{marginTop: '-6px', fontSize: '1.5rem'}}
+          >close</i>
         </div>
       </form>
     )
