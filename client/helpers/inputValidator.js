@@ -9,6 +9,7 @@ import {
   isNotEmpty
 } from './utils';
 
+
 /**
  *
  *
@@ -29,6 +30,10 @@ export default class InputValidator {
    * @memberof InputValidator
    */
   static signUp(data) {
+    const MINIMUM_NAME_LENGTH = 3;
+    const MAXIMUM_NAME_LENGTH = 25;
+    const MINIMUM_NAME_MESSAGE = `Minimum of ${MINIMUM_NAME_LENGTH} characters allowed`;
+    const MAXIMUM_NAME_MESSAGE = `Maximum of ${MAXIMUM_NAME_LENGTH} characters allowed`;
     const fields = [
       'firstName',
       'lastName',
@@ -47,7 +52,29 @@ export default class InputValidator {
           errors[field].push(`${field} is required`);
         }
       } else {
-        const { username, email, password, confirmPassword } = trimObject(data)
+        const {
+          firstName,
+          lastName,
+          username,
+          email,
+          password,
+          confirmPassword
+        } = trimObject(data);
+
+        if (field === 'firstName') {
+          if (firstName.length < 3) {
+            errors[field].push(MINIMUM_NAME_MESSAGE)
+          } else if (firstName.length > 25) {
+            errors[field].push(MAXIMUM_NAME_MESSAGE)
+          }
+        }
+        if (field === 'lastName') {
+          if (lastName.length < 3) {
+            errors[field].push(MINIMUM_NAME_MESSAGE)
+          } else if (lastName.length > 25) {
+            errors[field].push(MAXIMUM_NAME_MESSAGE)
+          }
+        }
 
         if (field === 'username') {
           if (username.length >= 5) {
@@ -146,10 +173,10 @@ export default class InputValidator {
         errors[field].push(`${field} is required`);
       } else {
         let { publishedYear, isbn, quantity } = data;
-        if(field === 'publishedYear') {
+        if (field === 'publishedYear') {
           publishedYear = publishedYear.toString().trim()
-          if(publishedYear.length && isNumeric(publishedYear)) {
-            if(isYear(publishedYear)) {
+          if (publishedYear.length && isNumeric(publishedYear)) {
+            if (isYear(publishedYear)) {
               const presentYear = new Date().getFullYear();
               if (publishedYear > presentYear) {
                 errors.publishedYear
@@ -157,14 +184,14 @@ export default class InputValidator {
               }
             } else {
               errors.publishedYear.
-            push('PublishedYear is not a valid year, expect date in range 1000-9999');
+                push('PublishedYear is not a valid year, expect date in range 1000-9999');
             }
           } else {
             errors.publishedYear.push('PublishedYear can only be a number');
           }
         }
 
-        if(field === 'isbn') {
+        if (field === 'isbn') {
           isbn = isbn.toString().trim()
           if (isbn.length && isNumeric(isbn)) {
             if (isbn.toString().length !== 13) {
@@ -175,7 +202,7 @@ export default class InputValidator {
           }
         }
 
-        if(field === 'quantity') {
+        if (field === 'quantity') {
           if (!isNumeric(quantity) || quantity <= 0) {
             errors.quantity.push('Quantity must be a number and greater than zero');
           }
