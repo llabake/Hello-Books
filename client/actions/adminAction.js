@@ -27,7 +27,11 @@ import {
   ACCEPT_BOOK_RETURN_ERROR,
   SET_BOOK_COUNT,
   SET_BORROWED_BOOK_COUNT,
-  SET_RETURNED_BOOK_COUNT
+  SET_RETURNED_BOOK_COUNT,
+  FETCH_SUGGESTED_BOOKS,
+  FETCH_SUGGESTED_BOOKS_SUCCESS,
+  FETCH_SUGGESTED_BOOKS_ERROR,
+  SET_SUGGESTED_BOOK_COUNT
 } from './actionTypes';
 
 
@@ -294,3 +298,42 @@ export const acceptBookReturnRequest = (bookId, userId) => (dispatch, getState) 
     toastMessage(error.response.data.message, 'failure')
   })
 }
+
+const fetchSuggestedBook = () => {
+  return {
+    type: FETCH_SUGGESTED_BOOKS
+  }
+}
+
+const fetchSuggestedBookSuccess = (books) => {
+  return {
+    type: FETCH_SUGGESTED_BOOKS_SUCCESS,
+    books
+  }
+}
+
+const fetchSuggestedBookError = (error) => {
+  return {
+    type: FETCH_SUGGESTED_BOOKS_ERROR,
+    error
+  }
+}
+
+const setSuggestedBookCount = (bookCount) => {
+  return {
+    type: SET_SUGGESTED_BOOK_COUNT,
+    bookCount
+  }
+}
+
+export const fetchSuggestedBooks = (page=1, limit=maxPageLimit) => dispatch => {
+  dispatch(fetchSuggestedBook());
+  return axios.get(`${hostUrl}/api/v1/suggest-book?page=${page}&limit=${limit}`, axiosDefaultOptions())
+    .then((response) => {
+      dispatch(fetchSuggestedBookSuccess(response.data.books));
+      dispatch(setSuggestedBookCount(response.data.count))
+    })
+    .catch((error) => {
+      dispatch(fetchSuggestedBookError(error.response.data))
+    })
+};

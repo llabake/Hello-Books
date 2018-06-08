@@ -6,7 +6,7 @@ import { allBooks, error, pendingBorrowedBookRequest,
   pendingReturnedBookRequest, book3, allBooksAfterABookDeletion, book1Modified,
   allBooksAfterABookModification, pendingBorrowedBookRequestList,
   acceptedPendingBorrowedBookRequestList, pendingReturnedBookRequestlist, 
-  acceptedPendingReturnedBookRequestList, pendingReturnedBookRequestList } from '../reducers/mocks/adminData';
+  acceptedPendingReturnedBookRequestList, pendingReturnedBookRequestList, suggestedBooks, suggestedBookCount } from '../reducers/mocks/adminData';
 
 describe('Admin reducer', () => {
   it('should return the initial state', () => {
@@ -117,5 +117,32 @@ describe('Admin reducer', () => {
       error
     };
     expect(reducer({}, fetchPendingReturnRequestError)).toEqual({ error })
+  });
+  it('should handle FETCH_SUGGESTED_BOOKS', () => {
+    const fetchAllSuggestedBooksAction = {
+      type: types.FETCH_SUGGESTED_BOOKS
+    };
+    expect(reducer({}, fetchAllSuggestedBooksAction)).toEqual({ loading: true })
+  });
+  it('should handle FETCH_SUGGESTED_BOOKS_SUCCESS', () => {
+    const fetchAllSuggestedBooksSucces = {
+      type: types.FETCH_SUGGESTED_BOOKS_SUCCESS,
+      books: suggestedBooks
+    };
+    expect(reducer({}, fetchAllSuggestedBooksSucces)).toEqual({ suggestedBooks, loading: false })
+  });
+  it('should handle SET_SUGGESTED_BOOK_COUNT', () => {
+    const setFetchedSuggestedBooksCount = {
+      type: types.SET_SUGGESTED_BOOK_COUNT,
+      bookCount: suggestedBookCount
+    };
+    expect(reducer({}, setFetchedSuggestedBooksCount)).toEqual({ suggestedBookCount })
+  });
+  it('should handle FETCH_SUGGESTED_BOOKS_ERROR', () => {
+    const fetchAllSuggestedBooksError = {
+      type: types.FETCH_SUGGESTED_BOOKS_ERROR,
+      error
+    };
+    expect(reducer({}, fetchAllSuggestedBooksError)).toEqual({ error, loading: false })
   });
 })

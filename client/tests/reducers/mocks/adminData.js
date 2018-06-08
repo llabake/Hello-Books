@@ -73,3 +73,27 @@ export const pendingBorrowedBookRequestList = [ book1, book3]
 export const acceptedPendingBorrowedBookRequestList = [ book3]
 export const pendingReturnedBookRequestList = [ book1, book3]
 export const acceptedPendingReturnedBookRequestList = [ book3]
+export const suggestedBooks = [
+  {
+    id: 3,
+    title: 'Title one',
+    author: 'Author one',
+    updatedAt: '2018-02-20T35:20:01.852Z',
+    createdAt: '2018-02-20T35:20:01.852Z'
+  },
+  {
+    id: 2,
+    title: 'Title two',
+    author: 'Author two',
+    updatedAt: '2018-02-20T35:20:01.852Z',
+    createdAt: '2018-02-20T35:20:01.852Z'
+  },
+  { 
+    id: 1,
+    title: 'title three',
+    author: 'author three',
+    updatedAt: '2018-02-20T35:20:01.852Z',
+    createdAt: '2018-02-20T35:20:01.852Z'
+  }
+]
+export const suggestedBookCount = 3
