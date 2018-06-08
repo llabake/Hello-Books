@@ -934,6 +934,34 @@ app.get(
     ResourceExistMiddleware.userExist, Authentication.isActive,
     RequestBookController.requestBook
   );
+
+      /**
+   * @swagger
+   * /api/v1/suggest-book:
+   *   get:
+   *     tags:
+   *       - Book Functionality
+   *     description: Returns a list of requested books
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: authorization
+   *         in: header
+   *         type: string
+   *         required: true
+   *     responses:
+   *       200:
+   *         description: Requested Books retrieved successfully
+   *         schema:
+   *           $ref: '#/definitions/Request Object'
+   */
+  app.get(
+    '/api/v1/suggest-book',
+    Authentication.authMiddleware,
+    Authentication.isActive,
+    AdminMiddleware.isAdmin,
+    RequestBookController.getRequestedBooks
+  )
 }
 
 export default bookRoute;
