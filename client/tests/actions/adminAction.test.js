@@ -167,4 +167,37 @@ describe('fetch admin actions', () => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
+  it.only('should dispatch FETCH_SUGGESTED_BOOKS_SUCCESS after a successful fetch', () => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        status: 200,
+        response: {
+          message: 'Books retrieved successfully',
+          books: [
+            adminData.suggestion2,
+            adminData.suggestion1,
+            adminData.suggestion3
+          ],
+          count: adminData.bookCount
+        }
+      });
+    });
+    const expectedActions = [
+      { type: types.FETCH_SUGGESTED_BOOKS },
+      { type: types.FETCH_SUGGESTED_BOOKS_SUCCESS, 
+        books: [
+          adminData.suggestion2,
+          adminData.suggestion1,
+          adminData.suggestion3
+        ]
+      },
+      { type: types.SET_SUGGESTED_BOOK_COUNT,
+      bookCount: adminData.bookCount }
+    ];
+    const store = mockStore({ suggestedBooks: [] })
+    return store.dispatch(actions.fetchSuggestedBooks()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
 });

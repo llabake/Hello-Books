@@ -44,7 +44,9 @@ export default {
     loading: false,
     bookCount: 0,
     borrowedBookCount: 0,
-    returnedBookCount: 0
+    returnedBookCount: 0,
+    suggestedBookCount: 0,
+    suggestedBooks: []
   }
 }
 

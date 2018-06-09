@@ -192,9 +192,48 @@ app.get(
  *       title:
  *          type: string
  *       author:
- *          type: author
+ *          type: string
  *       userId:
  *          type: number
+ *   BorrowedBooks:
+ *     properties:
+ *       borrowDate:
+ *          type: string
+ *       expectedReturnDate:
+ *          type: string
+ *       actualReturnDate:
+ *          type: string
+ *       borrowStatus:
+ *          type: string
+ *       returnStatus:
+ *          type: string
+ *       bookId:
+ *          type: number
+ *       userId:
+ *          type: number
+ *       user:
+ *          type: object
+ *       book:
+ *          type: object
+ * 
+ *   UserBorrowedBooks:
+ *     properties:
+ *       borrowDate:
+ *          type: string
+ *       expectedReturnDate:
+ *          type: string
+ *       actualReturnDate:
+ *          type: string
+ *       borrowStatus:
+ *          type: string
+ *       returnStatus:
+ *          type: string
+ *       bookId:
+ *          type: number
+ *       userId:
+ *          type: number
+ *       book:
+ *          type: object
  *
  */
   /**
@@ -806,7 +845,7 @@ app.get(
    *       200:
    *         description: An array of borrowed books
    *         schema:
-   *           $ref: '#/definitions/BorrowedBooks'
+   *           $ref: '#/definitions/UserBorrowedBooks'
    */
   app.get(
     '/api/v1/users/borrowed-books',
@@ -934,6 +973,34 @@ app.get(
     ResourceExistMiddleware.userExist, Authentication.isActive,
     RequestBookController.requestBook
   );
+
+      /**
+   * @swagger
+   * /api/v1/suggest-book:
+   *   get:
+   *     tags:
+   *       - Book Functionality
+   *     description: Returns a list of requested books
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: authorization
+   *         in: header
+   *         type: string
+   *         required: true
+   *     responses:
+   *       200:
+   *         description: Requested Books retrieved successfully
+   *         schema:
+   *           $ref: '#/definitions/Request Object'
+   */
+  app.get(
+    '/api/v1/suggest-book',
+    Authentication.authMiddleware,
+    Authentication.isActive,
+    AdminMiddleware.isAdmin,
+    RequestBookController.getRequestedBooks
+  )
 }
 
 export default bookRoute;

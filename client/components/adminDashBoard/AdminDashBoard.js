@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
@@ -7,6 +6,7 @@ import BookList from '../adminDashBoard/BookList';
 import BookBorrow from '../adminDashBoard/BookBorrow';
 import BookReturn from '../adminDashBoard/BookReturn';
 import { logout } from '../../actions/userAction';
+import RequestedBooks from './RequestedBooks';
 
 
 /**
@@ -131,37 +131,7 @@ class AdminDashBoard extends Component {
                 </div>
               </div>
             </div>
-            <div className="col s12 m3  profile-bio ">
-              <div className="card-panel responsive-table">
-                <table className="bordered centered highlight ">
-                  <thead>
-                    <tr>
-                      <th>Categories</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><a href="notifications.html">Finance<span className="new badge red">4</span></a></td>
-                    </tr>
-                    <tr>
-                      <td><a href="notifications.html">Engineering<span className="new badge red">4</span></a></td>
-                    </tr>
-                    <tr>
-                      <td><a href="notifications.html">Afrincan Literature<span className="new badge red">4</span></a></td>
-                    </tr>
-                    <tr>
-                      <td><a href="notifications.html">Children<span className="new badge red">4</span></a></td>
-                    </tr>
-                    <tr>
-                      <td><a href="notifications.html">Law<span className="new badge red">4</span></a></td>
-                    </tr>
-                    <tr>
-                      <td><a href="notifications.html">Business<span className="new badge red">4</span></a></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <RequestedBooks />
           </div>
         </div>
     )

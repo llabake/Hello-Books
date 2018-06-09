@@ -202,5 +202,28 @@ export default {
       "bookId":3,
       "userId":2
     }
+  },
+  bookCount: 3,
+  suggestion3: {
+    id: 3,
+    title: 'Title one',
+    author: 'Author one',
+    updatedAt: '2018-02-20T35:20:01.852Z',
+    createdAt: '2018-02-20T35:20:01.852Z'
+  },
+  suggestion1: {
+    id: 1,
+    title: 'title three',
+    author: 'author three',
+    updatedAt: '2018-02-20T35:20:01.852Z',
+    createdAt: '2018-02-20T35:20:01.852Z'
+  },
+  suggestion2: {
+    id: 2,
+    title: 'Title two',
+    author: 'Author two',
+    updatedAt: '2018-02-20T35:20:01.852Z',
+    createdAt: '2018-02-20T35:20:01.852Z'
   }
+
 }
