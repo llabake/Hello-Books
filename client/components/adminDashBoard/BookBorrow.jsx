@@ -61,7 +61,8 @@ class BookBorrow extends Component {
       })
     }
 
-    if (borrowedBookCount && !borrowedBooks.length && this.state.activePage > 1) {
+    if (borrowedBookCount && borrowedBooks 
+      && !borrowedBooks.length  && this.state.activePage > 1) {
       this.handleSelectedPage(this.state.activePage - 1)
     }
   }
@@ -130,12 +131,7 @@ class BookBorrow extends Component {
                 null}
             </div>
           </div> :
-          !loading && !borrowedBookCount ?
-            // <div className="card-panel row center-align">
-            //   <p>
-            //     Ooppss!!! No pending borrowed books record found.
-            //   </p>
-            // </div> 
+          !loading && !borrowedBookCount ? 
             <NothingFound
               text={'Ooppss!!! No pending borrowed books record found.'} />
             : null

@@ -26,72 +26,62 @@ import Footer from './common/Footer';
  * @extends {Component}
  */
 export default class App extends Component {
-
+  /**
+   *@returns {void}
+   *
+   * @memberof App
+   */
   componentDidMount() {
     $('.button-collapse').sideNav({
       menuWidth: 250, // Default is 300
       edge: 'left', // Choose the horizontal origin
       draggable: true // Choose whether you can drag to open on touch screens
     }
-  );
-  // $('.carousel').carousel({
-  //   dist: 0, // Perspective zoom. 
-  //   shift: 0, // Set the spacing of the center item.
-  //   padding: 50, // Set the padding between non center items.
-  //   indicators: true, // Show indicators. Default is false
-  // });
-  // autoplay()
-  // function autoplay() {
-    // $('.carousel').carousel('next');
-    // setTimeout(autoplay, 4500)}
-
-    $('.slider').slider();
+    );
+    $('.slider').slider({
+      full_width: true,
+    }
+    );
     $('.dropdown-button').dropdown({
       belowOrigin: true,
     });
     $('.tooltipped').tooltip({ delay: 50 });
-    $('.tabs').tabs();
-    // $('.tooltipped').tooltip();
-      $('.tooltipped').tooltip({delay: 50});
-
-  
-
-    // $('.modal').modal();
-    // $('select').material_select();
-    
+    $('ul.tabs').tabs();
+    $('.tooltipped').tooltip({ delay: 50 });
   }
+
   /**
    * 
    * 
    * @returns {object} main App
    * @memberof App
    */
-  render () {
+  render() {
     return (
       <Router>
         <div className="body">
-        <header>
-        <Header />
-        </header>
-        <main>
-        <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Route exact path='/signup' component={SignUpForm} />
-          <Route exact path='/signin' component={SignInForm} />
-          <Route exact path='/allbooks' component={requireAuthentication(AllBooks)} />
-          <Route exact path='/addbook' component={requireAuthentication(AddBook)} />
-          <Route exact path='/admindashboard' component={requireAuthentication(AdminDashBoard)} />
-          <Route exact path='/book/:bookId' component={requireAuthentication(SingleBook)} />
-          <Route exact path='/profile' component={requireAuthentication(UserProfilePage)} />
-          <Route exact path='/favorite' component={requireAuthentication(Favorite)}/>
-          <Route exact path='/search/:searchTerm' component={requireAuthentication(SearchResult)}/>
-          <Route exact path='/editprofile' component={requireAuthentication(EditProfile)} />
-          <Route component={NotFound} />
-        </Switch>
-        </main>
-        <footer>
-        <Footer />
-        </footer>
+          <header>
+            <Header />
+          </header>
+          <main>
+            <Switch>
+              <Route exact path='/' component={HomePage} />
+              <Route exact path='/signup' component={SignUpForm} />
+              <Route exact path='/signin' component={SignInForm} />
+              <Route exact path='/allbooks' component={requireAuthentication(AllBooks)} />
+              <Route exact path='/addbook' component={requireAuthentication(AddBook)} />
+              <Route exact path='/admindashboard' component={requireAuthentication(AdminDashBoard)} />
+              <Route exact path='/book/:bookId' component={requireAuthentication(SingleBook)} />
+              <Route exact path='/profile' component={requireAuthentication(UserProfilePage)} />
+              <Route exact path='/favorite' component={requireAuthentication(Favorite)} />
+              <Route exact path='/search/:searchTerm' component={requireAuthentication(SearchResult)} />
+              <Route exact path='/editprofile' component={requireAuthentication(EditProfile)} />
+              <Route component={NotFound} />
+            </Switch>
+          </main>
+          <footer>
+            <Footer />
+          </footer>
         </div>
       </Router>
     );

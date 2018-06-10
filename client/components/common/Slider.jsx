@@ -19,15 +19,18 @@ import sliderimage6 from '../../media/radu-marcusu-498248-unsplash.jpg';
  */
 export default class Slider extends Component {
   
-  // /**
-  //  * 
-  //  * 
-  //  * @memberof Slider
-  //  * @returns {function} initialises the slider 
-  //  */
-  // componentDidMount() {
-  //   // $('.slider').slider();
-  // }
+  /**
+   * 
+   * 
+   * @memberof Slider
+   * @returns {function} initialises the slider 
+   */
+  componentDidUpdate() {
+    $('.slider').slider({
+      full_width: true
+    })
+  }
+  
   
   /**
    * 

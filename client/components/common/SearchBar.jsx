@@ -74,7 +74,7 @@ class SearchBar extends Component {
       <form onSubmit={this.handleSearch}>
         <div className="input-field col s6 s12 ">
           <input
-            id="search"
+            // id="search"
             type="search"
             placeholder="Title, Author, Keyword"
             name='searchTerm'

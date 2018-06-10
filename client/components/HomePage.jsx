@@ -9,8 +9,6 @@ import BookCard from '../components/common/BookCard';
 import Loader from '../components/common/Loader';
 import { fetchPopularBooks } from '../actions/bookAction';
 
-import leanstart from '../media/lean start.jpg';
-
 
 /**
  * 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import {  checkIsbnExist, saveBook } from '../../actions/bookAction'
+import { checkIsbnExist, saveBook } from '../../actions/bookAction'
 import TextInput from '../common/TextInput';
 import inputValidator from '../../helpers/inputValidator'
 import TextAreaInput from '../common/TextAreaInput';
@@ -41,7 +41,7 @@ class AddBook extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBlur =this.handleBlur.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
   }
 
@@ -54,7 +54,7 @@ class AddBook extends Component {
    * @returns {object} object containing state
    * 
    */
-  handleChange (event) {
+  handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     }, () => this.validate());
@@ -71,25 +71,25 @@ class AddBook extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const bookData = this.state;
-    if(this.validate()) {
+    if (this.validate()) {
       this.setState({
         error: {},
         saving: true
       });
       this.props.saveBook(bookData)
-      .then(() => {
-        setTimeout(() => {
-          this.setState({
-            redirect: true,
-          });
-        }, 2000)
-      })
-      .catch(() => {
-        this.setState({
-          redirect: false,
-          saving: false
+        .then(() => {
+          setTimeout(() => {
+            this.setState({
+              redirect: true,
+            });
+          }, 2000)
         })
-      })
+        .catch(() => {
+          this.setState({
+            redirect: false,
+            saving: false
+          })
+        })
     }
   }
 
@@ -104,21 +104,21 @@ class AddBook extends Component {
   handleBlur(event) {
     const field = event.target.name;
     const userInput = event.target.value.trim();
-    if(userInput !== '') {
+    if (userInput !== '') {
       this.props.checkIsbnExist(field, userInput)
-      .then(() => {
-        this.setState({ 
-          isbnExist: ''
-        }, () => {
-          this.validate()
+        .then(() => {
+          this.setState({
+            isbnExist: ''
+          }, () => {
+            this.validate()
+          })
         })
-      })
-      .catch((error) => {
-        const errors = this.state.errors;
-        const isbnExist = error.response.data.message;
-        errors[field].push(error.response.data.message)
-        this.setState({ errors, isbnExist })
-      })
+        .catch((error) => {
+          const errors = this.state.errors;
+          const isbnExist = error.response.data.message;
+          errors[field].push(error.response.data.message)
+          this.setState({ errors, isbnExist })
+        })
     }
   }
 
@@ -130,15 +130,13 @@ class AddBook extends Component {
    */
   validate() {
     const { errors, isValid } = inputValidator.addBook(this.state);
-    console.log(errors)
     this.setState({ isValid, errors });
     return isValid;
   }
-  
+
 
   handleFileChange(event) {
-   const uploadedImage = event.target.files[0];
-   console.log(uploadedImage)
+    const uploadedImage = event.target.files[0];
     this.setState({
       uploadedImage
     }, () => this.validate())
@@ -150,116 +148,132 @@ class AddBook extends Component {
    * @returns {object} object containing created book detail
    * @memberof AddBook
    */
-  render () {  
+  render() {
     const { errors, isValid, saving, redirect } = this.state;
     return (
-      redirect ? <Redirect to='/allbooks' /> : 
-      <div>
-        <div id="banner">
-          <div className="container form-style">
-            <div className="row">
-              <div className="row signup-head">  
-                <div className="col s12"> 
-                  <h5 className="center-align"> Add Book </h5> 
+      redirect ? <Redirect to='/allbooks' /> :
+        <div>
+          <div id="banner">
+            <div className="container form-style">
+              <div className="row">
+                <div className="row signup-head">
+                  <div className="col s12">
+                    <h5 className="center-align"> Add Book </h5>
+                  </div>
                 </div>
-              </div> 
-              <div className="col s12 ">
-                <div className="row ">
-                  <form className="col s12 signup" onSubmit={this.handleSubmit}>      
-                  <TextInput
-                    id = 'title'
-                    type = 'text'
-                    icon = 'title'
-                    name = 'title'
-                    placeholder = 'Title'
-                    onChange = {this.handleChange}
-                    value = {this.state.title}
-                    errors = {errors.title}
-                    />
-                    <TextInput
-                    id = 'author'
-                    type = 'text'
-                    icon = 'account_circle'
-                    name = 'author'
-                    placeholder = 'Author'
-                    onChange = {this.handleChange}
-                    value = {this.state.author}
-                    errors = {errors.author}
-                    />
-                    <TextInput
-                    id = 'publishedYear'
-                    type = 'text'
-                    icon = 'date_range'
-                    name = 'publishedYear'
-                    placeholder = 'Published Year'
-                    onChange = {this.handleChange}
-                    value = {this.state.publishedYear}
-                    errors = {errors.publishedYear}
-                    />
-                    <TextInput
-                    id = 'isbn'
-                    type = 'text'
-                    icon = 'lock'
-                    name = 'isbn'
-                    placeholder = 'ISBN'
-                    onChange = {this.handleChange}
-                    onBlur = {this.handleBlur}                    
-                    value = {this.state.isbn}
-                    errors = {errors.isbn}
-                    />
-                    <TextInput
-                    id = 'quantity'
-                    type = 'number'
-                    icon = 'date_range'
-                    name = 'quantity'
-                    placeholder = 'Quantity'
-                    onChange = {this.handleChange}
-                    value = {this.state.quantity}
-                    errors = {errors.quantity}
-                    />
-                    <TextAreaInput
-                    id='description'
-                    icon = 'short_text'
-                    name = 'description'
-                    placeholder = 'Description'
-                    value = {this.state.description}
-                    onChange = {this.handleChange}
-                    errors = {errors.description}
-                    />
-                    <TextAreaInput
-                    id='aboutAuthor'
-                    icon = 'short_text'
-                    placeholder = 'About the Author'
-                    name = 'aboutAuthor'
-                    value = {this.state.aboutAuthor}
-                    onChange = {this.handleChange}
-                    errors = {errors.aboutAuthor}
-                    />
-                    <div className="file-field input-field" style={{marginTop: '35em'}} >
-                      <div className="btn" style={{width: '40%',fontSize: '13px', marginTop: '34px'}}>
-                        <span>Upload Image</span>
-                        <input type="file" accept="image/*" style={{marginTop: '74px'}} onChange={this.handleFileChange} />
-                      </div>
-                      <div className="file-path-wrapper">
-                        <input className="file-path validate" type="text" style={{marginTop: '29px'}}/>
-                      </div>
-                      {errors.image && errors.image.length ?
-                        errors.image.map((error, i) => { return (
-                        <div key={i} className= 'red-text'>
-                          <i className="material-icons">error_outline</i>
-                          {/* <li>{error}</li> */}
-                          {error}
+                <div className="col s12 ">
+                  <div className="row ">
+                    <form className="col s12 signup" onSubmit={this.handleSubmit}>
+                      <TextInput
+                        id='title'
+                        type='text'
+                        icon='title'
+                        name='title'
+                        placeholder='Title'
+                        onChange={this.handleChange}
+                        value={this.state.title}
+                        errors={errors.title}
+                      />
+                      <TextInput
+                        id='author'
+                        type='text'
+                        icon='account_circle'
+                        name='author'
+                        placeholder='Author'
+                        onChange={this.handleChange}
+                        value={this.state.author}
+                        errors={errors.author}
+                      />
+                      <TextInput
+                        id='publishedYear'
+                        type='text'
+                        icon='date_range'
+                        name='publishedYear'
+                        placeholder='Published Year'
+                        onChange={this.handleChange}
+                        value={this.state.publishedYear}
+                        errors={errors.publishedYear}
+                      />
+                      <TextInput
+                        id='isbn'
+                        type='text'
+                        icon='lock'
+                        name='isbn'
+                        placeholder='ISBN'
+                        onChange={this.handleChange}
+                        onBlur={this.handleBlur}
+                        value={this.state.isbn}
+                        errors={errors.isbn}
+                      />
+                      <TextInput
+                        id='quantity'
+                        type='number'
+                        icon='date_range'
+                        name='quantity'
+                        placeholder='Quantity'
+                        onChange={this.handleChange}
+                        value={this.state.quantity}
+                        errors={errors.quantity}
+                      />
+                      <TextAreaInput
+                        id='description'
+                        icon='short_text'
+                        name='description'
+                        placeholder='Description'
+                        value={this.state.description}
+                        onChange={this.handleChange}
+                        errors={errors.description}
+                      />
+                      <TextAreaInput
+                        id='aboutAuthor'
+                        icon='short_text'
+                        placeholder='About the Author'
+                        name='aboutAuthor'
+                        value={this.state.aboutAuthor}
+                        onChange={this.handleChange}
+                        errors={errors.aboutAuthor}
+                      />
+                      <div
+                        className="file-field input-field"
+                        style={{ marginTop: '35em' }} >
+                        <div
+                          className="btn"
+                          style={{ width: '40%', fontSize: '13px', marginTop: '34px' }}
+                        >
+                          <span>Upload Image</span>
+                          <input type="file"
+                            accept="image/*"
+                            style={{ marginTop: '74px' }}
+                            onChange={this.handleFileChange}
+                          />
                         </div>
-                        )}) : null }
-                    </div>
-                    <button type="submit" style={{ marginTop: '2em' }} className="waves-effect waves-light btn" disabled= {!isValid || saving}>Add Book</button>
-                  </form>
+                        <div className="file-path-wrapper">
+                          <input
+                            className="file-path validate"
+                            type="text" style={{ marginTop: '29px' }} />
+                        </div>
+                        {errors.image && errors.image.length ?
+                          errors.image.map((error, i) => {
+                            return (
+                              <div key={i} className='red-text'>
+                                <i className="material-icons">error_outline</i>
+                                {error}
+                              </div>
+                            )
+                          }) : null}
+                      </div>
+                      <button
+                        type="submit"
+                        style={{ marginTop: '2em' }}
+                        className="waves-effect waves-light btn"
+                        disabled={!isValid || saving}>Add Book</button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
-           </div> 
+          </div>
         </div>
-      </div>
 
     );
   }
