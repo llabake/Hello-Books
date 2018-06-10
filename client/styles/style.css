@@ -251,6 +251,8 @@ h5 {
   .tab .tab a {
     color: #7c4561; }
 
+ul.tabs li {
+  cursor: pointer; }
 ul.tabs .tab a.active {
   background-color: #8c4e4e; }
 

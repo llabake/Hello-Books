@@ -330,8 +330,13 @@ body {
     }
   }
   
-  ul.tabs .tab a.active {
-    background-color: $footer-color;
+  ul.tabs {
+    li {
+      cursor: pointer
+    }
+    .tab a.active {
+      background-color: $footer-color;
+    }
   }
 
   .card-action ul, .section1 {

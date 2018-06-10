@@ -23,7 +23,9 @@ import {
 import { logout } from '../../actions/userAction';
 import NotFound from '../NotFound'
 
-
+const pointerStyle = {
+  cursor: 'pointer'
+}
 /**
  * 
  * 
@@ -69,6 +71,7 @@ class SingleBook extends Component {
    * @memberof SingleBook
    */
   componentDidMount() {
+    $('ul.tabs').tabs();
     this.props.fetchSingleBook(this.props.match.params.bookId);
   }
 
@@ -274,7 +277,7 @@ class SingleBook extends Component {
                         <div>
                           <a className="write-review "
                             onClick={this.handleAddFavorite}
-                            style={{ 'cursor': 'pointer' }}>
+                            style={pointerStyle}>
                             {userFavorited ? <i className="material-icons pencil medium"
                               style={{ color: 'rgb(254, 170, 38)' }} >favorite</i> :
                               <i className=" material-icons pencil medium">favorite</i>}
@@ -314,7 +317,7 @@ class SingleBook extends Component {
                             Review?</a>
                         </span>
                         <br />
-                        <div style={{ 'cursor': 'pointer' }}>
+                        <div style={pointerStyle}>
                           <a className="upvote" onClick={this.handleUpvote}>
                             {checkUpVote(book, user) ?
                               <i className="material-icons pencil small"
@@ -398,19 +401,12 @@ class SingleBook extends Component {
 
             </div>
           </div>
-          <div className="divider"></div>
-          <div className="section similar">
-            <h3>
-              You may also be interested in...
-            </h3>
-            <Carousel />
-          </div>
           <div id='review-area'>
             <h3 id="review"> Reviews </h3>
-            <a className="write-review" style={{ 'cursor': 'pointer' }}
+            <a className="write-review" style={pointerStyle}
               onClick={this.handleShowAllReview}>View all</a>
             <a className="write-review"
-              style={{ 'cursor': 'pointer' }}
+              style={pointerStyle}
               onClick={this.handleShowReviewTextArea}>
               <i className=" material-icons tiny pencil">
                 create</i>Write your review</a>
@@ -435,7 +431,7 @@ class SingleBook extends Component {
                             “{review.caption}”
                       </h4> {review.content}</div>
                       }) :
-                      <p>
+                      <p style={{ paddingLeft: 11 }}>
                         Be the first to post a review
                       </p>
                     }
@@ -444,6 +440,13 @@ class SingleBook extends Component {
             </div>
           </div>
 
+          <div className="divider"></div>
+          <div className="section similar">
+            <h3>
+              You may also be interested in...
+            </h3>
+            <Carousel />
+          </div>
         </div>
       </div>
     );

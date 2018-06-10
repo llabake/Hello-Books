@@ -17,7 +17,7 @@ const paths = {
 };
 
 module.exports = {
-  entry: [path.join(paths.ENTRY, 'index.js')],
+  entry: [path.join(paths.ENTRY, 'index.jsx')],
   output: {
     path: paths.DIST,
     filename: 'bundle.js'

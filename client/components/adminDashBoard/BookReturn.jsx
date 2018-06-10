@@ -62,7 +62,8 @@ class BookReturn extends Component {
         showPagination: false
       })
     }
-    if (returnedBookCount && !borrowedBooks.length && this.state.activePage > 1) {
+    if (returnedBookCount && borrowedBooks
+      && !borrowedBooks.length && this.state.activePage > 1) {
       this.handleSelectedPage(this.state.activePage - 1)
     }
   }
@@ -108,7 +109,11 @@ class BookReturn extends Component {
                 <tbody>
                   {
                     borrowedBooks ? borrowedBooks.map((borrowedBook, index) =>
-                      <BookReturnListRow key={borrowedBook.id} borrowedBook={borrowedBook} index={index} />
+                      <BookReturnListRow
+                        key={borrowedBook.id}
+                        borrowedBook={borrowedBook}
+                        index={index}
+                      />
                     ) :
                       null
                   }
@@ -125,11 +130,6 @@ class BookReturn extends Component {
             </div>
           </div> :
           !loading && !returnedBookCount ?
-            // <div className="card-panel row center-align">
-            //   <p>
-            //     Ooppss!!! No return request pending.
-            // </p>
-            // </div> 
             <NothingFound
               text={'Ooppss!!! No return request pending.'} />
             : null

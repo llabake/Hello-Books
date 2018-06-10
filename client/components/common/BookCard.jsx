@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { bookDefaultImage } from '../../helpers/utils';
 
-import leanstart from '../../media/lean start.jpg';
-
 const BookCard = (props) => {
   const { book } = props;
   return (

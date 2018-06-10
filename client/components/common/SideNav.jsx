@@ -93,7 +93,7 @@ const SideNav = ({ user, authenticated, handleLogout }) => {
     : renderAuthUserSideNavigation(user)
 
   return (
-    <ul id="mobile-demo" className="side-nav">
+    <ul id="mobile-demo" className="side-nav show-on-medium-and-down" >
       <li>
         <SearchBar />
       </li>

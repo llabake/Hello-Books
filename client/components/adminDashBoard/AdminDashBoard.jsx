@@ -54,6 +54,15 @@ class AdminDashBoard extends Component {
   }
 
   /**
+   *@returns {void}
+   *
+   * @memberof AdminDashBoard
+   */
+  componentDidMount() {
+    $('ul.tabs').tabs();
+  }
+
+  /**
    * 
    * 
    * @memberof AdminDashBoard
