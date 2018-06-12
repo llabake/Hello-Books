@@ -49,6 +49,7 @@ export const book3 = {
 }
 
 export const books = [book1, book2, book3]
+export const bookCount = 3
 export const error = {}
 export const favoritedBook = book2
 export const upvotedBook = {}

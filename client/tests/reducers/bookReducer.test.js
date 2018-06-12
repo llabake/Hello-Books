@@ -2,7 +2,7 @@ import expect from 'expect';
 import reducer from '../../reducers/bookReducer';
 import * as types from '../../actions/actionTypes';
 import initialState from '../../reducers/initialState'
-import {books, error, book2, book3, favoritedBook,
+import {books, bookCount, error, book2, book3, favoritedBook,
   upvotedBook, downvotedBook, book3AfterReviewDeletion,
   reviewToEdit, book3AfterReviewUpdate, popularBooks,
   topFavoriteBooks, editedReview } from '../reducers/mocks/booksData';
@@ -23,6 +23,13 @@ describe('Book reducer', () => {
       books
     };
     expect(reducer({}, fetchAllBooksSuccess)).toEqual({books, loading: false})
+  });
+  it('should handle SET_BOOK_COUNT', () => {
+    const setFetchedBooksCount = {
+      type: types.SET_BOOK_COUNT,
+      bookCount
+    };
+    expect(reducer({}, setFetchedBooksCount)).toEqual({bookCount })
   });
   it('should handle FETCH_BOOK_ERROR', () => {
     const fetchAllBooksError = {
@@ -51,12 +58,18 @@ describe('Book reducer', () => {
     };
     expect(reducer({}, fetchSingleBookError)).toEqual({error, loading: false})
   });
+  it('should handle RESOURCE_NOT_FOUND', () => {
+    const resourceNotFound = {
+      type: types.RESOURCE_NOT_FOUND
+    };
+    expect(reducer({}, resourceNotFound)).toEqual({resourceNotFound: true})
+  });
   it('should handle FAVORITE_BOOK_SUCCESS', () => {
     const favoriteBookSuccess = {
       type: types.FAVORITE_BOOK_SUCCESS,
       favoritedBook: book2
     };
-    expect(reducer({}, favoriteBookSuccess)).toEqual({favoritedBook:book2})
+    expect(reducer({ book: book2 }, favoriteBookSuccess)).toEqual({ book: book2, favoritedBook:book2 })
   });
   it('should handle FAVORITE_BOOK_ERROR', () => {
     const favoriteBookError = {

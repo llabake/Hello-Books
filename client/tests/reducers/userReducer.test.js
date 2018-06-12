@@ -4,7 +4,7 @@ import * as types from '../../actions/actionTypes';
 import initialState from '../../reducers/initialState';
 import { response, authUser, error, user, borrowedBookHistory,
   favoriteBooks, favoriteBooksAfterUnFavoriting, book3,
-  profile } from '../reducers/mocks/userData';
+  profile, borrowedBook, borrowedBookHistoryAfterReturn, editedProfile } from '../reducers/mocks/userData';
 
 describe('User reducer', () => {
   it('should return the initial state', () => {
@@ -151,6 +151,50 @@ describe('User reducer', () => {
       error
     };
     expect(reducer({}, fetchUserProfileActionError)).toEqual({
+      error
+    })
+  });
+  it('should handle EDIT_USER_PROFILE_SUCCESS', () => {
+    const editUserProfileActionSuccess = {
+      type: types.EDIT_USER_PROFILE_SUCCESS,
+      user: editedProfile
+    };
+    expect(reducer({}, editUserProfileActionSuccess)).toEqual({
+      profile: editedProfile,
+      updated: true
+    })
+  });
+  it('should handle EDIT_USER_PROFILE_ERROR', () => {
+    const editUserProfileActionError = {
+      type: types.EDIT_USER_PROFILE_ERROR,
+      error
+    };
+    expect(reducer({}, editUserProfileActionError)).toEqual({
+      error,
+      updated: false
+    })
+  });
+  it('should handle RETURN', () => {
+    const userReturnAction = {
+      type: types.RETURN
+    };
+    expect(reducer({}, userReturnAction)).toEqual({})
+  });
+  it('should handle RETURN_SUCCESS', () => {
+    const userReturnActionSuccess = {
+      type: types.RETURN_SUCCESS,
+      borrowedBook
+    };
+    expect(reducer({ borrowedBookHistory }, userReturnActionSuccess)).toEqual({
+      borrowedBookHistory: borrowedBookHistoryAfterReturn, 
+    })
+  });
+  it('should handle RETURN_ERROR', () => {
+    const userReturnActionError = {
+      type: types.RETURN_ERROR,
+      error
+    };
+    expect(reducer({}, userReturnActionError)).toEqual({
       error
     })
   });

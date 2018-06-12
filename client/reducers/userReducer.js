@@ -123,7 +123,6 @@ export default (state = initialState.user, action) => {
         borrowedBookHistory: updatedBorrowedBook
       }
     }
-
     case RETURN_ERROR:
       return { ...state, error: action.error }
     default:

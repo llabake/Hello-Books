@@ -13,9 +13,9 @@ export const book1 = {
 export const book2 = {
   id: 5,
   isbn: 574531,
-  title: 'The Secret life of Baba Segi\'s wives',
-  author: 'Lola Shoneyin',
-  description: 'The secret of the lorax features a man selling air',
+  title: 'Everyday is for the thief',
+  author: 'Teju Cole',
+  description: 'teju and his books',
   image: 'https://res.cloudinary.com/sardaunan/image/upload/v1518354032/book-default-image_e8nj1p.png',
   quantity: 23,
   updatedAt: '2018-02-20T35:20:01.852Z',
@@ -25,9 +25,9 @@ export const book2 = {
 export const book3 = {
   id: 6,
   isbn: 365242,
-  title: 'The Secret life of Baba Segi\'s wives',
-  author: 'Lola Shoneyin',
-  description: 'The secret of the lorax features a man selling air',
+  title: 'Blink',
+  author: 'Malcolm Gladwell',
+  description: 'blink outlier',
   image: 'https://res.cloudinary.com/sardaunan/image/upload/v1518354032/book-default-image_e8nj1p.png',
   quantity: 23,
   updatedAt: '2018-02-20T35:20:01.852Z',
@@ -109,9 +109,11 @@ export const addedBookAfterFavoriteAction = {
   ]
 }
 export const books = [book1, book2, book3]
+export const searchResult = [book1]
+export const bookCount = 3;
 export const popularBooks = [book1, book3]
 export const topFavoriteBooks = [book3]
-  
+export const bookSearchResult = [book1, book2] 
 export const bookBeforeUpvoteAction = {
   aboutAuthor:"alrefi is a god writer ten ",
   author: "Aaidh ibn Abdullah al-Qarni",
