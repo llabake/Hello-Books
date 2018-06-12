@@ -1,0 +1,207 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The header component mounts correctly if all props it needs are passed into it. 1`] = `
+<header>
+  <div
+    className="navbar-fixed"
+  >
+    <nav>
+      <div
+        className="nav-wrapper"
+      >
+        <NavLink
+          activeClassName="active"
+          ariaCurrent="true"
+          className="brand-logo left adjust"
+          to="/"
+        >
+          HelloBooks
+        </NavLink>
+        <a
+          className="button-collapse"
+          data-activates="mobile-demo"
+          href="#"
+        >
+          <i
+            className="material-icons"
+          >
+            menu
+          </i>
+        </a>
+        <ul
+          className="right hide-on-med-and-down"
+          id="nav-mobile"
+        >
+          <li>
+            <Connect(SearchBar) />
+          </li>
+          <li>
+            <a
+              className="dropdown-button"
+              data-activates="dropdown1"
+            >
+              Hi, User
+              <i
+                className="material-icons large left"
+              >
+                account_circle
+              </i>
+              <i
+                className="material-icons right"
+              >
+                arrow_drop_down
+              </i>
+            </a>
+            <ul
+              className="dropdown-content"
+              id="dropdown1"
+            >
+              <li>
+                <Link
+                  replace={false}
+                  to="/signup"
+                >
+                  Sign Up
+                </Link>
+              </li>
+              <li>
+                <Link
+                  replace={false}
+                  to="/signin"
+                >
+                  Sign In
+                </Link>
+              </li>
+              <li
+                className="divider"
+              />
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <SideNav
+    authenticated={false}
+    handleLogout={[Function]}
+    user={Object {}}
+  />
+</header>
+`;
+
+exports[`calls component did update to reinitialize materialize dropdown  1`] = `
+<header>
+  <div
+    className="navbar-fixed"
+  >
+    <nav>
+      <div
+        className="nav-wrapper"
+      >
+        <NavLink
+          activeClassName="active"
+          ariaCurrent="true"
+          className="brand-logo left adjust"
+          to="/"
+        >
+          HelloBooks
+        </NavLink>
+        <a
+          className="button-collapse"
+          data-activates="mobile-demo"
+          href="#"
+        >
+          <i
+            className="material-icons"
+          >
+            menu
+          </i>
+        </a>
+        <ul
+          className="right hide-on-med-and-down"
+          id="nav-mobile"
+        >
+          <li>
+            <Connect(SearchBar) />
+          </li>
+          <li>
+            <a
+              className="dropdown-button"
+              data-activates="dropdown1"
+              id="username"
+            >
+              labake
+              <i
+                className="material-icons large left"
+              >
+                account_circle
+              </i>
+              <i
+                className="material-icons right"
+              >
+                arrow_drop_down
+              </i>
+            </a>
+            <ul
+              className="dropdown-content"
+              id="dropdown1"
+            >
+              <li>
+                <Link
+                  replace={false}
+                  to="/allbooks"
+                >
+                  All Books
+                </Link>
+              </li>
+              <li>
+                <Link
+                  replace={false}
+                  to="/favorite"
+                >
+                  Favorite Books
+                </Link>
+              </li>
+              <li>
+                <Link
+                  replace={false}
+                  to="/profile"
+                >
+                  Profile
+                </Link>
+              </li>
+              <li
+                className="divider"
+              />
+              <li>
+                <NavLink
+                  activeClassName="active"
+                  ariaCurrent="true"
+                  id="userLogout"
+                  onClick={[Function]}
+                  to=""
+                >
+                  Log Out
+                </NavLink>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <SideNav
+    authenticated={true}
+    handleLogout={[Function]}
+    user={
+      Object {
+        "active": true,
+        "email": "labake.labs@gmail.com",
+        "id": 3,
+        "role": "normal",
+        "username": "labake",
+      }
+    }
+  />
+</header>
+`;

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Loader mounts correctly 1`] = `
+<div
+  className="center-align"
+  style={
+    Object {
+      "marginBottom": "1em",
+      "marginTop": "1em",
+    }
+  }
+>
+  <img
+    alt="Loading..."
+    src={null}
+  />
+</div>
+`;

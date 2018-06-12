@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Search Result component mounts correctly if all props it needs are passed into it. 1`] = `
+<div>
+  <div
+    className="container"
+  >
+    <div>
+      <h3
+        className="center"
+      >
+        0
+         Results for 
+        blink
+      </h3>
+    </div>
+    <div
+      className="row"
+    />
+  </div>
+</div>
+`;

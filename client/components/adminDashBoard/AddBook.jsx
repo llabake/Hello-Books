@@ -14,7 +14,7 @@ import TextAreaInput from '../common/TextAreaInput';
  * @class AddBook
  * @extends {Component}
  */
-class AddBook extends Component {
+export class AddBook extends Component {
   /**
    * Creates an instance of AddBook.
    * @param {any} props 
@@ -261,7 +261,13 @@ class AddBook extends Component {
                         {errors.image && errors.image.length ?
                           errors.image.map((error, i) => {
                             return (
-                              <div key={i} className='red-text'>
+                              <div key={i}
+                                className='red-text left-align'
+                                style={{
+                                  'fontSize': 'medium',
+                                  'marginLeft': 46,
+                                  'marginTop': -12
+                                }}>
                                 {error}
                               </div>
                             )
@@ -284,11 +290,11 @@ class AddBook extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { errors: state.errors };
+export const mapStateToProps = (state) => {
+  return { errors: state.adminReducer.errors };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     checkIsbnExist: (field, userInput) => dispatch(checkIsbnExist(field, userInput)),
     saveBook: (bookData) => dispatch(saveBook(bookData)),

@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Admindashboard page should render and not crash 1`] = `
+<div>
+  <div
+    className="row "
+  >
+    <div
+      className="col s12 m9"
+    >
+      <div
+        className="card-panel"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col s12"
+          >
+            <ul
+              className="tabs"
+            >
+              <li
+                className="tab col s4"
+              >
+                <a
+                  className="active"
+                  onClick={[Function]}
+                >
+                  Book List
+                </a>
+              </li>
+              <li
+                className="tab col s4"
+              >
+                <a
+                  onClick={[Function]}
+                >
+                  Borrow Request
+                </a>
+              </li>
+              <li
+                className="tab col s4"
+              >
+                <a
+                  onClick={[Function]}
+                >
+                  Return Request
+                </a>
+              </li>
+            </ul>
+          </div>
+          <Connect(BookList) />
+        </div>
+      </div>
+    </div>
+    <Connect(RequestedBooks) />
+  </div>
+</div>
+`;

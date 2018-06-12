@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Book borrow tab should render and not crash 1`] = `
+<div
+  id="accept"
+>
+  <div
+    className="col s12"
+  >
+    <div
+      className="card-panel"
+    >
+      <table
+        className="bordered centered highlight responsive-table"
+      >
+        <thead>
+          <tr>
+            <th>
+              S/N
+            </th>
+            <th>
+              Title
+            </th>
+            <th>
+              Author 
+            </th>
+            <th>
+              Quantity
+            </th>
+            <th>
+              Borrow Count
+            </th>
+            <th>
+              User
+            </th>
+            <th>
+              Accept Borrow
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <Connect(BookBorrowListRow)
+            borrowedBook={
+              Object {
+                "book": Object {
+                  "aboutAuthor": "alrefi is a god writer ten ",
+                  "author": "Aaidh ibn Abdullah al-Qarni",
+                  "book": Array [
+                    Object {
+                      "actualReturnDate": null,
+                      "bookId": 2,
+                      "borrowDate": null,
+                      "borrowStatus": "pending",
+                      "createdAt": "2018-03-25T16:05:46.426Z",
+                      "expectedReturnDate": null,
+                      "id": 15,
+                      "returnStatus": "",
+                      "updatedAt": "2018-03-25T16:05:46.426Z",
+                      "userId": 2,
+                    },
+                  ],
+                  "borrowCount": 5,
+                  "createdAt": "2018-03-12T14:51:55.457Z",
+                  "description": "dont be sad life is good ",
+                  "downVotes": 0,
+                  "id": 2,
+                  "image": "https://res.cloudinary.com/sardaunan/image/upload/v1520866315/hbg1rryhpzabtnh2akzx.webpk",
+                  "isbn": "298848",
+                  "publishedYear": "2000",
+                  "quantity": 2,
+                  "title": "dont be sad ",
+                  "upVotes": 2,
+                  "updatedAt": "2018-03-25T16:05:34.073Z",
+                },
+                "borrowedBook": Object {
+                  "actualReturnDate": null,
+                  "bookId": 2,
+                  "borrowDate": null,
+                  "borrowStatus": "pending",
+                  "createdAt": "2018-03-25T16:05:46.426Z",
+                  "expectedReturnDate": null,
+                  "id": 15,
+                  "returnStatus": "",
+                  "updatedAt": "2018-03-25T16:05:46.426Z",
+                  "userId": 2,
+                },
+                "message": "borrow request has been made on dont be sad  and it is being processed",
+              }
+            }
+            index={0}
+          />
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;

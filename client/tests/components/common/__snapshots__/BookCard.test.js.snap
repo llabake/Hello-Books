@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The header component mounts correctly if all props it needs are passed into it. 1`] = `
+<div
+  className="book col s12 m3 l3"
+>
+  <div
+    className="card"
+    style={
+      Object {
+        "maxHeight": "250px",
+        "minHeight": "250px",
+      }
+    }
+  >
+    <div
+      className="card-image waves-effect waves-block waves-light"
+      style={
+        Object {
+          "maxHeight": "175px",
+          "minHeight": "170px",
+          "paddingTop": "10px",
+        }
+      }
+    >
+      <Link
+        replace={false}
+        to="/book/5"
+      >
+        <img
+          alt="Book Image"
+          src="https://res.cloudinary.com/sardaunan/image/upload/v1518354032/book-default-image_e8nj1p.png"
+          style={
+            Object {
+              "maxHeight": "170px",
+              "minHeight": "165px",
+            }
+          }
+          title="Everyday is for the thief"
+        />
+      </Link>
+    </div>
+    <div
+      className="card-content"
+      style={
+        Object {
+          "bottom": 0,
+          "position": "absolute",
+          "width": "100%",
+        }
+      }
+    >
+      <p>
+        <Link
+          className="btn"
+          replace={false}
+          to="/book/5"
+        >
+          Details
+        </Link>
+      </p>
+    </div>
+  </div>
+  <div
+    className="book-info center-align"
+  >
+    <div
+      className="book-title"
+    >
+      <span>
+        Everyday is for the thief
+         
+      </span>
+    </div>
+    <div
+      className="book-author"
+    >
+      by 
+      <span>
+        Teju Cole
+      </span>
+    </div>
+  </div>
+</div>
+`;

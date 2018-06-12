@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The SideNav component mounts correctly if all props it needs are passed into it. 1`] = `
+<ul
+  className="side-nav show-on-medium-and-down"
+  id="mobile-demo"
+>
+  <li>
+    <Connect(SearchBar) />
+  </li>
+  <li
+    className="no-padding"
+  >
+    <ul
+      className="collapsible collapsible-accordion"
+    >
+      <li>
+        <a
+          className="collapsible-header"
+        >
+          Hi, User
+          <i
+            className="material-icons"
+          >
+            account_circle
+          </i>
+          <i
+            className="material-icons right"
+          >
+            arrow_drop_down
+          </i>
+        </a>
+        <div
+          className="collapsible-body"
+        >
+          <ul>
+            <li>
+              <Link
+                replace={false}
+                to="/signup"
+              >
+                Sign Up
+              </Link>
+            </li>
+            <li>
+              <Link
+                replace={false}
+                to="/signin"
+              >
+                Sign In
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+`;

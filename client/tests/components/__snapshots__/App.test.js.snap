@@ -1,0 +1,727 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The App component mounts correctly 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <MemoryRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "canGo": [Function],
+          "createHref": [Function],
+          "entries": Array [
+            Object {
+              "hash": "",
+              "key": "5asdow",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+          ],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "index": 0,
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "key": "5asdow",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <Switch>
+        <App
+          computedMatch={
+            Object {
+              "isExact": true,
+              "params": Object {},
+              "path": "/",
+              "url": "/",
+            }
+          }
+          location={
+            Object {
+              "hash": "",
+              "key": "5asdow",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            }
+          }
+        >
+          <BrowserRouter>
+            <Router
+              history={
+                Object {
+                  "action": "POP",
+                  "block": [Function],
+                  "createHref": [Function],
+                  "go": [Function],
+                  "goBack": [Function],
+                  "goForward": [Function],
+                  "length": 1,
+                  "listen": [Function],
+                  "location": Object {
+                    "hash": "",
+                    "pathname": "blank",
+                    "search": "",
+                    "state": undefined,
+                  },
+                  "push": [Function],
+                  "replace": [Function],
+                }
+              }
+            >
+              <div
+                className="body"
+              >
+                <header>
+                  <Connect(Header)>
+                    <Header
+                      authenticated={false}
+                      logout={[Function]}
+                      user={Object {}}
+                    >
+                      <header>
+                        <div
+                          className="navbar-fixed"
+                        >
+                          <nav>
+                            <div
+                              className="nav-wrapper"
+                            >
+                              <NavLink
+                                activeClassName="active"
+                                ariaCurrent="true"
+                                className="brand-logo left adjust"
+                                to="/"
+                              >
+                                <Route
+                                  path="/"
+                                >
+                                  <Link
+                                    aria-current={false}
+                                    className="brand-logo left adjust"
+                                    replace={false}
+                                    to="/"
+                                  >
+                                    <a
+                                      aria-current={false}
+                                      className="brand-logo left adjust"
+                                      href="/"
+                                      onClick={[Function]}
+                                    >
+                                      HelloBooks
+                                    </a>
+                                  </Link>
+                                </Route>
+                              </NavLink>
+                              <a
+                                className="button-collapse"
+                                data-activates="mobile-demo"
+                                href="#"
+                              >
+                                <i
+                                  className="material-icons"
+                                >
+                                  menu
+                                </i>
+                              </a>
+                              <ul
+                                className="right hide-on-med-and-down"
+                                id="nav-mobile"
+                              >
+                                <li>
+                                  <Connect(SearchBar)>
+                                    <SearchBar
+                                      dispatch={[Function]}
+                                      searchedBooks={Array []}
+                                    >
+                                      <form
+                                        onSubmit={[Function]}
+                                      >
+                                        <div
+                                          className="input-field col s6 s12 "
+                                        >
+                                          <input
+                                            name="searchTerm"
+                                            onChange={[Function]}
+                                            placeholder="Title, Author, Keyword"
+                                            type="search"
+                                            value=""
+                                          />
+                                          <label
+                                            className="label-icon icon-sit"
+                                            htmlFor="search"
+                                          >
+                                            <i
+                                              className="material-icons clickable"
+                                              onClick={[Function]}
+                                            >
+                                              search
+                                            </i>
+                                          </label>
+                                          <i
+                                            className="material-icons"
+                                            style={
+                                              Object {
+                                                "fontSize": "1.5rem",
+                                                "marginTop": "-6px",
+                                              }
+                                            }
+                                          >
+                                            close
+                                          </i>
+                                        </div>
+                                      </form>
+                                    </SearchBar>
+                                  </Connect(SearchBar)>
+                                </li>
+                                <li>
+                                  <a
+                                    className="dropdown-button"
+                                    data-activates="dropdown1"
+                                  >
+                                    Hi, User
+                                    <i
+                                      className="material-icons large left"
+                                    >
+                                      account_circle
+                                    </i>
+                                    <i
+                                      className="material-icons right"
+                                    >
+                                      arrow_drop_down
+                                    </i>
+                                  </a>
+                                  <ul
+                                    className="dropdown-content"
+                                    id="dropdown1"
+                                  >
+                                    <li>
+                                      <Link
+                                        replace={false}
+                                        to="/signup"
+                                      >
+                                        <a
+                                          href="/signup"
+                                          onClick={[Function]}
+                                        >
+                                          Sign Up
+                                        </a>
+                                      </Link>
+                                    </li>
+                                    <li>
+                                      <Link
+                                        replace={false}
+                                        to="/signin"
+                                      >
+                                        <a
+                                          href="/signin"
+                                          onClick={[Function]}
+                                        >
+                                          Sign In
+                                        </a>
+                                      </Link>
+                                    </li>
+                                    <li
+                                      className="divider"
+                                    />
+                                  </ul>
+                                </li>
+                              </ul>
+                            </div>
+                          </nav>
+                        </div>
+                        <SideNav
+                          authenticated={false}
+                          handleLogout={[Function]}
+                          user={Object {}}
+                        >
+                          <ul
+                            className="side-nav show-on-medium-and-down"
+                            id="mobile-demo"
+                          >
+                            <li>
+                              <Connect(SearchBar)>
+                                <SearchBar
+                                  dispatch={[Function]}
+                                  searchedBooks={Array []}
+                                >
+                                  <form
+                                    onSubmit={[Function]}
+                                  >
+                                    <div
+                                      className="input-field col s6 s12 "
+                                    >
+                                      <input
+                                        name="searchTerm"
+                                        onChange={[Function]}
+                                        placeholder="Title, Author, Keyword"
+                                        type="search"
+                                        value=""
+                                      />
+                                      <label
+                                        className="label-icon icon-sit"
+                                        htmlFor="search"
+                                      >
+                                        <i
+                                          className="material-icons clickable"
+                                          onClick={[Function]}
+                                        >
+                                          search
+                                        </i>
+                                      </label>
+                                      <i
+                                        className="material-icons"
+                                        style={
+                                          Object {
+                                            "fontSize": "1.5rem",
+                                            "marginTop": "-6px",
+                                          }
+                                        }
+                                      >
+                                        close
+                                      </i>
+                                    </div>
+                                  </form>
+                                </SearchBar>
+                              </Connect(SearchBar)>
+                            </li>
+                            <li
+                              className="no-padding"
+                            >
+                              <ul
+                                className="collapsible collapsible-accordion"
+                              >
+                                <li>
+                                  <a
+                                    className="collapsible-header"
+                                  >
+                                    Hi, User
+                                    <i
+                                      className="material-icons"
+                                    >
+                                      account_circle
+                                    </i>
+                                    <i
+                                      className="material-icons right"
+                                    >
+                                      arrow_drop_down
+                                    </i>
+                                  </a>
+                                  <div
+                                    className="collapsible-body"
+                                  >
+                                    <ul>
+                                      <li>
+                                        <Link
+                                          replace={false}
+                                          to="/signup"
+                                        >
+                                          <a
+                                            href="/signup"
+                                            onClick={[Function]}
+                                          >
+                                            Sign Up
+                                          </a>
+                                        </Link>
+                                      </li>
+                                      <li>
+                                        <Link
+                                          replace={false}
+                                          to="/signin"
+                                        >
+                                          <a
+                                            href="/signin"
+                                            onClick={[Function]}
+                                          >
+                                            Sign In
+                                          </a>
+                                        </Link>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </SideNav>
+                      </header>
+                    </Header>
+                  </Connect(Header)>
+                </header>
+                <main>
+                  <Switch>
+                    <Route
+                      component={[Function]}
+                      computedMatch={
+                        Object {
+                          "isExact": false,
+                          "params": Object {},
+                          "path": "/",
+                          "url": "/",
+                        }
+                      }
+                      location={
+                        Object {
+                          "hash": "",
+                          "pathname": "blank",
+                          "search": "",
+                          "state": undefined,
+                        }
+                      }
+                    >
+                      <NotFound
+                        history={
+                          Object {
+                            "action": "POP",
+                            "block": [Function],
+                            "createHref": [Function],
+                            "go": [Function],
+                            "goBack": [Function],
+                            "goForward": [Function],
+                            "length": 1,
+                            "listen": [Function],
+                            "location": Object {
+                              "hash": "",
+                              "pathname": "blank",
+                              "search": "",
+                              "state": undefined,
+                            },
+                            "push": [Function],
+                            "replace": [Function],
+                          }
+                        }
+                        location={
+                          Object {
+                            "hash": "",
+                            "pathname": "blank",
+                            "search": "",
+                            "state": undefined,
+                          }
+                        }
+                        match={
+                          Object {
+                            "isExact": false,
+                            "params": Object {},
+                            "path": "/",
+                            "url": "/",
+                          }
+                        }
+                      >
+                        <div
+                          className="container"
+                        >
+                          <div
+                            id="not-found"
+                            style={
+                              Object {
+                                "marginLeft": "0px",
+                              }
+                            }
+                          >
+                            <h4>
+                              This is embarassing, something's missing.
+                            </h4>
+                            <b>
+                              404: page not found
+                            </b>
+                          </div>
+                          <div>
+                            <Connect(SearchBar)>
+                              <SearchBar
+                                dispatch={[Function]}
+                                searchedBooks={Array []}
+                              >
+                                <form
+                                  onSubmit={[Function]}
+                                >
+                                  <div
+                                    className="input-field col s6 s12 "
+                                  >
+                                    <input
+                                      name="searchTerm"
+                                      onChange={[Function]}
+                                      placeholder="Title, Author, Keyword"
+                                      type="search"
+                                      value=""
+                                    />
+                                    <label
+                                      className="label-icon icon-sit"
+                                      htmlFor="search"
+                                    >
+                                      <i
+                                        className="material-icons clickable"
+                                        onClick={[Function]}
+                                      >
+                                        search
+                                      </i>
+                                    </label>
+                                    <i
+                                      className="material-icons"
+                                      style={
+                                        Object {
+                                          "fontSize": "1.5rem",
+                                          "marginTop": "-6px",
+                                        }
+                                      }
+                                    >
+                                      close
+                                    </i>
+                                  </div>
+                                </form>
+                              </SearchBar>
+                            </Connect(SearchBar)>
+                          </div>
+                          <div>
+                            <ul
+                              style={
+                                Object {
+                                  "textAlign": "center",
+                                }
+                              }
+                            >
+                              <li
+                                style={
+                                  Object {
+                                    "display": "block",
+                                  }
+                                }
+                              >
+                                <Link
+                                  replace={false}
+                                  to="/"
+                                >
+                                  <a
+                                    href="/"
+                                    onClick={[Function]}
+                                  >
+                                    Home
+                                  </a>
+                                </Link>
+                              </li>
+                              <li
+                                style={
+                                  Object {
+                                    "display": "block",
+                                  }
+                                }
+                              >
+                                <Link
+                                  replace={false}
+                                  to="/allbooks"
+                                >
+                                  <a
+                                    href="/allbooks"
+                                    onClick={[Function]}
+                                  >
+                                    Books
+                                  </a>
+                                </Link>
+                              </li>
+                              <li
+                                style={
+                                  Object {
+                                    "display": "block",
+                                  }
+                                }
+                              >
+                                <Link
+                                  replace={false}
+                                  to="/profile"
+                                >
+                                  <a
+                                    href="/profile"
+                                    onClick={[Function]}
+                                  >
+                                    Profile
+                                  </a>
+                                </Link>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </NotFound>
+                    </Route>
+                  </Switch>
+                </main>
+                <footer>
+                  <Footer>
+                    <footer
+                      className="page-footer center"
+                    >
+                      <div
+                        className="container"
+                      >
+                        <div
+                          className="row"
+                        >
+                          <div
+                            className="col s12 m4 l3"
+                          >
+                            <h5
+                              className="white-text"
+                            >
+                              My Account
+                            </h5>
+                            <ul
+                              className="navigation"
+                            >
+                              <li>
+                                <Link
+                                  className="grey-text text-lighten-4"
+                                  replace={false}
+                                  to="/"
+                                >
+                                  <a
+                                    className="grey-text text-lighten-4"
+                                    href="/"
+                                    onClick={[Function]}
+                                  >
+                                    Home
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link
+                                  className="white-text text-lighten-4"
+                                  replace={false}
+                                  to="/profile"
+                                >
+                                  <a
+                                    className="white-text text-lighten-4"
+                                    href="/profile"
+                                    onClick={[Function]}
+                                  >
+                                    Profile
+                                  </a>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link
+                                  className="grey-text text-lighten-4"
+                                  replace={false}
+                                  to="/favorite"
+                                >
+                                  <a
+                                    className="grey-text text-lighten-4"
+                                    href="/favorite"
+                                    onClick={[Function]}
+                                  >
+                                    Favorite
+                                  </a>
+                                </Link>
+                              </li>
+                            </ul>
+                          </div>
+                          <div
+                            className="col s12 m4 l6"
+                          >
+                            <h5
+                              className="white-text"
+                            >
+                              Hello Books
+                            </h5>
+                            <p
+                              className="white-text text-lighten-4"
+                            >
+                              Stay Connected. Join our over 5 million users today
+                            </p>
+                          </div>
+                          <div
+                            className="col s12 m4 l3"
+                          >
+                            <h5
+                              className="white-text"
+                            >
+                              Be Social
+                            </h5>
+                            <ul
+                              className="list-inline"
+                            >
+                              <li>
+                                <a
+                                  className="social-btn"
+                                  href="https://facebook.com/hellobooksapp"
+                                >
+                                  <i
+                                    className="fa fa-facebook-square fa-2x icon-style"
+                                  />
+                                </a>
+                              </li>
+                              <li>
+                                <a
+                                  className="social-btn"
+                                  href="https://instagram.com/hellobooksapp"
+                                >
+                                  <i
+                                    className="fa fa-instagram fa-2x icon-style"
+                                  />
+                                </a>
+                              </li>
+                              <li>
+                                <a
+                                  className="social-btn"
+                                  href="https://twitter.com/hellobooksapp"
+                                >
+                                  <i
+                                    className="fa fa-twitter-square fa-2x icon-style"
+                                  />
+                                </a>
+                              </li>
+                              <li>
+                                <a
+                                  className="social-btn"
+                                  href="https://pinterest.com/hellobooksapp"
+                                >
+                                  <i
+                                    className="fa fa-pinterest-square fa-2x icon-style"
+                                  />
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="footer-copyright center-align"
+                      >
+                        <div
+                          className="container"
+                        >
+                          © 
+                          2018
+                           Happy Girl World
+                        </div>
+                      </div>
+                    </footer>
+                  </Footer>
+                </footer>
+              </div>
+            </Router>
+          </BrowserRouter>
+        </App>
+      </Switch>
+    </Router>
+  </MemoryRouter>
+</Provider>
+`;

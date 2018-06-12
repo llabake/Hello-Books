@@ -5,7 +5,6 @@ import { Redirect } from 'react-router';
 import BookList from '../adminDashBoard/BookList';
 import BookBorrow from '../adminDashBoard/BookBorrow';
 import BookReturn from '../adminDashBoard/BookReturn';
-import { logout } from '../../actions/userAction';
 import RequestedBooks from './RequestedBooks';
 
 
@@ -15,7 +14,7 @@ import RequestedBooks from './RequestedBooks';
  * @class AdminDashBoard
  * @extends {Component}
  */
-class AdminDashBoard extends Component {
+export class AdminDashBoard extends Component {
   /**
    * Creates an instance of AdminDashBoard.
    * @param {any} props 
@@ -29,7 +28,6 @@ class AdminDashBoard extends Component {
       showBorrowRequestList: false,
       showReturnRequestList: false
     };
-    this.handleLogout = this.handleLogout.bind(this);
     this.handleShowBookList = this.handleShowBookList.bind(this);
     this.handleShowReturnRequestList = this.handleShowReturnRequestList.bind(this);
     this.handleShowBorrowRequestList = this.handleShowBorrowRequestList.bind(this);
@@ -43,14 +41,6 @@ class AdminDashBoard extends Component {
   componentWillMount() {
     const { role } = this.props.user
     role === 'normal' ? this.setState({ redirect: true }) : null
-  }
-  /**
-   * 
-   * @returns {object} redirects to the home page
-   * @memberof AdminDashBoard
-   */
-  handleLogout() {
-    this.props.logout();
   }
 
   /**
@@ -147,17 +137,12 @@ class AdminDashBoard extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
-    errors: state.errors,
+    errors: state.userReducer.errors,
     user: state.userReducer.authUser,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: () => dispatch(logout())
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminDashBoard)
+export default connect(mapStateToProps, null)(AdminDashBoard)

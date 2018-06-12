@@ -6,6 +6,7 @@ Hello-Books is a simple application that helps manage a library and its processe
 
 [![Build Status](https://travis-ci.org/llabake/Hello-Books.svg?branch=develop)](https://travis-ci.org/llabake/Hello-Books) [![Coverage Status](https://coveralls.io/repos/github/llabake/Hello-Books/badge.svg?branch=develop)](https://coveralls.io/github/llabake/Hello-Books?branch=develop)
 [![Code Climate](https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg)](https://codeclimate.com/github/codeclimate/codeclimate)
+[![codecov](https://codecov.io/gh/llabake/Hello-Books/branch/develop/graph/badge.svg)](https://codecov.io/gh/llabake/Hello-Books)
 
 # Description
 

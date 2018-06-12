@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add book component should render appropriately 1`] = `
+<div>
+  <div
+    id="banner"
+  >
+    <div
+      className="container form-style"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="row signup-head"
+        >
+          <div
+            className="col s12"
+          >
+            <h5
+              className="center-align"
+            >
+               Add Book 
+            </h5>
+          </div>
+        </div>
+        <div
+          className="col s12 "
+        >
+          <div
+            className="row "
+          >
+            <form
+              className="col s12 signup"
+              onSubmit={[Function]}
+            >
+              <TextInput
+                icon="title"
+                id="title"
+                name="title"
+                onChange={[Function]}
+                placeholder="Title"
+                type="text"
+                value=""
+              />
+              <TextInput
+                icon="account_circle"
+                id="author"
+                name="author"
+                onChange={[Function]}
+                placeholder="Author"
+                type="text"
+                value=""
+              />
+              <TextInput
+                icon="date_range"
+                id="publishedYear"
+                name="publishedYear"
+                onChange={[Function]}
+                placeholder="Published Year"
+                type="text"
+                value=""
+              />
+              <TextInput
+                icon="lock"
+                id="isbn"
+                name="isbn"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="ISBN"
+                type="text"
+                value=""
+              />
+              <TextInput
+                icon="date_range"
+                id="quantity"
+                name="quantity"
+                onChange={[Function]}
+                placeholder="Quantity"
+                type="number"
+                value=""
+              />
+              <TextAreaInput
+                icon="short_text"
+                id="description"
+                name="description"
+                onChange={[Function]}
+                placeholder="Description"
+                value=""
+              />
+              <TextAreaInput
+                icon="short_text"
+                id="aboutAuthor"
+                name="aboutAuthor"
+                onChange={[Function]}
+                placeholder="About the Author"
+                value=""
+              />
+              <div
+                className="file-field input-field"
+                style={
+                  Object {
+                    "marginTop": "35em",
+                  }
+                }
+              >
+                <div
+                  className="btn"
+                  style={
+                    Object {
+                      "fontSize": "13px",
+                      "marginTop": "34px",
+                      "width": "40%",
+                    }
+                  }
+                >
+                  <span>
+                    Upload Image
+                  </span>
+                  <input
+                    accept="image/*"
+                    onChange={[Function]}
+                    style={
+                      Object {
+                        "marginTop": "74px",
+                      }
+                    }
+                    type="file"
+                  />
+                </div>
+                <div
+                  className="file-path-wrapper"
+                >
+                  <input
+                    className="file-path validate"
+                    style={
+                      Object {
+                        "marginTop": "29px",
+                      }
+                    }
+                    type="text"
+                  />
+                </div>
+              </div>
+              <button
+                className="waves-effect waves-light btn"
+                disabled={true}
+                style={
+                  Object {
+                    "marginTop": "2em",
+                  }
+                }
+                type="submit"
+              >
+                Add Book
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

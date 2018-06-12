@@ -14,7 +14,7 @@ import { getUserProfile } from '../../actions/userAction';
  * @class UserProfilePage
  * @extends {Component}
  */
-class UserProfilePage extends Component {
+export class UserProfilePage extends Component {
   /**
    * Creates an instance of UserProfilePage.
    * @param {any} props 
@@ -53,13 +53,13 @@ class UserProfilePage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     user: state.userReducer.authUser
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     getUserProfile: () => dispatch(getUserProfile()),
   }

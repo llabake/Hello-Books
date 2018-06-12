@@ -11,7 +11,7 @@ import { bookDefaultImage } from "../../helpers/utils";
  * @class FavoriteBookCard
  * @extends {Component}
  */
-class FavoriteBookCard extends Component {
+export class FavoriteBookCard extends Component {
 
   /**
    * Creates an instance of FavoriteBookCard.
@@ -148,12 +148,12 @@ class FavoriteBookCard extends Component {
 }
 
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     errors: state.userReducer.errors
   }
 }
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     removeFromFavorite: (bookId) => dispatch(removeFromFavorite(bookId)),
     

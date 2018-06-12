@@ -10,7 +10,7 @@ import profileImage from '../../media/images.png';
  * @class UserProfileSidePanel
  * @extends {Component}
  */
-class UserProfileSidePanel extends Component {
+export class UserProfileSidePanel extends Component {
 
   /**
    * Creates an instance of UserProfileSidePanel.
@@ -83,7 +83,7 @@ class UserProfileSidePanel extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     profile: state.userReducer.profile,
   }

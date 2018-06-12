@@ -10,7 +10,7 @@ import { acceptBookReturnRequest } from '../../actions/adminAction';
  * @class BookReturnListRow
  * @extends {Component}
  */
-class BookReturnListRow extends Component {
+export class BookReturnListRow extends Component {
   /**
    * Creates an instance of BookReturnListRow.
    * @param {any} props 
@@ -62,14 +62,14 @@ class BookReturnListRow extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
-    errors: state.errors,
+    errors: state.adminReducer.errors,
 
   }
 }
 
-const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = dispatch => {
   return {
     acceptBookReturnRequest: (bookId, userId) => dispatch(acceptBookReturnRequest(bookId, userId)),
   }

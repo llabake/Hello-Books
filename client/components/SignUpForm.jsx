@@ -14,7 +14,7 @@ import inputValidator from '../helpers/inputValidator';
  * @class SignUpForm
  * @extends {Component}
  */
-class SignUpForm extends Component {
+export class SignUpForm extends Component {
   /**
    * Creates an instance of SignUpForm.
    * @param {any} props 
@@ -248,7 +248,7 @@ class SignUpForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     error: state.userReducer.error,
     user: state.userReducer.authUser,
@@ -256,7 +256,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     checkUserExist: (field, userInput) => dispatch(checkUserExist(field, userInput)),
     signUpUser: (userData) => dispatch(signUpUser(userData))

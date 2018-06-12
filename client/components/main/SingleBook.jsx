@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 import Carousel from '../common/Carousel';
-import BookCard from '../common/BookCard';
 import Loader from '../common/Loader';
 import AllBookReviews from '../main/AllBookReviews'
 import ReviewArea from '../main/ReviewArea';
@@ -33,7 +31,7 @@ const pointerStyle = {
  * 
  * @extends {Component}
  */
-class SingleBook extends Component {
+export class SingleBook extends Component {
   /**
    * Creates an instance of SingleBook.
    * 
@@ -59,7 +57,6 @@ class SingleBook extends Component {
     this.handleShowReviewTextArea = this.handleShowReviewTextArea.bind(this);
     this.handleShowAllReview = this.handleShowAllReview.bind(this);
     this.handleBorrow = this.handleBorrow.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
     this.handleShowAboutTheAuthor = this.handleShowAboutTheAuthor.bind(this);
     this.handleShowOverview = this.handleShowOverview.bind(this);
 
@@ -183,14 +180,6 @@ class SingleBook extends Component {
   }
 
 
-  /**
-   * @returns {object} redirects to home page
-   * 
-   * @memberof SingleBook
-   */
-  handleLogout() {
-    this.props.logout();
-  }
 
   /**
    * 
@@ -453,7 +442,7 @@ class SingleBook extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     book: state.bookReducer.book,
     loadTextArea: state.bookReducer.loadTextArea,
@@ -465,7 +454,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     fetchSingleBook: (bookId) => dispatch(fetchSingleBook(bookId)),
     favoriteABook: (bookId) => dispatch(favoriteABook(bookId)),
@@ -474,7 +463,6 @@ const mapDispatchToProps = (dispatch) => {
     showReviewTextArea: () => dispatch(showReviewTextArea()),
     showAllReviews: () => dispatch(showAllReviews()),
     borrowBook: (bookId) => dispatch(borrowBook(bookId)),
-    logout: () => dispatch(logout()),
   };
 };
 

@@ -18,7 +18,7 @@ const postReviewButton = {
  * @class ReviewArea
  * @extends {Component}
  */
-class ReviewArea extends Component {
+export class ReviewArea extends Component {
   /**
    * Creates an instance of ReviewArea.
    * @param {any} props 
@@ -128,11 +128,11 @@ class ReviewArea extends Component {
   
 }
 
-const mapStateToProps = (state) => {
-  return { errors: state.errors };
+export const mapStateToProps = (state) => {
+  return { errors: state.bookReducer.errors };
 }
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     reviewBook: (bookId, reviewData) => dispatch(reviewBook(bookId, reviewData))
   }

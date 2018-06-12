@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test suite for 404 page should mount correctly 1`] = `
+<div
+  className="container"
+>
+  <div
+    id="not-found"
+    style={
+      Object {
+        "marginLeft": "0px",
+      }
+    }
+  >
+    <h4>
+      This is embarassing, something's missing.
+    </h4>
+    <b>
+      404: page not found
+    </b>
+  </div>
+  <div>
+    <Connect(SearchBar) />
+  </div>
+  <div>
+    <ul
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }
+    >
+      <li
+        style={
+          Object {
+            "display": "block",
+          }
+        }
+      >
+        <Link
+          replace={false}
+          to="/"
+        >
+          Home
+        </Link>
+      </li>
+      <li
+        style={
+          Object {
+            "display": "block",
+          }
+        }
+      >
+        <Link
+          replace={false}
+          to="/allbooks"
+        >
+          Books
+        </Link>
+      </li>
+      <li
+        style={
+          Object {
+            "display": "block",
+          }
+        }
+      >
+        <Link
+          replace={false}
+          to="/profile"
+        >
+          Profile
+        </Link>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

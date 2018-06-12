@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text area input field component renders correctly 1`] = `
+<TextAreaInput
+  errors={Array []}
+  icon=""
+  id=""
+  name=""
+  onChange={[MockFunction]}
+  placeholder=""
+  type=""
+  value=""
+>
+  <div
+    className="row"
+  >
+    <div
+      className="input-field col s12"
+    >
+      <i
+        className="material-icons prefix"
+      />
+      <textarea
+        className="materialize-textarea validate"
+        id=""
+        name=""
+        onChange={[MockFunction]}
+        placeholder=""
+        value=""
+      />
+    </div>
+  </div>
+</TextAreaInput>
+`;
+
+exports[`Text input field component show error when they occur 1`] = `
+<TextAreaInput
+  errors={
+    Array [
+      "content is required",
+    ]
+  }
+  icon=""
+  id=""
+  name=""
+  onBlur={[MockFunction]}
+  onChange={[MockFunction]}
+  placeholder=""
+  type=""
+  value=""
+>
+  <div
+    className="row"
+  >
+    <div
+      className="input-field col s12"
+    >
+      <i
+        className="material-icons prefix"
+      />
+      <textarea
+        className="materialize-textarea validate"
+        id=""
+        name=""
+        onChange={[MockFunction]}
+        placeholder=""
+        value=""
+      />
+      <div
+        className="red-text left-align"
+        key="0"
+        style={
+          Object {
+            "fontSize": "medium",
+            "marginLeft": 46,
+          }
+        }
+      >
+        content is required
+      </div>
+    </div>
+  </div>
+</TextAreaInput>
+`;

@@ -14,7 +14,7 @@ import Loader from '../common/Loader';
  * 
  * @extends {Component}
  */
-class RequestedBooks extends Component {
+export class RequestedBooks extends Component {
   /**
    *Creates an instance of RequestedBooks.
    * @param {any} props
@@ -151,7 +151,7 @@ RequestedBooks.propTypes = {
   fetchSuggestedBooks: PropTypes.func
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     suggestedBooks: state.adminReducer.suggestedBooks,
     suggestedBookCount: state.adminReducer.suggestedBookCount,
@@ -159,7 +159,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     fetchSuggestedBooks: (page) => dispatch(fetchSuggestedBooks(page))
   };

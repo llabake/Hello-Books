@@ -11,7 +11,7 @@ import { returnBookAction } from '../../actions/userAction';
  * @class UserBorrowedBookListRow
  * @extends {Component}
  */
-class UserBorrowedBookListRow extends Component {
+export class UserBorrowedBookListRow extends Component {
 
   /**
    * Creates an instance of UserBorrowedBookListRow.
@@ -73,13 +73,13 @@ class UserBorrowedBookListRow extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
-    errors: state.errors,
+    errors: state.userReducer.errors,
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     returnBookAction: (bookId) => dispatch(returnBookAction(bookId)),
   }

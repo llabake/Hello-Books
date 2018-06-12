@@ -1,0 +1,334 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Single Book page should render and not crash 1`] = `
+<div>
+  <div
+    className="container"
+  >
+    <div
+      className="divider"
+    />
+    <div
+      className="book-detail center-align"
+    >
+      <h1
+        id="title"
+      >
+        dont be sad 
+      </h1>
+      <div>
+        <span
+          className="detail"
+          id="author-top"
+        >
+          by 
+          <span
+            className="author-name"
+          >
+            Aaidh ibn Abdullah al-Qarni
+          </span>
+        </span>
+      </div>
+      <div
+        className="divider"
+      />
+    </div>
+    <div
+      className="section "
+    >
+      <div
+        className="book"
+      >
+        <div
+          className="book-container"
+        >
+          <div
+            className="row "
+          >
+            <div
+              className="col l5 show-border"
+            >
+              <img
+                className="materialboxed"
+                src="https://res.cloudinary.com/sardaunan/image/upload/v1520866315/hbg1rryhpzabtnh2akzx.webpk"
+                width="250"
+              />
+            </div>
+            <div
+              className="col  l7"
+            >
+              <div
+                className="section"
+              >
+                <div
+                  className="section1"
+                >
+                  <div>
+                    <a
+                      className="write-review "
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      <i
+                        className=" material-icons pencil medium"
+                      >
+                        favorite
+                      </i>
+                      Add to Favorite
+                    </a>
+                  </div>
+                  <form
+                    id="form-lend"
+                  >
+                    <a
+                      className="waves-effect waves-light btn"
+                      onClick={[Function]}
+                    >
+                      Borrow
+                    </a>
+                  </form>
+                </div>
+              </div>
+              <div
+                className="divider"
+              />
+              <div
+                className="section"
+              >
+                <div
+                  className="section2"
+                >
+                  <span>
+                     Quantity In Stock: 
+                  </span>
+                   
+                  <span>
+                    4
+                  </span>
+                  <span>
+                     Status: 
+                  </span>
+                  <span>
+                    Available
+                  </span>
+                </div>
+              </div>
+              <div
+                className="divider"
+              />
+              <div
+                className="section"
+              >
+                <div
+                  className="section3"
+                >
+                  <span>
+                    dont be sad 
+                     has been borrowed 
+                  </span>
+                  <span>
+                    0
+                  </span>
+                   times 
+                  <span>
+                    <a
+                      className="write-review"
+                      onClick={[Function]}
+                    >
+                      <i
+                        className=" material-icons tiny pencil"
+                      >
+                        create
+                      </i>
+                      Review?
+                    </a>
+                  </span>
+                  <br />
+                  <div
+                    style={
+                      Object {
+                        "cursor": "pointer",
+                      }
+                    }
+                  >
+                    <a
+                      className="upvote"
+                      onClick={[Function]}
+                    >
+                      <i
+                        className=" material-icons pencil small"
+                      >
+                        thumb_up
+                      </i>
+                      1
+                    </a>
+                    <a
+                      className=" upvote"
+                      onClick={[Function]}
+                    >
+                      <i
+                        className="material-icons pencil small"
+                      >
+                        thumb_down
+                      </i>
+                      0
+                    </a>
+                    <a
+                      className=" upvote"
+                      onClick={[Function]}
+                    >
+                      <i
+                        className=" material-icons pencil small"
+                      >
+                        comment
+                      </i>
+                      1
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="divider"
+    />
+    <div
+      className="section tab"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col s12"
+        >
+          <ul
+            className="tabs .tabs-fixed-width"
+            id="tab"
+          >
+            <li
+              className="tab col s6"
+            >
+              <a
+                className="active"
+                onClick={[Function]}
+              >
+                About the author
+              </a>
+            </li>
+            <li
+              className="tab col s6"
+            >
+              <a
+                onClick={[Function]}
+              >
+                Overview
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div
+          id="about"
+        >
+          <div
+            className="col s12"
+          >
+            <div
+              className="row "
+            >
+              <div>
+                <h5
+                  className="center-align"
+                >
+                  About the Author
+                </h5>
+              </div>
+            </div>
+            <span>
+              alrefi is a god writer ten 
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="review-area"
+    >
+      <h3
+        id="review"
+      >
+         Reviews 
+      </h3>
+      <a
+        className="write-review"
+        onClick={[Function]}
+        style={
+          Object {
+            "cursor": "pointer",
+          }
+        }
+      >
+        View all
+      </a>
+      <a
+        className="write-review"
+        onClick={[Function]}
+        style={
+          Object {
+            "cursor": "pointer",
+          }
+        }
+      >
+        <i
+          className=" material-icons tiny pencil"
+        >
+          create
+        </i>
+        Write your review
+      </a>
+      <div
+        className="divider"
+      />
+      <div
+        className="section "
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col s4"
+            key="0"
+          >
+            <h4
+              className="rev-title"
+            >
+              “
+              escape
+              ”
+            </h4>
+             
+            motivation and commitment
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="divider"
+    />
+    <div
+      className="section similar"
+    >
+      <h3>
+        You may also be interested in...
+      </h3>
+      <Connect(Carousel) />
+    </div>
+  </div>
+</div>
+`;

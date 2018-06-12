@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Homepage should call componentWillMount 1`] = `
+<div>
+  <Slider />
+  <div>
+    <h4
+      className="center-align"
+    >
+      <span>
+        Most Popular BOOKS
+      </span>
+    </h4>
+  </div>
+  <div
+    className="divider"
+  />
+  <div
+    className="section"
+  >
+    <div
+      className="container"
+    >
+      <div
+        className="row"
+      >
+        <h5
+          className="center-align"
+        >
+           No books found 
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div
+    className="divider"
+  />
+  <div
+    className="section similar"
+  >
+    <h3
+      className="center-align"
+    >
+      Based on readers favorites
+    </h3>
+    <div>
+      <Connect(Carousel) />
+    </div>
+  </div>
+</div>
+`;

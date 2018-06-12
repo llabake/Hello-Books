@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Book Borrow list row should render correctely 1`] = `
+<tr>
+  <td>
+    NaN
+  </td>
+  <td>
+    dont be sad 
+  </td>
+  <td>
+    Aaidh ibn Abdullah al-Qarni
+  </td>
+  <td>
+    2
+  </td>
+  <td>
+    5
+  </td>
+  <td>
+    keinzy
+  </td>
+  <td>
+    <a
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
+    >
+      <i
+        className="material-icons"
+      >
+        call_made
+      </i>
+    </a>
+  </td>
+</tr>
+`;

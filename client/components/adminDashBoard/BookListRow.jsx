@@ -13,7 +13,7 @@ import ModifyBookDetail from './ModifyBookDetail';
  * @class BookListRow
  * @extends {Component}
  */
-class BookListRow extends Component {
+export class BookListRow extends Component {
 
   /**
    * Creates an instance of BookListRow.
@@ -136,15 +136,15 @@ class BookListRow extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
-    errors: state.errors,
+    errors: state.adminReducer.errors,
     allBooks: state.adminReducer.allBooks,
 
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     deleteBookAction: (bookId) => dispatch(deleteBookAction(bookId)),
   }

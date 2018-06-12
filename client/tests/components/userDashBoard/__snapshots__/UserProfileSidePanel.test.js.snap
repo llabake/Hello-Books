@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserProfilePage page should render and not crash 1`] = `
+<div
+  className="col s12 m4 profile-bio "
+>
+  <div
+    className="card large hide-on-small-only "
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="card-image"
+      >
+        <img
+          className="responsive-img"
+          src="https://res.cloudinary.com/sardaunan/image/upload/v1520868439/rrtw8mjav6q9ntjnysvkg.jpg"
+          style={
+            Object {
+              "marginTop": 34,
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="card-action"
+    >
+      <Link
+        replace={false}
+        to="/editprofile"
+      >
+        Profile Setting
+      </Link>
+    </div>
+  </div>
+  <div
+    className="hide-on-med-and-up"
+  >
+    <ul
+      className="collapsible "
+      data-collapsible="accordion"
+    >
+      <li>
+        <div
+          className="collapsible-header "
+        >
+          <i
+            className="material-icons"
+          >
+            account_circle
+          </i>
+          Profile
+        </div>
+        <div
+          className="collapsible-body"
+        >
+          <span>
+            <div
+              className="card large"
+            >
+              <div
+                className="row"
+              >
+                <div
+                  className="card-image "
+                >
+                  <img
+                    src="https://res.cloudinary.com/sardaunan/image/upload/v1520868439/rrtw8mjav6q9ntjnysvkg.jpg"
+                    style={
+                      Object {
+                        "borderRadius": "50%",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+              <div
+                className="card-content"
+              >
+                <span
+                  className="card-title"
+                >
+                  User Bio
+                </span>
+                <p>
+                   
+                  <b>
+                    Name: 
+                  </b>
+                   
+                  keinzy
+                   
+                </p>
+              </div>
+              <div
+                className="card-action"
+              >
+                <Link
+                  replace={false}
+                  to="/editprofile"
+                >
+                  Profile Setting
+                </Link>
+              </div>
+            </div>
+            .
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

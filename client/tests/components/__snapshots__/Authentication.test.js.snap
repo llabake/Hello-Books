@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Authentication component calls authenticate user when component recieves props 1`] = `
+<div>
+  <Redirect
+    push={false}
+    to={
+      Object {
+        "pathname": "/signin",
+        "state": Object {
+          "from": Object {
+            "pathname": "/profile",
+          },
+        },
+      }
+    }
+  />
+</div>
+`;

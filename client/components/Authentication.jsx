@@ -10,11 +10,11 @@ import { authenticateUser } from '../helpers/utils';
  * 
  * @export
  * 
- * @param {any} Component the child component to be rendered
+ * @param {any} ComposedComponent the child component to be rendered
  * 
  * @returns {void}
  */
-export default function requireAuthentication(Component) {
+export default function requireAuthentication(ComposedComponent) {
   /**
    * 
    * 
@@ -57,7 +57,7 @@ export default function requireAuthentication(Component) {
       return (
         <div>
           {isAuthenticated
-            ? <Component {...this.props} />
+            ? <ComposedComponent {...this.props} />
             :
             <Redirect to={{
               pathname: '/signin',
@@ -71,13 +71,15 @@ export default function requireAuthentication(Component) {
       );
     }
   }
-  const mapStateToProps = (state) => {
-    return {
-      error: state.userReducer.error,
-      user: state.userReducer.authUser,
-      authenticated: state.userReducer.authenticated
-    };
-  };
+
 
   return connect(mapStateToProps, null)(Authenticate);
 }
+
+export const mapStateToProps = (state) => {
+  return {
+    error: state.userReducer.error,
+    user: state.userReducer.authUser,
+    authenticated: state.userReducer.authenticated
+  };
+};

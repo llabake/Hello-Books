@@ -8,7 +8,7 @@ import { acceptBookBorrowRequest } from '../../actions/adminAction';
  * @class BookBorrowListRow
  * @extends {Component}
  */
-class BookBorrowListRow extends Component {
+export class BookBorrowListRow extends Component {
   
   /**
    * Creates an instance of BookBorrowListRow.
@@ -62,13 +62,13 @@ class BookBorrowListRow extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
-    errors: state.errors,
+    errors: state.adminReducer.errors,
   }
 } 
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     acceptBookBorrowRequest: (bookId, userId) => dispatch(acceptBookBorrowRequest(bookId, userId)),
   }

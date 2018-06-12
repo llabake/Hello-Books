@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modify Book page should render with the right amount of elements 1`] = `
+<div>
+  <div
+    id="banner"
+  >
+    <div
+      className="container form-style"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="row signup-head"
+        >
+          <div
+            className="col s12"
+          >
+            <h5
+              className="center-align"
+            >
+               Edit Book 
+            </h5>
+          </div>
+        </div>
+        <div
+          className="col s12 "
+        >
+          <div
+            className="row "
+          >
+            <form
+              className="col s12 signup"
+              method="post"
+              onSubmit={[Function]}
+            >
+              <TextInput
+                icon="title"
+                id="title"
+                name="title"
+                onChange={[Function]}
+                placeholder="Title"
+                type="text"
+                value="The Secret life of Baba Segi's wives"
+              />
+              <TextInput
+                icon="account_circle"
+                id="author"
+                name="author"
+                onChange={[Function]}
+                placeholder="Author"
+                type="text"
+                value="Lola Shoneyin"
+              />
+              <TextInput
+                icon="date_range"
+                id="publishedYear"
+                name="publishedYear"
+                onChange={[Function]}
+                placeholder="Published Year"
+                type="text"
+              />
+              <TextInput
+                icon="lock"
+                id="isbn"
+                name="isbn"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="ISBN"
+                type="text"
+                value={526875}
+              />
+              <TextInput
+                icon="date_range"
+                id="quantity"
+                name="quantity"
+                onChange={[Function]}
+                placeholder="Quantity"
+                type="number"
+                value={23}
+              />
+              <TextAreaInput
+                icon="short_text"
+                id="description"
+                name="description"
+                onChange={[Function]}
+                placeholder="Description"
+                value="The secret of the lorax features a man selling air"
+              />
+              <TextAreaInput
+                icon="short_text"
+                id="aboutAuthor"
+                name="aboutAuthor"
+                onChange={[Function]}
+                placeholder="About the Author"
+              />
+              <TextInput
+                icon="image"
+                id="image"
+                name="image"
+                onChange={[Function]}
+                placeholder="Image"
+                type="text"
+                value="book image"
+              />
+              <button
+                className="waves-effect waves-light btn"
+                disabled={true}
+                type="submit"
+              >
+                Update Book
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

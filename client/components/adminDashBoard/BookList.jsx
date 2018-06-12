@@ -13,7 +13,7 @@ import NothingFound from '../common/NothingFound';
  * @class BookList
  * @extends {Component}
  */
-class BookList extends Component {
+export class BookList extends Component {
 
   /**
    * Creates an instance of BookList.
@@ -138,7 +138,7 @@ class BookList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     allBooks: state.adminReducer.allBooks,
     loading: state.adminReducer.loading,
@@ -146,7 +146,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllBooks: (page) => dispatch(fetchAllBooks(page))
   };

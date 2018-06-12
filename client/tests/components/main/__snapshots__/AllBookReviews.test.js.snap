@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AllBookReview /> component should render and not crash 1`] = `
+<div>
+  <div
+    className="row"
+  >
+    <div
+      className="col l10 offset-l1 m12 s12"
+      key="0"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col s4"
+        >
+          <div
+            className="col s4"
+          >
+            <img
+              alt="reviewee image"
+              className="circle right"
+              height="55"
+              src="/IMAGE"
+              valign="top"
+              width="55"
+            />
+          </div>
+          <div
+            className="col s8"
+          >
+            <span
+              style={
+                Object {
+                  "color": "21282d",
+                  "fontSize": ".9375rem",
+                  "fontStyle": "normal",
+                  "fontWeight": 400,
+                  "lineHeight": "1.5",
+                }
+              }
+            >
+              mama
+            </span>
+            <br />
+            <span
+              style={
+                Object {
+                  "color": "21282d",
+                  "fontSize": ".9375rem",
+                  "fontStyle": "normal",
+                  "fontWeight": 400,
+                  "lineHeight": "1.5",
+                }
+              }
+            >
+              3 months ago
+            </span>
+          </div>
+        </div>
+        <div
+          className="col s8"
+        >
+          <div>
+            <span
+              style={
+                Object {
+                  "fontFamily": "'Lato', sans-serif",
+                  "fontSize": "1.0625rem",
+                  "fontStyle": "normal",
+                  "fontWeight": 700,
+                  "lineHeight": "32px",
+                  "margin": "0",
+                  "maxWidth": "26rem",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              updatedAtupdatedAt
+            </span>
+            <br />
+            <p
+              style={
+                Object {
+                  "color": "21282d",
+                  "fontSize": ".9375rem",
+                  "fontStyle": "normal",
+                  "fontWeight": 400,
+                  "lineHeight": "1.5",
+                }
+              }
+            >
+              updatedAtupdatedAt
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

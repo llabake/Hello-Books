@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import moment from 'moment';
 
 import { deleteBookReview, loadReviewToEditAction } from '../../actions/bookAction';
-import { getUser } from '../../helpers/utils';
-import images from '../../media/images.png';
 import EditReview from './EditReview';
 import userImage from '../../media/user.png';
 
@@ -35,7 +32,7 @@ const contentStyle = {
  * @class AllBookReviews
  * @extends {Component}
  */
-class AllBookReviews extends Component {
+export class AllBookReviews extends Component {
   /**
    * Creates an instance of AllBookReviews.
    * @param {any} props 
@@ -156,13 +153,10 @@ class AllBookReviews extends Component {
 
 }
 
-// const mapStateToProps = ({isLoading}) => ({
-//   loading: isLoading
-// });
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
-    errors: state.errors,
+    errors: state.bookReducer.errors,
     allbookReview: state.bookReducer.allbookReview,
     loadTextArea: state.bookReducer.loadTextArea,
     loadAllReview: state.bookReducer.loadAllReview,
@@ -172,7 +166,7 @@ const mapStateToProps = (state) => {
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     loadReviewToEditAction: (review) => dispatch(loadReviewToEditAction(review)),
     deleteBookReview: (bookId, reviewId) => dispatch(deleteBookReview(bookId, reviewId)),

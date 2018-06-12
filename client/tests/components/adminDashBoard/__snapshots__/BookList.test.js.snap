@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Book list tab should render and not crash 1`] = `
+<div
+  id="allbooks"
+>
+  <div
+    className="col s12"
+  >
+    <div
+      className="card-panel"
+    >
+      <table
+        className="bordered highlight responsive-table"
+      >
+        <thead>
+          <tr>
+            <th>
+              S/N
+            </th>
+            <th>
+              Title
+            </th>
+            <th>
+              Author 
+            </th>
+            <th>
+              Edit
+            </th>
+            <th>
+              Delete
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <Connect(BookListRow)
+            book={
+              Object {
+                "aboutAuthor": "Great Author",
+                "author": "Imaseun Egbosa",
+                "borrowCount": 0,
+                "createdAt": "2018-06-07T15:08:48.835Z",
+                "description": "Youth juvenile deliquency",
+                "downVotes": 0,
+                "favorited": Array [],
+                "id": 5,
+                "image": "",
+                "isbn": "7698102987364",
+                "publishedYear": "2012",
+                "quantity": 7,
+                "reviews": Array [],
+                "title": "Fine Boys",
+                "upVotes": 0,
+                "updatedAt": "2018-06-07T15:08:48.835Z",
+                "votes": Array [],
+              }
+            }
+            index={0}
+            key="5"
+          />
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;

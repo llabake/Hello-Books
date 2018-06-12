@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Requested books should render and not crash 1`] = `
+<div
+  className="col s12 m3  profile-bio"
+>
+  <div
+    className="card-panel"
+  >
+    <table
+      className="bordered centered highlight responsive-table"
+    >
+      <thead>
+        <tr>
+          <th>
+            Requested Books
+          </th>
+        </tr>
+      </thead>
+    </table>
+    <table
+      className="bordered centered highlight responsive-table"
+    >
+      <tbody>
+        <TableRowNotFound
+          text="There are no suggested books"
+        />
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

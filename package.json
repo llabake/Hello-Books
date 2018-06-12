@@ -13,18 +13,35 @@
     "dev": "webpack-dev-server --config webpack.config.dev.js --colors",
     "watch": "webpack --watch && npm run build",
     "build": "webpack --config webpack.config.prod.js",
-    "test:client": "jest --coverage",
     "migration": "sequelize db:migrate:undo:all && sequelize db:migrate",
     "seed": "sequelize db:seed:undo:all && sequelize db:seed:all",
     "pre-e2e-test": "NODE_ENV=test npm run migration && NODE_ENV=test npm run seed && npm run dev && NODE_ENV=test npm run start-dev-test",
     "pre-nightwatch-test": "npm run migration && npm run seed && npm run dev && npm run start-dev",
-    "e2e-test": "nightwatch"
+    "e2e-test": "nightwatch",
+    "test:client": "jest -u && codecov"
   },
   "jest": {
     "setupFiles": [
       "./client/tests/localStorageMock.js",
-      "./client/tests/mocks/materializeMock.js"
-    ]
+      "./client/tests/mocks/materializeMock.js",
+      "<rootDir>./client/tests/jestSetup.js"
+    ],
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/client/**/*.{js,jsx}",
+      "!**/client/tests/**",
+      "!**/client/helpers",
+      "!**/client/js/index.js",
+      "!**/client/store.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "moduleNameMapper": {
+      ".+\\.(css|styl|less|sass|scss|png|jpg|gif|ttf|woff|woff2)$": "identity-obj-proxy",
+      "\\.(css|scss)$": "<rootDir>/node_modules/jest-css-modules"
+    }
   },
   "repository": {
     "type": "git",
@@ -56,10 +73,12 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
+    "codecov": "^3.0.2",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "expect": "^21.2.1",
     "express": "^4.16.2",
+    "jsdom": "^11.11.0",
     "jsonwebtoken": "^8.1.0",
     "mocha": "^4.0.1",
     "moment": "^2.21.0",
@@ -96,6 +115,9 @@
     "coveralls": "^3.0.0",
     "css-loader": "^0.28.7",
     "dotenv-webpack": "^1.5.5",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.4",
     "eslint": "^4.9.0",
     "eslint-config": "^0.3.0",
     "eslint-config-airbnb": "^16.0.0",
@@ -105,8 +127,10 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
     "html-webpack-plugin": "^2.30.1",
+    "identity-obj-proxy": "^3.0.0",
     "image-webpack-loader": "^3.4.2",
     "jest": "^22.4.2",
+    "jest-css-modules": "^1.1.0",
     "moxios": "^0.4.0",
     "node-sass": "^4.7.2",
     "nyc": "^11.2.1",
