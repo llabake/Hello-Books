@@ -60,10 +60,22 @@ In the project directory, you can :
 - Server side testing is done through the use of `supertest`, `mocha` and `chai` packages. `supertest` is used to make requests to the api and `mocha` is the testing framework and `chai` is the assertion library. They will both be installed when you run `npm install` and the tests will run when you run `npm test`.
 - Run `npm test` or `npm run test`
 
-## Coverage
-- To check coverage `npm run coveralls`
+- Client side testing is done through the use of `Enzyme`,  `Jest` and `NightWatch` packages. They will be installed when you run `npm install`.
+- Run `npm run test:client` for Front End test
+- Run `npm run e2e-test` for End-to-End test
 
-Launches the interactive test runner and display test coverage reports
+  
+``Note:`` Before trying to run the end to end test you need to do the following:
+
+  1. [Download Selenium](http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.9.1.jar)
+  1. Download a webdriver, for our case we will be using the [chrome webdriver](https://chromedriver.storage.googleapis.com/index.html?path=2.35/). For more info on how to use other webdriver please visit this [link](http://nightwatchjs.org/gettingstarted#browser-drivers-setup)
+  1. Extract the files you just downloaded
+  1. Create a folder with the name ``bin``
+  in the root directory for the project
+  1. Move the extracted files into the ``bin`` folder
+  1. Start the server
+  1. You can now run the end to end test command.
+
 
 
 # Authentication

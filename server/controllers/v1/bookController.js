@@ -81,7 +81,7 @@ class BookController {
               message: `Book with ${field}: ${req.body[field]} already exist`
             });
           }
-          return res.status(400).send(error);
+          return res.status(500).send(error);
       }
     }
   }
@@ -312,7 +312,7 @@ class BookController {
       }
     })
     .catch((error) => {
-      return res.status(400).json({ error })
+      return res.status(500).json({ error })
     })
   }
 
