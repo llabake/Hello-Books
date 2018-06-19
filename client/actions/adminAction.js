@@ -9,7 +9,7 @@ import {
   FETCH_BOOK_ERROR,
   PENDING_BORROW_REQUEST,
   PENDING_BORROW_REQUEST_SUCCESS,
-  PENDING_BORROW_REQUEST_ERROR, 
+  PENDING_BORROW_REQUEST_ERROR,
   PENDING_RETURN_REQUEST,
   PENDING_RETURN_REQUEST_SUCCESS,
   PENDING_RETURN_REQUEST_ERROR,
@@ -33,7 +33,7 @@ import {
   FETCH_SUGGESTED_BOOKS_ERROR,
   SET_SUGGESTED_BOOK_COUNT
 } from './actionTypes';
-
+import { uploadImageToCloudinary } from './bookAction';
 
 
 const fetchBook = () => {
@@ -62,12 +62,12 @@ const fetchBookError = (error) => {
   }
 }
 
-export const fetchAllBooks = (page=1, limit=maxPageLimit) => dispatch => {
+export const fetchAllBooks = (page = 1, limit = maxPageLimit) => dispatch => {
   dispatch(fetchBook());
   return axios.get(`${hostUrl}/api/v1/books?page=${page}&limit=${limit}`, axiosDefaultOptions())
     .then((response) => {
       dispatch(fetchBookSuccess(response.data.books))
-      dispatch(setBookCount(response.data.count))      
+      dispatch(setBookCount(response.data.count))
     })
     .catch((error) => {
       dispatch(fetchBookError(error.response.data))
@@ -101,23 +101,23 @@ const pendingAcceptBorrowError = (error) => {
   }
 }
 
-export const pendingAcceptBorrowRequest = (page=1, limit=maxPageLimit) => dispatch => {
+export const pendingAcceptBorrowRequest = (page = 1, limit = maxPageLimit) => dispatch => {
   dispatch(pendingAcceptBorrow());
   return axios.get(`${hostUrl}/api/v1/admin/books/borrowed-books/?borrowStatus=pending&page=${page}&limit=${limit}`, axiosDefaultOptions())
-  .then((response) => {
-    dispatch(pendingAcceptBorrowSuccess(response.data.borrowedBooks))
-    dispatch(setBorrowedBookCount(response.data.count))
-    // toastMessage('Book fetch successful', 'success')
-  })
-  .catch((error) => {
-    dispatch(pendingAcceptBorrowError(error))
-    toastMessage('book fetch failed', 'failure')
-  })
+    .then((response) => {
+      dispatch(pendingAcceptBorrowSuccess(response.data.borrowedBooks))
+      dispatch(setBorrowedBookCount(response.data.count))
+      // toastMessage('Book fetch successful', 'success')
+    })
+    .catch((error) => {
+      dispatch(pendingAcceptBorrowError(error))
+      toastMessage('book fetch failed', 'failure')
+    })
 }
 
 const pendingAcceptReturn = () => {
   return {
-    type:PENDING_RETURN_REQUEST
+    type: PENDING_RETURN_REQUEST
   }
 }
 
@@ -142,20 +142,20 @@ const pendingAcceptReturnError = (error) => {
   }
 }
 
-export const pendingAcceptReturnRequest = (page=1, limit=maxPageLimit) => dispatch => {
+export const pendingAcceptReturnRequest = (page = 1, limit = maxPageLimit) => dispatch => {
   dispatch(pendingAcceptReturn());
   return axios.get(`${hostUrl}/api/v1/admin/books/borrowed-books/?returnStatus=pending&page=${page}&limit=${limit}`, axiosDefaultOptions())
-  .then((response) => {
-    dispatch(pendingAcceptReturnSuccess(response.data.borrowedBooks))
-    dispatch(setReturnedBookCount(response.data.count))    
-    // toastMessage(response.data.message, 'success')
-  })
-  .catch((error) => {
-    dispatch(pendingAcceptReturnError(error))
-    toastMessage(error.response.data.message, 'failure')
-  })
+    .then((response) => {
+      dispatch(pendingAcceptReturnSuccess(response.data.borrowedBooks))
+      dispatch(setReturnedBookCount(response.data.count))
+      // toastMessage(response.data.message, 'success')
+    })
+    .catch((error) => {
+      dispatch(pendingAcceptReturnError(error))
+      toastMessage(error.response.data.message, 'failure')
+    })
 }
- 
+
 
 const deleteBook = () => {
   return {
@@ -165,7 +165,7 @@ const deleteBook = () => {
 
 const deleteBookSuccess = (bookId) => {
   return {
-    type:DELETE_BOOK_SUCCESS,
+    type: DELETE_BOOK_SUCCESS,
     bookId
   }
 }
@@ -179,7 +179,7 @@ const deleteBookError = (error) => {
 
 export const deleteBookAction = (bookId) => (dispatch, getState) => {
   dispatch(deleteBook());
-    return axios.delete(`${hostUrl}/api/v1/books/${bookId}`,  axiosDefaultOptions())
+  return axios.delete(`${hostUrl}/api/v1/books/${bookId}`, axiosDefaultOptions())
     .then(() => {
       dispatch(deleteBookSuccess(bookId))
       dispatch(setBookCount(getState().adminReducer.bookCount - 1));
@@ -215,19 +215,22 @@ const updateError = (error) => {
 
 export const updateBook = (bookId, bookData) => dispatch => {
   dispatch(update());
-  return new Promise((resolve, reject) => {
-    return axios.put(`${hostUrl}/api/v1/books/${bookId}`, bookData, axiosDefaultOptions())
-    .then((response) => {
-      dispatch(updateSuccess(response.data.book))
-      toastMessage(response.data.message, 'success')
-      resolve(response)
+  return uploadImageToCloudinary(bookData.image)
+    .then((fileUrl) => {
+      bookData.image = fileUrl;
+      return axios.put(`${hostUrl}/api/v1/books/${bookId}`, bookData, axiosDefaultOptions())
+      .then((response) => {
+        dispatch(updateSuccess(response.data.book))
+        toastMessage(response.data.message, 'success')
+      })
+      .catch((error) => {
+        dispatch(updateError(error));
+        toastMessage(error.response.data.message, 'failure')
+      })
+    }).catch(() => {
+      toastMessage('An error occurred, please try uploading your image again', 'failure')
     })
-    .catch((error) => {
-      dispatch(updateError(error));
-      toastMessage(error.response.data.message, 'failure')
-      reject(error)
-    })
-  })
+
 }
 
 const acceptBookBorrow = () => {
@@ -236,11 +239,11 @@ const acceptBookBorrow = () => {
   }
 }
 
-const acceptBookBorrowSuccess = (borrowedBook,) => {
+const acceptBookBorrowSuccess = (borrowedBook, ) => {
   return {
     type: ACCEPT_BOOK_BORROW_SUCCESS,
     borrowedBook,
-    
+
   }
 }
 
@@ -253,16 +256,16 @@ const acceptBookBorrowError = (error) => {
 
 export const acceptBookBorrowRequest = (bookId, userId) => (dispatch, getState) => {
   dispatch(acceptBookBorrow());
-  return axios.put(`${hostUrl}/api/v1/admin/users/${userId}/borrow/${bookId}`, {},  axiosDefaultOptions())
-  .then((response) => {
-    dispatch(acceptBookBorrowSuccess(response.data.borrowedBook))
-    dispatch(setBorrowedBookCount(getState().adminReducer.borrowedBookCount - 1));
-    toastMessage(response.data.message, 'success')
-  })
-  .catch((error) => {
-    dispatch(acceptBookBorrowError(error))
-    toastMessage(error.response.data.message, 'failure')
-  })
+  return axios.put(`${hostUrl}/api/v1/admin/users/${userId}/borrow/${bookId}`, {}, axiosDefaultOptions())
+    .then((response) => {
+      dispatch(acceptBookBorrowSuccess(response.data.borrowedBook))
+      dispatch(setBorrowedBookCount(getState().adminReducer.borrowedBookCount - 1));
+      toastMessage(response.data.message, 'success')
+    })
+    .catch((error) => {
+      dispatch(acceptBookBorrowError(error))
+      toastMessage(error.response.data.message, 'failure')
+    })
 }
 
 const acceptBookReturn = () => {
@@ -287,16 +290,16 @@ const acceptBookReturnError = (error) => {
 
 export const acceptBookReturnRequest = (bookId, userId) => (dispatch, getState) => {
   dispatch(acceptBookReturn());
-  return axios.put(`${hostUrl}/api/v1/admin/users/${userId}/return/${bookId}`, {},  axiosDefaultOptions())
-  .then((response) => {
-    dispatch(acceptBookReturnSuccess(response.data.borrowedBook))
-    dispatch(setReturnedBookCount(getState().adminReducer.returnedBookCount - 1));
-    toastMessage(response.data.message, 'success')
-  })
-  .catch((error) => {
-    dispatch(acceptBookReturnError(error))
-    toastMessage(error.response.data.message, 'failure')
-  })
+  return axios.put(`${hostUrl}/api/v1/admin/users/${userId}/return/${bookId}`, {}, axiosDefaultOptions())
+    .then((response) => {
+      dispatch(acceptBookReturnSuccess(response.data.borrowedBook))
+      dispatch(setReturnedBookCount(getState().adminReducer.returnedBookCount - 1));
+      toastMessage(response.data.message, 'success')
+    })
+    .catch((error) => {
+      dispatch(acceptBookReturnError(error))
+      toastMessage(error.response.data.message, 'failure')
+    })
 }
 
 const fetchSuggestedBook = () => {
@@ -326,7 +329,7 @@ const setSuggestedBookCount = (bookCount) => {
   }
 }
 
-export const fetchSuggestedBooks = (page=1, limit=maxPageLimit) => dispatch => {
+export const fetchSuggestedBooks = (page = 1, limit = maxPageLimit) => dispatch => {
   dispatch(fetchSuggestedBook());
   return axios.get(`${hostUrl}/api/v1/suggest-book?page=${page}&limit=${limit}`, axiosDefaultOptions())
     .then((response) => {

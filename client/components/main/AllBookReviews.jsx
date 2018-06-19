@@ -84,10 +84,10 @@ class AllBookReviews extends Component {
           {reviews ?
             reviews.map((review, index) => {
               const reviewImage = review.user.image || userImage
-              return <div className="col l10 offset-l1 m12 s12" key={index}>
+              return <div id='review-list' className="col l10 offset-l1 m12 s12" key={index}>
                 <div className='row'>
                   <div className='col s4' >
-                    <div className='col s4' >
+                    <div className='col s4' id='reviewee-image'>
                       <img
                         className="circle right"
                         src={'/' + reviewImage}
@@ -97,7 +97,7 @@ class AllBookReviews extends Component {
                         alt="reviewee image"
                       />
                     </div>
-                    <div className='col s8' >
+                    <div className='col s8'id='reviewee-name' >
                       <span style={contentStyle}>
                         {review.user.username}
                       </span>
@@ -116,11 +116,13 @@ class AllBookReviews extends Component {
                         <a className='right'>
                           <span className="write-review" onClick={this.handleEdit} >
                             <i
+                              id='review-action-edit'
                               className="material-icons tiny pencil blue-text text-darken-2"
                               onClick={() => this.handleLoadReviewToEdit(bookId, review)}>
                               create</i>
                             <i
                               className="material-icons tiny pencil red-text"
+                              id='review-action-delete'
                               onClick={() => this.handleDelete(bookId, review.id)}>
                               delete</i>
                           </span>

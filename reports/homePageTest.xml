@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="1">
+
+  <testsuite name="homePageTest"
+    errors="1" failures="0" hostname="" id="" package="homePageTest" skipped="0"
+    tests="1" time="0.03000" timestamp="Mon, 11 Jun 2018 09:29:20 GMT">
+  
+    <testcase name="Ensure all elements are present on home page display" classname="homePageTest" time="0.03000" assertions="0">
+    </testcase>
+  
+
+  
+    <system-err>
+        Error while running [Home Page Test / Ensure all elements are present on home page display]:
+
+  TypeError: browser.url(...).resizeWindow(...).maximizeWindow(...).waitForElementVisible(...).pause(...).assert.visible(...).assert.containsText(...).assert.visible(...).assert.visible(...).setValue(...).keys(...).back(...).assert.containsText(...).moveToElement(...).pause(...).click(...).pause(...).assert.visible(...).assert.visible(...).moveToElement(...).click(...).pause(...).assert.urlEquals(...).back(...).moveToElement(...).pause(...).click(...).pause(...).assert.visible(...).assert.visible(...).moveToElement(...).click(...).assert.urlEquals(...).back(...).moveToElement(...).moveToElement(...).moveToElement(...).expect.element(...).to.have.attribute(...).pause is not a function
+    at Object.EnsureAllElementsArePresentOnHomePageDisplay [as Ensure all elements are present on home page display] (/Users/andeladeveloper/Projects/Hello-Books/e2etest/homePageTest.js:66:8)
+    at Module.call (/usr/local/lib/node_modules/nightwatch/lib/runner/module.js:62:34)
+    at /usr/local/lib/node_modules/nightwatch/lib/runner/testcase.js:70:29
+    at _fulfilled (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:834:54)
+    at self.promiseDispatch.done (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:863:30)
+    at Promise.promise.promiseDispatch (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:796:13)
+    at /usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:556:49
+    at runSingle (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:137:13)
+    at flush (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:125:13)
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    </system-err>
+  
+
+  
+  </testsuite>
+</testsuites>

@@ -74,7 +74,7 @@ class Carousel extends Component {
     let { topFavoriteBooks, loadingTopFavoritedBooks } = this.props;
 
     return (
-      <div>
+      <div id='my-carousel'>
         {
           loadingTopFavoritedBooks ? <Loader /> : ''
         }

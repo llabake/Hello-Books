@@ -49,7 +49,7 @@ class BookReturnListRow extends Component {
         <td>{borrowedBook.book.author}</td>
         <td>{moment(borrowedBook.borrowDate).format('ll')}</td>
         <td>{borrowedBook.user.username}</td>
-        <td>
+        <td id='return-book'>
           <a onClick = {this.handleReturn}
           style={{ cursor: "pointer" }}>
           <i className="material-icons">

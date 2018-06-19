@@ -23,9 +23,8 @@ class BookListRow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      bookToEdit : {},
+      // bookToEdit : {},
       editBook: false
-
     }
 
     this.handleDelete= this.handleDelete.bind(this)
@@ -77,12 +76,15 @@ class BookListRow extends Component {
    */
   handleEdit(event) {
     event.preventDefault();
+    // console.log(bookToEdit, 'kijkij')
+    console.log(this.props.book, 'kiwggdh')
     this.setState({
-      bookToEdit: this.props.book ,
+      bookToEdit: this.props.book,
       editBook: true
     }, () => {
       $('#edit-book-modal').modal('open');
     })
+    console.log(this.state.bookToEdit, 'booktoedit')
   }
 
 
@@ -102,7 +104,7 @@ class BookListRow extends Component {
           <td>{book.title}</td>
           <td>{book.author}</td>
           <td>
-            <a onClick={this.handleEdit} 
+            <a id='edit-book' onClick={this.handleEdit} 
               className="modal-trigger .modal-close"
               style={{ cursor: "pointer" }}>
             <i className="material-icons">
@@ -112,13 +114,13 @@ class BookListRow extends Component {
             { this.state.editBook ? 
               <Modal id='edit-book-modal'
                 >
-                <ModifyBookDetail book={bookToEdit} />
+                <ModifyBookDetail book={book} />
               </Modal >: 
               null 
             } 
           </td>
           <td>
-            <a onClick={this.handleDelete}
+            <a id='delete-book' onClick={this.handleDelete}
             style={{ cursor: "pointer" }}>
             <i className="material-icons">
               delete

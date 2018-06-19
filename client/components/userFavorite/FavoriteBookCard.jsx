@@ -134,7 +134,7 @@ class FavoriteBookCard extends Component {
             {/* <br/> */}
           </div>
           <div className="card-content" style={{ paddingTop: '0px', cursor: 'pointer' }}>
-            <span>
+            <span id='delete-favorite'>
               <a onClick={this.handleDelete}>Remove</a>
             </span>
           </div>

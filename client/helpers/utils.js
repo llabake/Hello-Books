@@ -109,7 +109,7 @@ export const authenticateUser = () => {
 export const isDefined = input => input !== undefined && input !== null;
 
 export const isNotEmpty = input => {
-  const result = input ? input.trim() !== '' : false;
+  const result = input ? typeof(input) !== 'string' || input.trim() !== '' : false;
   return result;
 };
 

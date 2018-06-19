@@ -100,7 +100,7 @@ class RequestedBooks extends Component {
           <table className="bordered centered highlight responsive-table">
             <thead>
               <tr>
-                <th>Requested Books</th>
+                <th id='title'>Requested Books</th>
               </tr>
             </thead>
           </table>

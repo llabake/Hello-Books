@@ -105,10 +105,10 @@ class AllBooks extends Component {
             <div className="row ">
               {books.length ?
                 <div className="section">
-                  <div className="row">
-                    {books ? books.map((book, index) => {
-                      return <div key={index}><BookCard book={book} /></div>
-                    }) : null}
+                  <div className="row" id="allbooks-list">
+                  { books ? books.map((book,) => {
+                    return <div key={book.id}><BookCard book={book} id={book.id} /></div>
+                  }) : null }              
                   </div>
                   {showPagination ?
                     <Pagination
@@ -123,6 +123,7 @@ class AllBooks extends Component {
                 !loading && !books.length ?
                   <NothingFound
                     text={'Ooppss!!! There are no books in library at the moment.'}
+                    id={'no-books'}
                   />
                   : null
               }

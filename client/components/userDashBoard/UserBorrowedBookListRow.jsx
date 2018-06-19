@@ -56,7 +56,7 @@ class UserBorrowedBookListRow extends Component {
         <td>{borrowedBook.expectedReturnDate ?
           moment(borrowedBook.expectedReturnDate).format('ll') :
           borrowedBook.expectedReturnDate}</td>
-        <td>
+        <td id='returned'>
           {borrowedBook.returnStatus == 'accepted' ? 'Returned' :
             <a
               className={`btn-flat 

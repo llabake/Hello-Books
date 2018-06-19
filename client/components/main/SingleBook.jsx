@@ -299,7 +299,7 @@ class SingleBook extends Component {
                       <div className="section2">
                         <span> Quantity In Stock: </span> <span>{book.quantity}</span>
                         <span> Status: </span>
-                        <span>{book.quantity > 0 ?
+                        <span id='availabilty' >{book.quantity > 0 ?
                           'Available' :
                           'Unavailable'}
                         </span>
@@ -318,7 +318,7 @@ class SingleBook extends Component {
                         </span>
                         <br />
                         <div style={pointerStyle}>
-                          <a className="upvote" onClick={this.handleUpvote}>
+                          <a id='voted' className="upvote" onClick={this.handleUpvote}>
                             {checkUpVote(book, user) ?
                               <i className="material-icons pencil small"
                                 style={{ color: 'rgb(0, 169, 0)' }}>thumb_up</i> :
