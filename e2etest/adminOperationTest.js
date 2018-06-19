@@ -1,7 +1,8 @@
+const path = require('path');
 
 const hostUrl = 'http://localhost:8080'
 export default {
-  'Admin operations': function (browser) {
+  AdminOperation: function (browser) {
     browser
       .url(hostUrl)
       .resizeWindow(1700, 800)
@@ -35,12 +36,10 @@ export default {
           .pause(1000)
           .assert.urlEquals(`${hostUrl}/allbooks`);
       })
-      .pause(4000)
-      .assert.containsText('a.dropdown-button', 'flakky')
-      .pause(500)
+      .pause(3000)
   },
 
-  'Add Book fails when invalid details are provided': (browser) => {
+  AddBookFailsInvalidDetails: (browser) => {
     browser
       .url(`${hostUrl}/addbook`)
       .moveToElement('input[id="title"]', 20, 20)
@@ -94,7 +93,7 @@ export default {
       .pause(500)
   },
 
-  'Add Book: admin can add book with valid credentials':
+  AddBookSuccess:
     (browser) => {
       browser
         .url(`${hostUrl}/addbook`)
@@ -143,7 +142,7 @@ export default {
         .pause(4000)
     },
 
-  'AdminDashboard: book list tab':
+  AdminDashboardBookListTab:
     (browser) => {
       browser
         .url(`${hostUrl}/admindashboard`)
@@ -154,23 +153,24 @@ export default {
         .assert.containsText('ul.tabs li:nth-child(3)', 'RETURN REQUEST')
         .assert.visible('.bordered.highlight.responsive-table')
         .assert.elementNotPresent('Ooppss!!! You have not added any books to the library at the moment.')
-  .assert.containsText(
-   'thead tr',
-   '  S/N Title Author Edit Delete'
-  )
         .assert.visible('#edit-book')
         .assert.visible('#delete-book')
         .moveToElement('#delete-book', 30, 30)
         .click('#delete-book')
+        .pause(3000)
         .assert.visible('.swal-button-container')
         .assert.visible('.swal-button--cancel')
         .assert.visible('.swal-button--danger')
         .click('.swal-button--danger')
         .pause(2000)
         .assert.visible('.swal-button--confirm')
+        .pause(3000)
+        .click(('.swal-button--confirm'))
+        .pause(2000)
         .pause(3000);
     },
-  'AdminDashboard: Borrow request list tab':
+
+  AdminDashboardBorrowRequestTab:
     (browser) => {
       browser
         .url(`${hostUrl}/admindashboard`)
@@ -193,7 +193,7 @@ export default {
         .pause(3000)
         .assert.visible('ul.tabs')
         .click('ul.tabs li:nth-child(2)')
-        .pause(400)
+        .pause(3000)
         .assert.visible('#accept-book')
         .moveToElement('#accept-book', 30, 30)
         .click('#accept-book')
@@ -207,7 +207,7 @@ export default {
         .pause(3000)
     },
 
-  'AdminDashboard: Return request list tab':
+  AdminDashboardReturnRequestTab:
     (browser) => {
       browser
         .url(`${hostUrl}/admindashboard`)
@@ -215,6 +215,7 @@ export default {
         .assert.visible('ul.tabs')
         .click('ul.tabs li:nth-child(3)')
         .assert.visible('.bordered.highlight.responsive-table')
+        .pause(1000)
         .assert.containsText('.card-panel.row.center-align', 'Ooppss!!! No return request pending.')
         .moveToElement('a.dropdown-button', 30, 30)
         .pause(1000)
@@ -266,7 +267,7 @@ export default {
         .pause(3000)
     },
 
-  'AdminDashboard: Requested books table':
+  RequestedBooksTable:
     (browser) => {
       browser
         .url(`${hostUrl}/admindashboard`)
@@ -276,6 +277,12 @@ export default {
         .assert.containsText('#title', 'Requested Books')
         .assert.visible('.pagination')
         .pause(3000)
+        .click('a.dropdown-button')
+        .pause(1000)
+        .assert.visible('li a')
+        .assert.visible('li a', 'Log Out')
+        .moveToElement('#dropdown1', 20, 20)
+        .click('#dropdown1 li a[href="/"]')
     },
 
 };

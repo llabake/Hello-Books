@@ -105,7 +105,7 @@ class AllBooks extends Component {
             <div className="row ">
               {books.length ?
                 <div className="section">
-                  <div className="row">
+                  <div className="row" id="allbooks-list">
                   { books ? books.map((book,) => {
                     return <div key={book.id}><BookCard book={book} id={book.id} /></div>
                   }) : null }              

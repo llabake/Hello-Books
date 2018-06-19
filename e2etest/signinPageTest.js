@@ -1,7 +1,7 @@
 
 const hostUrl = 'http://localhost:8080'
 export default {
-  'Ensure all elements are present on sign in page display': function (browser) {
+  SignInPage: function (browser) {
     browser
       .url(hostUrl)
       .resizeWindow(1700, 800)
@@ -28,10 +28,9 @@ export default {
       .assert.containsText('form button', 'SIGN IN')
       .moveToElement('.terms', 20, 20)
       .assert.visible('p', ' Don\'t have an account? a[href="/signup"]Sign Up Now')
-      .pause(500)
+      .pause(500);
   },
-
-  'Ensure user signin fails when invalid details are provided': (browser) => {
+  UserSignInFailsMissingFields: (browser) => {
     browser
       .url(`${hostUrl}/signin`)
       .setValue('input[id="username"]', 'user')
@@ -46,10 +45,9 @@ export default {
           .assert.visible('div.red-text');
       })
       .assert.attributeEquals('button[type=submit]', 'disabled', 'true')
-      .pause(1000)
+      .pause(1000);
   },
-
-  'Ensure user signin fails': (browser) => {
+  UserSignInFails: (browser) => {
     browser
       .url(`${hostUrl}/signin`)
       .setValue('input[id="username"]', 'e2eusername')
@@ -60,15 +58,13 @@ export default {
       .click('form button', () => {
         browser
           .pause(50)
-        .assert.attributeEquals('button[type=submit]', 'disabled', 'true')
       })
       .waitForElementVisible('#toast-container', 2000)
       .assert.visible('#toast-container')
       .assert.containsText('#toast-container', 'Username or Password incorrect')
-      .pause(1000)
+      .pause(1000);
   },
-
-  'Ensure user can signin with valid details on the signin page': (browser) => {
+  UserSignInSuccessfull: (browser) => {
     browser
       .url(`${hostUrl}/signin`)
       .setValue('input[id="username"]', 'e2eusername')
@@ -80,19 +76,15 @@ export default {
           .pause(2000)
           .waitForElementVisible('#toast-container', 2000)
           .assert.visible('#toast-container')
-          .assert.containsText(
-            '#toast-container',
-            'Welcome e2eusername, you\'re logged in'
-          )
+          .assert.containsText('#toast-container', 'Welcome e2eusername, you\'re logged in')
           .pause(2000)
           .assert.urlEquals(`${hostUrl}/allbooks`);
       })
       .pause(4000)
       .assert.containsText('a.dropdown-button', 'e2eusername')
-      .pause(500)
+      .pause(500);
   },
-
-  'User can sign out of the application': (browser) => {
+  UserSignOut: (browser) => {
     browser
       .moveToElement('a.dropdown-button', 30, 30)
       .pause(1000)
@@ -102,6 +94,6 @@ export default {
       .pause(2000)
       .assert.urlEquals(`${hostUrl}/`)
       .assert.containsText('a.dropdown-button', 'Hi, User')
-      .closeWindow();
+      .pause(2000)
   },
 };

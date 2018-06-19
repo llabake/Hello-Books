@@ -134,7 +134,12 @@ class AddBook extends Component {
     return isValid;
   }
 
-
+  /**
+   *@returns {void}
+   *
+   * @param {*} event
+   * @memberof AddBook
+   */
   handleFileChange(event) {
     const uploadedImage = event.target.files[0];
     this.setState({
@@ -257,7 +262,6 @@ class AddBook extends Component {
                           errors.image.map((error, i) => {
                             return (
                               <div key={i} className='red-text'>
-                                <i className="material-icons">error_outline</i>
                                 {error}
                               </div>
                             )

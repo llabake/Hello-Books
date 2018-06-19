@@ -8,11 +8,16 @@
     "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register server/tests --timeout 4000 --exit",
     "start": "sequelize db:migrate && sequelize db:seed:all && babel-node app.js",
     "start-dev": "babel-watch app.js",
+    "start-dev-test": "NODE_ENV=test babel-watch app.js",
     "heroku-postbuild": "npm run build && npm install sequelize-cli babel-cli -g",
-    "dev": "webpack-dev-server --open --config webpack.config.dev.js --colors",
+    "dev": "webpack-dev-server --config webpack.config.dev.js --colors",
     "watch": "webpack --watch && npm run build",
     "build": "webpack --config webpack.config.prod.js",
     "test:client": "jest --coverage",
+    "migration": "sequelize db:migrate:undo:all && sequelize db:migrate",
+    "seed": "sequelize db:seed:undo:all && sequelize db:seed:all",
+    "pre-e2e-test": "NODE_ENV=test npm run migration && NODE_ENV=test npm run seed && npm run dev && NODE_ENV=test npm run start-dev-test",
+    "pre-nightwatch-test": "npm run migration && npm run seed && npm run dev && npm run start-dev",
     "e2e-test": "nightwatch"
   },
   "jest": {

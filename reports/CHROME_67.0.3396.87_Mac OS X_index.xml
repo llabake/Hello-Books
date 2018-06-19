@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="1"
+            tests="26">
+
+  <testsuite name="index"
+    errors="0" failures="1" hostname="" id="" package="index" skipped="3"
+    tests="26" time="386.7" timestamp="Tue, 19 Jun 2018 14:52:28 GMT">
+  
+    <testcase name="Ensure all display of home page" classname="index" time="18.87" assertions="25">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Ensure all elements are present on sign up page display" classname="index" time="7.278" assertions="15">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Ensure user signup fails when invalid details are provided" classname="index" time="17.87" assertions="11">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Ensure user can signup with valid details on the signup page" classname="index" time="27.25" assertions="7">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Ensure all elements are present on sign in page display" classname="index" time="11.71" assertions="11">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Ensure user signin fails when invalid details are provided" classname="index" time="8.547" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Ensure user signin fails" classname="index" time="4.343" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Ensure user can signin with valid details on the signin page" classname="index" time="11.51" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User can sign out of the application" classname="index" time="6.945" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Admin Operation" classname="index" time="17.91" assertions="9">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Add Book fails when invalid details are provided" classname="index" time="17.73" assertions="7">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Add Book: admin can add book with valid credentials" classname="index" time="19.70" assertions="15">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="AdminDashboard: book list tab" classname="index" time="19.86" assertions="12">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="AdminDashboard:  Borrow request list tab" classname="index" time="28.74" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="AdminDashboard: Return request tab" classname="index" time="28.75" assertions="21">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="AdminDashboard: Requested books table" classname="index" time="7.906" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="User Operation" classname="index" time="29.69" assertions="10">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Search:User should be able to search for books" classname="index" time="11.30" assertions="12">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="All Books: User should see all books" classname="index" time="3.900" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Favorite: users can add a book as favorite and view their favorite list" classname="index" time="40.20" assertions="27">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Book Details: users can view book details" classname="index" time="11.21" assertions="24">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Vote: users can upvote or downvote a book" classname="index" time="20.04" assertions="8">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Review: users can post, edit and delete review on a book" classname="index" time="15.41" assertions="4">
+
+    
+
+    
+
+      <failure message="Testing if element &lt;#toast-container&gt; contains text: &#34;Review has been posted&#34;.">    at Object.&lt;anonymous&gt; (/Users/andeladeveloper/Projects/Hello-Books/e2etest/userOperationTest.js:245:21)</failure>
+
+    
+    </testcase>
+  
+
+  
+
+  
+    
+    <testcase
+      name="Profile: user can view his/her profile" classname="index">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Profile: user can edit his/her profile" classname="index">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Logout: User should be able to log out" classname="index">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

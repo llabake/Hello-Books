@@ -48,7 +48,7 @@ class UserProfileSidePanel extends Component {
             </div>
           </div>
           <div className="card-action">
-            <Link to="/editprofile" >Profile Setting</Link>
+            <Link id="edit-user-profile" to="/editprofile" >Profile Setting</Link>
           </div>
         </div>
         <div className="hide-on-med-and-up">

@@ -169,10 +169,10 @@ export default class InputValidator {
 
     requiredFields.forEach((field) => {
       errors[field] = []
-      if (!isDefined(data[field]) || !isNotEmpty(data[field])) {
+      if (!isDefined(data[field]) || (!isNotEmpty(data[field]))){
         errors[field].push(`${field} is required`);
       } else {
-        let { publishedYear, isbn, quantity } = data;
+        let { publishedYear, isbn, quantity, description } = data;
         if (field === 'publishedYear') {
           publishedYear = publishedYear.toString().trim()
           if (publishedYear.length && isNumeric(publishedYear)) {
@@ -205,6 +205,15 @@ export default class InputValidator {
         if (field === 'quantity') {
           if (!isNumeric(quantity) || quantity <= 0) {
             errors.quantity.push('Quantity must be a number and greater than zero');
+          }
+        }
+
+        if(field === 'description') {
+          description = description.trim()
+          if(description.length < 4) {
+            errors.description.push('Minimum of 5 characters required')
+          } else if (description.length > 1000) {
+            errors.description.push('Maximum of 700 characters allowed')
           }
         }
       }

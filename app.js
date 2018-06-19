@@ -1,4 +1,4 @@
-import 'babel-polyfill'; 
+import 'babel-polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
@@ -25,7 +25,7 @@ const swaggerDefinition = {
     title: 'Hello Books API',
     version: '1.0.0',
     description: 'An application that helps manage a library and its' +
-    ' processes like stocking, tracking and renting of books.',
+      ' processes like stocking, tracking and renting of books.',
   },
   host: hostUrl,
   basePath: '/',
@@ -87,6 +87,6 @@ if (process.env.NODE_ENV !== 'test') {
       console.log(`Server running on port ${port}`);
     });
   });
-}
+} 
 
 export default app;

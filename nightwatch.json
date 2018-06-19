@@ -1,5 +1,5 @@
 {
-  "src_folders": ["e2etest/userOperationTest.js"],
+  "src_folders": ["e2etest/index.js"],
   "output_folder": "reports",
   "selenium": {
     "start_process": true,

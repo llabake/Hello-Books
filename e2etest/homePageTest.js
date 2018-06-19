@@ -1,7 +1,7 @@
 
 const hostUrl = 'http://localhost:8080'
 export default {
-  'Ensure all elements are present on home page display': function (browser) {
+  HomePage: function (browser) {
     browser
       .url(hostUrl)
       .resizeWindow(1700, 800)

@@ -1,7 +1,7 @@
 
 const hostUrl = 'http://localhost:8080'
 export default {
-  'Ensure all elements are present on sign up page display': function (browser) {
+  SignUpPage: function (browser) {
     browser
       .url(hostUrl)
       .resizeWindow(1700, 800)
@@ -35,7 +35,7 @@ export default {
       .pause(500)
   },
 
-  'Ensure user signup fails when invalid details are provided': (browser) => {
+  SignUpWithInvalidDetailsFails: (browser) => {
     browser
       .url(`${hostUrl}/signup`)
       .moveToElement('input[id="first_name"]', 20, 20)
@@ -97,7 +97,7 @@ export default {
       .pause(500)
   },
 
-  'Ensure user can signup with valid details on the signup page': (browser) => {
+  SignUpWithValidCredentials: (browser) => {
     browser
       .url(`${hostUrl}/signup`)
       .setValue('input[id="first_name"]', 'e2efirstname')
@@ -126,6 +126,15 @@ export default {
       })
       .pause(4000)
       .assert.containsText('a.dropdown-button', 'e2eusername')
-      .pause(500)
+      .pause(2000)
+      .moveToElement('a.dropdown-button', 30, 30)
+      .pause(1000)
+      .click('a.dropdown-button')
+      .pause(1000)
+      .assert.visible('li a')
+      .assert.visible('li a', 'Log Out')
+      .moveToElement('#dropdown1', 20, 20)
+      .click('#dropdown1 li a[href="/"]')
+      .pause(2000)
   },
 };
