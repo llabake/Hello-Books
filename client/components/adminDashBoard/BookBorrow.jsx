@@ -12,7 +12,7 @@ import NothingFound from '../common/NothingFound';
  * @class BookBorrow
  * @extends {Component}
  */
-class BookBorrow extends Component {
+export class BookBorrow extends Component {
 
   /**
    * Creates an instance of BookBorrow.
@@ -60,7 +60,7 @@ class BookBorrow extends Component {
         showPagination: false
       })
     }
-
+ 
     if (borrowedBookCount && borrowedBooks 
       && !borrowedBooks.length  && this.state.activePage > 1) {
       this.handleSelectedPage(this.state.activePage - 1)
@@ -142,7 +142,7 @@ class BookBorrow extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     borrowedBooks: state.adminReducer.pendingBorrowedBookRequest,
     loading: state.adminReducer.loading,
@@ -150,7 +150,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     pendingAcceptBorrowRequest: (page) => dispatch(pendingAcceptBorrowRequest(page))
   };

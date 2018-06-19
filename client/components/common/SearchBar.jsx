@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
  * @class SearchBar
  * @extends {Component}
  */
-class SearchBar extends Component {
+export class SearchBar extends Component {
 
   /**
    * Creates an instance of SearchBar.
@@ -99,7 +99,7 @@ class SearchBar extends Component {
 
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     errors: state.errors,
     searchedBooks: state.bookReducer.searchResult

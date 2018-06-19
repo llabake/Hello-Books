@@ -12,7 +12,7 @@ import BookCard from '../common/BookCard';
  * @class SearchResult
  * @extends {Component}
  */
-class SearchResult extends Component {
+export class SearchResult extends Component {
 
   /**
    * Creates an instance of SearchResult.
@@ -60,13 +60,13 @@ class SearchResult extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     searchedBooks: state.bookReducer.searchResult
   }
 }
 
-const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = dispatch => {
   return {
     fetchSearchedBooks: (searchTerm) => dispatch(fetchSearchedBooks(searchTerm))
   }

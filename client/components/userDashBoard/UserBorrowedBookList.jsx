@@ -14,7 +14,7 @@ import NothingFound from '../common/NothingFound';
  * @class UserBorrowedBookList
  * @extends {Component}
  */
-class UserBorrowedBookList extends Component {
+export class UserBorrowedBookList extends Component {
 
   /**
    * Creates an instance of UserBorrowedBookList.
@@ -130,14 +130,14 @@ class UserBorrowedBookList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     borrowedBooks: state.userReducer.borrowedBookHistory,
     userBorrowedBookCount: state.userReducer.userBorrowedBookCount
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     fetchUserBorrowedBooks: (page) => dispatch(fetchUserBorrowedBooks(page))
   };

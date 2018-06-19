@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The User Borrowed Book List table should render and not crash 1`] = `
+<div>
+  <NothingFound
+    text="Start borrowing books today!!!"
+  />
+</div>
+`;

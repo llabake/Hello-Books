@@ -15,7 +15,7 @@ import { authenticateUser } from '../helpers/utils';
  * @class SignInForm
  * @extends {Component}
  */
-class SignInForm extends Component {
+export class SignInForm extends Component {
   /**
    * Creates an instance of SignInForm.
    * @param {any} props 
@@ -159,7 +159,7 @@ class SignInForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     error: state.userReducer.error,
     user: state.userReducer.authUser,
@@ -167,7 +167,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     signInUser: (userData) => dispatch(signInUser(userData))
   };

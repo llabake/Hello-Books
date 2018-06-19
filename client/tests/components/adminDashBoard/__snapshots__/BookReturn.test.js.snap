@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Book borrow tab should render and not crash 1`] = `
+<div
+  id="return"
+>
+  <div
+    className="col s12"
+  >
+    <div
+      className="card-panel"
+    >
+      <table
+        className="bordered centered highlight responsive-table"
+      >
+        <thead>
+          <tr>
+            <th>
+              S/N
+            </th>
+            <th>
+              Title
+            </th>
+            <th>
+              Author 
+            </th>
+            <th>
+              Date Borrowed
+            </th>
+            <th>
+              User
+            </th>
+            <th>
+              Return
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <Connect(BookReturnListRow)
+            borrowedBook={
+              Object {
+                "borrowedBooks": Array [
+                  Object {
+                    "actualReturnDate": null,
+                    "book": Object {
+                      "author": "Aaidh ibn Abdullah al-Qarni",
+                      "borrowCount": 6,
+                      "id": 2,
+                      "quantity": 1,
+                      "title": "dont be sad ",
+                    },
+                    "bookId": 2,
+                    "borrowDate": "2018-03-25T16:41:57.255Z",
+                    "borrowStatus": "accepted",
+                    "expectedReturnDate": "2018-04-08T16:41:57.255Z",
+                    "id": 15,
+                    "returnStatus": "pending",
+                    "user": Object {
+                      "id": 2,
+                      "username": "mama",
+                    },
+                    "userId": 2,
+                  },
+                ],
+                "message": "Borrowed books retrieved successfully",
+              }
+            }
+            index={0}
+          />
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;

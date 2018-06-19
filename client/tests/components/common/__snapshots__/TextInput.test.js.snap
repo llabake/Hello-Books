@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text input field component renders correctly 1`] = `
+<TextInput
+  errors={Array []}
+  icon=""
+  id=""
+  name=""
+  onBlur={[MockFunction]}
+  onChange={[MockFunction]}
+  placeholder=""
+  type=""
+  value=""
+>
+  <div
+    className="input-field col s12"
+  >
+    <i
+      className="material-icons prefix"
+    />
+    <input
+      className="validate"
+      id=""
+      name=""
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      placeholder=""
+      required={true}
+      type=""
+      value=""
+    />
+  </div>
+</TextInput>
+`;
+
+exports[`Text input field component show error when they occur 1`] = `
+<TextInput
+  errors={
+    Array [
+      "Username is required",
+    ]
+  }
+  icon=""
+  id=""
+  name=""
+  onBlur={[MockFunction]}
+  onChange={[MockFunction]}
+  placeholder=""
+  type=""
+  value=""
+>
+  <div
+    className="input-field col s12"
+  >
+    <i
+      className="material-icons prefix"
+    />
+    <input
+      className="validate"
+      id=""
+      name=""
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      placeholder=""
+      required={true}
+      type=""
+      value=""
+    />
+    <div
+      className="red-text left-align"
+      key="0"
+      style={
+        Object {
+          "fontSize": "medium",
+          "marginLeft": 46,
+          "marginTop": -12,
+        }
+      }
+    >
+      Username is required
+    </div>
+  </div>
+</TextInput>
+`;

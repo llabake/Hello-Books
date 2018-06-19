@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Review area component should render and not crash 1`] = `
+<div>
+  <form
+    onSubmit={[Function]}
+  >
+    <TextInput
+      icon="rate_review"
+      id="caption"
+      name="caption"
+      onChange={[Function]}
+      placeholder="Caption"
+      type="text"
+      value=""
+    />
+    <TextAreaInput
+      icon="rate_review"
+      id="content"
+      name="content"
+      onChange={[Function]}
+      placeholder="Content"
+      value=""
+    />
+    <button
+      className="waves-effect waves-light btn right"
+      disabled={true}
+      style={
+        Object {
+          "marginLeft": "36em",
+          "width": "25%",
+        }
+      }
+      type="submit"
+    >
+      Post Review
+    </button>
+  </form>
+</div>
+`;

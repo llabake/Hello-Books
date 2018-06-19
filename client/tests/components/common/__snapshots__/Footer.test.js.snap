@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Footer component mounts correctly 1`] = `
+<footer
+  className="page-footer center"
+>
+  <div
+    className="container"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col s12 m4 l3"
+      >
+        <h5
+          className="white-text"
+        >
+          My Account
+        </h5>
+        <ul
+          className="navigation"
+        >
+          <li>
+            <Link
+              className="grey-text text-lighten-4"
+              replace={false}
+              to="/"
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="white-text text-lighten-4"
+              replace={false}
+              to="/profile"
+            >
+              Profile
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="grey-text text-lighten-4"
+              replace={false}
+              to="/favorite"
+            >
+              Favorite
+            </Link>
+          </li>
+        </ul>
+      </div>
+      <div
+        className="col s12 m4 l6"
+      >
+        <h5
+          className="white-text"
+        >
+          Hello Books
+        </h5>
+        <p
+          className="white-text text-lighten-4"
+        >
+          Stay Connected. Join our over 5 million users today
+        </p>
+      </div>
+      <div
+        className="col s12 m4 l3"
+      >
+        <h5
+          className="white-text"
+        >
+          Be Social
+        </h5>
+        <ul
+          className="list-inline"
+        >
+          <li>
+            <a
+              className="social-btn"
+              href="https://facebook.com/hellobooksapp"
+            >
+              <i
+                className="fa fa-facebook-square fa-2x icon-style"
+              />
+            </a>
+          </li>
+          <li>
+            <a
+              className="social-btn"
+              href="https://instagram.com/hellobooksapp"
+            >
+              <i
+                className="fa fa-instagram fa-2x icon-style"
+              />
+            </a>
+          </li>
+          <li>
+            <a
+              className="social-btn"
+              href="https://twitter.com/hellobooksapp"
+            >
+              <i
+                className="fa fa-twitter-square fa-2x icon-style"
+              />
+            </a>
+          </li>
+          <li>
+            <a
+              className="social-btn"
+              href="https://pinterest.com/hellobooksapp"
+            >
+              <i
+                className="fa fa-pinterest-square fa-2x icon-style"
+              />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div
+    className="footer-copyright center-align"
+  >
+    <div
+      className="container"
+    >
+      © 
+      2018
+       Happy Girl World
+    </div>
+  </div>
+</footer>
+`;

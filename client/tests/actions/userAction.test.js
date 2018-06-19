@@ -119,9 +119,7 @@ describe('fetch user actions', () => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
         status: 400,
-        error: {
-          response: userData.userBorrowedBookListError
-        } 
+        response: userData.userBorrowedBookListError
         });
     });
     const expectedActions = [
@@ -156,7 +154,7 @@ describe('fetch user actions', () => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
         status: 400,
-        error: userData.returnBookError
+        response: userData.returnBookError
       });
     });
     const expectedActions = [
@@ -234,7 +232,7 @@ describe('fetch user actions', () => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
-  xit('should dispatch EDIT_USER_PROFILE_SUCCESS to edit a user profile', () => {
+  it('should dispatch EDIT_USER_PROFILE_SUCCESS to edit a user profile', () => {
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
@@ -250,7 +248,8 @@ describe('fetch user actions', () => {
       },
     ];
     const store = mockStore({ profile: {} })
-    return store.dispatch(actions.editProfile(userData.editData)).then(() => {
+    store.dispatch(actions.editProfile(userData.editData))
+    return store.dispatch(actions.editProfileData(userData.editData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

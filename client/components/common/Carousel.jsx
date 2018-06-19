@@ -13,7 +13,7 @@ import Loader from '../common/Loader';
  * @class Carousel
  * @extends {Component}
  */
-class Carousel extends Component {
+export class Carousel extends Component {
 
   /**
    * @returns {array} array of top favorite books
@@ -99,7 +99,7 @@ class Carousel extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     topFavoriteBooks: state.bookReducer.topFavoriteBooks,
     loadingTopFavoritedBooks: state.bookReducer.loadingTopFavoritedBooks
@@ -107,7 +107,7 @@ const mapStateToProps = (state) => {
 };
 
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     fetchTopFavoriteBooks: () => dispatch(fetchTopFavoriteBooks()),
   };

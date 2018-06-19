@@ -46,10 +46,10 @@ export default {
     success: false
   },
   userBorrowedBookListError: {
-    data: {
+    // data: {
       message:'error sending your request'
-    },
-    error: {}
+    // },
+    // error: {}
   },
   returnBookResponse: {
     message: 'Book return request is pending approval by Administrator',
@@ -235,5 +235,20 @@ export default {
     },
     message: 'Your profile has been updated'
   },
-  bookCount: 2
+  bookCount: 2,
+  user: {  
+    id: 3,
+    role: 'normal',
+    active: true,
+    username: 'labake',
+    email: 'labake.labs@gmail.com',
+  },
+
+  admin: {  
+    id: 4,
+    role: 'admin',
+    active: true,
+    username: 'keinzy',
+    email: 'oreitanoyebola@gmail.com',
+  }
 }

@@ -4,19 +4,19 @@ import moxios from 'moxios';
 import expect from 'expect';
 import * as types from '../../actions/actionTypes';
 import * as actions from '../../actions/bookAction';
-import { 
-  books, 
-  popularBooks, 
-  topFavoriteBooks, 
-  bookData, 
-  addedBook, 
-  addedBookAfterFavoriteAction, 
-  bookAfterUpvoteAction, 
-  bookBeforeUpvoteAction, 
-  bookAfterDownvoteAction, 
-  bookAfterReviewAction, 
-  bookAfterBorrowAction, 
-  bookAfterEditReviewAction, 
+import {
+  books,
+  popularBooks,
+  topFavoriteBooks,
+  bookData,
+  addedBook,
+  addedBookAfterFavoriteAction,
+  bookAfterUpvoteAction,
+  bookBeforeUpvoteAction,
+  bookAfterDownvoteAction,
+  bookAfterReviewAction,
+  bookAfterBorrowAction,
+  bookAfterEditReviewAction,
   reviewData,
   bookCount,
   searchResult
@@ -29,7 +29,7 @@ describe('fetch books actions', () => {
   beforeEach(function () {
     moxios.install();
   });
-  afterEach(function ()  {
+  afterEach(function () {
     moxios.uninstall();
   });
   it('creates FETCH_BOOK_SUCCESS after successfully fetching books', () => {
@@ -71,6 +71,22 @@ describe('fetch books actions', () => {
     ];
     const store = mockStore({ popularBooks: [] })
     return store.dispatch(actions.fetchPopularBooks()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('checks that CHECK_ISBN_EXISTS is dispatched', () => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        status: 200,
+      });
+    });
+    const expectedActions = [
+      { type: types.CHECK_ISBN_EXISTS, }
+    ];
+    const store = mockStore({ book: {} })
+    return store.dispatch(actions.checkIsbnExist('isbn', '8989898989898')).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -146,7 +162,8 @@ describe('fetch books actions', () => {
     });
     const expectedActions = [
       { type: types.FAVORITE_BOOK },
-      { type: types.FAVORITE_BOOK_SUCCESS, 
+      {
+        type: types.FAVORITE_BOOK_SUCCESS,
         favoritedBook: addedBookAfterFavoriteAction
       }
     ];
@@ -168,7 +185,8 @@ describe('fetch books actions', () => {
     });
     const expectedActions = [
       { type: types.UPVOTE },
-      { type: types.UPVOTE_SUCCESS, 
+      {
+        type: types.UPVOTE_SUCCESS,
         upvotedBook: bookAfterUpvoteAction
       }
     ];
@@ -190,15 +208,16 @@ describe('fetch books actions', () => {
     });
     const expectedActions = [
       { type: types.DOWNVOTE },
-      { type: types.DOWNVOTE_SUCCESS, 
+      {
+        type: types.DOWNVOTE_SUCCESS,
         downvotedBook: bookAfterDownvoteAction
       }
     ];
     const store = mockStore({ upvotedBook: {} })
     return store.dispatch(actions.downVoteBook(bookAfterUpvoteAction.id))
-    .then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
   it('creates REVIEW_SUCCESS after successfully reviewing a book', () => {
     moxios.wait(() => {
@@ -213,33 +232,18 @@ describe('fetch books actions', () => {
     });
     const expectedActions = [
       { type: types.REVIEW },
-      { type: types.REVIEW_SUCCESS, 
+      {
+        type: types.REVIEW_SUCCESS,
         reviewedBook: bookAfterReviewAction
       }
     ];
     const store = mockStore({ review: {} })
     return store.dispatch(actions.reviewBook(bookBeforeUpvoteAction.id))
-    .then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-  it('creates SHOW_ALL_REVIEWS after clicking write review', () => {
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent();
-      request.respondWith({
-        response: {
-          loadingReviewArea: true
-        }
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
       });
-    });
-    const expectedActions = [
-      { type: types.SHOW_REVIEW_TEXT_AREA },
-    ];
-    const store = mockStore({ loadingReviewArea: false })
-    store.dispatch(actions.showReviewTextArea())
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  xit('creates BORROW_SUCCESS after successfully borrowing a book', () => {
+  });
+  it('creates BORROW_SUCCESS after successfully borrowing a book', () => {
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
@@ -252,18 +256,18 @@ describe('fetch books actions', () => {
     });
     const expectedActions = [
       { type: types.BORROW },
-      { type: types.BORROW_SUCCESS, 
+      {
+        type: types.BORROW_SUCCESS,
         borrowedBook: bookAfterBorrowAction
       }
     ];
     const store = mockStore({ borrowedBook: [] })
     return store.dispatch(actions.borrowBook(bookBeforeUpvoteAction.id))
-    .then(() => {
-      // console.log(store.getActions(), 'mashjjf')
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
-  xit('creates SEARCH_ALL_BOOKS_SUCCESS after successfully searching a book', () => {
+  it('creates SEARCH_ALL_BOOKS_SUCCESS after successfully searching a book', () => {
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
@@ -276,15 +280,16 @@ describe('fetch books actions', () => {
     });
     const expectedActions = [
       { type: types.SEARCH_ALL_BOOKS },
-      { type: types.SEARCH_ALL_BOOKS_SUCCESS, 
+      {
+        type: types.SEARCH_ALL_BOOKS_SUCCESS,
         books: searchResult
       }
     ];
     const store = mockStore({ books: [] })
     return store.dispatch(actions.fetchSearchedBooks("Lola"))
-    .then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
   it('creates DELETE_BOOK_REVIEW_SUCCESS after successfully deleting a book review', () => {
     moxios.wait(() => {
@@ -298,15 +303,16 @@ describe('fetch books actions', () => {
     });
     const expectedActions = [
       { type: types.DELETE_BOOK_REVIEW },
-      { type: types.DELETE_BOOK_REVIEW_SUCCESS, 
+      {
+        type: types.DELETE_BOOK_REVIEW_SUCCESS,
         reviewId: bookAfterReviewAction.reviews[0].id
       }
     ];
     const store = mockStore({ books: [] })
     return store.dispatch(actions.deleteBookReview(bookAfterReviewAction.id, bookAfterReviewAction.reviews[0].id))
-    .then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
   it('creates MODIFY_REVIEW_SUCCESS after successfully modifying a book review', () => {
     moxios.wait(() => {
@@ -320,14 +326,67 @@ describe('fetch books actions', () => {
     });
     const expectedActions = [
       { type: types.MODIFY_REVIEW },
-      { type: types.MODIFY_REVIEW_SUCCESS, 
+      {
+        type: types.MODIFY_REVIEW_SUCCESS,
         editedReview: bookAfterEditReviewAction.reviews[0]
       }
     ];
     const store = mockStore({ books: [] })
     return store.dispatch(actions.modifyReviewAction(bookAfterReviewAction.reviews[0].id, reviewData))
-    .then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+  });
+
+  it('creates SHOW_REVIEW_TEXT_AREA after clicking write review', () => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        response: {
+          loadingReviewArea: true
+        }
+      });
     });
+    const expectedActions = [
+      { type: types.SHOW_REVIEW_TEXT_AREA },
+    ];
+    const store = mockStore({ loadingReviewArea: false })
+    store.dispatch(actions.showReviewTextArea())
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  it('creates SHOW_ALL_REVIEWS after clicking write review', () => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        response: {
+          loadAllReview: true
+        }
+      });
+    });
+    const expectedActions = [
+      { type: types.SHOW_ALL_REVIEWS },
+    ];
+    const store = mockStore({ loadAllReview: false })
+    store.dispatch(actions.showAllReviews())
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  it('creates HANDLE_CANCEL_CLICK after clicking cancel', () => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        response: {
+          loadAllReview: true,
+          editReview: false
+        }
+      });
+    });
+    const expectedActions = [
+      { type: types.HANDLE_CANCEL_CLICK },
+    ];
+    const store = mockStore({ loadAllReview: false, editReview: true })
+    store.dispatch(actions.handleCancelClick())
+    expect(store.getActions()).toEqual(expectedActions);
   });
 });

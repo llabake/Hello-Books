@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserProfilePage page should render and not crash 1`] = `
+<div>
+  <div
+    className="row "
+  >
+    <Connect(UserProfileSidePanel)
+      user={
+        Object {
+          "active": true,
+          "email": "oreitanoyebola@gmail.com",
+          "id": 4,
+          "role": "admin",
+          "username": "keinzy",
+        }
+      }
+    />
+    <div
+      className="col s12 m8"
+    >
+      <Connect(UserBorrowedBookList) />
+    </div>
+  </div>
+</div>
+`;

@@ -182,6 +182,7 @@ export const deleteBookAction = (bookId) => (dispatch, getState) => {
   return axios.delete(`${hostUrl}/api/v1/books/${bookId}`, axiosDefaultOptions())
     .then(() => {
       dispatch(deleteBookSuccess(bookId))
+      // const { adminReducer: { bookCount } } = getState();
       dispatch(setBookCount(getState().adminReducer.bookCount - 1));
     })
     .catch((error) => {

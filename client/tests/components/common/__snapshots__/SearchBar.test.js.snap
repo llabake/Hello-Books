@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchBar /> 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    className="input-field col s6 s12 "
+  >
+    <input
+      name="searchTerm"
+      onChange={[Function]}
+      placeholder="Title, Author, Keyword"
+      type="search"
+      value=""
+    />
+    <label
+      className="label-icon icon-sit"
+      htmlFor="search"
+    >
+      <i
+        className="material-icons clickable"
+        onClick={[Function]}
+      >
+        search
+      </i>
+    </label>
+    <i
+      className="material-icons"
+      style={
+        Object {
+          "fontSize": "1.5rem",
+          "marginTop": "-6px",
+        }
+      }
+    >
+      close
+    </i>
+  </div>
+</form>
+`;

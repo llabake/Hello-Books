@@ -7,7 +7,6 @@ import { Pagination } from 'react-materialize';
 import BookCard from '../common/BookCard';
 import Loader from '../common/Loader';
 import { fetchAllBooks } from '../../actions/bookAction';
-import { logout } from '../../actions/userAction';
 import { maxPageLimit } from '../../helpers/utils'
 import NothingFound from '../common/NothingFound';
 
@@ -18,7 +17,7 @@ import NothingFound from '../common/NothingFound';
  * @class AllBooks
  * @extends {Component}
  */
-class AllBooks extends Component {
+export class AllBooks extends Component {
   /**
    * Creates an instance of AllBooks.
    * @param {any} props 
@@ -32,7 +31,6 @@ class AllBooks extends Component {
       showPagination: false,
       // activePage: 1,
     }
-    this.handleLogout = this.handleLogout.bind(this);
     this.handleSelectedPage = this.handleSelectedPage.bind(this);
 
   }
@@ -46,14 +44,6 @@ class AllBooks extends Component {
   componentDidMount() {
     this.props.fetchAllBooks();
 
-  }
-  /**
-   * @returns {object} redirects to home page
-   * 
-   * @memberof AllBooks
-   */
-  handleLogout() {
-    this.props.logout();
   }
 
 
@@ -135,7 +125,7 @@ class AllBooks extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     books: state.bookReducer.books,
     loading: state.bookReducer.loading,
@@ -145,10 +135,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllBooks: (page) => dispatch(fetchAllBooks(page)),
-    logout: () => dispatch(logout())
   };
 };
 

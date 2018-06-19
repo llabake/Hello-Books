@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Pagination } from "react-materialize";
 
-
-import FavoritePageHeader from '../userFavorite/FavoritePageHeader';
-import Footer from '../../components/common/Footer';
 import FavoriteBookCard from '../userFavorite/FavoriteBookCard'
 import Loader from '../common/Loader';
 import { fetchUserFavoriteBooks } from '../../actions/userAction';
@@ -19,7 +16,7 @@ import NothingFound from '../common/NothingFound';
  * @class Favorite
  * @extends {Component}
  */
-class Favorite extends Component {
+export class Favorite extends Component {
 
   /**
    * Creates an instance of Favorite.
@@ -137,7 +134,7 @@ class Favorite extends Component {
 
 
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
     favoriteBooks: state.userReducer.favoriteBooks,
     loading: state.userReducer.loading,
@@ -145,7 +142,7 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = dispatch => {
   return {
     fetchUserFavoriteBooks: (page) => dispatch(fetchUserFavoriteBooks(page))
   }

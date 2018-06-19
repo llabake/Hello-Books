@@ -11,8 +11,8 @@ import sliderimage6 from '../../media/radu-marcusu-498248-unsplash.jpg';
 
 
 /**
- * 
- * 
+ *
+ *
  * @export
  * @class Slider
  * @extends {Component}

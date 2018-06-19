@@ -13,7 +13,7 @@ import NothingFound from '../common/NothingFound';
  * @class BookReturn
  * @extends {Component}
  */
-class BookReturn extends Component {
+export class BookReturn extends Component {
 
   /**
    * Creates an instance of BookReturn.
@@ -142,7 +142,7 @@ class BookReturn extends Component {
 }
 
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     borrowedBooks: state.adminReducer.pendingReturnedBookRequest,
     loading: state.adminReducer.loading,
@@ -150,7 +150,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     pendingAcceptReturnRequest: (page) => dispatch(pendingAcceptReturnRequest(page))
   };

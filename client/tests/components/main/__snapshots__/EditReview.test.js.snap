@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modify Profile page should render with the right amount of elements 1`] = `
+<div>
+  <form
+    onSubmit={[Function]}
+  >
+    <TextInput
+      icon="rate_review"
+      id="caption"
+      name="caption"
+      onChange={[Function]}
+      placeholder="Caption"
+      type="text"
+      value="caption"
+    />
+    <TextAreaInput
+      icon="rate_review"
+      id="content"
+      name="content"
+      onChange={[Function]}
+      placeholder="Content"
+      value="content"
+    />
+    <button
+      className="waves-effect waves-light btn"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "white",
+          "color": "black",
+          "marginLeft": "28em",
+          "marginRight": "2em",
+          "width": "20%",
+        }
+      }
+    >
+      Cancel
+    </button>
+    <button
+      className="waves-effect waves-light btn"
+      style={
+        Object {
+          "background": "green",
+          "width": "20%",
+        }
+      }
+      type="submit"
+    >
+      Save Changes
+    </button>
+  </form>
+</div>
+`;

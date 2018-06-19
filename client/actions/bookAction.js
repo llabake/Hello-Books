@@ -27,7 +27,8 @@ import {
   FETCH_BOOK,
   HANDLE_CANCEL_CLICK,
   SET_BOOK_COUNT,
-  RESOURCE_NOT_FOUND
+  RESOURCE_NOT_FOUND,
+  CHECK_ISBN_EXISTS
 } from './actionTypes'
 import toastMessage from '../helpers/toastMessage';
 import { hostUrl, maxPageLimit } from '../helpers/utils';
@@ -154,7 +155,14 @@ const addBookError = (error) => {
   }
 }
 
+const isbnExist = () => {
+  return {
+    type: CHECK_ISBN_EXISTS,
+  }
+}
+
 export const checkIsbnExist = (field, userInput) => (dispatch) => {
+  dispatch(isbnExist())
   return axios.get(`${hostUrl}/api/v1/books/add/validate?${field}=${userInput}`)
 }
 
@@ -420,7 +428,6 @@ export const borrowBook = (bookId) => dispatch => {
   dispatch(borrow());
   return axios.post(`${hostUrl}/api/v1/users/borrow/${bookId}`, {}, axiosDefaultOptions())
   .then((response) => {
-    // console.log(response.data, 'respsp')
     dispatch(borrowBookSuccess(response.data.book))
     toastMessage(response.data.message, 'success')
   })

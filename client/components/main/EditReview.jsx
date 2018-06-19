@@ -24,7 +24,7 @@ const saveButton = {
  * @class EditReview
  * @extends {Component}
  */
-class EditReview extends Component {
+export class EditReview extends Component {
   /**
    * Creates an instance of EditReview.
    * @param {any} props 
@@ -159,7 +159,7 @@ class EditReview extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = dispatch => {
   return {
     modifyReviewAction: (bookId, reviewId, reviewData) => dispatch(modifyReviewAction(bookId, reviewId, reviewData)),
     handleCancelClick: () => dispatch(handleCancelClick()),

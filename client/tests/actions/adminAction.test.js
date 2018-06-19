@@ -7,6 +7,7 @@ import * as types from '../../actions/actionTypes';
 import * as actions from '../../actions/adminAction';
 import adminData from './../mocks/adminData'
 
+
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
@@ -14,7 +15,7 @@ describe('fetch admin actions', () => {
   beforeEach(function () {
     moxios.install();
   });
-  afterEach(function ()  {
+  afterEach(function () {
     moxios.uninstall();
   });
   it('should dispatch FETCH_BOOK_SUCCESS after successfully fetching books', () => {
@@ -24,15 +25,17 @@ describe('fetch admin actions', () => {
         status: 200,
         response: {
           message: 'Books retrieved successfully',
-          books: [ adminData.book2, adminData.book1, adminData.book3 ],
+          books: [adminData.book2, adminData.book1, adminData.book3],
           count: adminData.bookCount
         }
       });
     });
     const expectedActions = [
       { type: types.FETCH_BOOK },
-      { type: types.FETCH_BOOK_SUCCESS, 
-        books: [ adminData.book2, adminData.book1, adminData.book3 ] },
+      {
+        type: types.FETCH_BOOK_SUCCESS,
+        books: [adminData.book2, adminData.book1, adminData.book3]
+      },
       { type: types.SET_BOOK_COUNT, bookCount: adminData.bookCount }
     ];
     const store = mockStore({ allBooks: [] })
@@ -54,8 +57,10 @@ describe('fetch admin actions', () => {
     });
     const expectedActions = [
       { type: types.PENDING_BORROW_REQUEST },
-      { type: types.PENDING_BORROW_REQUEST_SUCCESS, 
-        pendingBorrowList: adminData.pendingAcceptBorrowedBookList.borrowedBook },
+      {
+        type: types.PENDING_BORROW_REQUEST_SUCCESS,
+        pendingBorrowList: adminData.pendingAcceptBorrowedBookList.borrowedBook
+      },
       { type: types.SET_BORROWED_BOOK_COUNT, bookCount: 1 }
 
     ];
@@ -78,8 +83,10 @@ describe('fetch admin actions', () => {
     });
     const expectedActions = [
       { type: types.PENDING_RETURN_REQUEST },
-      { type: types.PENDING_RETURN_REQUEST_SUCCESS, 
-        pendingAcceptList: adminData.pendingAcceptReturnBookList.borrowedBook },
+      {
+        type: types.PENDING_RETURN_REQUEST_SUCCESS,
+        pendingAcceptList: adminData.pendingAcceptReturnBookList.borrowedBook
+      },
       { type: types.SET_RETURNED_BOOK_COUNT, bookCount: 1 }
     ];
     const store = mockStore({ pendingReturnedBookRequest: [] })
@@ -97,15 +104,16 @@ describe('fetch admin actions', () => {
         }
       });
     });
-    const bookId = adminData.book2.id 
+    const bookId = adminData.book2.id
     const expectedActions = [
       { type: types.DELETE_BOOK },
       { type: types.DELETE_BOOK_SUCCESS, bookId },
       { type: types.SET_BOOK_COUNT, bookCount: adminData.bookCount - 1 }
     ];
     const store = mockStore(
-      { allBooks: [ adminData.book2, adminData.book1, adminData.book3 ],
-         bookCount: 3 
+      {
+        allBooks: [adminData.book2, adminData.book1, adminData.book3],
+        bookCount: 3
       })
     return store.dispatch(actions.deleteBookAction(bookId)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
@@ -145,14 +153,15 @@ describe('fetch admin actions', () => {
     });
     const expectedActions = [
       { type: types.ACCEPT_BOOK_BORROW },
-      { type: types.ACCEPT_BOOK_BORROW_SUCCESS, 
-        borrowedBook: adminData.acceptBorrowRequest.borrowedBook 
+      {
+        type: types.ACCEPT_BOOK_BORROW_SUCCESS,
+        borrowedBook: adminData.acceptBorrowRequest.borrowedBook
       }
     ];
     const store = mockStore({ pendingBorrowedBookRequest: [] })
     const bookId = adminData.book1.id
     const userId = adminData.user.id
-    return store.dispatch(actions.acceptBookBorrowRequest(bookId,userId)).then(() => {
+    return store.dispatch(actions.acceptBookBorrowRequest(bookId, userId)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -170,14 +179,15 @@ describe('fetch admin actions', () => {
     });
     const expectedActions = [
       { type: types.ACCEPT_BOOK_RETURN },
-      { type: types.ACCEPT_BOOK_RETURN_SUCCESS, 
-        returnedBook: adminData.acceptReturnRequest.borrowedBook 
+      {
+        type: types.ACCEPT_BOOK_RETURN_SUCCESS,
+        returnedBook: adminData.acceptReturnRequest.borrowedBook
       }
     ];
     const store = mockStore({ pendingReturnededBookRequest: [] })
     const bookId = adminData.book1.id
     const userId = adminData.user.id
-    return store.dispatch(actions.acceptBookReturnRequest(bookId,userId)).then(() => {
+    return store.dispatch(actions.acceptBookReturnRequest(bookId, userId)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -199,15 +209,18 @@ describe('fetch admin actions', () => {
     });
     const expectedActions = [
       { type: types.FETCH_SUGGESTED_BOOKS },
-      { type: types.FETCH_SUGGESTED_BOOKS_SUCCESS, 
+      {
+        type: types.FETCH_SUGGESTED_BOOKS_SUCCESS,
         books: [
           adminData.suggestion2,
           adminData.suggestion1,
           adminData.suggestion3
         ]
       },
-      { type: types.SET_SUGGESTED_BOOK_COUNT,
-      bookCount: adminData.bookCount }
+      {
+        type: types.SET_SUGGESTED_BOOK_COUNT,
+        bookCount: adminData.bookCount
+      }
     ];
     const store = mockStore({ suggestedBooks: [] })
     return store.dispatch(actions.fetchSuggestedBooks()).then(() => {

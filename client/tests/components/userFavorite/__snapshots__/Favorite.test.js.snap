@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Favorite books should render a preloader 1`] = `
+<div>
+  <Loader />
+</div>
+`;
+
+exports[`The Favorite books should render and not crash 1`] = `
+<div>
+  <div
+    className="container"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col s12"
+      >
+        <h3
+          className="center-align"
+        >
+           My Favorites Books 
+        </h3>
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        key="0"
+      >
+        <Connect(FavoriteBookCard)
+          handleSelectedPage={[Function]}
+          page={1}
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="container"
+  >
+    <NothingFound
+      text="Favorite List is empty"
+    />
+  </div>
+</div>
+`;

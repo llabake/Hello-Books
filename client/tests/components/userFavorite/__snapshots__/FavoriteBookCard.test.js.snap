@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Favorite Card should render correctely 1`] = `
+<div
+  className="col s12 m6 l4"
+>
+  <div
+    className="card favorite-card"
+  >
+    <div
+      className="card-image"
+      style={
+        Object {
+          "maxHeight": "175px",
+          "minHeight": "150px",
+          "paddingTop": "10px",
+        }
+      }
+      title="Never eat alone "
+    >
+      <Link
+        replace={false}
+        to="/book/3"
+      >
+        <img
+          alt="Book Image"
+          src="book image"
+          style={
+            Object {
+              "maxHeight": "250px",
+            }
+          }
+        />
+      </Link>
+    </div>
+    <div
+      className="card-content"
+      style={
+        Object {
+          "paddingTop": "7em",
+        }
+      }
+    >
+      <span
+        className="card-title truncate"
+        title="Never eat alone "
+      >
+        Never eat alone 
+      </span>
+      <p
+        className="truncate"
+        style={
+          Object {
+            "height": "1em",
+            "minHeight": "2em",
+          }
+        }
+        title="Finally we have a real-world guide to how to create your own high-powered network tailored to your career goals and personal style.\\""
+      >
+        Finally we have a real-world guide to how to create your own high-powered network tailored to your career goals and personal style."
+      </p>
+      <br />
+      <Link
+        className="read-more right"
+        replace={false}
+        to="/book/3"
+      >
+        Read More
+      </Link>
+    </div>
+    <div
+      className="card-action"
+    >
+      <ul>
+        <li>
+          <a
+            style={
+              Object {
+                "marginRight": "0px",
+              }
+            }
+          >
+            <i
+              className=" material-icons fav-icon"
+            >
+              favorite
+            </i>
+          </a>
+          <span>
+             
+            <strong>
+              0
+            </strong>
+          </span>
+        </li>
+        <li>
+          <a
+            style={
+              Object {
+                "marginLeft": "1.5em",
+                "marginRight": "0px",
+              }
+            }
+          >
+            <i
+              className="small material-icons up-icon"
+            >
+              thumb_up
+            </i>
+          </a>
+          <span>
+             
+            <strong>
+              2
+            </strong>
+          </span>
+        </li>
+        <li>
+          <a
+            style={
+              Object {
+                "marginLeft": "1.5em",
+                "marginRight": "0px",
+              }
+            }
+          >
+            <i
+              className="small material-icons down-icon"
+            >
+              thumb_down
+            </i>
+          </a>
+          <span>
+              
+            <strong>
+              1
+            </strong>
+          </span>
+        </li>
+        <li>
+          <a
+            style={
+              Object {
+                "marginLeft": "1.5em",
+                "marginRight": "0px",
+              }
+            }
+          >
+            <i
+              className="small material-icons comment-icon"
+            >
+              comment
+            </i>
+          </a>
+          <span>
+              
+            <strong>
+              0
+            </strong>
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div
+      className="card-content"
+      style={
+        Object {
+          "cursor": "pointer",
+          "paddingTop": "0px",
+        }
+      }
+    >
+      <span>
+        <a
+          onClick={[Function]}
+        >
+          Remove
+        </a>
+      </span>
+    </div>
+  </div>
+</div>
+`;

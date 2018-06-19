@@ -13,7 +13,7 @@ import SideNav from './SideNav';
  * @param {any} user
  * @extends {Component}
  */
-class Header extends Component {
+export class Header extends Component {
 
   /**
    * Creates an instance of Header.
@@ -74,7 +74,7 @@ class Header extends Component {
   renderAdminNavigation(user) {
     if (user.role === "admin") {
       return (
-        <li><a className="dropdown-button" data-activates="dropdown1">{user.username}
+        <li><a className="dropdown-button" id="adminusername" data-activates="dropdown1">{user.username}
           <i className="material-icons large left">account_circle</i>
           <i className="material-icons right">arrow_drop_down</i></a>
           <ul id="dropdown1" className="dropdown-content">
@@ -84,11 +84,7 @@ class Header extends Component {
             <li><Link to="/addbook">Add Book</Link></li>
             <li><Link to="/allbooks">All Books</Link></li>
             <li className="divider"></li>
-            <li>
-              <Link to="" onClick={this.handleLogout}>
-                <i className="material-icons ">lock</i>Log Out
-            </Link>
-            </li>
+            <li><Link to=""  id='adminLogout' onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
           </ul>
         </li>
       )
@@ -130,7 +126,7 @@ class Header extends Component {
   renderAuthUserNavigation(user) {
     return (
       <li>
-        <a className="dropdown-button" data-activates="dropdown1">{user.username}
+        <a className="dropdown-button" id="username" data-activates="dropdown1">{user.username}
           <i className="material-icons large left">account_circle</i>
           <i className="material-icons right">arrow_drop_down</i>
         </a>
@@ -142,8 +138,8 @@ class Header extends Component {
           <li className="divider"></li>
           <li>
             <NavLink to=""
-              onClick={this.handleLogout}>
-              <i className="material-icons ">lock</i>Log Out
+            id='userLogout'
+              onClick={this.handleLogout}>Log Out
           </NavLink>
           </li>
         </ul>
@@ -206,7 +202,7 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     errors: state.errors,
     user: state.userReducer.authUser,
@@ -214,7 +210,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     logout: () => dispatch(logout())
   };

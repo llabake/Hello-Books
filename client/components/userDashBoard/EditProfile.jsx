@@ -14,7 +14,7 @@ import InputValidator from '../../helpers/inputValidator';
  * @class EditProfile
  * @extends {Component}
  */
-class EditProfile extends Component {
+export class EditProfile extends Component {
   /**
    * Creates an instance of EditProfile.
    * @param {any} props 
@@ -194,7 +194,7 @@ class EditProfile extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     profileToEdit: state.userReducer.profile,
     updated: state.userReducer.updated
@@ -202,7 +202,7 @@ const mapStateToProps = (state) => {
 }
 
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     getUserProfile: () => dispatch(getUserProfile()),
     editProfile: (userData) => dispatch(editProfile(userData))

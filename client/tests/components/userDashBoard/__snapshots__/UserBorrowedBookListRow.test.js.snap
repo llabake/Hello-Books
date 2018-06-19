@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Book Return list row should render correctely 1`] = `
+<tr>
+  <td>
+    NaN
+  </td>
+  <td>
+    <Link
+      replace={false}
+      to="/book/2"
+    >
+      dont be sad 
+    </Link>
+  </td>
+  <td>
+    Aaidh ibn Abdullah al-Qarni
+  </td>
+  <td>
+     
+  </td>
+  <td />
+  <td>
+    <a
+      className="btn-flat 
+              null"
+      onClick={[Function]}
+    >
+      <i
+        className="material-icons"
+      >
+        assignment_returned
+      </i>
+    </a>
+  </td>
+</tr>
+`;

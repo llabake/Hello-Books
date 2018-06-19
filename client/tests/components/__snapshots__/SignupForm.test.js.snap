@@ -1,0 +1,247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Signup Page component should redirect to previous page or home if user is already authenticated 1`] = `
+<div>
+  <div
+    id="banner"
+  >
+    <div
+      className="container form-style"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="row signup-head"
+        >
+          <div
+            className="col s12"
+          >
+            <h5
+              className="center-align"
+            >
+               Create an HelloBooks Account 
+            </h5>
+          </div>
+        </div>
+        <div
+          className="col s12 "
+        >
+          <div
+            className="row "
+          >
+            <form
+              className="col s12 signup"
+              onSubmit={[Function]}
+            >
+              <div
+                className="s12"
+              >
+                <TextInput
+                  icon="account_circle"
+                  id="first_name"
+                  name="firstName"
+                  onChange={[Function]}
+                  placeholder="First Name"
+                  type="text"
+                  value=""
+                />
+                <TextInput
+                  icon="account_circle"
+                  id="last_name"
+                  name="lastName"
+                  onChange={[Function]}
+                  placeholder="Last Name"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <TextInput
+                icon="account_circle"
+                id="username"
+                name="username"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Username"
+                type="text"
+                value=""
+              />
+              <TextInput
+                icon="email"
+                id="email"
+                name="email"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Email"
+                type="email"
+                value=""
+              />
+              <TextInput
+                icon="lock"
+                id="password"
+                name="password"
+                onChange={[Function]}
+                placeholder="Password"
+                type="password"
+                value=""
+              />
+              <TextInput
+                icon="lock"
+                id="confirm-password"
+                name="confirmPassword"
+                onChange={[Function]}
+                placeholder="Re-enter Password"
+                type="password"
+                value=""
+              />
+              <button
+                className="waves-effect waves-light btn"
+                disabled={true}
+                type="submit"
+              >
+                Register
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div
+        className="terms"
+      >
+        <p>
+           Already have an account? 
+          <Link
+            replace={false}
+            to="/signin"
+          >
+            Login Now
+          </Link>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Signup Page component should render correctly 1`] = `
+<div>
+  <div
+    id="banner"
+  >
+    <div
+      className="container form-style"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="row signup-head"
+        >
+          <div
+            className="col s12"
+          >
+            <h5
+              className="center-align"
+            >
+               Create an HelloBooks Account 
+            </h5>
+          </div>
+        </div>
+        <div
+          className="col s12 "
+        >
+          <div
+            className="row "
+          >
+            <form
+              className="col s12 signup"
+              onSubmit={[Function]}
+            >
+              <div
+                className="s12"
+              >
+                <TextInput
+                  icon="account_circle"
+                  id="first_name"
+                  name="firstName"
+                  onChange={[Function]}
+                  placeholder="First Name"
+                  type="text"
+                  value=""
+                />
+                <TextInput
+                  icon="account_circle"
+                  id="last_name"
+                  name="lastName"
+                  onChange={[Function]}
+                  placeholder="Last Name"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <TextInput
+                icon="account_circle"
+                id="username"
+                name="username"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Username"
+                type="text"
+                value=""
+              />
+              <TextInput
+                icon="email"
+                id="email"
+                name="email"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Email"
+                type="email"
+                value=""
+              />
+              <TextInput
+                icon="lock"
+                id="password"
+                name="password"
+                onChange={[Function]}
+                placeholder="Password"
+                type="password"
+                value=""
+              />
+              <TextInput
+                icon="lock"
+                id="confirm-password"
+                name="confirmPassword"
+                onChange={[Function]}
+                placeholder="Re-enter Password"
+                type="password"
+                value=""
+              />
+              <button
+                className="waves-effect waves-light btn"
+                disabled={true}
+                type="submit"
+              >
+                Register
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div
+        className="terms"
+      >
+        <p>
+           Already have an account? 
+          <Link
+            replace={false}
+            to="/signin"
+          >
+            Login Now
+          </Link>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

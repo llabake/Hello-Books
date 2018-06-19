@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modify Profile page should render with the right amount of elements 1`] = `
+<div>
+  <div
+    id="banner"
+  >
+    <div
+      className="container form-style signin-form"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="row signup-head"
+        >
+          <div
+            className="col s12"
+          >
+            <h5
+              className="center-align"
+            >
+               Edit Profile 
+            </h5>
+          </div>
+        </div>
+        <div
+          className="col s12 "
+        >
+          <div
+            className="row "
+          >
+            <form
+              className="col s12 signup"
+              onSubmit={[Function]}
+            >
+              <TextInput
+                icon="account_circle"
+                id="first_name"
+                name="firstName"
+                onChange={[Function]}
+                placeholder="First Name"
+                type="text"
+              />
+              <TextInput
+                icon="account_circle"
+                id="last_name"
+                name="lastName"
+                onChange={[Function]}
+                placeholder="Last Name"
+                type="text"
+              />
+              <div
+                className="file-field input-field"
+                style={
+                  Object {
+                    "marginTop": 110,
+                    "top": "1em",
+                  }
+                }
+              >
+                <div
+                  className="btn"
+                  style={
+                    Object {
+                      "fontSize": "13px",
+                      "marginLeft": "1.8em",
+                      "width": "40%",
+                    }
+                  }
+                >
+                  <span>
+                    Photo
+                  </span>
+                  <input
+                    accept="image/*"
+                    onChange={[Function]}
+                    type="file"
+                  />
+                </div>
+                <div
+                  className="file-path-wrapper"
+                >
+                  <input
+                    className="file-path validate"
+                    style={
+                      Object {
+                        "marginTop": 9,
+                        "width": "89%",
+                      }
+                    }
+                    type="text"
+                  />
+                </div>
+              </div>
+              <button
+                className="waves-effect waves-light btn"
+                disabled={true}
+                style={
+                  Object {
+                    "top": "4em",
+                  }
+                }
+                type="submit"
+              >
+                Save
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
