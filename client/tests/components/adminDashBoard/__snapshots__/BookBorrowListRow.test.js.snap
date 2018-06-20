@@ -20,7 +20,9 @@ exports[`Book Borrow list row should render correctely 1`] = `
   <td>
     keinzy
   </td>
-  <td>
+  <td
+    id="accept-book"
+  >
     <a
       onClick={[Function]}
       style={

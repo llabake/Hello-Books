@@ -74,19 +74,15 @@ export class Header extends Component {
   renderAdminNavigation(user) {
     if (user.role === "admin") {
       return (
-        <li><a className="dropdown-button" id="adminusername" data-activates="dropdown1">{user.username}
-          <i className="material-icons large left">account_circle</i>
-          <i className="material-icons right">arrow_drop_down</i></a>
-          <ul id="dropdown1" className="dropdown-content">
-            <li><Link to="/admindashboard">Admin Dashboard</Link></li>
-            <li><Link to="/favorite">Favorite Books</Link></li>
-            <li><Link to="/profile">Profile</Link></li>
-            <li><Link to="/addbook">Add Book</Link></li>
-            <li><Link to="/allbooks">All Books</Link></li>
-            <li className="divider"></li>
-            <li><Link to=""  id='adminLogout' onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
-          </ul>
-        </li>
+        <ul id="dropdown1" className="dropdown-content">
+          <li><Link to="/admindashboard">Admin Dashboard</Link></li>
+          <li><Link to="/favorite">Favorite Books</Link></li>
+          <li><Link to="/profile">Profile</Link></li>
+          <li><Link to="/addbook">Add Book</Link></li>
+          <li><Link to="/allbooks">All Books</Link></li>
+          <li className="divider"></li>
+          <li><Link to="" id='adminLogout' onClick={this.handleLogout}><i className="material-icons ">lock</i>Log Out</Link></li>
+        </ul>
       )
     }
   }
@@ -100,17 +96,11 @@ export class Header extends Component {
    */
   renderIndexNavigation() {
     return (
-      <li>
-        <a className="dropdown-button" data-activates="dropdown1">Hi, User
-        <i className="material-icons large left">account_circle</i>
-          <i className="material-icons right">arrow_drop_down</i>
-        </a>
-        <ul id="dropdown1" className="dropdown-content">
-          <li><Link to="/signup">Sign Up</Link></li>
-          <li><Link to="/signin">Sign In</Link></li>
-          <li className="divider"></li>
-        </ul>
-      </li>
+      <ul id="dropdown1" className="dropdown-content">
+        <li><Link to="/signup">Sign Up</Link></li>
+        <li><Link to="/signin">Sign In</Link></li>
+        <li className="divider"></li>
+      </ul>
     )
 
   }
@@ -125,25 +115,18 @@ export class Header extends Component {
    */
   renderAuthUserNavigation(user) {
     return (
-      <li>
-        <a className="dropdown-button" id="username" data-activates="dropdown1">{user.username}
-          <i className="material-icons large left">account_circle</i>
-          <i className="material-icons right">arrow_drop_down</i>
-        </a>
-
-        <ul id="dropdown1" className="dropdown-content">
-          <li><Link to="/allbooks">All Books</Link></li>
-          <li><Link to="/favorite">Favorite Books</Link></li>
-          <li><Link to="/profile">Profile</Link></li>
-          <li className="divider"></li>
-          <li>
-            <NavLink to=""
+      <ul id="dropdown1" className="dropdown-content">
+        <li><Link to="/allbooks">All Books</Link></li>
+        <li><Link to="/favorite">Favorite Books</Link></li>
+        <li><Link to="/profile">Profile</Link></li>
+        <li className="divider"></li>
+        <li>
+          <NavLink to=""
             id='userLogout'
-              onClick={this.handleLogout}>Log Out
-          </NavLink>
-          </li>
-        </ul>
-      </li>
+            onClick={this.handleLogout}>Log Out
+      </NavLink>
+        </li>
+      </ul>
     )
   }
 
@@ -183,11 +166,19 @@ export class Header extends Component {
                 <li>
                   <SearchBar />
                 </li>
-                {
-                  authenticated && user
-                    ? this.renderNavigation(user) :
-                    this.renderIndexNavigation()
-                }
+                <li>
+                  <a className="dropdown-button" id="username" data-beloworigin="true" data-activates="dropdown1">
+                    {authenticated && user ? user.username : 'Hi, User'}
+                    <i className="material-icons large left">account_circle</i>
+                    <i className="material-icons right">arrow_drop_down</i>
+                  </a>
+                  {
+                    authenticated && user
+                      ? this.renderNavigation(user) :
+                      this.renderIndexNavigation()
+                  }
+                </li>
+
               </ul>
             </div>
           </nav>

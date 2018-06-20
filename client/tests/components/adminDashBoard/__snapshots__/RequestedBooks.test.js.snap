@@ -12,7 +12,9 @@ exports[`The Requested books should render and not crash 1`] = `
     >
       <thead>
         <tr>
-          <th>
+          <th
+            id="title"
+          >
             Requested Books
           </th>
         </tr>

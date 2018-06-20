@@ -39,6 +39,8 @@ exports[`The header component mounts correctly if all props it needs are passed 
             <a
               className="dropdown-button"
               data-activates="dropdown1"
+              data-beloworigin="true"
+              id="username"
             >
               Hi, User
               <i
@@ -128,6 +130,7 @@ exports[`calls component did update to reinitialize materialize dropdown  1`] = 
             <a
               className="dropdown-button"
               data-activates="dropdown1"
+              data-beloworigin="true"
               id="username"
             >
               labake

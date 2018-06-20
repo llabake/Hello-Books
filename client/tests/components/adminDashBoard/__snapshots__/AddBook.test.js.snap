@@ -98,6 +98,7 @@ exports[`Add book component should render appropriately 1`] = `
               />
               <div
                 className="file-field input-field"
+                id="image-field"
                 style={
                   Object {
                     "marginTop": "35em",

@@ -23,7 +23,7 @@ exports[`The App component mounts correctly 1`] = `
           "entries": Array [
             Object {
               "hash": "",
-              "key": "5asdow",
+              "key": "7a09ho",
               "pathname": "/",
               "search": "",
               "state": undefined,
@@ -37,7 +37,7 @@ exports[`The App component mounts correctly 1`] = `
           "listen": [Function],
           "location": Object {
             "hash": "",
-            "key": "5asdow",
+            "key": "7a09ho",
             "pathname": "/",
             "search": "",
             "state": undefined,
@@ -60,7 +60,7 @@ exports[`The App component mounts correctly 1`] = `
           location={
             Object {
               "hash": "",
-              "key": "5asdow",
+              "key": "7a09ho",
               "pathname": "/",
               "search": "",
               "state": undefined,
@@ -199,6 +199,8 @@ exports[`The App component mounts correctly 1`] = `
                                   <a
                                     className="dropdown-button"
                                     data-activates="dropdown1"
+                                    data-beloworigin="true"
+                                    id="username"
                                   >
                                     Hi, User
                                     <i

@@ -28,6 +28,7 @@ exports[`UserProfilePage page should render and not crash 1`] = `
       className="card-action"
     >
       <Link
+        id="edit-user-profile"
         replace={false}
         to="/editprofile"
       >

@@ -117,10 +117,6 @@ export default {
           .pause(2000)
           .waitForElementVisible('#toast-container', 2000)
           .assert.visible('#toast-container')
-          .assert.containsText(
-            '#toast-container',
-            'Your Signup was successful e2eusername'
-          )
           .pause(2000)
           .assert.urlEquals(`${hostUrl}/allbooks`);
       })

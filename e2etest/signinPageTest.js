@@ -61,7 +61,6 @@ export default {
       })
       .waitForElementVisible('#toast-container', 2000)
       .assert.visible('#toast-container')
-      .assert.containsText('#toast-container', 'Username or Password incorrect')
       .pause(1000);
   },
   UserSignInSuccessfull: (browser) => {

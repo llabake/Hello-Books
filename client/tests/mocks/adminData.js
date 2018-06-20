@@ -143,7 +143,8 @@ export default {
   },
   bookUpdateData: {
     description: "Polygamy",
-    quanity: 56
+    quanity: 56,
+    image: 'image.png'
   },
   book3Updated: {
     id: 6,

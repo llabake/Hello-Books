@@ -17,8 +17,13 @@ exports[`Carousel should call componentDidUpdate 1`] = `
     >
       <li>
         <img
-          alt=""
+          alt="sliderimage1"
           src={null}
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,3)",
+            }
+          }
         />
         <div
           className="caption left-align"
@@ -30,7 +35,9 @@ exports[`Carousel should call componentDidUpdate 1`] = `
               }
             }
           >
-            Welcome to HelloBooks
+            <strong>
+              Welcome to HelloBooks
+            </strong>
           </h1>
           <h3
             className="light grey-text text-lighten-3"
@@ -40,9 +47,11 @@ exports[`Carousel should call componentDidUpdate 1`] = `
               }
             }
           >
-            Sign Up today to enter into 
-            <br />
-             a whole book world
+            <strong>
+              Sign Up today to enter into 
+              <br />
+               a whole book world
+            </strong>
           </h3>
         </div>
       </li>
@@ -50,6 +59,11 @@ exports[`Carousel should call componentDidUpdate 1`] = `
         <img
           alt=""
           src={null}
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,3)",
+            }
+          }
         />
         <div
           className="caption left-align"
@@ -62,26 +76,35 @@ exports[`Carousel should call componentDidUpdate 1`] = `
               }
             }
           >
-            Welcome to the HelloBooks
+            <strong>
+              Welcome to the HelloBooks
+            </strong>
           </h1>
-          <h2
+          <h3
             className="light grey-text text-lighten-3"
           >
-            You can borrow a book to read 
-            <br />
-             and post reviews on it
-          </h2>
+            <strong>
+              You can borrow a book to read 
+              <br />
+               and post reviews on it
+            </strong>
+          </h3>
         </div>
       </li>
       <li>
         <img
           alt=""
           src={null}
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,3)",
+            }
+          }
         />
         <div
           className="caption left-align"
         >
-          <h3
+          <h1
             style={
               Object {
                 "color": "#ffffff",
@@ -89,26 +112,35 @@ exports[`Carousel should call componentDidUpdate 1`] = `
               }
             }
           >
-            Welcome to HelloBooks
-          </h3>
-          <h5
+            <strong>
+              Welcome to HelloBooks
+            </strong>
+          </h1>
+          <h3
             className="light grey-text text-lighten-3"
           >
-            Create Reading list and 
-            <br />
-              suggest books to the library
-          </h5>
+            <strong>
+              Create Reading list and 
+              <br />
+                suggest books to the library
+            </strong>
+          </h3>
         </div>
       </li>
       <li>
         <img
           alt=""
           src={null}
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,3)",
+            }
+          }
         />
         <div
           className="caption left-align"
         >
-          <h3
+          <h1
             style={
               Object {
                 "color": "#ffffff",
@@ -116,26 +148,35 @@ exports[`Carousel should call componentDidUpdate 1`] = `
               }
             }
           >
-            Welcome to HelloBooks
-          </h3>
-          <h5
+            <strong>
+              Welcome to HelloBooks
+            </strong>
+          </h1>
+          <h3
             className="light grey-text text-lighten-3"
           >
-            Review books and add 
-            <br />
-            books to your favorite list
-          </h5>
+            <strong>
+              Review books and add 
+              <br />
+              books to your favorite list
+            </strong>
+          </h3>
         </div>
       </li>
       <li>
         <img
           alt=""
           src={null}
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,3)",
+            }
+          }
         />
         <div
           className="caption left-align"
         >
-          <h3
+          <h1
             style={
               Object {
                 "color": "#ffffff",
@@ -143,24 +184,33 @@ exports[`Carousel should call componentDidUpdate 1`] = `
               }
             }
           >
-            Welcome to HelloBooks
-          </h3>
-          <h5
+            <strong>
+              Welcome to HelloBooks
+            </strong>
+          </h1>
+          <h3
             className="light grey-text text-lighten-3"
           >
-            Sign Up today to enter into a whole book world
-          </h5>
+            <strong>
+              Sign Up today to enter into a whole book world
+            </strong>
+          </h3>
         </div>
       </li>
       <li>
         <img
           alt=""
           src={null}
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,3)",
+            }
+          }
         />
         <div
           className="caption left-align"
         >
-          <h3
+          <h1
             style={
               Object {
                 "color": "#ffffff",
@@ -168,13 +218,17 @@ exports[`Carousel should call componentDidUpdate 1`] = `
               }
             }
           >
-            Welcome to HelloBooks
-          </h3>
-          <h5
+            <strong>
+              Welcome to HelloBooks
+            </strong>
+          </h1>
+          <h3
             className="light grey-text text-lighten-3"
           >
-            Sign Up today to enter into a whole book world
-          </h5>
+            <strong>
+              Sign Up today to enter into a whole book world
+            </strong>
+          </h3>
         </div>
       </li>
     </ul>

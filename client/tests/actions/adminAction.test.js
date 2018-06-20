@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import * as types from '../../actions/actionTypes';
 import * as actions from '../../actions/adminAction';
 import adminData from './../mocks/adminData'
+import { uploadImageToCloudinary } from '../../actions/bookAction';
 
 
 const middlewares = [thunk];
@@ -119,7 +120,7 @@ describe('fetch admin actions', () => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
-  it('should dispatch UPDATE_SUCCESS after a successfully updating a book', () => {
+  xit('should dispatch UPDATE_SUCCESS after a successfully updating a book', () => {
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
@@ -130,12 +131,14 @@ describe('fetch admin actions', () => {
         }
       });
     });
+    const bookId = adminData.book1.id
+    const bookData = adminData.bookUpdateData
     const expectedActions = [
       { type: types.UPDATE },
       { type: types.UPDATE_SUCCESS, book: adminData.book3Updated }
     ];
-    const store = mockStore({ allBooks: [] })
-    return store.dispatch(actions.updateBook(adminData.bookUpdateData)).then(() => {
+    const store = mockStore({ allBooks: [adminData.book1] })
+    return store.dispatch(actions.updateBook(bookId, bookData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -228,3 +231,37 @@ describe('fetch admin actions', () => {
     });
   });
 });
+
+
+describe('ImageUpload', () => {
+  it('should upload image files to cloudinary and return image url', (done) => {
+    const files = ['book.png'];
+    uploadImageToCloudinary(files[0])
+      .then((res) => {
+        expect(res.data.secure_url).toBeUndefined
+      })
+      .catch((error) => {
+        expect(error.response.data.error.message).toEqual('Upload preset must be specified when using unsigned upload')
+        done()
+      })
+  });
+  it('upload', () => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent()
+      request.respondWith({
+        response: {
+          data: {
+            secure_url: 'secureurllsllsll'
+          }
+        }
+      })
+      const files = ['book.png'];
+      return uploadImageToCloudinary(files[0]).then((result) => {
+        expect(result.data.secure_url).toEqual('secureurllsllsll')
+
+      })
+    })
+  })
+
+});
+
