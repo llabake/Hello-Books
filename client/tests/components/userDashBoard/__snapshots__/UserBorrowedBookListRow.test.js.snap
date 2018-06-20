@@ -20,7 +20,9 @@ exports[`Book Return list row should render correctely 1`] = `
      
   </td>
   <td />
-  <td>
+  <td
+    id="returned"
+  >
     <a
       className="btn-flat 
               null"

@@ -112,7 +112,9 @@ exports[`Single Book page should render and not crash 1`] = `
                   <span>
                      Status: 
                   </span>
-                  <span>
+                  <span
+                    id="availabilty"
+                  >
                     Available
                   </span>
                 </div>
@@ -157,6 +159,7 @@ exports[`Single Book page should render and not crash 1`] = `
                   >
                     <a
                       className="upvote"
+                      id="voted"
                       onClick={[Function]}
                     >
                       <i
@@ -267,6 +270,7 @@ exports[`Single Book page should render and not crash 1`] = `
       </h3>
       <a
         className="write-review"
+        id="view-all-reviews"
         onClick={[Function]}
         style={
           Object {

@@ -95,15 +95,55 @@ exports[`Modify Book page should render with the right amount of elements 1`] = 
                 onChange={[Function]}
                 placeholder="About the Author"
               />
-              <TextInput
-                icon="image"
+              <div
+                className="file-field input-field"
                 id="image"
                 name="image"
-                onChange={[Function]}
-                placeholder="Image"
-                type="text"
+                style={
+                  Object {
+                    "marginTop": "10em",
+                  }
+                }
                 value="book image"
-              />
+              >
+                <div
+                  className="btn"
+                  style={
+                    Object {
+                      "fontSize": "13px",
+                      "marginTop": "34px",
+                      "width": "40%",
+                    }
+                  }
+                >
+                  <span>
+                    Upload Image
+                  </span>
+                  <input
+                    accept="image/*"
+                    onChange={[Function]}
+                    style={
+                      Object {
+                        "marginTop": "74px",
+                      }
+                    }
+                    type="file"
+                  />
+                </div>
+                <div
+                  className="file-path-wrapper"
+                >
+                  <input
+                    className="file-path validate"
+                    style={
+                      Object {
+                        "marginTop": "29px",
+                      }
+                    }
+                    type="text"
+                  />
+                </div>
+              </div>
               <button
                 className="waves-effect waves-light btn"
                 disabled={true}

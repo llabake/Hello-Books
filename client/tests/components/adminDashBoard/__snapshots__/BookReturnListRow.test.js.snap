@@ -12,12 +12,14 @@ exports[`Book Return list row should render correctely 1`] = `
     Aaidh ibn Abdullah al-Qarni
   </td>
   <td>
-    Jun 19, 2018
+    Jun 20, 2018
   </td>
   <td>
     keinzy
   </td>
-  <td>
+  <td
+    id="return-book"
+  >
     <a
       onClick={[Function]}
       style={

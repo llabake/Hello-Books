@@ -7,6 +7,7 @@ exports[`<AllBookReview /> component should render and not crash 1`] = `
   >
     <div
       className="col l10 offset-l1 m12 s12"
+      id="review-list"
       key="0"
     >
       <div
@@ -17,6 +18,7 @@ exports[`<AllBookReview /> component should render and not crash 1`] = `
         >
           <div
             className="col s4"
+            id="reviewee-image"
           >
             <img
               alt="reviewee image"
@@ -29,6 +31,7 @@ exports[`<AllBookReview /> component should render and not crash 1`] = `
           </div>
           <div
             className="col s8"
+            id="reviewee-name"
           >
             <span
               style={

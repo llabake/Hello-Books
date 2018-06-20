@@ -56,7 +56,7 @@ test('the admin details are displayed when the user is logged in as an admin', (
     errors: {}
   }
   const wrapper = shallow(<Header {...props} />)
-  const usernameDropdown = wrapper.find('#adminusername')
+  const usernameDropdown = wrapper.find('#username')
   expect(usernameDropdown.text()).toMatch(`${props.user.username}account_circlearrow_drop_down`)
 });
 

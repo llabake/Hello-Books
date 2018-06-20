@@ -18,7 +18,7 @@
     "pre-e2e-test": "NODE_ENV=test npm run migration && NODE_ENV=test npm run seed && npm run dev && NODE_ENV=test npm run start-dev-test",
     "pre-nightwatch-test": "npm run migration && npm run seed && npm run dev && npm run start-dev",
     "e2e-test": "nightwatch",
-    "test:client": "jest -u && codecov"
+    "test:client": "jest -u --runInBand && codecov"
   },
   "jest": {
     "setupFiles": [

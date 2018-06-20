@@ -34,30 +34,6 @@ import {
 } from '../e2etest/userOperationTest';
 
 
-// const HomePageTest = () => {
-//   HomePage();
-// };
-
-// const SignUpPage = () => {
-//   signUpPageTest();
-// };
-// const SignInPage = () => {
-//   signinPageTest();
-// };
-// const AdminOperartion = () => {
-//   adminOperationTest();
-// };
-
-// const UserOperation = () => {
-//   userOperationTest();
-// };
-
-
-// HomePageTest();
-// SignUpPage();
-// SignInPage();
-// AdminOperartion();
-// UserOperation();
 
 export default {
   'Ensure all display of home page': (browser) => HomePage(browser),

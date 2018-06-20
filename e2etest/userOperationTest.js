@@ -247,20 +247,16 @@ export default {
               'Review has been posted'
             )
         })
-        .execute(() => {
-          const el = document.querySelectorAll('.btn.test-btn')
-          el[0].click()
-            .pause(10000)
-        })
         .pause(5000)
-        .click('#review-area a', () => {
-          browser.pause(2000)
+        .assert.visible('a#view-all-reviews.write-review')
+        .click('a#view-all-reviews.write-review', () => {
+          browser.pause(10000)
         })
-        .pause(7000)
-        // .assert.visible('#review-list')
-        // .assert.visible('#reviewee-image')
-        // .assert.visible('#reviewee-name')
-        // .moveToElement('#review-list', 30, 30)
+        .pause(10000)
+        .assert.visible('#review-list')
+        .assert.visible('#reviewee-image')
+        .assert.visible('#reviewee-name')
+        .moveToElement('#review-list', 30, 30)
         .assert.visible('.right')
         .moveToElement('.right', 30, 30)
         .assert.visible('#review-action-edit')
@@ -363,13 +359,9 @@ export default {
           path.resolve('../../Downloads/404-page-error.png'))
         .click('form button', () => {
           browser
-            .pause(3000)
-            .waitForElementVisible('#toast-container', 3000)
+            .pause(2000)
+            .waitForElementVisible('#toast-container', 2000)
             .assert.visible('#toast-container')
-            .assert.containsText(
-              '#toast-container',
-              'Your profile has been updated'
-            )
         })
         .pause(2000)
         .assert.urlEquals(`${hostUrl}/profile`)

@@ -6,6 +6,7 @@ exports[`The header component mounts correctly if all props it needs are passed 
 >
   <div
     className="card"
+    id="book-undefined"
     style={
       Object {
         "maxHeight": "250px",
@@ -52,7 +53,7 @@ exports[`The header component mounts correctly if all props it needs are passed 
     >
       <p>
         <Link
-          className="btn"
+          className="btn test-btn"
           replace={false}
           to="/book/5"
         >

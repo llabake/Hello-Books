@@ -14,9 +14,10 @@ exports[`All books page should render and not crash 1`] = `
         >
           <div
             className="row"
+            id="allbooks-list"
           >
             <div
-              key="0"
+              key="2"
             >
               <BookCard
                 book={
@@ -37,10 +38,11 @@ exports[`All books page should render and not crash 1`] = `
                     "updatedAt": "2018-03-14T17:21:14.663Z",
                   }
                 }
+                id={2}
               />
             </div>
             <div
-              key="1"
+              key="3"
             >
               <BookCard
                 book={
@@ -61,6 +63,7 @@ exports[`All books page should render and not crash 1`] = `
                     "updatedAt": "2018-03-14T17:21:13.503Z",
                   }
                 }
+                id={3}
               />
             </div>
           </div>

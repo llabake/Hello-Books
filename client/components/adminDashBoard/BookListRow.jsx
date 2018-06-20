@@ -23,7 +23,7 @@ export class BookListRow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // bookToEdit : {},
+      bookToEdit : {},
       editBook: false
     }
 
@@ -76,15 +76,12 @@ export class BookListRow extends Component {
    */
   handleEdit(event) {
     event.preventDefault();
-    // console.log(bookToEdit, 'kijkij')
-    console.log(this.props.book, 'kiwggdh')
     this.setState({
       bookToEdit: this.props.book,
       editBook: true
     }, () => {
       $('#edit-book-modal').modal('open');
     })
-    console.log(this.state.bookToEdit, 'booktoedit')
   }
 
 
@@ -114,7 +111,7 @@ export class BookListRow extends Component {
             { this.state.editBook ? 
               <Modal id='edit-book-modal'
                 >
-                <ModifyBookDetail book={book} />
+                <ModifyBookDetail book={bookToEdit} />
               </Modal >: 
               null 
             } 

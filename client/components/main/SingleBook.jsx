@@ -392,7 +392,7 @@ export class SingleBook extends Component {
           </div>
           <div id='review-area'>
             <h3 id="review"> Reviews </h3>
-            <a className="write-review" style={pointerStyle}
+            <a id="view-all-reviews" className="write-review" style={pointerStyle}
               onClick={this.handleShowAllReview}>View all</a>
             <a className="write-review"
               style={pointerStyle}

@@ -39,6 +39,7 @@ exports[`Modify Profile page should render with the right amount of elements 1`]
     </button>
     <button
       className="waves-effect waves-light btn"
+      id="edit-profile"
       style={
         Object {
           "background": "green",
