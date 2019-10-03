@@ -1,7 +1,7 @@
 
 module.exports = {
   up(queryInterface, Sequelize) {
-    queryInterface.addColumn('Reviews', 'caption', {
+    return queryInterface.addColumn('Reviews', 'caption', {
       type: Sequelize.TEXT,
       allowNull: false,
       defaultValue: ''
@@ -9,7 +9,7 @@ module.exports = {
   },
 
   down(queryInterface, Sequelize) {
-    queryInterface.removeColumn('Reviews', 'caption');
+    return queryInterface.removeColumn('Reviews', 'caption');
 
   }
 };

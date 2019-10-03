@@ -1,15 +1,15 @@
 
 module.exports = {
-  up(queryInterface, Sequelize) {
-    queryInterface.addColumn('Books', 'aboutAuthor', {
+  up: async(queryInterface, Sequelize) => {
+    await queryInterface.addColumn('Books', 'aboutAuthor', {
       type: Sequelize.TEXT,
       allowNull: false,
       defaultValue: ''
     });
   },
 
-  down(queryInterface, Sequelize) {
-    queryInterface.removeColumn('Books', 'aboutAuthor');
+  down: async(queryInterface, Sequelize) => {
+    await queryInterface.removeColumn('Books', 'aboutAuthor');
 
   }
 };
