@@ -5,7 +5,7 @@ module.exports = {
     queryInterface.bulkInsert('Books', [{
       title: 'There was a country' ,
       author: 'Chinua Achebe',
-      isbn: 2947018573019,
+      isbn: 9747018573019,
       publishedYear: 2010,
       description: 'There Was a Country offers us a powerful story interlaced with poetry, of a time of innocence that quickly dissolved into the postcolonial iron years. It is a great gift from one of the giants of the twentieth century, and it will add to the debate on the situation of Africa in the postcolonial moment, seen through the steady eyes of an inspired witness.',
       aboutAuthor: 'Chinua Achebe, often considered his best, is the most widely read book in modern African literature. He won the Man Booker International Prize in 2007.',
