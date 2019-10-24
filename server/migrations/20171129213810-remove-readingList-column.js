@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.removeColumn('Books', 'readingList');
+    return queryInterface.removeColumn('Books', 'readingList');
 
     /*
       Add altering commands here.
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.addColumn('Books', 'readingList', {
+    return queryInterface.addColumn('Books', 'readingList', {
       type: Sequelize.STRING,
       defaultValue: ''
     });
