@@ -5,13 +5,15 @@
     "eslint:recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
   ],
   "parser": "babel-eslint",
   "plugins": [
     "react",
     "jsx-a11y",
-    "import"
+    "import",
+    "prettier"
   ],
   "parserOptions": {
     "ecmaVersion": 6,
